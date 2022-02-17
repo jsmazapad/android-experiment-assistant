@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AND_image_analytics_POC</string>
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="intro_message">
+        <![CDATA[
+
+
+            POC to show usage of camera2 API and integration with image analytics providing characteristics vectors from images
+
+
+        ]]>
+    </string>
+    <string name="error_network_ask_retry"> ¿Do you want to reload data?</string>
+    <string name="default_modal_okButton">Ok</string>
+    <string name="default_modal_cancelButton">Cancel</string>
+    <string name="default_recyclerview_emptyMessage">No results found</string>
+
+
+</resources>
