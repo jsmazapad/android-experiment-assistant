@@ -10,7 +10,7 @@
     android:padding="5dp">
 
     <LinearLayout
-        android:id="@+id/itemBeerCL"
+        android:id="@+id/itemLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -20,12 +20,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/beerImageIV"
+            android:id="@+id/experimentIV"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:contentDescription="Beer photo"
+            android:contentDescription="Experiment image"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_flip_camera" />
 
@@ -50,20 +50,44 @@
                 tools:text="Description, tagline"
                 />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/abvTV"
+
+    <ImageView
+        android:id="@+id/syncPendingIV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
+        android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemBeerCL"
-        tools:text="0.0º" />
+        app:layout_constraintTop_toBottomOf="@+id/itemLL"
+        tools:src="@android:drawable/ic_popup_sync"
+        android:contentDescription="sync pending"
+        app:tint="#F44336" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
