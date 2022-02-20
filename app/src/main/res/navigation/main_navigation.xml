@@ -3,20 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_configuration">
+    app:startDestination="@id/nav_experiment_create">
 
 
     <fragment
         android:id="@+id/nav_experiments"
-        android:name="com.jsm.and_image_analytics_poc.ui.experiments.ExperimentsFragment"
+        android:name="com.jsm.exptool.ui.experiments.list.ExperimentsListFragment"
         android:label="@string/title_experiments_fragment"
-        tools:layout="@layout/experiments_fragment">
+        tools:layout="@layout/experiments_list_fragment">
     </fragment>
     <fragment
         android:id="@+id/nav_configuration"
-        android:name="com.jsm.and_image_analytics_poc.ui.configuration.ConfigurationFragment"
+        android:name="com.jsm.exptool.ui.configuration.ConfigurationFragment"
         android:label="@string/title_configuration_fragment"
         tools:layout="@layout/configuration_fragment">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_experiment_create"
+        android:name="com.jsm.exptool.ui.experiments.create.ExperimentCreateBasicDataFragment"
+        android:label="@string/title_experiments_create_fragment"
+        tools:layout="@layout/experiment_create_basic_data_fragment">
     </fragment>
 
 </navigation>

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="title_experiments_fragment">Experiments</string>
+    <string name="title_experiments_create_fragment">Create experiment</string>
     <string name="title_configuration_fragment">Configuration</string>
 
 </resources>

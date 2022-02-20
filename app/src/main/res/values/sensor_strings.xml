@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accelerometer">Acelerómetro</string>
+    <string name="magnetic_field">Campo magnético</string>
+    <string name="orientation">Orientación</string>
+    <string name="gyroscope">Giroscopio</string>
+    <string name="light">Luz</string>
+    <string name="pressure">Presión</string>
+    <string name="temperature">Temperatura</string>
+    <string name="proximity">Proximidad</string>
+    <string name="gravity">Gravedad</string>
+    <string name="linear_acceleration">Aceleración lineal</string>
+    <string name="rotation_vector">Vector de rotación</string>
+    <string name="relative_humidity">Humedad relativa</string>
+    <string name="ambient_temperature">Temperatura ambiente</string>
+    <string name="game_rotation_vector">Vector de rotación de juego</string>
+    <string name="significant_motion">Movimiento significativo</string>
+    <string name="step_detect">Detección de pasos</string>
+    <string name="step_counter">Contador de pasos</string>
+    <string name="geomagnetic_rotation_vector">Vector de rotación geomagnética</string>
+    <string name="heart_rate">Ritmo cardiaco</string>
+    <string name="stationary_detect">Detección estacionaria</string>
+    <string name="motion_detect">Detección de movimiento</string>
+    <string name="heart_beat">Latido del corazón</string>
+    <string name="gps">GPS</string>
+</resources>

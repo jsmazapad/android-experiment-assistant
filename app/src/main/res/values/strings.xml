@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AND_image_analytics_POC</string>
+    <string name="app_name">Experiment Assistant</string>
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>

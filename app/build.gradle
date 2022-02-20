@@ -14,7 +14,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.jsm.experiment_assistant"
+        applicationId "com.jsm.exptool"
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 1

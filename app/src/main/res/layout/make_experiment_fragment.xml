@@ -9,13 +9,13 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.and_image_analytics_poc.ui.makeexperiment.MakeExperimentViewModel" />
+            type="com.jsm.exptool.ui.makeexperiment.MakeExperimentViewModel" />
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp">
+android:layout_height="match_parent">
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

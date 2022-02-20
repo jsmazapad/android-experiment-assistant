@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.and_image_analytics_poc.ui.camera.CameraViewModel" />
+            type="com.jsm.exptool.ui.camera.CameraViewModel" />
     </data>
 
     <RelativeLayout
