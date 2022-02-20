@@ -1,10 +1,11 @@
-package com.jsm.exptool.ui.experiments.create;
+package com.jsm.exptool.ui.experiments.create.basicdata;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 
 import android.os.Bundle;
@@ -52,10 +53,12 @@ public class ExperimentCreateBasicDataFragment extends BaseRecyclerFragment<Expe
 
     @Override
     protected int getListItemResourceId() {
-        return R.layout.experiments_create_basic_data_list_item;
+        return R.layout.experiment_create_basic_data_list_item;
     }
 
-
-
-
+    @Override
+    protected void setupRecyclerView() {
+        super.setupRecyclerView();
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+    }
 }

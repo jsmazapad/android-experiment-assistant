@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.create;
+package com.jsm.exptool.ui.experiments.create.basicdata;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
 
 public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<MySensor> {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+    </data>
+
+<LinearLayout
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:background="@drawable/bottom_border_background"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <TextView
+        android:id="@+id/sensorTitleTV"
+        style="@style/BaseCardTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cámara" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchSensorGlobalFrequency"
+        style="@style/BaseSwitch"
+        android:text="@string/use_default_frequency" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/sliderFrequency"
+        style="@style/BaseSlider"
+        android:contentDescription="Frecuencia sensor"
+        android:visibility="@{switchSensorGlobalFrequency.checked ? View.VISIBLE : View.GONE}">
+
+    </com.google.android.material.slider.Slider>
+
+
+</LinearLayout>
+</layout>

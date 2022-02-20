@@ -61,4 +61,8 @@ public class SensorConfigConstants {
 
     public static final int MIN_INTERVAL_MILLIS = 500;
     public static final int MAX_INTERVAL_MILLIS = 180000; // 3 min
+    /**
+     * La frecuencia por defecto debe estar entre MIN_INTERVAL_MILLIS y MAX_INTERVAL_MILLIS
+     */
+    public static final int DEFAULT_FREQ = 3000; // 3 sec
 }

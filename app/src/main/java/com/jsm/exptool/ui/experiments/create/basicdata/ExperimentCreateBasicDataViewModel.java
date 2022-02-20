@@ -1,28 +1,31 @@
-package com.jsm.exptool.ui.experiments.create;
+package com.jsm.exptool.ui.experiments.create.basicdata;
 
 import android.app.Application;
 import android.content.Context;
-import android.view.View;
 
-import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 
-import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
+import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.libs.MultiSpinner;
+import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.model.ExperimentConfiguration;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.repositories.SensorsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<MySensor, MySensor> implements MultiSpinner.MultiSpinnerListener, DeleteActionListener<MySensor> {
 
     private String title = "";
     private String description = "";
-    private boolean cameraEnabled = false;
+    private MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
+    private MutableLiveData<Boolean> remoteSyncEnabled = new MutableLiveData<>(false);
+    private boolean embeddingEnabled = false;
     private boolean audioEnabled = false;
     private List<MySensor> sensors;
 
@@ -70,12 +73,20 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
         this.description = description;
     }
 
-    public boolean isCameraEnabled() {
+    public MutableLiveData<Boolean> getCameraEnabled() {
         return cameraEnabled;
     }
 
-    public void setCameraEnabled(boolean cameraEnabled) {
+    public void setCameraEnabled(MutableLiveData<Boolean> cameraEnabled) {
         this.cameraEnabled = cameraEnabled;
+    }
+
+    public MutableLiveData<Boolean> getRemoteSyncEnabled() {
+        return remoteSyncEnabled;
+    }
+
+    public void setRemoteSyncEnabled(MutableLiveData<Boolean> remoteSyncEnabled) {
+        this.remoteSyncEnabled = remoteSyncEnabled;
     }
 
     public boolean isAudioEnabled() {
@@ -84,6 +95,22 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
 
     public void setAudioEnabled(boolean audioEnabled) {
         this.audioEnabled = audioEnabled;
+    }
+
+    public boolean isEmbeddingEnabled() {
+        return embeddingEnabled;
+    }
+
+    public void setEmbeddingEnabled(boolean embeddingEnabled) {
+        this.embeddingEnabled = embeddingEnabled;
+    }
+
+    public List<MySensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<MySensor> sensors) {
+        this.sensors = sensors;
     }
 
     public void configureSpinner(MultiSpinner spinner){
@@ -122,18 +149,40 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
         }
     }
 
-    public void validateStep(){
+    public void completeStep(Context context){
         boolean validTitle = this.title != null && !this.title.isEmpty();
-        boolean validAtLeastOneOption = audioEnabled || cameraEnabled || (elements.getValue() != null && elements.getValue().size() > 0);
+        boolean validAtLeastOneOption = audioEnabled || cameraEnabled.getValue() || (elements.getValue() != null && elements.getValue().size() > 0);
         if (validTitle && validAtLeastOneOption){
-
+            Experiment experiment = initializeExperiment();
+            NavController navController = ((BaseActivity)context).getNavController();
+            navController.navigate(ExperimentCreateBasicDataFragmentDirections.actionNavExperimentCreateToNavExperimentConfigure(experiment));
         }else{
+            String error = "";
             if(!validTitle){
-
+                error ="El campo nombre es obligatorio\n";
             }
             if(!validAtLeastOneOption){
-                
+                error += "Debe seleccionar al menos una función multimedia o un sensor";
             }
+
+            handleError(new BaseException(error, false),context);
         }
+    }
+
+    private Experiment initializeExperiment() {
+        Experiment experiment = new Experiment();
+        ExperimentConfiguration configuration = new ExperimentConfiguration();
+        experiment.setTitle(this.title);
+        experiment.setDescription(this.description);
+        configuration.setAudioEnabled(this.audioEnabled);
+        experiment.setConfiguration(configuration);
+        if(this.cameraEnabled.getValue() != null) {
+            configuration.setCameraEnabled(this.cameraEnabled.getValue());
+        }
+        if(this.elements.getValue() != null) {
+            configuration.setSensorsEnabled(this.elements.getValue().size() > 0);
+        }
+        experiment.setSensors(this.elements.getValue());
+        return experiment;
     }
 }

@@ -1,8 +1,10 @@
 package com.jsm.exptool.ui.main;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
@@ -18,6 +20,8 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
     }
+
+
     @Override
     protected int getNavigationDiagramResource() {
         return R.id.nav_main_host_fragment;

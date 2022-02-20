@@ -9,69 +9,86 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.exptool.ui.experiments.create.ExperimentCreateBasicDataViewModel" />
+            type="com.jsm.exptool.ui.experiments.create.basicdata.ExperimentCreateBasicDataViewModel" />
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView style="@style/BaseCardView">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/basicDataCard"
+                    style="@style/BaseCardView">
 
                     <LinearLayout
+                        android:id="@+id/linearLayout2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/linearLayout2"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/experimentDataTitleTV"
-                            android:text="Datos del experimento"
-                            style="@style/BaseCardTitleTextView" />
+                            style="@style/BaseCardTitleTextView"
+                            android:text="Datos del experimento" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/BaseTextInputLayout">
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
                             <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
                                 android:hint="Nombre"
                                 android:inputType="textShortMessage"
-                                android:text="@={viewModel.title}"
-                                style="@style/BaseTextInputEditText" />
+                                android:text="@={viewModel.title}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/BaseTextInputLayout">
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
                             <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
                                 android:hint="Descripción"
                                 android:inputType="textMultiLine"
-                                android:text="@={viewModel.description}"
-                                style="@style/BaseTextInputEditText"/>
+                                android:text="@={viewModel.description}" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/remoteSyncCard"
                     style="@style/BaseCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     app:contentPadding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/remoteSyncTitleTV"
+                            style="@style/BaseCardTitleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sincronización Remota" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchSync"
+                            style="@style/BaseSwitch"
+                            android:checked="@={viewModel.remoteSyncEnabled}"
+                            android:text="Sincronización remota durante el experimento" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/multimediaCard"
+                    style="@style/BaseCardView">
 
                     <LinearLayout
                         android:id="@+id/linearLayout3"
@@ -93,23 +110,28 @@
                             android:text="Cámara" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchEmbedding"
+                            style="@style/SecondarySwitch"
+                            android:checked="@={viewModel.embeddingEnabled}"
+                            android:text="Obtener Embedding durante el experimento"
+                            android:visibility="@{viewModel.cameraEnabled ? View.VISIBLE : View.GONE}" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switchAudio"
                             style="@style/BaseSwitch"
                             android:checked="@={viewModel.audioEnabled}"
                             android:text="Audio" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.cardview.widget.CardView
-                    style="@style/BaseCardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:contentPadding="10dp">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/sensorsCard"
+                    style="@style/BaseCardView">
 
                     <LinearLayout
                         android:id="@+id/linearLayout4"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
@@ -121,7 +143,7 @@
 
 
                         <Button
-                            android:id="@+id/select_sensors_button"
+                            android:id="@+id/selectSensorsButton"
                             style="@style/BaseButton"
                             android:layout_gravity="center"
                             android:onClick="@{() -> viewModel.selectSensorsButtonClicked(sensorSpinner)}"
@@ -138,26 +160,17 @@
 
                         </com.jsm.exptool.libs.MultiSpinner>
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/elementsRV"
+                            style="@style/RecyclerView"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:minHeight="128dp">
+                            android:layout_height="wrap_content"
+                            android:minHeight="128dp"
+                            android:nestedScrollingEnabled="false"
+                            tools:listitem="@layout/experiment_create_basic_data_list_item">
 
-
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/elementsRV"
-                                    style="@style/RecyclerView"
-                                    android:layout_width="0dp"
-                                    android:layout_height="0dp"
-                                    android:minHeight="128dp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:listitem="@layout/experiments_list_item">
-
-                                </androidx.recyclerview.widget.RecyclerView>
+                        </androidx.recyclerview.widget.RecyclerView>
 
                             <TextView
                                 android:id="@+id/empty"
@@ -165,20 +178,17 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/default_recyclerview_emptyMessage"
-                                android:visibility="@{viewModel.textEmptyVisibility ? View.VISIBLE : View.GONE}"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                android:visibility="@{viewModel.textEmptyVisibility ? View.VISIBLE : View.GONE}" />
 
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.button.MaterialButton
+                    style="@style/FullWidthButton"
+                    android:onClick="@{() -> viewModel.completeStep(context)}"
+                    android:text="@string/button_continue">
+
+                </com.google.android.material.button.MaterialButton>
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

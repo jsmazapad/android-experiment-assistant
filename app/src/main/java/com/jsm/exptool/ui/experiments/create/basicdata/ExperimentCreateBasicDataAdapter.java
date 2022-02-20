@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.create;
+package com.jsm.exptool.ui.experiments.create.basicdata;
 
 import android.content.Context;
 import android.view.View;
@@ -8,7 +8,6 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
 
 public class ExperimentCreateBasicDataAdapter extends BaseRecyclerAdapter<MySensor, ExperimentCreateBasicDataViewHolder, MySensor> {

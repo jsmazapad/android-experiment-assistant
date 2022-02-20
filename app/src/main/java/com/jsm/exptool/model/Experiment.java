@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(tableName = Experiment.TABLE_NAME)
 public class Experiment implements Parcelable {
@@ -30,20 +31,22 @@ public class Experiment implements Parcelable {
     private Date init_date;
     private Date end_date;
     private int status;
-    private ArrayList<Integer> sensors;
-    private ArrayList<ImageRegister> images;
-    private ArrayList<SoundRegister> sounds;
+    private ExperimentConfiguration configuration;
+    private List<MySensor> sensors = new ArrayList<>();
+    private ArrayList<ImageRegister> images = new ArrayList<>();;
+    private ArrayList<SoundRegister> sounds = new ArrayList<>();;
     private int sdk_device;
     private String device;
 
 
-    public Experiment(int id, int user_id, String title, String description, Date init_date, Date end_date, int status, ArrayList<Integer> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdk_device, String device) {
+    public Experiment(int id, int user_id, String title, String description, Date init_date, Date end_date, int status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdk_device, String device) {
         this.id = id;
         this.user_id = user_id;
         this.title = title;
         this.description = description;
         this.init_date = init_date;
         this.end_date = end_date;
+        this.configuration = configuration;
         this.status = status;
         this.sensors = sensors;
         this.images = images;
@@ -108,11 +111,19 @@ public class Experiment implements Parcelable {
         this.status = status;
     }
 
-    public ArrayList<Integer> getSensors() {
+    public ExperimentConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(ExperimentConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public List<MySensor> getSensors() {
         return sensors;
     }
 
-    public void setSensors(ArrayList<Integer> sensors) {
+    public void setSensors(List<MySensor> sensors) {
         this.sensors = sensors;
     }
 
@@ -161,6 +172,7 @@ public class Experiment implements Parcelable {
         dest.writeString(this.description);
         dest.writeLong(this.init_date != null ? this.init_date.getTime() : -1);
         dest.writeLong(this.end_date != null ? this.end_date.getTime() : -1);
+        dest.writeParcelable(this.configuration,0);
         dest.writeInt(this.status);
         dest.writeList(this.sensors);
         dest.writeList(this.images);
@@ -179,7 +191,8 @@ public class Experiment implements Parcelable {
         long tmpEnd_date = source.readLong();
         this.end_date = tmpEnd_date == -1 ? null : new Date(tmpEnd_date);
         this.status = source.readInt();
-        this.sensors = new ArrayList<Integer>();
+        this.configuration = source.readParcelable(ExperimentConfiguration.class.getClassLoader());
+        this.sensors = new ArrayList<>();
         source.readList(this.sensors, Integer.class.getClassLoader());
         this.images = new ArrayList<ImageRegister>();
         source.readList(this.images, ImageRegister.class.getClassLoader());
@@ -193,23 +206,7 @@ public class Experiment implements Parcelable {
     }
 
     protected Experiment(Parcel in) {
-        this.id = in.readInt();
-        this.user_id = in.readInt();
-        this.title = in.readString();
-        this.description = in.readString();
-        long tmpInit_date = in.readLong();
-        this.init_date = tmpInit_date == -1 ? null : new Date(tmpInit_date);
-        long tmpEnd_date = in.readLong();
-        this.end_date = tmpEnd_date == -1 ? null : new Date(tmpEnd_date);
-        this.status = in.readInt();
-        this.sensors = new ArrayList<Integer>();
-        in.readList(this.sensors, Integer.class.getClassLoader());
-        this.images = new ArrayList<ImageRegister>();
-        in.readList(this.images, ImageRegister.class.getClassLoader());
-        this.sounds = new ArrayList<SoundRegister>();
-        in.readList(this.sounds, SoundRegister.class.getClassLoader());
-        this.sdk_device = in.readInt();
-        this.device = in.readString();
+        readFromParcel(in);
     }
 
     public static final Parcelable.Creator<Experiment> CREATOR = new Parcelable.Creator<Experiment>() {

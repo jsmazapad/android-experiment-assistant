@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.jsm.exptool.ui.experiments.create.configure.ExperimentCreateConfigureDataViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/globalFrequencyCard"
+            style="@style/BaseCardView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/globalFreqCardTitleTV"
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Frecuencia por defecto" />
+
+                <com.google.android.material.slider.Slider
+                    style="@style/BaseSlider"
+                    android:valueFrom="@{viewModel.sliderMinValue}"
+                    android:valueTo="@{viewModel.sliderMaxValue}"
+                    android:value="@={viewModel.globalFreqValue}"
+                    android:contentDescription="Selección frecuencia general">
+
+                </com.google.android.material.slider.Slider>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cameraCard"
+            android:visibility="@{viewModel.cameraSettingsEnabled ? View.VISIBLE : View.GONE}"
+            style="@style/BaseCardView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/cameraCardTitleTV"
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cámara" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchCameraGlobalFrequency"
+                    style="@style/BaseSwitch"
+                    android:checked="@={viewModel.cameraGlobalFreqEnabled}"
+                    android:text="@string/use_default_frequency" />
+
+                <com.google.android.material.slider.Slider
+                    style="@style/BaseSlider"
+                    android:contentDescription="Frecuencia captura fotos"
+                    android:valueFrom="@{viewModel.sliderMinValue}"
+                    android:valueTo="@{viewModel.sliderMaxValue}"
+                    android:value="@{viewModel.sliderDefaultValue}"
+                    android:visibility="@{viewModel.cameraGlobalFreqEnabled ? View.GONE : View.VISIBLE}">
+
+                </com.google.android.material.slider.Slider>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/audioCard"
+            android:visibility="@{viewModel.audioSettingsEnabled ? View.VISIBLE : View.GONE}"
+            style="@style/BaseCardView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/audioCardTitleTV"
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Audio" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchAudioGlobalFrequency"
+                    style="@style/BaseSwitch"
+                    android:checked="@={viewModel.audioGlobalFreqEnabled}"
+                    android:text="Usar frecuencia por defecto" />
+
+                <com.google.android.material.slider.Slider
+                    style="@style/BaseSlider"
+                    android:contentDescription="Frecuencia captura fotos"
+                    android:valueFrom="@{viewModel.sliderMinValue}"
+                    android:valueTo="@{viewModel.sliderMaxValue}"
+                    android:value="@{viewModel.sliderDefaultValue}"
+                    android:visibility="@{viewModel.audioGlobalFreqEnabled ? View.GONE : View.VISIBLE}">
+
+                </com.google.android.material.slider.Slider>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sensorsCard"
+            android:visibility="@{viewModel.sensorSettingsEnabled ? View.VISIBLE : View.GONE}"
+            style="@style/BaseCardView">
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/experimentSensorsTitleTV"
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sensores" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/elementsRV"
+                    style="@style/RecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="128dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/experiment_create_basic_data_list_item">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/empty"
+                    style="@style/TextViewNoItems"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_recyclerview_emptyMessage"
+                    android:visibility="@{viewModel.textEmptyVisibility ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

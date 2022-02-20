@@ -2,6 +2,7 @@ package com.jsm.exptool.providers;
 
 import android.content.SharedPreferences;
 
+import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.core.utils.PreferenceManager;
 
 /**
@@ -14,6 +15,7 @@ public class PreferencesProvider {
     private final static String PASSWORD = "PASSWORD";
     private final static String USER = "USER";
     private final static String REMOTE_SERVER = "REMOTE_SERVER";
+    private final static String DEFAULT_FREQ = "DEFAULT_FREQ";
 
 
 //    /**
@@ -91,6 +93,23 @@ public class PreferencesProvider {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
             editor.putString(REMOTE_SERVER, value);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getDefaultFreq() {
+        int data = PreferenceManager.getSharedPreferences().getInt(DEFAULT_FREQ, SensorConfigConstants.DEFAULT_FREQ);
+        return data;
+
+    }
+
+    public static void setDefaultFreq(int value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putInt(DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
             e.printStackTrace();

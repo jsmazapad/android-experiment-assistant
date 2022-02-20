@@ -19,4 +19,16 @@
     <string name="default_recyclerview_emptyMessage">No results found</string>
 
 
+    <!--
+    CREATE EXPERIMENT
+    -->
+    <string name="use_default_frequency">Usar frecuencia por defecto</string>
+    <string name="button_continue">Continuar</string>
+
+    <!--
+    DELAY
+    -->
+    <string name="min_delay">Delay mínimo</string>
+    <string name="max_delay">Delay máximo</string>
+
 </resources>
