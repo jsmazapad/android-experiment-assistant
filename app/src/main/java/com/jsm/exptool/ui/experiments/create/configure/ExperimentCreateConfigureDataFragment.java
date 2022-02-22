@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.jsm.exptool.BuildConfig;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
@@ -16,12 +17,19 @@ import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentCreateConfigureDataFragmentBinding;
 import com.jsm.exptool.libs.MultiSpinner;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.model.ExperimentConfiguration;
+import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.Sensor.Accelerometer;
+import com.jsm.exptool.model.Sensor.Gravity;
+import com.jsm.exptool.model.Sensor.HeartBeat;
+import com.jsm.exptool.model.Sensor.Light;
+
+import java.util.AbstractList;
+import java.util.ArrayList;
 
 
 public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<ExperimentCreateConfigureDataFragmentBinding, ExperimentCreateConfigureDataViewModel> {
 
-
-    MultiSpinner spinner;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,7 +51,19 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
     @Override
     protected ExperimentCreateConfigureDataViewModel getViewModel() {
 
-        Experiment experiment = ExperimentCreateConfigureDataFragmentArgs.fromBundle(getArguments()).getExperiment();
+        Experiment experiment;
+        if(!BuildConfig.FLAVOR.equals("mock") ) {
+             experiment = ExperimentCreateConfigureDataFragmentArgs.fromBundle(getArguments()).getExperiment();
+        }else{
+            //TODO Código desarrollo
+            experiment = new Experiment();
+            experiment.setConfiguration(new ExperimentConfiguration());
+            experiment.setSensors(new ArrayList<MySensor>() {{
+                add(new Accelerometer());
+                add(new Gravity());
+            }
+            });
+        }
         return new ViewModelProvider(this, new ExperimentCreateConfigureDataViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentCreateConfigureDataViewModel.class);
 
     }

@@ -8,7 +8,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.10914855072463768" />
         <entry key="app/src/main/res/layout/camera_fragment.xml" value="0.26268115942028986" />
         <entry key="app/src/main/res/layout/configuration_fragment.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/dialog_delay.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_delay.xml" value="0.13253012048192772" />
+        <entry key="app/src/main/res/layout/dialog_select_frequency.xml" value="0.1" />
         <entry key="app/src/main/res/layout/experiment_create_basic_data_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/experiment_create_configure_data_fragment.xml" value="0.22" />
         <entry key="app/src/main/res/layout/experiment_create_configure_data_list_item.xml" value="0.20364583333333333" />

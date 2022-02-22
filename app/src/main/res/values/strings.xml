@@ -22,7 +22,7 @@
     <!--
     CREATE EXPERIMENT
     -->
-    <string name="use_default_frequency">Usar frecuencia por defecto</string>
+    <string name="use_default_frequency">Usar frecuencia global</string>
     <string name="button_continue">Continuar</string>
 
     <!--
@@ -30,5 +30,7 @@
     -->
     <string name="min_delay">Delay mínimo</string>
     <string name="max_delay">Delay máximo</string>
+    <string name="configure_frequency_title">Configurar Frecuencia:\n%s</string>
+    <string name="content_description_slider_to_select_frequency">Slider to select frequency</string>
 
 </resources>

@@ -51,6 +51,10 @@ android {
             dimension = 'JSM'
             buildConfigField('String', baseUrl, "\"https://api.garaza.io/\"")
         }
+        mock {
+            dimension = 'JSM'
+            buildConfigField('String', baseUrl, "\"https://api.garaza.io/\"")
+        }
     }
 
 

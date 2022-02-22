@@ -12,14 +12,16 @@ import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.libs.MultiSpinner;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfigurationVO;
 import com.jsm.exptool.providers.PreferencesProvider;
+import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
 import com.jsm.exptool.repositories.SensorsRepository;
 import com.jsm.exptool.ui.experiments.create.basicdata.DeleteActionListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewModel<MySensor, MySensor> implements  SelectFreqForSensorActionListener<MySensor> {
+public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewModel<SensorConfigurationVO, MySensor> implements SelectFreqForSensorActionListener<MySensor>, SelectFrequencyDialogProvider.OnFrequencySelectedListener {
 
 
 
@@ -41,35 +43,40 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
 
 
     public ExperimentCreateConfigureDataViewModel(Application app, Experiment experiment){
-        super(app);
-        this.experiment = experiment;
+        super(app, experiment);
+
 
         this.cameraSettingsEnabled.setValue(this.experiment.getConfiguration().isCameraEnabled());
         this.audioSettingsEnabled.setValue(this.experiment.getConfiguration().isAudioEnabled());
         this.sensorSettingsEnabled.setValue(this.experiment.getSensors().size()>0);
-        this.elements.setValue(this.experiment.getSensors());
     }
 
     @Override
-    public List<MySensor> transformResponse(ListResponse<MySensor> response) {
-        return response.getResultList();
+    public List<SensorConfigurationVO> transformResponse(ListResponse<MySensor> response) {
+        ArrayList<SensorConfigurationVO> listToReturn = new ArrayList<>();
+        for (MySensor sensor:response.getResultList()) {
+            listToReturn.add(new SensorConfigurationVO(sensor));
+        }
+        return listToReturn;
     }
 
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
-
+        SelectFrequencyDialogProvider.createDialog(c, elements.getValue().get(position),this, getSliderMinValue(), getSliderMaxValue() );
     }
 
     @Override
     public void setConstructorParameters(Object... args) {
-
+        if (args.length > 0 && args[0] != null && args[0] instanceof Experiment) {
+            this.experiment = (Experiment) args[0];
+        }
     }
 
     @Override
     public void callRepositoryForData() {
+        apiResponseRepositoryHolder.setValue(new ListResponse<>(experiment.getSensors()));
 
     }
-    // TODO: Implement the ViewModel
 
 
 
@@ -129,7 +136,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     public void setFreqForSensor(MySensor element, int freq) {
         int index = elements.getValue() != null ? elements.getValue().indexOf(element) : -1;
         if (index >= 0){
-            elements.getValue().get(index).setInterval(freq);
+            elements.getValue().get(index).getSensor().setInterval(freq);
         }
     }
 
@@ -137,7 +144,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     public void setDefaultFreqForSensor(MySensor element, boolean isDefault, int freq) {
         int index = elements.getValue() != null ? elements.getValue().indexOf(element) : -1;
         if (index >= 0){
-            elements.getValue().get(index).setInterval((int)(isDefault?  globalFreqValue.getValue() : freq));
+            elements.getValue().get(index).getSensor().setInterval((int)(isDefault?  globalFreqValue.getValue() : freq));
         }
     }
 
@@ -157,5 +164,8 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     }
 
 
-
+    @Override
+    public void onFrequencySelected(SensorConfigurationVO sensorConfiguration) {
+        elements.setValue(elements.getValue());
+    }
 }
