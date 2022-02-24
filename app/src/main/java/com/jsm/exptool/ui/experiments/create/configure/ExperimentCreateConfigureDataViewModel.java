@@ -6,23 +6,27 @@ import android.content.Context;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.libs.MultiSpinner;
+import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
+import com.jsm.exptool.model.AudioConfig;
+import com.jsm.exptool.model.CameraConfig;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.model.ExperimentConfiguration;
+import com.jsm.exptool.model.GlobalConfig;
 import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.SensorConfigurationVO;
+import com.jsm.exptool.model.FrequencyConfigurationVO;
+import com.jsm.exptool.model.Repeatable;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
-import com.jsm.exptool.repositories.SensorsRepository;
-import com.jsm.exptool.ui.experiments.create.basicdata.DeleteActionListener;
+import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewModel<SensorConfigurationVO, MySensor> implements SelectFreqForSensorActionListener<MySensor>, SelectFrequencyDialogProvider.OnFrequencySelectedListener {
-
+public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewModel<FrequencyConfigurationVO, MySensor> implements SelectFrequencyDialogProvider.OnFrequencySelectedListener {
 
 
     private MutableLiveData<Boolean> cameraGlobalFreqEnabled = new MutableLiveData<>(true);
@@ -33,37 +37,66 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     private MutableLiveData<Boolean> sensorSettingsEnabled = new MutableLiveData<>(false);
 
     private Experiment experiment;
-    private final int MAX_FREQ= SensorConfigConstants.MAX_INTERVAL_MILLIS;
-    private final int MIN_FREQ= SensorConfigConstants.MIN_INTERVAL_MILLIS;
-    private final int DEFAULT_FREQ= PreferencesProvider.getDefaultFreq();
+    private FrequencyConfigurationVO<CameraConfig> cameraConfig;
+    private FrequencyConfigurationVO<AudioConfig> audioConfig;
+    private GlobalConfig globalConfig;
+    private final int MAX_FREQ = SensorConfigConstants.MAX_INTERVAL_MILLIS;
+    private final int MIN_FREQ = SensorConfigConstants.MIN_INTERVAL_MILLIS;
+    private final int DEFAULT_FREQ = PreferencesProvider.getDefaultFreq();
 
-    private MutableLiveData<Float> globalFreqValue = new MutableLiveData<>((float) DEFAULT_FREQ);
-    private MutableLiveData<Float> cameraFreqValue = new MutableLiveData<>((float) DEFAULT_FREQ);
-    private MutableLiveData<Float> audioFreqValue = new MutableLiveData<>((float) DEFAULT_FREQ);
+    private MutableLiveData<String> globalFreqValue = new MutableLiveData<>(String.valueOf(DEFAULT_FREQ));
+    private MutableLiveData<String> cameraFreqValue = new MutableLiveData<>(String.valueOf(DEFAULT_FREQ));
+    private MutableLiveData<String> audioFreqValue = new MutableLiveData<>(String.valueOf(DEFAULT_FREQ));
 
 
-    public ExperimentCreateConfigureDataViewModel(Application app, Experiment experiment){
+    public ExperimentCreateConfigureDataViewModel(Application app, Experiment experiment) {
         super(app, experiment);
-
+        ExperimentConfiguration configuration = experiment.getConfiguration();
+        cameraConfig = new FrequencyConfigurationVO<>(configuration.getCameraConfig());
+        globalConfig = configuration.getGlobalConfig();
+        audioConfig = new FrequencyConfigurationVO<>(configuration.getAudioConfig());
 
         this.cameraSettingsEnabled.setValue(this.experiment.getConfiguration().isCameraEnabled());
         this.audioSettingsEnabled.setValue(this.experiment.getConfiguration().isAudioEnabled());
-        this.sensorSettingsEnabled.setValue(this.experiment.getSensors().size()>0);
+        this.sensorSettingsEnabled.setValue(this.experiment.getSensors().size() > 0);
+
+        globalConfig.setInterval(DEFAULT_FREQ);
+
+        if (this.cameraSettingsEnabled.getValue() && cameraConfig != null) {
+            cameraConfig.getRepeatableElement().setInterval(globalConfig.getInterval());
+            this.cameraFreqValue.setValue(cameraConfig.isDefaultConfigurationEnabled() ? getApplication().getString(R.string.global_frequency_literal) : TimeDisplayStringProvider.millisecondsToStringBestDisplay(cameraConfig.getRepeatableElement().getInterval()));
+
+        }
+        if (this.audioSettingsEnabled.getValue() && audioConfig != null) {
+            audioConfig.getRepeatableElement().setInterval(globalConfig.getInterval());
+            this.audioFreqValue.setValue(audioConfig.isDefaultConfigurationEnabled() ? getApplication().getString(R.string.global_frequency_literal) : TimeDisplayStringProvider.millisecondsToStringBestDisplay(audioConfig.getRepeatableElement().getInterval()));
+
+        }
+
     }
 
     @Override
-    public List<SensorConfigurationVO> transformResponse(ListResponse<MySensor> response) {
-        ArrayList<SensorConfigurationVO> listToReturn = new ArrayList<>();
-        for (MySensor sensor:response.getResultList()) {
-            listToReturn.add(new SensorConfigurationVO(sensor));
+    public List<FrequencyConfigurationVO> transformResponse(ListResponse<MySensor> response) {
+        ArrayList<FrequencyConfigurationVO> listToReturn = new ArrayList<>();
+        for (MySensor sensor : response.getResultList()) {
+            listToReturn.add(new FrequencyConfigurationVO(sensor));
         }
         return listToReturn;
     }
 
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
-        SelectFrequencyDialogProvider.createDialog(c, elements.getValue().get(position),this, getSliderMinValue(), getSliderMaxValue() );
+        SelectFrequencyDialogProvider.createDialog(c, elements.getValue().get(position), this, getSliderMinValue(), getSliderMaxValue());
     }
+
+    public void onCameraSelectFrequency(Context c) {
+        SelectFrequencyDialogProvider.createDialog(c, this.cameraConfig, this, getSliderMinValue(), getSliderMaxValue());
+    }
+
+    public void onAudioSelectFrequency(Context c) {
+        SelectFrequencyDialogProvider.createDialog(c, this.audioConfig, this, getSliderMinValue(), getSliderMaxValue());
+    }
+
 
     @Override
     public void setConstructorParameters(Object... args) {
@@ -77,7 +110,6 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         apiResponseRepositoryHolder.setValue(new ListResponse<>(experiment.getSensors()));
 
     }
-
 
 
     public MutableLiveData<Boolean> getCameraGlobalFreqEnabled() {
@@ -108,64 +140,59 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         return sensorSettingsEnabled;
     }
 
-    public MutableLiveData<Float> getGlobalFreqValue() {
+    public MutableLiveData<String> getGlobalFreqValue() {
         return globalFreqValue;
     }
 
-    public void setGlobalFreqValue(MutableLiveData<Float> globalFreqValue) {
+    public void setGlobalFreqValue(MutableLiveData<String> globalFreqValue) {
         this.globalFreqValue = globalFreqValue;
     }
 
-    public MutableLiveData<Float> getCameraFreqValue() {
+    public MutableLiveData<String> getCameraFreqValue() {
         return cameraFreqValue;
     }
 
-    public void setCameraFreqValue(MutableLiveData<Float> cameraFreqValue) {
+    public void setCameraFreqValue(MutableLiveData<String> cameraFreqValue) {
         this.cameraFreqValue = cameraFreqValue;
     }
 
-    public MutableLiveData<Float> getAudioFreqValue() {
+    public MutableLiveData<String> getAudioFreqValue() {
         return audioFreqValue;
     }
 
-    public void setAudioFreqValue(MutableLiveData<Float> audioFreqValue) {
+    public void setAudioFreqValue(MutableLiveData<String> audioFreqValue) {
         this.audioFreqValue = audioFreqValue;
     }
 
-    @Override
-    public void setFreqForSensor(MySensor element, int freq) {
-        int index = elements.getValue() != null ? elements.getValue().indexOf(element) : -1;
-        if (index >= 0){
-            elements.getValue().get(index).getSensor().setInterval(freq);
-        }
-    }
-
-    @Override
-    public void setDefaultFreqForSensor(MySensor element, boolean isDefault, int freq) {
-        int index = elements.getValue() != null ? elements.getValue().indexOf(element) : -1;
-        if (index >= 0){
-            elements.getValue().get(index).getSensor().setInterval((int)(isDefault?  globalFreqValue.getValue() : freq));
-        }
-    }
-
-    @Override
     public int getSliderMinValue() {
         return MIN_FREQ;
     }
 
-    @Override
     public int getSliderMaxValue() {
         return MAX_FREQ;
     }
 
-    @Override
     public int getSliderDefaultValue() {
         return DEFAULT_FREQ;
     }
 
 
     @Override
-    public void onFrequencySelected(SensorConfigurationVO sensorConfiguration) {
-        elements.setValue(elements.getValue());
+    public void onFrequencySelected(FrequencyConfigurationVO sensorConfiguration) {
+        Repeatable element = sensorConfiguration.getRepeatableElement();
+        //Reseteamos el elemento que corresponda para que se actualice el valor en la vista
+        //Databinding con LiveData no tiene manera de saber si el elemento ha cambiado sólo una propiedad
+        if (element instanceof MySensor) {
+            elements.setValue(elements.getValue());
+        } else if (element instanceof CameraConfig) {
+            cameraFreqValue.setValue(sensorConfiguration.isDefaultConfigurationEnabled() ? getApplication().getString(R.string.global_frequency_literal) : TimeDisplayStringProvider.millisecondsToStringBestDisplay(cameraConfig.getRepeatableElement().getInterval()));
+        } else if (element instanceof AudioConfig) {
+            audioFreqValue.setValue(sensorConfiguration.isDefaultConfigurationEnabled() ? getApplication().getString(R.string.global_frequency_literal) : TimeDisplayStringProvider.millisecondsToStringBestDisplay(audioConfig.getRepeatableElement().getInterval()));
+        }
+
+    }
+
+    public void initGlobalFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding) {
+        FrequencySelectorHelper.initFrequencySelector(includedSelectorBinding, new FrequencyConfigurationVO<>(globalConfig), this, getSliderMinValue(), getSliderMaxValue());
     }
 }

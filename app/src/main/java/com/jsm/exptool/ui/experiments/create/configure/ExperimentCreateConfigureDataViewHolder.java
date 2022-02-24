@@ -3,37 +3,29 @@ package com.jsm.exptool.ui.experiments.create.configure;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.material.slider.Slider;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
 import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.SensorConfigurationVO;
+import com.jsm.exptool.model.FrequencyConfigurationVO;
+import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 
-public class ExperimentCreateConfigureDataViewHolder extends BaseRecyclerViewHolder<SensorConfigurationVO> {
+public class ExperimentCreateConfigureDataViewHolder extends BaseRecyclerViewHolder<FrequencyConfigurationVO> {
 
     private final TextView titleTV;
     private final TextView frequencyTV;
 
-
-
-    private final SelectFreqForSensorActionListener<MySensor> listener;
-    protected ExperimentCreateConfigureDataViewHolder(View v, SelectFreqForSensorActionListener<MySensor> listener) {
+    protected ExperimentCreateConfigureDataViewHolder(View v) {
         super(v);
 
         this.titleTV = v.findViewById(R.id.sensorTitleTV);
         this.frequencyTV = v.findViewById(R.id.frequencyTV);
-        this.listener = listener;
     }
 
 
     @Override
-    public void fillViewHolder(SensorConfigurationVO element) {
-        titleTV.setText(itemView.getContext().getString(element.getSensor().getRName()));
-        frequencyTV.setText(element.isDefaultConfigurationEnabled()? "Global":String.format("%d ms", element.getSensor().getInterval()));
-
-
-
+    public void fillViewHolder(FrequencyConfigurationVO element) {
+        titleTV.setText(itemView.getContext().getString(element.getRepeatableElement().getRName()));
+        frequencyTV.setText(element.isDefaultConfigurationEnabled()? itemView.getContext().getString(R.string.global_frequency_literal): TimeDisplayStringProvider.millisecondsToStringBestDisplay( element.getRepeatableElement().getInterval()));
     }
 }

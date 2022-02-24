@@ -18,66 +18,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/frequencyTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal"
-            android:textSize="36sp"
-            tools:text="0" />
+        <include
+            android:id="@+id/frequencySelectorIncluded"
+            layout="@layout/view_layout_frequency_selector" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/minDelayTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="@string/min_delay" />
-
-            <TextView
-                android:id="@+id/maxDelayTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                tools:text="@string/max_delay" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/minusButton"
-                style="@style/BaseImageButton"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_weight="7"
-                android:contentDescription="@string/min_delay"
-                android:src="@drawable/ic_midline_24" />
-
-            <SeekBar
-                android:id="@+id/seekbarFrequency"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="100"
-                android:contentDescription="@string/content_description_slider_to_select_frequency"
-                android:thumb="@drawable/ic_baseline_timer_24" />
-
-            <ImageButton
-                android:id="@+id/plusButton"
-                style="@style/BaseImageButton"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_weight="7"
-                android:contentDescription="@string/max_delay"
-                android:src="@drawable/ic_add_24" />
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

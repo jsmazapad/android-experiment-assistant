@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.concurrent.TimeUnit;
 
 public class TimeDisplayStringProvider {
-    public static String millisecondsToStringBestDisplay(Context context, int milliseconds){
+    public static String millisecondsToStringBestDisplay(int milliseconds){
         String stringToReturn;
         long minutes
                 = TimeUnit.MILLISECONDS.toMinutes(milliseconds);
@@ -24,7 +24,7 @@ public class TimeDisplayStringProvider {
             if(seconds == 0 && millisecondsRest == 0){
                 stringToReturn = String.format("%dmin", minutes);
             }else{
-                stringToReturn = String.format("%dmin %d,%ds", minutes, seconds, milliseconds/100);
+                stringToReturn = String.format("%dmin %d,%ds", minutes, seconds, millisecondsRest/100);
             }
         }
         return stringToReturn;

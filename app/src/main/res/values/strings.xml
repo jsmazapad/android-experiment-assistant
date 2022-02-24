@@ -32,5 +32,6 @@
     <string name="max_delay">Delay máximo</string>
     <string name="configure_frequency_title">Configurar Frecuencia:\n%s</string>
     <string name="content_description_slider_to_select_frequency">Slider to select frequency</string>
+    <string name="global_frequency_literal">Global</string>
 
 </resources>

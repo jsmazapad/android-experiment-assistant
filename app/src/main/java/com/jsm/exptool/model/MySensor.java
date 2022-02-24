@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Timer;
 
-public class MySensor implements Parcelable, Cloneable {
+public class MySensor implements Cloneable, Repeatable {
     public int type;
     private int rName;
     // Interval in milliseconds
@@ -54,6 +54,7 @@ public class MySensor implements Parcelable, Cloneable {
         this.isRecording = false;
     }
 
+    @Override
     public final int getRName(){return  this.rName;}
 
     public final int getType(){return  this.type;}
@@ -74,14 +75,18 @@ public class MySensor implements Parcelable, Cloneable {
         return this.isRecording;
     }
 
+    @Override
     public final int getInterval() {return this.interval;}
 
+    @Override
     public final void setInterval(int interval) {
         this.interval = interval;
     }
 
+    @Override
     public final int getIntervalMin() {return this.intervalMin;}
 
+    @Override
     public final void setIntervalMin(int intervalMin) {
         this.intervalMin = interval;
     }

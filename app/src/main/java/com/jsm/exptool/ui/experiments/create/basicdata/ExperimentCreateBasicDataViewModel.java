@@ -11,6 +11,8 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.libs.MultiSpinner;
+import com.jsm.exptool.model.AudioConfig;
+import com.jsm.exptool.model.CameraConfig;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.ExperimentConfiguration;
 import com.jsm.exptool.model.MySensor;
@@ -174,14 +176,10 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
         ExperimentConfiguration configuration = new ExperimentConfiguration();
         experiment.setTitle(this.title);
         experiment.setDescription(this.description);
-        configuration.setAudioEnabled(this.audioEnabled);
+        configuration.setAudioConfig(this.audioEnabled ? new AudioConfig() : null);
         experiment.setConfiguration(configuration);
         if(this.cameraEnabled.getValue() != null) {
-            configuration.setCameraEnabled(this.cameraEnabled.getValue());
-        }
-        if(this.elements.getValue() != null) {
-            configuration.setSensorsEnabled(this.elements.getValue().size() > 0);
-        }
+            configuration.setCameraConfig(this.cameraEnabled.getValue() ? new CameraConfig() : null);        }
         experiment.setSensors(this.elements.getValue());
         return experiment;
     }

@@ -23,4 +23,6 @@
     <string name="motion_detect">Detección de movimiento</string>
     <string name="heart_beat">Latido del corazón</string>
     <string name="gps">GPS</string>
+    <string name="camera">Cámara</string>
+    <string name="audio">Audio</string>
 </resources>

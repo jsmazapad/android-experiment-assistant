@@ -16,6 +16,8 @@ import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentCreateConfigureDataFragmentBinding;
 import com.jsm.exptool.libs.MultiSpinner;
+import com.jsm.exptool.model.AudioConfig;
+import com.jsm.exptool.model.CameraConfig;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.ExperimentConfiguration;
 import com.jsm.exptool.model.MySensor;
@@ -33,38 +35,46 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
 
     @Override
     protected ExperimentCreateConfigureDataFragmentBinding getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
-        return DataBindingUtil.inflate(inflater, R.layout.experiment_create_configure_data_fragment, container, false);
+        ExperimentCreateConfigureDataFragmentBinding binding =  DataBindingUtil.inflate(inflater, R.layout.experiment_create_configure_data_fragment, container, false);
+        //Inicializamos los controles de la vista de selección de frecuencia global
+        viewModel.initGlobalFrequencySelector(binding.frequencySelectorIncluded);
+        return binding;
+
 
     }
 
     @Override
     protected BaseRecyclerAdapter createAdapter() {
-        return new ExperimentCreateConfigureDataAdapter(getContext(), viewModel, this, ((BaseActivity) this.getActivity()).getNavController(), getListItemResourceId(), viewModel);
+        return new ExperimentCreateConfigureDataAdapter(getContext(), viewModel, this, ((BaseActivity) this.getActivity()).getNavController(), getListItemResourceId());
     }
 
     @Override
     protected ExperimentCreateConfigureDataViewModel getViewModel() {
 
         Experiment experiment;
-        if(!BuildConfig.FLAVOR.equals("mock") ) {
-             experiment = ExperimentCreateConfigureDataFragmentArgs.fromBundle(getArguments()).getExperiment();
-        }else{
+        if (!BuildConfig.FLAVOR.equals("mock")) {
+            experiment = ExperimentCreateConfigureDataFragmentArgs.fromBundle(getArguments()).getExperiment();
+        } else {
             //TODO Código desarrollo
             experiment = new Experiment();
             experiment.setConfiguration(new ExperimentConfiguration());
-            experiment.setSensors(new ArrayList<MySensor>() {{
-                add(new Accelerometer());
-                add(new Gravity());
-            }
+            experiment.getConfiguration().setCameraConfig(new CameraConfig());
+            experiment.getConfiguration().setAudioConfig(new AudioConfig());
+            experiment.setSensors(new ArrayList<MySensor>() {
+                {
+                    add(new Accelerometer());
+                    add(new Gravity());
+                }
             });
         }
-        return new ViewModelProvider(this, new ExperimentCreateConfigureDataViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentCreateConfigureDataViewModel.class);
+        ExperimentCreateConfigureDataViewModel viewModel = new ViewModelProvider(this, new ExperimentCreateConfigureDataViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentCreateConfigureDataViewModel.class);
+        return viewModel;
 
     }
 
@@ -72,8 +82,6 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
     protected int getListItemResourceId() {
         return R.layout.experiment_create_configure_data_list_item;
     }
-
-
 
 
 }

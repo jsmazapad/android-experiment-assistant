@@ -23,29 +23,31 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/globalFrequencyCard"
             style="@style/BaseCardView">
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
+            <TextView
+                android:id="@+id/globalFreqCardTitleTV"
+                style="@style/BaseCardTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frecuencia por defecto" />
 
-                <TextView
-                    android:id="@+id/globalFreqCardTitleTV"
-                    style="@style/BaseCardTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Frecuencia por defecto" />
-
-                <com.google.android.material.slider.Slider
-                    style="@style/BaseSlider"
-                    android:valueFrom="@{viewModel.sliderMinValue}"
-                    android:valueTo="@{viewModel.sliderMaxValue}"
-                    android:value="@={viewModel.globalFreqValue}"
-                    android:contentDescription="Selección frecuencia general">
-
-                </com.google.android.material.slider.Slider>
-
+            <include
+                android:id="@+id/frequencySelectorIncluded"
+                layout="@layout/view_layout_frequency_selector" />
             </LinearLayout>
+
+
+            <!--                <com.google.android.material.slider.Slider-->
+<!--                    style="@style/BaseSlider"-->
+<!--                    android:valueFrom="@{viewModel.sliderMinValue}"-->
+<!--                    android:valueTo="@{viewModel.sliderMaxValue}"-->
+<!--                    android:value="@={viewModel.globalFreqValue}"-->
+<!--                    android:contentDescription="Selección frecuencia general">-->
+
+
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -58,29 +60,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/cameraCardTitleTV"
                     style="@style/BaseCardTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cámara" />
+                    android:layout_weight="1"
+                    android:text="@string/camera" />
+                <TextView
+                    android:id="@+id/cameraFrequencyTV"
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:text="@{String.valueOf(viewModel.cameraFreqValue)}"
+                    tools:text="0ms" />
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchCameraGlobalFrequency"
-                    style="@style/BaseSwitch"
-                    android:checked="@={viewModel.cameraGlobalFreqEnabled}"
-                    android:text="@string/use_default_frequency" />
+                    <ImageView
+                        style="@style/BaseIcon"
+                        android:src="@drawable/ic_flash_off" />
+                    <ImageView
+                        style="@style/BaseIcon"
+                        android:src="@drawable/ic_flip_camera" />
+                    <ImageView
+                        style="@style/BaseIcon"
+                        android:src="@drawable/ic_baseline_cloud_24" />
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/FrequencyButton"
+                        android:contentDescription="Configurar cámara"
+                        android:onClick="@{() -> viewModel.onCameraSelectFrequency(context)}" />
 
-                <com.google.android.material.slider.Slider
-                    style="@style/BaseSlider"
-                    android:contentDescription="Frecuencia captura fotos"
-                    android:valueFrom="@{viewModel.sliderMinValue}"
-                    android:valueTo="@{viewModel.sliderMaxValue}"
-                    android:value="@{viewModel.sliderDefaultValue}"
-                    android:visibility="@{viewModel.cameraGlobalFreqEnabled ? View.GONE : View.VISIBLE}">
 
-                </com.google.android.material.slider.Slider>
+                </LinearLayout>
+
+
+
 
             </LinearLayout>
 
@@ -94,31 +121,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/audioCardTitleTV"
                     style="@style/BaseCardTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Audio" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchAudioGlobalFrequency"
-                    style="@style/BaseSwitch"
-                    android:checked="@={viewModel.audioGlobalFreqEnabled}"
-                    android:text="Usar frecuencia por defecto" />
-
-                <com.google.android.material.slider.Slider
-                    style="@style/BaseSlider"
-                    android:contentDescription="Frecuencia captura fotos"
-                    android:valueFrom="@{viewModel.sliderMinValue}"
-                    android:valueTo="@{viewModel.sliderMaxValue}"
-                    android:value="@{viewModel.sliderDefaultValue}"
-                    android:visibility="@{viewModel.audioGlobalFreqEnabled ? View.GONE : View.VISIBLE}">
-
-                </com.google.android.material.slider.Slider>
-
+                    android:layout_weight="1"
+                    android:text="@string/audio" />
+                <TextView
+                    android:id="@+id/audioFrequencyTV"
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:text="@{String.valueOf(viewModel.audioFreqValue)}"
+                    tools:text="0ms" />
             </LinearLayout>
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Configurar audio"
+                style="@style/FrequencyButton"
+                android:onClick="@{() -> viewModel.onAudioSelectFrequency(context)}" />
+            </LinearLayout>
+
 
         </com.google.android.material.card.MaterialCardView>
 

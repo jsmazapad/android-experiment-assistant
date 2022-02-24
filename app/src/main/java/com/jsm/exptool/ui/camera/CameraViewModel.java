@@ -82,7 +82,7 @@ public class CameraViewModel extends BaseViewModel implements ImageReceivedCallb
                @Override
                public void run() {
                    Date date = new Date();
-                   File mFile = new File(context.getExternalFilesDir(null), date.toString()+"pic.jpg");
+                   File mFile = new File(context.getExternalFilesDir(null), date +"pic.jpg");
 
                    CameraProvider.getInstance().takePicture(mFile);
                }

@@ -3,6 +3,7 @@ package com.jsm.exptool.libs.camera;
 
 import android.content.Context;
 
+import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.view.PreviewView;
 
@@ -53,6 +54,29 @@ public class CameraProvider {
         cameraHandler.takePicture(f);
     }
 
+    public enum CameraPositions{
+        REAR(CameraSelector.LENS_FACING_BACK),
+        FRONT(CameraSelector.LENS_FACING_FRONT);
+
+        public final int cameraPosition;
+
+
+        CameraPositions(int cameraPosition) {
+            this.cameraPosition = cameraPosition;
+        }
+
+        public static CameraPositions chooseByImageCaptureMode(int cameraPosition){
+            CameraPositions returnValue = null;
+            for (CameraPositions mode: CameraPositions.values()) {
+                if (mode.cameraPosition == cameraPosition)
+                {
+                    returnValue = mode;
+                }
+
+            }
+            return returnValue;
+        }
+    }
 
     public enum FlashModes {
         OFF(ImageCapture.FLASH_MODE_OFF),
@@ -77,8 +101,5 @@ public class CameraProvider {
             }
             return returnValue;
         }
-
-
-
     }
 }

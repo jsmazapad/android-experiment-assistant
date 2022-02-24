@@ -6,49 +6,54 @@ import android.os.Parcelable;
 import com.jsm.exptool.libs.camera.CameraProvider;
 
 public class ExperimentConfiguration implements Parcelable {
-    private boolean cameraEnabled;
-    private boolean audioEnabled;
-    private boolean sensorsEnabled;
-    private CameraProvider.FlashModes flashMode;
 
-    public ExperimentConfiguration(boolean cameraEnabled, boolean audioEnabled, boolean sensorsEnabled, CameraProvider.FlashModes flashMode) {
-        this.cameraEnabled = cameraEnabled;
-        this.audioEnabled = audioEnabled;
-        this.sensorsEnabled = sensorsEnabled;
-        this.flashMode = flashMode;
+    private CameraConfig cameraConfig;
+    private AudioConfig audioConfig;
+    private GlobalConfig globalConfig = new GlobalConfig();
+
+    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig) {
+        this.cameraConfig = cameraConfig;
+        this.audioConfig = audioConfig;
+        this.globalConfig = globalConfig != null ? globalConfig : this.globalConfig;
+    }
+
+    public ExperimentConfiguration() {
+
+    }
+
+    public CameraConfig getCameraConfig() {
+        return cameraConfig;
+    }
+
+    public void setCameraConfig(CameraConfig cameraConfig) {
+        this.cameraConfig = cameraConfig;
+    }
+
+    public AudioConfig getAudioConfig() {
+        return audioConfig;
+    }
+
+    public void setAudioConfig(AudioConfig audioConfig) {
+        this.audioConfig = audioConfig;
+    }
+
+    public GlobalConfig getGlobalConfig() {
+        return globalConfig;
+    }
+
+    public void setGlobalConfig(GlobalConfig globalConfig) {
+        this.globalConfig = globalConfig;
     }
 
     public boolean isCameraEnabled() {
-        return cameraEnabled;
+        return cameraConfig != null;
     }
 
-    public void setCameraEnabled(boolean cameraEnabled) {
-        this.cameraEnabled = cameraEnabled;
-    }
 
     public boolean isAudioEnabled() {
-        return audioEnabled;
+        return audioConfig != null;
     }
 
-    public void setAudioEnabled(boolean audioEnabled) {
-        this.audioEnabled = audioEnabled;
-    }
-
-    public boolean isSensorsEnabled() {
-        return sensorsEnabled;
-    }
-
-    public void setSensorsEnabled(boolean sensorsEnabled) {
-        this.sensorsEnabled = sensorsEnabled;
-    }
-
-    public CameraProvider.FlashModes getFlashMode() {
-        return flashMode;
-    }
-
-    public void setFlashMode(CameraProvider.FlashModes flashMode) {
-        this.flashMode = flashMode;
-    }
 
     @Override
     public int describeContents() {
@@ -57,28 +62,22 @@ public class ExperimentConfiguration implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte(this.cameraEnabled ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.audioEnabled ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.sensorsEnabled ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.flashMode == null ? -1 : this.flashMode.ordinal());
+        dest.writeParcelable(this.cameraConfig, flags);
+        dest.writeParcelable(this.audioConfig, flags);
+        dest.writeParcelable(this.globalConfig, flags);
     }
 
     public void readFromParcel(Parcel source) {
-        this.cameraEnabled = source.readByte() != 0;
-        this.audioEnabled = source.readByte() != 0;
-        this.sensorsEnabled = source.readByte() != 0;
-        int tmpFlashMode = source.readInt();
-        this.flashMode = tmpFlashMode == -1 ? null : CameraProvider.FlashModes.values()[tmpFlashMode];
-    }
-
-    public ExperimentConfiguration() {
+        this.cameraConfig = source.readParcelable(CameraConfig.class.getClassLoader());
+        this.audioConfig = source.readParcelable(AudioConfig.class.getClassLoader());
+        this.globalConfig = source.readParcelable(GlobalConfig.class.getClassLoader());
     }
 
     protected ExperimentConfiguration(Parcel in) {
         readFromParcel(in);
     }
 
-    public static final Parcelable.Creator<ExperimentConfiguration> CREATOR = new Parcelable.Creator<ExperimentConfiguration>() {
+    public static final Creator<ExperimentConfiguration> CREATOR = new Creator<ExperimentConfiguration>() {
         @Override
         public ExperimentConfiguration createFromParcel(Parcel source) {
             return new ExperimentConfiguration(source);
