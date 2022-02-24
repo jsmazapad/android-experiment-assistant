@@ -37,13 +37,18 @@ public class CameraXHandler {
     private Camera camera;
     private PreviewView previewView;
 
-    int lensFacing = CameraSelector.LENS_FACING_BACK;
-    int flashMode = ImageCapture.FLASH_MODE_OFF;
+    private int lensFacing = CameraSelector.LENS_FACING_BACK;
+    private int flashMode = ImageCapture.FLASH_MODE_OFF;
 
-    public void switchLensFacing(Context context){
+    public int  switchLensFacing(Context context){
         lensFacing = lensFacing == CameraSelector.LENS_FACING_BACK ? CameraSelector.LENS_FACING_FRONT : CameraSelector.LENS_FACING_BACK;
         initCamera(context, previewView, imageReceivedCallback);
+        return lensFacing;
 
+    }
+
+    public int getLensFacing(){
+        return lensFacing;
     }
 
     public void changeFlash(Context context, CameraProvider.FlashModes mode){
@@ -51,9 +56,14 @@ public class CameraXHandler {
         initCamera(context, previewView, imageReceivedCallback);
     }
 
-    public CameraProvider.FlashModes getFlashMode(){
-        return CameraProvider.FlashModes.chooseByImageCaptureMode(flashMode);
+    public int getFlashMode(){
+        return flashMode;
     }
+
+    public void setFlashMode(int flashMode){
+        this.flashMode = flashMode;
+    }
+
 
 
 
@@ -118,13 +128,17 @@ public class CameraXHandler {
                     public void onImageSaved(ImageCapture.OutputFileResults outputFileResults) {
                         // insert your code here.
                         Log.d("ImageSaved",outputFileResults.getSavedUri().getPath());
-                        imageReceivedCallback.onImageReceived(new File(outputFileResults.getSavedUri().getPath()));
+                        if(imageReceivedCallback != null) {
+                            imageReceivedCallback.onImageReceived(new File(outputFileResults.getSavedUri().getPath()));
+                        }
                     }
                     @Override
                     public void onError(ImageCaptureException error) {
                         // insert your code here.
                         error.printStackTrace();
-                        imageReceivedCallback.onErrorReceived(error);
+                        if(imageReceivedCallback != null) {
+                            imageReceivedCallback.onErrorReceived(error);
+                        }
                     }
                 }
         );

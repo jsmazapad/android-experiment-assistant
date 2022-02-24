@@ -1,16 +1,24 @@
 package com.jsm.exptool.ui.experiments.create.configure;
 
+import static com.jsm.exptool.config.ConfigConstants.CAMERA_CONFIG_ARG;
+
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
+import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
+import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
+import com.jsm.exptool.libs.camera.CameraProvider;
 import com.jsm.exptool.model.AudioConfig;
 import com.jsm.exptool.model.CameraConfig;
 import com.jsm.exptool.model.Experiment;
@@ -22,6 +30,7 @@ import com.jsm.exptool.model.Repeatable;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
+import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +104,12 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
 
     public void onAudioSelectFrequency(Context c) {
         SelectFrequencyDialogProvider.createDialog(c, this.audioConfig, this, getSliderMinValue(), getSliderMaxValue());
+    }
+
+
+    public void onCameraSelectConfiguration(Context c) {
+        NavController navController = ((MainActivity)c).getNavController();
+        navController.navigate(ExperimentCreateConfigureDataFragmentDirections.actionNavExperimentConfigureToNavExperimentCreateCameraConfiguration(this.cameraConfig.getRepeatableElement()));
     }
 
 
@@ -194,5 +209,16 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
 
     public void initGlobalFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding) {
         FrequencySelectorHelper.initFrequencySelector(includedSelectorBinding, new FrequencyConfigurationVO<>(globalConfig), this, getSliderMinValue(), getSliderMaxValue());
+    }
+
+    protected void initBackStackEntryObserver(Context context, LifecycleOwner owner){
+        SavedStateHandle savedStateHandle = ((MainActivity) context).getNavController().getCurrentBackStackEntry().getSavedStateHandle();
+        savedStateHandle.getLiveData(CAMERA_CONFIG_ARG).observe(owner, configValue -> {
+            if(configValue != null) {
+                this.cameraConfig.setRepeatableElement((CameraConfig) configValue);
+                //Eliminamos para no leerlo dos veces
+                savedStateHandle.remove(CAMERA_CONFIG_ARG);
+            }
+        });
     }
 }

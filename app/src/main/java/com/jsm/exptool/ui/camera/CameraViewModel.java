@@ -102,7 +102,7 @@ public class CameraViewModel extends BaseViewModel implements ImageReceivedCallb
 
     public void changeFlash(View view, Context context){
 
-        CameraProvider.getInstance().changeFlash(context, getNextFlashMode(CameraProvider.getInstance().getFlashMode()));
+        CameraProvider.getInstance().setFlashMode(context, getNextFlashMode(CameraProvider.getInstance().getFlashMode()));
     }
 
     private CameraProvider.FlashModes getNextFlashMode(CameraProvider.FlashModes previousMode){

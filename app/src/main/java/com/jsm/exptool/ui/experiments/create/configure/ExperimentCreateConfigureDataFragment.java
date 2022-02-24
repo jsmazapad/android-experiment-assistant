@@ -43,7 +43,6 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
     protected ExperimentCreateConfigureDataFragmentBinding getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
         ExperimentCreateConfigureDataFragmentBinding binding =  DataBindingUtil.inflate(inflater, R.layout.experiment_create_configure_data_fragment, container, false);
         //Inicializamos los controles de la vista de selección de frecuencia global
-        viewModel.initGlobalFrequencySelector(binding.frequencySelectorIncluded);
         return binding;
 
 
@@ -76,6 +75,12 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
         ExperimentCreateConfigureDataViewModel viewModel = new ViewModelProvider(this, new ExperimentCreateConfigureDataViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentCreateConfigureDataViewModel.class);
         return viewModel;
 
+    }
+
+    @Override
+    public void executeExtraActionsInsideBindingInit() {
+        viewModel.initGlobalFrequencySelector(binding.frequencySelectorIncluded);
+        viewModel.initBackStackEntryObserver(getContext(), getViewLifecycleOwner());
     }
 
     @Override

@@ -19,6 +19,15 @@
         tools:layout="@layout/configuration_fragment">
     </fragment>
     <fragment
+        android:id="@+id/nav_experiment_create_camera_configuration"
+        android:name="com.jsm.exptool.ui.experiments.create.cameraconfiguration.ExperimentCameraConfigurationFragment"
+        android:label="@string/title_experiments_configure_camera_fragment"
+        tools:layout="@layout/experiment_create_camera_confguration_fragment">
+        <argument
+            android:name="cameraConfig"
+            app:argType="com.jsm.exptool.model.CameraConfig" />
+    </fragment>
+    <fragment
         android:id="@+id/nav_experiment_create"
         android:name="com.jsm.exptool.ui.experiments.create.basicdata.ExperimentCreateBasicDataFragment"
         android:label="@string/title_experiments_create_fragment"
@@ -35,6 +44,9 @@
         <argument
             android:name="experiment"
             app:argType="com.jsm.exptool.model.Experiment" />
+        <action
+            android:id="@+id/action_nav_experiment_configure_to_nav_experiment_create_camera_configuration"
+            app:destination="@id/nav_experiment_create_camera_configuration" />
     </fragment>
 
 </navigation>

@@ -96,12 +96,18 @@
                     <ImageView
                         style="@style/BaseIcon"
                         android:src="@drawable/ic_baseline_cloud_24" />
+
                     <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         style="@style/FrequencyButton"
-                        android:contentDescription="Configurar cámara"
+                        android:layout_width="wrap_content"
+                        android:contentDescription="Configurar frecuencia de actualización de cámara"
                         android:onClick="@{() -> viewModel.onCameraSelectFrequency(context)}" />
+
+                    <ImageButton
+                        style="@style/SettingsButton"
+                        android:layout_width="wrap_content"
+                        android:onClick="@{() -> viewModel.onCameraSelectConfiguration(context)}"
+                        android:src="@drawable/ic_baseline_settings_24" />
 
 
                 </LinearLayout>
@@ -143,12 +149,12 @@
                     android:text="@{String.valueOf(viewModel.audioFreqValue)}"
                     tools:text="0ms" />
             </LinearLayout>
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="Configurar audio"
-                style="@style/FrequencyButton"
-                android:onClick="@{() -> viewModel.onAudioSelectFrequency(context)}" />
+
+                <ImageButton
+                    style="@style/FrequencyButton"
+                    android:layout_width="match_parent"
+                    android:contentDescription="Configurar audio"
+                    android:onClick="@{() -> viewModel.onAudioSelectFrequency(context)}" />
             </LinearLayout>
 
 

@@ -1,5 +1,7 @@
 package com.jsm.exptool.binding;
 
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.InverseBindingAdapter;
@@ -18,6 +20,11 @@ public class CustomBindings {
         slider.addOnChangeListener((slider1, value, fromUser) -> {
             attrChange.onChange();
         });
+    }
+
+    @BindingAdapter({"android:src"})
+    public static void setImageViewResource(ImageView imageView, int resource) {
+        imageView.setImageResource(resource);
     }
 
 }

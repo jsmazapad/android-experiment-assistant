@@ -57,6 +57,7 @@
     </style>
     <style name="FullWidthButton" parent="BaseButton">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">10dp</item>
     </style>
 
     <style name="BaseIcon" parent="AccesibilityMinSize">
@@ -80,12 +81,18 @@
     </style>
 
     <style name="BaseImageButton" parent="AccesibilityMinSize">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:background">#00FFFFFF</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:adjustViewBounds">true</item>
     </style>
 
     <style name="FrequencyButton" parent="BaseImageButton" >
         <item name="srcCompat">@drawable/ic_baseline_timer_24</item>
+    </style>
+
+    <style name="SettingsButton" parent="FrequencyButton">
+        <item name="android:contentDescription">Configurar cámara</item>
     </style>
 </resources>
