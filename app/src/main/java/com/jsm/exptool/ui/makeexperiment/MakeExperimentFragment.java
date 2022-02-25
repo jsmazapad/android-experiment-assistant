@@ -19,12 +19,12 @@ public class MakeExperimentFragment extends BaseFragment<MakeExperimentFragmentB
 
 
     @Override
-    protected MakeExperimentViewModel getViewModel() {
+    protected MakeExperimentViewModel createViewModel() {
         return new ViewModelProvider(this).get(MakeExperimentViewModel.class);
     }
 
     @Override
-    protected MakeExperimentFragmentBinding getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
+    protected MakeExperimentFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
         return DataBindingUtil.inflate(inflater, R.layout.make_experiment_fragment, container, false);
     }
 }

@@ -4,55 +4,37 @@ import android.os.Parcel;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.libs.camera.CameraProvider;
+import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
 
-public class CameraConfig implements Repeatable{
+public class CameraConfig extends RepeatableElement{
 
-    int rName = R.string.camera;
-    int interval = 0;
-    int intervalMin = 0;
+
     CameraProvider.FlashModes flashMode = CameraProvider.FlashModes.OFF;
     CameraProvider.CameraPositions cameraPosition = CameraProvider.CameraPositions.REAR;
+    EmbeddingAlgorithm embeddingAlgorithm;
 
-    public CameraConfig(int rName, int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition) {
-        this.rName = rName;
-        this.interval = interval;
-        this.intervalMin = intervalMin;
+    public CameraConfig(int nameStringResource, int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
+        super(nameStringResource, interval, intervalMin);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
+        this.embeddingAlgorithm = embeddingAlgorithm;
     }
 
-    public CameraConfig() {
+    public CameraConfig( int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
+        super(R.string.camera, interval, intervalMin);
+        this.flashMode = flashMode;
+        this.cameraPosition = cameraPosition;
+        this.embeddingAlgorithm = embeddingAlgorithm;
+    }
+
+    public CameraConfig(){
 
     }
 
-    @Override
-    public int getRName() {
-        return rName;
-    }
 
-    public void setRName(int rName) {
-        this.rName = rName;
-    }
 
-    @Override
-    public int getInterval() {
-        return interval;
-    }
 
-    @Override
-    public void setInterval(int interval) {
-        this.interval = interval;
-    }
 
-    @Override
-    public int getIntervalMin() {
-        return intervalMin;
-    }
-
-    @Override
-    public void setIntervalMin(int intervalMin) {
-        this.intervalMin = intervalMin;
-    }
 
 
     public CameraProvider.FlashModes getFlashMode() {
@@ -71,6 +53,14 @@ public class CameraConfig implements Repeatable{
         this.cameraPosition = cameraPosition;
     }
 
+    public EmbeddingAlgorithm getEmbeddingAlgorithm() {
+        return embeddingAlgorithm;
+    }
+
+    public void setEmbeddingAlgorithm(EmbeddingAlgorithm embeddingAlgorithm) {
+        this.embeddingAlgorithm = embeddingAlgorithm;
+    }
+
 
     @Override
     public int describeContents() {
@@ -79,25 +69,27 @@ public class CameraConfig implements Repeatable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.rName);
+        dest.writeInt(this.nameStringResource);
         dest.writeInt(this.interval);
         dest.writeInt(this.intervalMin);
         dest.writeInt(this.flashMode == null ? -1 : this.flashMode.ordinal());
         dest.writeInt(this.cameraPosition == null ? -1 : this.cameraPosition.ordinal());
+        dest.writeParcelable(this.embeddingAlgorithm, flags);
     }
 
     public void readFromParcel(Parcel source) {
-        this.rName = source.readInt();
+        this.nameStringResource = source.readInt();
         this.interval = source.readInt();
         this.intervalMin = source.readInt();
         int tmpFlashMode = source.readInt();
         this.flashMode = tmpFlashMode == -1 ? null : CameraProvider.FlashModes.values()[tmpFlashMode];
         int tmpCameraPosition = source.readInt();
         this.cameraPosition = tmpCameraPosition == -1 ? null : CameraProvider.CameraPositions.values()[tmpCameraPosition];
+        this.embeddingAlgorithm = source.readParcelable(EmbeddingAlgorithm.class.getClassLoader());
     }
 
     protected CameraConfig(Parcel in) {
-        readFromParcel(in);
+       readFromParcel(in);
     }
 
     public static final Creator<CameraConfig> CREATOR = new Creator<CameraConfig>() {

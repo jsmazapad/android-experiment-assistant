@@ -17,7 +17,7 @@ import com.jsm.exptool.databinding.ExperimentsListFragmentBinding;
 public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsListFragmentBinding, ExperimentsListViewModel> {
 
     @Override
-    protected ExperimentsListFragmentBinding getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
+    protected ExperimentsListFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
         return DataBindingUtil.inflate(inflater, R.layout.experiments_list_fragment, container, false);
     }
 
@@ -27,7 +27,7 @@ public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsLis
     }
 
     @Override
-    protected ExperimentsListViewModel getViewModel() {
+    protected ExperimentsListViewModel createViewModel() {
         return new ViewModelProvider(this).get(ExperimentsListViewModel.class);
     }
 

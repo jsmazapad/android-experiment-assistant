@@ -8,6 +8,7 @@ import android.os.Build;
 import com.jsm.exptool.App;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.RepeatableElement;
 import com.jsm.exptool.model.Sensor.Accelerometer;
 import com.jsm.exptool.model.Sensor.AmbientTemperature;
 import com.jsm.exptool.model.Sensor.GPS;
@@ -39,7 +40,7 @@ public class SensorHandler {
     private SensorManager sensorManager = App.getSensorManager();
     private LocationManager locationManager = (LocationManager) App.getAppContext().getSystemService(Context.LOCATION_SERVICE);
     private List<MySensor> sensors = new ArrayList();
-    private ArrayList<MySensor> selectedSensors = new ArrayList();
+    private ArrayList<RepeatableElement> selectedSensors = new ArrayList();
     private static SensorHandler instance;
 
     public static SensorHandler getInstance(){
@@ -158,7 +159,7 @@ public class SensorHandler {
         }
     }
 
-    public ArrayList<MySensor> getSelectedSensors() {
+    public ArrayList<RepeatableElement> getSelectedSensors() {
         return this.selectedSensors;
     }
 

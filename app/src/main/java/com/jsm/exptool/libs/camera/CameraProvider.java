@@ -31,6 +31,9 @@ public class CameraProvider {
         return(INSTANCE);
     }
 
+    public void initCamera(Context context, PreviewView previewView, ImageReceivedCallback imageReceivedCallback, FlashModes flashMode, CameraPositions cameraPosition){
+        cameraHandler.initCamera(context, previewView, imageReceivedCallback, flashMode.flashMode, cameraPosition.cameraPositionMode);
+    }
 
     public void initCamera(Context context, PreviewView previewView, ImageReceivedCallback imageReceivedCallback){
         cameraHandler.initCamera(context, previewView, imageReceivedCallback);
@@ -41,11 +44,11 @@ public class CameraProvider {
 //    }
 
     public void setFlashMode(Context context, FlashModes mode){
-        cameraHandler.changeFlash(context, mode);
+        cameraHandler.changeFlash(context, mode.flashMode);
     }
 
     public FlashModes getFlashMode(){
-        return CameraProvider.FlashModes.chooseByImageCaptureMode(cameraHandler.getFlashMode());
+        return CameraProvider.FlashModes.chooseByFlashMode(cameraHandler.getFlashMode());
     }
 
     public CameraPositions switchCamera(Context context){
@@ -78,11 +81,11 @@ public class CameraProvider {
     public int getCameraPositionImageResource(CameraPositions mode){
         switch (mode){
             case FRONT:
-                return R.drawable.ic_flip_camera;
+                return R.drawable.ic_baseline_camera_front_24;
             case REAR:
-                return R.drawable.ic_flip_camera;
+                return R.drawable.ic_baseline_camera_rear_24;
             default:
-                return R.drawable.ic_midline_24;
+                return R.drawable.ic_flip_camera;
         }
     }
 
@@ -91,17 +94,17 @@ public class CameraProvider {
         AUTO(ImageCapture.FLASH_MODE_AUTO),
         ON(ImageCapture.FLASH_MODE_ON);
 
-        public final int imageCaptureMode;
+        public final int flashMode;
 
 
-        FlashModes(int imageCaptureMode) {
-            this.imageCaptureMode = imageCaptureMode;
+        FlashModes(int flashMode) {
+            this.flashMode = flashMode;
         }
 
-        public static FlashModes chooseByImageCaptureMode(int imageCaptureMode){
+        public static FlashModes chooseByFlashMode(int imageCaptureMode){
             FlashModes returnValue = null;
             for (FlashModes mode: FlashModes.values()) {
-                if (mode.imageCaptureMode == imageCaptureMode)
+                if (mode.flashMode == imageCaptureMode)
                 {
                     returnValue = mode;
                 }
@@ -115,17 +118,17 @@ public class CameraProvider {
         REAR(CameraSelector.LENS_FACING_BACK),
         FRONT(CameraSelector.LENS_FACING_FRONT);
 
-        public final int cameraPosition;
+        public final int cameraPositionMode;
 
 
-        CameraPositions(int cameraPosition) {
-            this.cameraPosition = cameraPosition;
+        CameraPositions(int cameraPositionMode) {
+            this.cameraPositionMode = cameraPositionMode;
         }
 
         public static CameraPositions chooseByLensFacing(int cameraPosition){
             CameraPositions returnValue = null;
             for (CameraPositions mode: CameraPositions.values()) {
-                if (mode.cameraPosition == cameraPosition)
+                if (mode.cameraPositionMode == cameraPosition)
                 {
                     returnValue = mode;
                 }

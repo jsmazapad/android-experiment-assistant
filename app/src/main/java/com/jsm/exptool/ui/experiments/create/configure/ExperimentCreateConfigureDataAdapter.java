@@ -8,10 +8,10 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.FrequencyConfigurationVO;
+import com.jsm.exptool.model.RepeatableElement;
 
-public class ExperimentCreateConfigureDataAdapter extends BaseRecyclerAdapter<FrequencyConfigurationVO, ExperimentCreateConfigureDataViewHolder, MySensor> {
+public class ExperimentCreateConfigureDataAdapter extends BaseRecyclerAdapter<FrequencyConfigurationVO, ExperimentCreateConfigureDataViewHolder, RepeatableElement> {
     /**
      * @param context
      * @param viewModel        ViewModel asociado al fragment donde se incluye el recyclerView

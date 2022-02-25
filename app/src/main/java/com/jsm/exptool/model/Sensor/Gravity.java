@@ -55,7 +55,7 @@ public class Gravity extends MySensor implements SensorEventListener {
 
                     Gravity.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(Gravity.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(Gravity.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

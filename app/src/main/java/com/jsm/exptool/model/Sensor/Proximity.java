@@ -50,7 +50,7 @@ public class Proximity extends MySensor implements SensorEventListener {
 
                     Proximity.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(Proximity.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(Proximity.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

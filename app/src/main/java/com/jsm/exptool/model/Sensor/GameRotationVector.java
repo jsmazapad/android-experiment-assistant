@@ -55,7 +55,7 @@ public class GameRotationVector extends MySensor implements SensorEventListener 
 
                     GameRotationVector.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(GameRotationVector.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(GameRotationVector.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

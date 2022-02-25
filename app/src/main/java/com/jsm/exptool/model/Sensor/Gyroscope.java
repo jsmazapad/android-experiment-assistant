@@ -55,7 +55,7 @@ public class Gyroscope extends MySensor implements SensorEventListener {
 
                     Gyroscope.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(Gyroscope.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(Gyroscope.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

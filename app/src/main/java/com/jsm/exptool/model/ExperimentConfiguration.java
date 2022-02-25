@@ -49,6 +49,10 @@ public class ExperimentConfiguration implements Parcelable {
         return cameraConfig != null;
     }
 
+    public boolean isEmbeddingEnabled() {
+        return cameraConfig != null && cameraConfig.getEmbeddingAlgorithm() != null;
+    }
+
 
     public boolean isAudioEnabled() {
         return audioConfig != null;

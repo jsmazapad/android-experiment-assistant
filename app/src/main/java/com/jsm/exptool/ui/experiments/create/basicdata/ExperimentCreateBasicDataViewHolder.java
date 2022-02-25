@@ -6,14 +6,14 @@ import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.RepeatableElement;
 
-public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<MySensor> {
+public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<RepeatableElement> {
 
     private final TextView titleTV;
     private final ImageView deleteIV;
-    private final DeleteActionListener<MySensor> listener;
-    protected ExperimentCreateBasicDataViewHolder(View v, DeleteActionListener<MySensor> listener) {
+    private final DeleteActionListener<RepeatableElement> listener;
+    protected ExperimentCreateBasicDataViewHolder(View v, DeleteActionListener<RepeatableElement> listener) {
         super(v);
 
         this.titleTV = v.findViewById(R.id.titleTV);
@@ -23,8 +23,8 @@ public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<
 
 
     @Override
-    public void fillViewHolder(MySensor element) {
-        titleTV.setText(itemView.getContext().getString(element.getRName()));
+    public void fillViewHolder(RepeatableElement element) {
+        titleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
         deleteIV.setOnClickListener(v -> {if(listener != null){listener.delete(element);}});
     }
 }

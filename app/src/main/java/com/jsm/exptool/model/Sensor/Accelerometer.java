@@ -55,7 +55,7 @@ public class Accelerometer extends MySensor implements SensorEventListener {
 
                     Accelerometer.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(Accelerometer.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(Accelerometer.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

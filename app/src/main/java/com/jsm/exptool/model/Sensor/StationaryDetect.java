@@ -28,7 +28,7 @@ public class StationaryDetect extends MySensor {
             values.add(1f);
             StationaryDetect.this.data.add(new Measure(date, type, values));
             if (BuildConfig.DEBUG)
-                Log.d("Sensor", App.getAppContext().getString(StationaryDetect.this.getRName()) + ": " + values.toString());
+                Log.d("Sensor", App.getAppContext().getString(StationaryDetect.this.getNameStringResource()) + ": " + values.toString());
 
             sensorManager.requestTriggerSensor(mListener , sensor);
         }

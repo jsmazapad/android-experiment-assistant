@@ -2,17 +2,12 @@ package com.jsm.exptool.model;
 
 import android.os.Handler;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Timer;
 
-public class MySensor implements Cloneable, Repeatable {
+public class MySensor extends RepeatableElement implements Cloneable {
     public int type;
-    private int rName;
-    // Interval in milliseconds
-    public int interval;
-    public int intervalMin;
     public boolean active;
     public boolean isRecording = false;
     public ArrayList <Measure> data = new ArrayList();
@@ -22,13 +17,13 @@ public class MySensor implements Cloneable, Repeatable {
 
     public MySensor(int type, int rName){
         this.type = type;
-        this.rName = rName;
+        this.nameStringResource = rName;
     }
 
     public MySensor(int type, int rName, int intervalMin) {
         this.type = type;
 
-        this.rName = rName;
+        this.nameStringResource = rName;
         this.intervalMin = intervalMin;
         this.interval = intervalMin;
     }
@@ -54,9 +49,6 @@ public class MySensor implements Cloneable, Repeatable {
         this.isRecording = false;
     }
 
-    @Override
-    public final int getRName(){return  this.rName;}
-
     public final int getType(){return  this.type;}
 
     public final boolean isActive() {
@@ -73,22 +65,6 @@ public class MySensor implements Cloneable, Repeatable {
 
     public final boolean isRecording() {
         return this.isRecording;
-    }
-
-    @Override
-    public final int getInterval() {return this.interval;}
-
-    @Override
-    public final void setInterval(int interval) {
-        this.interval = interval;
-    }
-
-    @Override
-    public final int getIntervalMin() {return this.intervalMin;}
-
-    @Override
-    public final void setIntervalMin(int intervalMin) {
-        this.intervalMin = interval;
     }
 
 
@@ -110,22 +86,22 @@ public class MySensor implements Cloneable, Repeatable {
 
     protected MySensor(Parcel in) {
         type = in.readInt();
-        rName = in.readInt();
+        nameStringResource = in.readInt();
         interval = in.readInt();
         intervalMin = in.readInt();
         active = in.readByte() != 0;
         isRecording = in.readByte() != 0;
     }
 
-    public static final Creator<MySensor> CREATOR = new Creator<MySensor>() {
+    public static final Creator<RepeatableElement> CREATOR = new Creator<RepeatableElement>() {
         @Override
-        public MySensor createFromParcel(Parcel in) {
+        public RepeatableElement createFromParcel(Parcel in) {
             return new MySensor(in);
         }
 
         @Override
-        public MySensor[] newArray(int size) {
-            return new MySensor[size];
+        public RepeatableElement[] newArray(int size) {
+            return new RepeatableElement[size];
         }
     };
 
@@ -137,7 +113,7 @@ public class MySensor implements Cloneable, Repeatable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(type);
-        dest.writeInt(rName);
+        dest.writeInt(nameStringResource);
         dest.writeInt(interval);
         dest.writeInt(intervalMin);
         dest.writeByte((byte) (active ? 1 : 0));

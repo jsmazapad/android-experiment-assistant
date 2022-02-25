@@ -17,12 +17,12 @@ public class ConfigurationFragment extends BaseFragment {
 
 
     @Override
-    protected BaseViewModel getViewModel() {
+    protected BaseViewModel createViewModel() {
         return new ViewModelProvider(this).get(ConfigurationViewModel.class);
     }
 
     @Override
-    protected ViewDataBinding getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
+    protected ViewDataBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
         return DataBindingUtil.inflate(inflater, R.layout.configuration_fragment, container,false );
     }
 }

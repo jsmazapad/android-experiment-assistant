@@ -50,7 +50,7 @@ public class Light extends MySensor implements SensorEventListener {
 
                     Light.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(Light.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(Light.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

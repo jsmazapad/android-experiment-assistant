@@ -35,7 +35,7 @@ public class ExperimentCreateBasicDataFragment extends BaseRecyclerFragment<Expe
     }
 
     @Override
-    protected ExperimentCreateBasicDataFragmentBinding getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
+    protected ExperimentCreateBasicDataFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
         return DataBindingUtil.inflate(inflater, R.layout.experiment_create_basic_data_fragment, container, false);
 
     }
@@ -46,7 +46,7 @@ public class ExperimentCreateBasicDataFragment extends BaseRecyclerFragment<Expe
     }
 
     @Override
-    protected ExperimentCreateBasicDataViewModel getViewModel() {
+    protected ExperimentCreateBasicDataViewModel createViewModel() {
         return new ViewModelProvider(this).get(ExperimentCreateBasicDataViewModel.class);
 
     }

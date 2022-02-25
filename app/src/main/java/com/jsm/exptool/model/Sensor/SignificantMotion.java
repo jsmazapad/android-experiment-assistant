@@ -27,7 +27,7 @@ public class SignificantMotion extends MySensor {
             values.add(1f);
             SignificantMotion.this.data.add(new Measure(date, type, values));
 
-            Log.d("Sensor", App.getAppContext().getString(SignificantMotion.this.getRName()) + ": " + values.toString());
+            Log.d("Sensor", App.getAppContext().getString(SignificantMotion.this.getNameStringResource()) + ": " + values.toString());
             sensorManager.requestTriggerSensor(mListener , sensor);
         }
     };

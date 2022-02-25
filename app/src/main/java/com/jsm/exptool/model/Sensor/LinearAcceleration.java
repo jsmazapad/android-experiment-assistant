@@ -55,7 +55,7 @@ public class LinearAcceleration extends MySensor implements SensorEventListener 
 
                     LinearAcceleration.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(LinearAcceleration.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(LinearAcceleration.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

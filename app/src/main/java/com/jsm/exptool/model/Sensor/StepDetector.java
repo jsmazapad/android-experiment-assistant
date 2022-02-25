@@ -27,7 +27,7 @@ public class StepDetector extends MySensor {
             values.add(1f);
             StepDetector.this.data.add(new Measure(date, type, values));
 
-            Log.d("Sensor", App.getAppContext().getString(StepDetector.this.getRName()) + ": " + values.toString());
+            Log.d("Sensor", App.getAppContext().getString(StepDetector.this.getNameStringResource()) + ": " + values.toString());
             sensorManager.requestTriggerSensor(mListener , sensor);
         }
     };

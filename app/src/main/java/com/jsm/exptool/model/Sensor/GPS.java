@@ -54,7 +54,7 @@ public class GPS extends MySensor implements LocationListener {
 
                     GPS.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(GPS.this.getRName()) + ": " + values.toString());
+                        Log.d("Sensor", App.getAppContext().getString(GPS.this.getNameStringResource()) + ": " + values.toString());
 
                     updateGUI();
                 } else {

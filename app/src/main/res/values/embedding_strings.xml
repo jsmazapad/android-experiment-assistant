@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inception_v3_description">Google\'s Inception v3 model trained on ImageNet.</string>
+    <string name="painters_description">A model trained to predict painters from artwork images.</string>
+    <string name="deeploc_description">A model trained to analyze yeast cell images.</string>
+    <string name="vgg16_description">16-layer image recognition model trained on ImageNet.</string>
+    <string name="vgg19_description">19-layer image recognition model trained on ImageNet.</string>
+    <string name="openface_description">Face recognition model trained on FaceScrub and CASIA-WebFace datasets.</string>
+
+</resources>

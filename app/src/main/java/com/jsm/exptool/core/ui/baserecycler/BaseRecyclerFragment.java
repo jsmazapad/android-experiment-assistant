@@ -21,15 +21,15 @@ import com.jsm.exptool.core.ui.base.BaseFragment;
  * @param <BT> Databinding asociado al fragment
  * @param <VM> ViewModel asociado al fragment
  */
-public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extends BaseRecyclerViewModel> extends BaseFragment {
+public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extends BaseRecyclerViewModel> extends BaseFragment<BT, VM> {
 
-    protected VM viewModel;
+
     private BaseRecyclerAdapter mAdapter;
     protected RecyclerView recyclerView;
-    protected BT binding;
+
 
     @Override
-    protected abstract BT getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container);
+    protected abstract BT createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container);
 
     /**
      * Crea y devuelve el adapter que se usará en el recycler
@@ -37,7 +37,7 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
      */
     protected abstract BaseRecyclerAdapter createAdapter();
     @Override
-    protected abstract VM getViewModel();
+    protected abstract VM createViewModel();
 
     /**
      * Sirve para setear en el adapter el recurso layout que se usará para las vistas de los items del recycler
@@ -51,6 +51,7 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
      */
     @Override
     public void executeExtraActionsInsideBindingInit(){
+        super.executeExtraActionsInsideBindingInit();
         setupRecyclerView();
     }
 
@@ -58,19 +59,20 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        if (binding == null) {
-            viewModel = getViewModel();
-            binding = getDataBinding(inflater, container);
-            //Equivalente a binding.setViewModel(viewModel) genérico (viewModel es generado como variable)
-            binding.setVariable(BR.viewModel, viewModel);
-
-            binding.setLifecycleOwner(this);
-
-            setupRecyclerView();
-
-        }
-
-        return binding.getRoot();
+        return super.onCreateView(inflater, container, savedInstanceState);
+//        if (binding == null) {
+//            viewModel = getViewModel();
+//            binding = getDataBinding(inflater, container);
+//            //Equivalente a binding.setViewModel(viewModel) genérico (viewModel es generado como variable)
+//            binding.setVariable(BR.viewModel, viewModel);
+//
+//            binding.setLifecycleOwner(this);
+//
+//            setupRecyclerView();
+//
+//        }
+//
+//        return binding.getRoot();
     }
 
     /**

@@ -55,7 +55,7 @@ public class GeomagneticRotationVector extends MySensor implements SensorEventLi
 
                     GeomagneticRotationVector.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(GeomagneticRotationVector.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(GeomagneticRotationVector.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

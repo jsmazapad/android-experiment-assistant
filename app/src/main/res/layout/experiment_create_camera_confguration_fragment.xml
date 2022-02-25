@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -28,6 +30,24 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView"
+                android:text="@string/camera_configuration_title"
+                style="@style/BaseSubtitleTextView" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/normalConfigurationCard"
+            style="@style/BaseCardView">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                style="@style/BaseCardTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/camera_configuration_flash_and_position_title" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,7 +60,7 @@
                     android:layout_width="0dp"
                     android:layout_gravity="center_vertical|start"
                     android:layout_weight="1"
-                    android:contentDescription="Selección de flash"
+                    android:contentDescription="@string/flash_selector_button_content_description"
                     android:onClick="@{(view) -> viewModel.changeFlash(view)}"
                     android:src="@{viewModel.flashImageResource}" />
 
@@ -50,17 +70,51 @@
                     android:layout_width="0dp"
                     android:layout_gravity="center_vertical|end"
                     android:layout_weight="1"
-                    android:contentDescription="Selección de cámara"
+                    android:contentDescription="@string/camera_selector_button_content_description"
                     android:onClick="@{(view) -> viewModel.selectCamera(view)}"
                     android:src="@{viewModel.cameraSelectedImageResource}" />
             </LinearLayout>
+        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/embeddingConfigurationCard"
+            style="@style/BaseCardView">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                style="@style/BaseCardTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/camera_configuration_embedding_title" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/embeddingAlgSpinner"
+                style="@style/BaseSpinner"
+                android:visibility="@{viewModel.isEmbeddedAlgorithmEnabled ? View.VISIBLE : View.GONE}"
+                android:prompt="@string/embedding_alg_spinner_title"
+                android:entries="@{viewModel.embbedingAlgorithms}"
+                app:spinnerAdapter="@{ viewModel.getEmbeddingAlgAdapter(context)}"
+                app:selectedValue="@={viewModel.SelectedEmbeddingAlgorithm}"
+                tools:listitem="@layout/experiment_create_camera_configuration_spinner_list_item" />
+            <TextView
+                style="@style/BaseItemListSecondaryTextView"
+                android:visibility="@{viewModel.isEmbeddedAlgorithmEnabled ? View.GONE : View.VISIBLE}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/not_configured_functionality_text" />
+
+        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton
                 style="@style/FullWidthButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="@{(view) -> viewModel.saveData(context)}"
-                android:text="Guardar" />
+                android:text="@string/default_button_save_title" />
 
         </LinearLayout>
 

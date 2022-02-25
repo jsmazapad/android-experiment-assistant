@@ -11,20 +11,20 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.databinding.DialogSelectFrequencyBinding;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 import com.jsm.exptool.model.FrequencyConfigurationVO;
-import com.jsm.exptool.model.Repeatable;
+import com.jsm.exptool.model.RepeatableElement;
 import com.jsm.exptool.ui.experiments.create.configure.FrequencySelectorHelper;
 
 
 public class SelectFrequencyDialogProvider {
     //TODO Refactorizar interface comun entre cámara, imagen y sensores
-    public static <T extends Repeatable> void  createDialog(Context context, FrequencyConfigurationVO<T> sensorConfiguration, OnFrequencySelectedListener listener, final int minValue, final int maxValue) {
+    public static <T extends RepeatableElement> void  createDialog(Context context, FrequencyConfigurationVO<T> sensorConfiguration, OnFrequencySelectedListener listener, final int minValue, final int maxValue) {
 
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(context);
         DialogSelectFrequencyBinding binding = DialogSelectFrequencyBinding.inflate(layoutInflaterAndroid);
         View mView = binding.getRoot();
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         mBuilder.setView(mView);
-        mBuilder.setTitle(String.format(context.getString(R.string.configure_frequency_title), context.getString(sensorConfiguration.getRepeatableElement().getRName())));
+        mBuilder.setTitle(String.format(context.getString(R.string.configure_frequency_title), context.getString(sensorConfiguration.getRepeatableElement().getNameStringResource())));
         ViewLayoutFrequencySelectorBinding includedSelectorBinding = binding.frequencySelectorIncluded;
         FrequencySelectorHelper.initFrequencySelector( includedSelectorBinding,  sensorConfiguration,  null, minValue, maxValue);
         final SwitchMaterial defaultFreqSwitch = binding.switchSensorGlobalFrequency;
@@ -50,6 +50,6 @@ public class SelectFrequencyDialogProvider {
 
 
     public interface OnFrequencySelectedListener{
-        <T extends Repeatable> void onFrequencySelected(FrequencyConfigurationVO<T> sensorConfiguration);
+        <T extends RepeatableElement> void onFrequencySelected(FrequencyConfigurationVO<T> sensorConfiguration);
     }
 }

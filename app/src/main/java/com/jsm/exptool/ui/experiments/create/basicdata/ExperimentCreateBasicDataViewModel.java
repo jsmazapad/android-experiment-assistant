@@ -16,6 +16,7 @@ import com.jsm.exptool.model.CameraConfig;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.ExperimentConfiguration;
 import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.RepeatableElement;
 import com.jsm.exptool.repositories.SensorsRepository;
 
 import java.util.ArrayList;
@@ -117,8 +118,8 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
 
     public void configureSpinner(MultiSpinner spinner){
         List<String> list = new ArrayList<>();
-        for (MySensor sensor : sensors) {
-            String string = getApplication().getString(sensor.getRName());
+        for (RepeatableElement sensor : sensors) {
+            String string = getApplication().getString(sensor.getNameStringResource());
             list.add(string);
         }
         spinner.setItems(list, "","Seleccione sensores", this);

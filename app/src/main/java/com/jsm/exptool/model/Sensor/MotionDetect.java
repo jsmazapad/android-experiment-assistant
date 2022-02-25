@@ -27,7 +27,7 @@ public class MotionDetect extends MySensor {
             values.add(1f);
             MotionDetect.this.data.add(new Measure(date, type, values));
 
-            Log.d("Sensor", App.getAppContext().getString(MotionDetect.this.getRName()) + ": " + values.toString());
+            Log.d("Sensor", App.getAppContext().getString(MotionDetect.this.getNameStringResource()) + ": " + values.toString());
             sensorManager.requestTriggerSensor(mListener , sensor);
         }
     };

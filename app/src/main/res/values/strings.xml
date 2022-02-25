@@ -34,4 +34,17 @@
     <string name="content_description_slider_to_select_frequency">Slider to select frequency</string>
     <string name="global_frequency_literal">Global</string>
 
+    <!--
+  CAMERA CONFIGURATION
+  -->
+    <string name="embedding_alg_spinner_title">Seleccione algoritmo</string>
+    <string name="camera_configuration_title">Configuración de cámara</string>
+    <string name="camera_configuration_flash_and_position_title">Configuración de Flash y posición de la cámara</string>
+    <string name="flash_selector_button_content_description">Selección de flash</string>
+    <string name="camera_selector_button_content_description">Selección de cámara</string>
+    <string name="camera_configuration_embedding_title">Configuración de algoritmo de embedding</string>
+    <string name="default_button_save_title">Guardar</string>
+    <string name="not_configured_functionality_text">Este experimento no tiene configurada esta funcionalidad</string>
+
+
 </resources>

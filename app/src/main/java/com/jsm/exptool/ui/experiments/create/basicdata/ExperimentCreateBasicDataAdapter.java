@@ -8,9 +8,9 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.RepeatableElement;
 
-public class ExperimentCreateBasicDataAdapter extends BaseRecyclerAdapter<MySensor, ExperimentCreateBasicDataViewHolder, MySensor> {
+public class ExperimentCreateBasicDataAdapter extends BaseRecyclerAdapter<RepeatableElement, ExperimentCreateBasicDataViewHolder, RepeatableElement> {
     DeleteActionListener listener;
     /**
      * @param context

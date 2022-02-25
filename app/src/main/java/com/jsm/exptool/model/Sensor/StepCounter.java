@@ -49,7 +49,7 @@ public class StepCounter extends MySensor implements SensorEventListener {
 
                     StepCounter.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(StepCounter.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(StepCounter.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

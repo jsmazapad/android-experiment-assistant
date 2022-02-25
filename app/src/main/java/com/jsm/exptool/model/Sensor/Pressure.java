@@ -50,7 +50,7 @@ public class Pressure extends MySensor implements SensorEventListener {
 
                     Pressure.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(Pressure.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(Pressure.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

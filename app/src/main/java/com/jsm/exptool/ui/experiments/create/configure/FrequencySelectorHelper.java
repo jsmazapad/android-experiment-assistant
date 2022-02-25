@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 import com.jsm.exptool.model.FrequencyConfigurationVO;
-import com.jsm.exptool.model.Repeatable;
+import com.jsm.exptool.model.RepeatableElement;
 import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class FrequencySelectorHelper {
 
-    public static <T extends Repeatable> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencyConfigurationVO<T> sensorConfiguration, SelectFrequencyDialogProvider.OnFrequencySelectedListener listener, final int minValue, final int maxValue) {
+    public static <T extends RepeatableElement> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencyConfigurationVO<T> sensorConfiguration, SelectFrequencyDialogProvider.OnFrequencySelectedListener listener, final int minValue, final int maxValue) {
 
         final TextView minDelayTV = includedSelectorBinding.minDelayTV;
         final TextView maxDelayTV = includedSelectorBinding.maxDelayTV;

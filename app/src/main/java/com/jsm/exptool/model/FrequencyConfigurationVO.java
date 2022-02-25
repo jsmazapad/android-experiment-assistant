@@ -1,6 +1,6 @@
 package com.jsm.exptool.model;
 
-public class FrequencyConfigurationVO<T extends Repeatable> {
+public class FrequencyConfigurationVO<T extends RepeatableElement> {
     private T repeatableElement;
     private boolean defaultConfigurationEnabled = true;
 

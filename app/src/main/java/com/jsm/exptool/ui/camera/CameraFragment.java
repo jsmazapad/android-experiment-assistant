@@ -31,7 +31,7 @@ public class CameraFragment extends BaseFragment<CameraFragmentBinding, CameraVi
 
 
     @Override
-    protected CameraViewModel getViewModel() {
+    protected CameraViewModel createViewModel() {
         CameraViewModel viewModel = new ViewModelProvider(this).get(CameraViewModel.class);
         viewModel.getServerResponse().observe(this, response ->{
             processEmbeddedServerResponse(viewModel, response);
@@ -53,7 +53,7 @@ public class CameraFragment extends BaseFragment<CameraFragmentBinding, CameraVi
     }
 
     @Override
-    protected CameraFragmentBinding getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
+    protected CameraFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
         CameraFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.camera_fragment, container, false);
         return binding;
     }

@@ -51,8 +51,8 @@ public class CameraXHandler {
         return lensFacing;
     }
 
-    public void changeFlash(Context context, CameraProvider.FlashModes mode){
-        flashMode = mode.imageCaptureMode;
+    public void changeFlash(Context context, int flashMode){
+        this.flashMode = flashMode;
         initCamera(context, previewView, imageReceivedCallback);
     }
 
@@ -67,6 +67,11 @@ public class CameraXHandler {
 
 
 
+    public void initCamera(Context context, PreviewView previewView, ImageReceivedCallback imageReceivedCallback, int flashMode, int lensFacing){
+        this.flashMode = flashMode;
+        this.lensFacing = lensFacing;
+        initCamera(context, previewView, imageReceivedCallback);
+    }
 
     public void initCamera(Context context, PreviewView previewView, ImageReceivedCallback imageReceivedCallback){
 

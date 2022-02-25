@@ -17,7 +17,10 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.CameraFragmentBinding;
 import com.jsm.exptool.databinding.ExperimentCreateCameraConfgurationFragmentBinding;
+import com.jsm.exptool.model.CameraConfig;
+import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.ui.camera.CameraPermissionsInterface;
+import com.jsm.exptool.ui.experiments.create.configure.ExperimentCreateConfigureDataFragmentArgs;
 
 
 import java.util.Map;
@@ -26,15 +29,20 @@ public class ExperimentCameraConfigurationFragment extends BaseFragment<Experime
 
 
     @Override
-    protected ExperimentCameraConfigurationViewModel getViewModel() {
-        ExperimentCameraConfigurationViewModel viewModel = new ViewModelProvider(this).get(ExperimentCameraConfigurationViewModel.class);
+    protected ExperimentCameraConfigurationViewModel createViewModel() {
+        CameraConfig cameraConfig = ExperimentCameraConfigurationFragmentArgs.fromBundle(getArguments()).getCameraConfig();
+        //TODO Código pruebas, borrar
+//        CameraConfig cameraConfig = new CameraConfig();
+//        cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(2));
+
+        ExperimentCameraConfigurationViewModel viewModel = new ViewModelProvider(this, new ExperimentCameraConfigurationViewModelFactory(getActivity().getApplication(), cameraConfig)).get(ExperimentCameraConfigurationViewModel.class);
 
         return viewModel;
     }
 
 
     @Override
-    protected ExperimentCreateCameraConfgurationFragmentBinding getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
+    protected ExperimentCreateCameraConfgurationFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
         ExperimentCreateCameraConfgurationFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.experiment_create_camera_confguration_fragment, container, false);
         return binding;
     }

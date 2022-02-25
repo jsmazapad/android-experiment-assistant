@@ -50,8 +50,8 @@ public abstract class BaseFragment<BT extends ViewDataBinding, VM extends BaseVi
                              ViewGroup container, Bundle savedInstanceState) {
 
         if (binding == null) {
-            viewModel = getViewModel();
-            binding = getDataBinding(inflater, container);
+            viewModel = createViewModel();
+            binding = createDataBinding(inflater, container);
             //Equivalente a binding.setViewModel(viewModel) genérico (viewModel es generado como variable)
             //Para que funcione, hay que tener en el proyecto al menos un layout con una variable viewModel y que se haya generado el código
             //Si da problemas, comentar, hacer un make project para que se genere el código y descomentar
@@ -82,13 +82,13 @@ public abstract class BaseFragment<BT extends ViewDataBinding, VM extends BaseVi
      * Devuelve una instancia del ViewModel asociado al Fragment para usarlo en onCreateView y vincularla al binding
      * @return ViewModel asociado al Fragment
      */
-    protected abstract VM getViewModel();
+    protected abstract VM createViewModel();
 
     /**
      * Devuelve una instancia del DataBinding asociado al Fragment para usarlo en onCreateView y vincularla al ViewModel y el Fragment
      * @return DataBinding asociado al Fragment
      */
-    protected abstract BT getDataBinding(@NonNull LayoutInflater inflater, ViewGroup container);
+    protected abstract BT createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container);
 
     /**
      * Maneja los errores

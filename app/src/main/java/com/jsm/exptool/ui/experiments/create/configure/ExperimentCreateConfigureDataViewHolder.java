@@ -25,7 +25,7 @@ public class ExperimentCreateConfigureDataViewHolder extends BaseRecyclerViewHol
 
     @Override
     public void fillViewHolder(FrequencyConfigurationVO element) {
-        titleTV.setText(itemView.getContext().getString(element.getRepeatableElement().getRName()));
+        titleTV.setText(itemView.getContext().getString(element.getRepeatableElement().getNameStringResource()));
         frequencyTV.setText(element.isDefaultConfigurationEnabled()? itemView.getContext().getString(R.string.global_frequency_literal): TimeDisplayStringProvider.millisecondsToStringBestDisplay( element.getRepeatableElement().getInterval()));
     }
 }

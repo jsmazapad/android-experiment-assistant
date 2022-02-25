@@ -55,7 +55,7 @@ public class MagneticField extends MySensor implements SensorEventListener {
 
                     MagneticField.this.data.add(new Measure(date, type, values));
                     if (BuildConfig.DEBUG)
-                        Log.d("Sensor", App.getAppContext().getString(MagneticField.this.getRName()) + ": " + values.toString() );
+                        Log.d("Sensor", App.getAppContext().getString(MagneticField.this.getNameStringResource()) + ": " + values.toString() );
 
                     updateGUI();
                 }else{

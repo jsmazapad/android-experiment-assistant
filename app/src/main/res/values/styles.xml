@@ -63,6 +63,7 @@
     <style name="BaseIcon" parent="AccesibilityMinSize">
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
+        <item name="android:padding">5dp</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="tint">?colorSecondaryVariant</item>
         <item name="android:scaleType">fitCenter</item>
@@ -70,8 +71,22 @@
 
     <style name="BaseItemListTextView">
         <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
+    <style name="BaseItemListSecondaryTextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="BaseItemListSecondaryBoldTextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
 
     <style name="BaseSlider" parent="AccesibilityMinSize">
         <item name="android:layout_width">match_parent</item>
@@ -82,6 +97,7 @@
 
     <style name="BaseImageButton" parent="AccesibilityMinSize">
         <item name="android:layout_width">48dp</item>
+        <item name="android:padding">5dp</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:background">#00FFFFFF</item>
         <item name="android:scaleType">fitCenter</item>
@@ -94,5 +110,20 @@
 
     <style name="SettingsButton" parent="FrequencyButton">
         <item name="android:contentDescription">Configurar cámara</item>
+    </style>
+
+    <style name="BaseSubtitleTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BaseSpinner" parent="AccesibilityMinSize">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:spinnerMode">dialog</item>
+
     </style>
 </resources>
