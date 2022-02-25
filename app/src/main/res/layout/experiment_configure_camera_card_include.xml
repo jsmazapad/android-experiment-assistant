@@ -47,7 +47,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -57,18 +58,19 @@
 
                 <ImageView
                     style="@style/BaseIcon"
-                    android:src="@{viewModel.cameraPositionImageResource}" />
+                    android:src="@{viewModel.cameraPositionImageResource}"
+                    android:contentDescription="@string/camera_position_configuration_content_description" />
 
                 <ImageView
                     style="@style/BaseIcon"
-                    android:src="@{viewModel.cameraFlashImageResource}" />
+                    android:src="@{viewModel.cameraFlashImageResource}"
+                    android:contentDescription="@string/camera_flashmode_configuration_content_description" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:orientation="horizontal">
@@ -76,12 +78,13 @@
                 <ImageButton
                     style="@style/FrequencyButton"
                     android:layout_width="wrap_content"
-                    android:contentDescription="Configurar frecuencia de actualización de cámara"
+                    android:contentDescription="@string/camera_frequency_configuration_content_description"
                     android:onClick="@{() -> viewModel.onCameraSelectFrequency(context)}" />
 
                 <ImageButton
                     style="@style/SettingsButton"
                     android:layout_width="wrap_content"
+                    android:contentDescription="@string/camera_settings_configuration_content_description"
                     android:onClick="@{() -> viewModel.onCameraSelectConfiguration(context)}"
                     android:src="@drawable/ic_baseline_settings_24" />
             </LinearLayout>
@@ -99,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:text="Embedding:" />
+                android:text="@string/camera_frequency_configuration_embedding_alg_title" />
 
             <TextView
                 style="@style/BaseItemListSecondaryBoldTextView"

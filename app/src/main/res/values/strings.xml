@@ -24,9 +24,18 @@
     -->
     <string name="use_default_frequency">Usar frecuencia global</string>
     <string name="button_continue">Continuar</string>
+    <!--
+    CREATE EXPERIMENT: CAMERA CARD
+    -->
+    <string name="not_configured_functionality_text">Este experimento no tiene configurada esta funcionalidad</string>
+    <string name="camera_frequency_configuration_content_description">Configurar frecuencia de actualización de cámara</string>
+    <string name="camera_frequency_configuration_embedding_alg_title">Embedding:</string>
+    <string name="camera_position_configuration_content_description">Posición de la cámara</string>
+    <string name="camera_flashmode_configuration_content_description">Modo de flash de la cámara</string>
+    <string name="camera_settings_configuration_content_description">Configurar las propiedades de la cámara</string>
 
     <!--
-    DELAY
+    FREQUENCY
     -->
     <string name="min_delay">Delay mínimo</string>
     <string name="max_delay">Delay máximo</string>
@@ -44,7 +53,6 @@
     <string name="camera_selector_button_content_description">Selección de cámara</string>
     <string name="camera_configuration_embedding_title">Configuración de algoritmo de embedding</string>
     <string name="default_button_save_title">Guardar</string>
-    <string name="not_configured_functionality_text">Este experimento no tiene configurada esta funcionalidad</string>
 
 
 </resources>
