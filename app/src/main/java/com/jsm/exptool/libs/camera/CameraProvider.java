@@ -63,6 +63,10 @@ public class CameraProvider {
         cameraHandler.takePicture(f);
     }
 
+    public void takePicture(File f, ImageReceivedCallback imageReceivedCallback){
+        cameraHandler.takePicture(f, imageReceivedCallback);
+    }
+
 
 
     public int getFlashImageResource(FlashModes mode){

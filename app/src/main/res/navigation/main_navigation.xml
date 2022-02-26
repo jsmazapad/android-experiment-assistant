@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_experiment_configure">
+    app:startDestination="@id/nav_perform_experiment">
 
 
     <fragment
@@ -18,6 +18,14 @@
         android:label="@string/title_configuration_fragment"
         tools:layout="@layout/configuration_fragment">
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_perform_experiment"
+        android:name="com.jsm.exptool.ui.experiments.perform.ExperimentPerformFragment"
+        android:label="@string/title_configuration_fragment"
+        tools:layout="@layout/experiment_perform_fragment">
+    </fragment>
+
     <fragment
         android:id="@+id/nav_experiment_create_camera_configuration"
         android:name="com.jsm.exptool.ui.experiments.create.cameraconfiguration.ExperimentCameraConfigurationFragment"

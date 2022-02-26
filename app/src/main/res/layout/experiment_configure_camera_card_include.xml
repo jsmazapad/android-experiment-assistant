@@ -101,6 +101,7 @@
                 style="@style/BaseItemListSecondaryTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="5dp"
                 android:paddingEnd="10dp"
                 android:text="@string/camera_frequency_configuration_embedding_alg_title" />
 

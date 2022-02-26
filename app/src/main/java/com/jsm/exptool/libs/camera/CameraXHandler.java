@@ -112,9 +112,11 @@ public class CameraXHandler {
                         preview,
                         imageCapture);
 
-                // Connect the preview use case to the previewView
-                preview.setSurfaceProvider(
-                        previewView.getSurfaceProvider());
+                if(previewView != null) {
+                    // Connect the preview use case to the previewView
+                    preview.setSurfaceProvider(
+                            previewView.getSurfaceProvider());
+                }
             } catch (InterruptedException | ExecutionException e) {
                 // Currently no exceptions thrown. cameraProviderFuture.get()
                 // shouldn't block since the listener is being called, so no need to
@@ -123,7 +125,18 @@ public class CameraXHandler {
         }, ContextCompat.getMainExecutor(context));
     }
 
+    public void takePicture(File mFile, ImageReceivedCallback imageReceivedCallback) {
+        if (imageReceivedCallback != null) {
+            this.imageReceivedCallback = imageReceivedCallback;
+        }
+        this.takePicture(mFile);
+    }
+
+    //TODO Desacoplar de init imageReceivedCallback y recibirlo desde aquí
     public void takePicture(File mFile){
+        if (imageReceivedCallback != null){
+            this.imageReceivedCallback = imageReceivedCallback;
+        }
         Executor cameraExecutor =  Executors.newSingleThreadExecutor();
         ImageCapture.OutputFileOptions outputFileOptions =
                 new ImageCapture.OutputFileOptions.Builder(mFile).build();

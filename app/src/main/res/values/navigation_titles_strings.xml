@@ -7,5 +7,6 @@
     <string name="title_experiments_configure_camera_fragment">Cámara</string>
     <string name="title_configuration_fragment">Configuration</string>
 
+    <string name="title_perform_fragment">Realizar experimento</string>
 
 </resources>

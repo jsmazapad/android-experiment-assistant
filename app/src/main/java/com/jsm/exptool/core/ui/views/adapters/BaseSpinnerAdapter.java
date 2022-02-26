@@ -1,4 +1,4 @@
-package com.jsm.exptool.core.ui.views;
+package com.jsm.exptool.core.ui.views.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

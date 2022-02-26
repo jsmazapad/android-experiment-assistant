@@ -3,9 +3,11 @@ package com.jsm.exptool.repositories;
 import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.core.data.network.NetworkElementResponseCallback;
 import com.jsm.exptool.core.data.network.RetrofitService;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
+import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.data.network.AnalyticsApiService;
 import com.jsm.exptool.data.network.AppDeserializerProvider;
@@ -47,12 +49,42 @@ public class EmbeddingRepository {
             call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, responseLiveData));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            responseLiveData.setValue(new ElementResponse<>(new BaseException(e.getMessage(), false)));
+
         } catch (IOException e) {
             e.printStackTrace();
+            responseLiveData.setValue(new ElementResponse<>(new BaseException(e.getMessage(), false)));
+
         }
+    }
 
+    public static void getEmbedding(NetworkElementResponseCallback<ImageEmbeddingVector> callback, File image){
 
-
+        InputStream in = null;
+        try {
+            in = new FileInputStream(image);
+            byte[] buf;
+            buf = new byte[in.available()];
+            while (in.read(buf) != -1);
+            RequestBody requestBody = RequestBody
+                    .create(MediaType.parse("application/octet-stream"), buf);
+            Call<NetworkElementResponse<ImageEmbeddingVector>> call = ImageEmbeddingService.getEmbedding("inception-v3", requestBody);
+            call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, callback));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            callback.onResponse(new ElementResponse<>(new BaseException(e.getMessage(), false)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            callback.onResponse(new ElementResponse<>(new BaseException(e.getMessage(), false)));
+        }finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static void insertImageEmbedding(File imageFile, ImageEmbeddingVector vector){

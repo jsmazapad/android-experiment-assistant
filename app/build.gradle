@@ -81,9 +81,16 @@ dependencies {
      */
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation "androidx.work:work-runtime:2.7.1"
+    /*
+   WORKMANAGER
+    */
+    def work_manager_version = '2.7.1'
+    implementation "androidx.work:work-runtime:$work_manager_version"
+    implementation "androidx.work:work-rxjava3:$work_manager_version"
 
-
+    /*
+    IMAGENES
+     */
     implementation 'com.squareup.picasso:picasso:2.71828'
     //implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 

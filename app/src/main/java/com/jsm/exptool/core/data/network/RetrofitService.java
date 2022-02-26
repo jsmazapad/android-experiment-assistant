@@ -2,6 +2,7 @@ package com.jsm.exptool.core.data.network;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
@@ -136,21 +137,49 @@ public abstract class RetrofitService {
                                    Response<NetworkElementResponse<E>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("Call", response.raw().request().url().toString());
-                    liveDataVar.setValue(new ElementResponse(response.body().getElement()));
+                    liveDataVar.setValue(new ElementResponse<>(response.body().getElement()));
                 } else {
                     try {
                         Log.d("Network Error", response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    liveDataVar.setValue(new ElementResponse<E>(errorTreatment.handleNetworkError(response, null)));
+                    liveDataVar.setValue(new ElementResponse<>(errorTreatment.handleNetworkError(response, null)));
                 }
             }
 
             @Override
             public void onFailure(Call<NetworkElementResponse<E>> call, Throwable t) {
                 t.printStackTrace();
-                liveDataVar.setValue(new ElementResponse<E>(errorTreatment.handleNetworkError(null, t)));
+                liveDataVar.setValue(new ElementResponse<>(errorTreatment.handleNetworkError(null, t)));
+            }
+        };
+
+    }
+
+    public static <E> Callback<NetworkElementResponse<E>> createElementCallBack(Class<E> responseClass, @NonNull NetworkElementResponseCallback<E> networkElementResponseCallback) {
+
+        return new Callback<NetworkElementResponse<E>>() {
+            @Override
+            public void onResponse(Call<NetworkElementResponse<E>> call,
+                                   Response<NetworkElementResponse<E>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("Call", response.raw().request().url().toString());
+                    networkElementResponseCallback.onResponse(new ElementResponse<>(response.body().getElement()));
+                } else {
+                    try {
+                        Log.d("Network Error", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    networkElementResponseCallback.onResponse(new ElementResponse<>(errorTreatment.handleNetworkError(response, null)));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NetworkElementResponse<E>> call, Throwable t) {
+                t.printStackTrace();
+                networkElementResponseCallback.onResponse(new ElementResponse<E>(errorTreatment.handleNetworkError(null, t)));
             }
         };
 
