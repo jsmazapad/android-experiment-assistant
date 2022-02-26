@@ -11,7 +11,8 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
 
-import com.jsm.exptool.repositories.EmbeddingRepository;
+import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
+import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.libs.ImageResizer;
@@ -65,7 +66,7 @@ public class CameraViewModel extends BaseViewModel implements ImageReceivedCallb
         }
         ImageResizer.resizeImageFile(imageFile, targetFile, 299);
         actualFile = targetFile;
-        EmbeddingRepository.getEmbedding(serverResponse, targetFile);
+        ImagesRepository.getEmbedding(serverResponse, targetFile, EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0).getRemoteServerName());
     }
 
     @Override

@@ -2,15 +2,14 @@ package com.jsm.exptool.ui.experiments.create.configure;
 
 import static com.jsm.exptool.config.SensorConfigConstants.DEFAULT_STEPS_FREQ;
 
-import android.content.Context;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.model.FrequencyConfigurationVO;
-import com.jsm.exptool.model.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 

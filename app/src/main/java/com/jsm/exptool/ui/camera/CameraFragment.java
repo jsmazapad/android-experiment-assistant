@@ -18,7 +18,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.repositories.EmbeddingRepository;
+import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
@@ -47,7 +47,7 @@ public class CameraFragment extends BaseFragment<CameraFragmentBinding, CameraVi
                 Log.e("ERROR", response.getError().getLocalizedMessage());
             }else{
                 Log.d("RESPONSE", response.getResultElement().toString());
-                EmbeddingRepository.insertImageEmbedding(viewModel.getActualFile(), response.getResultElement());
+               // ImagesRepository.registerImageEmbedding(viewModel.getActualFile(), response.getResultElement());
             }
         }
     }

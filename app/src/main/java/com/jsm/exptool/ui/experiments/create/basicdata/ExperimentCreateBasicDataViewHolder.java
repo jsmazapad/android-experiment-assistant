@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
 public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<RepeatableElement> {
 

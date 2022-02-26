@@ -17,7 +17,7 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.CameraFragmentBinding;
 import com.jsm.exptool.databinding.ExperimentCreateCameraConfgurationFragmentBinding;
-import com.jsm.exptool.model.CameraConfig;
+import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.ui.camera.CameraPermissionsInterface;
 import com.jsm.exptool.ui.experiments.create.configure.ExperimentCreateConfigureDataFragmentArgs;

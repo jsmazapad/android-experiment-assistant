@@ -21,6 +21,12 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
+import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.model.experimentconfig.CameraConfig;
+import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
+import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
+import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
+import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.ui.camera.CameraPermissionsInterface;
 
 import java.util.Map;
@@ -30,7 +36,18 @@ public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFra
 
     @Override
     protected ExperimentPerformViewModel createViewModel() {
-        return new ViewModelProvider(this).get(ExperimentPerformViewModel.class);
+        //TODO Código pruebas, comentar
+        Experiment experiment = new Experiment();
+        ExperimentConfiguration configuration = new ExperimentConfiguration();
+        CameraConfig cameraConfig = new CameraConfig();
+        cameraConfig.setInterval(1000);
+        cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
+        configuration.setCameraConfig(cameraConfig );
+        experiment.setConfiguration(configuration);
+        long id = ExperimentsRepository.registerExperiment(experiment);
+        experiment.setInternalId(id);
+
+        return new ViewModelProvider(this, new ExperimentPerformViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentPerformViewModel.class);
     }
 
     @Override

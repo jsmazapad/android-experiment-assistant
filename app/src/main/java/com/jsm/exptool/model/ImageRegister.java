@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 
 import com.jsm.exptool.data.database.ListConverter;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = ImageRegister.TABLE_NAME)
@@ -23,32 +24,46 @@ public class ImageRegister {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(index = true, name = COLUMN_ID)
-    private int internalId;
+    private long internalId;
 
     private String imageName;
-    @TypeConverters(ListConverter.class)
+    private String imageDirectory;
     private List<Double> embedding;
-    private boolean remoteSynced;
+    private boolean dataRemoteSynced;
+    private boolean imageRemoteSynced;
+    private boolean embeddingRemoteSynced;
+    private long experimentId;
+    private Date date;
 
     @Ignore
-    public ImageRegister(String imageName, List<Double> embedding, boolean remoteSynced) {
+    public ImageRegister(String imageName, String imageDirectory, List<Double> embedding, boolean dataRemoteSynced, boolean imageRemoteSynced, boolean embeddingRemoteSynced, long experimentId, Date date) {
         this.imageName = imageName;
+        this.imageDirectory = imageDirectory;
         this.embedding = embedding;
-        this.remoteSynced = remoteSynced;
+        this.dataRemoteSynced = dataRemoteSynced;
+        this.imageRemoteSynced = imageRemoteSynced;
+        this.embeddingRemoteSynced = embeddingRemoteSynced;
+        this.experimentId = experimentId;
+        this.date = date;
     }
 
-    public ImageRegister(int internalId, String imageName, List<Double> embedding, boolean remoteSynced) {
+    public ImageRegister(long internalId, String imageName, String imageDirectory, List<Double> embedding, boolean dataRemoteSynced, boolean imageRemoteSynced, boolean embeddingRemoteSynced, long experimentId, Date date) {
         this.internalId = internalId;
         this.imageName = imageName;
+        this.imageDirectory = imageDirectory;
         this.embedding = embedding;
-        this.remoteSynced = remoteSynced;
+        this.dataRemoteSynced = dataRemoteSynced;
+        this.imageRemoteSynced = imageRemoteSynced;
+        this.embeddingRemoteSynced = embeddingRemoteSynced;
+        this.experimentId = experimentId;
+        this.date = date;
     }
 
-    public int getInternalId() {
+    public long getInternalId() {
         return internalId;
     }
 
-    public void setInternalId(int internalId) {
+    public void setInternalId(long internalId) {
         this.internalId = internalId;
     }
 
@@ -68,11 +83,51 @@ public class ImageRegister {
         this.embedding = embedding;
     }
 
-    public boolean isRemoteSynced() {
-        return remoteSynced;
+    public String getImageDirectory() {
+        return imageDirectory;
     }
 
-    public void setRemoteSynced(boolean remoteSynced) {
-        this.remoteSynced = remoteSynced;
+    public void setImageDirectory(String imageDirectory) {
+        this.imageDirectory = imageDirectory;
+    }
+
+    public boolean isDataRemoteSynced() {
+        return dataRemoteSynced;
+    }
+
+    public void setDataRemoteSynced(boolean dataRemoteSynced) {
+        this.dataRemoteSynced = dataRemoteSynced;
+    }
+
+    public boolean isImageRemoteSynced() {
+        return imageRemoteSynced;
+    }
+
+    public void setImageRemoteSynced(boolean imageRemoteSynced) {
+        this.imageRemoteSynced = imageRemoteSynced;
+    }
+
+    public boolean isEmbeddingRemoteSynced() {
+        return embeddingRemoteSynced;
+    }
+
+    public void setEmbeddingRemoteSynced(boolean embeddingRemoteSynced) {
+        this.embeddingRemoteSynced = embeddingRemoteSynced;
+    }
+
+    public long getExperimentId() {
+        return experimentId;
+    }
+
+    public void setExperimentId(long experimentId) {
+        this.experimentId = experimentId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

@@ -10,8 +10,8 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.jsm.exptool.R;
 import com.jsm.exptool.databinding.DialogSelectFrequencyBinding;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.model.FrequencyConfigurationVO;
-import com.jsm.exptool.model.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.ui.experiments.create.configure.FrequencySelectorHelper;
 
 

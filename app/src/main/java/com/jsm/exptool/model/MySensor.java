@@ -3,6 +3,8 @@ package com.jsm.exptool.model;
 import android.os.Handler;
 import android.os.Parcel;
 
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+
 import java.util.ArrayList;
 import java.util.Timer;
 

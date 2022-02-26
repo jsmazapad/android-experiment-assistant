@@ -12,6 +12,7 @@ import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.data.network.AnalyticsApiService;
 import com.jsm.exptool.data.network.AppDeserializerProvider;
 import com.jsm.exptool.data.network.AppNetworkErrorTreatment;
+import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.ImageEmbeddingVector;
 import com.jsm.exptool.model.ImageRegister;
 
@@ -20,22 +21,24 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
 
-public class EmbeddingRepository {
+public class ImagesRepository {
     private static final AnalyticsApiService ImageEmbeddingService = RetrofitService.createService(AnalyticsApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), BuildConfig.BASE_URL);
 
     /**
-     * Obtiene los elementos del menú de manera reactiva
+     * Obtiene el vector de embedding de manera reactiva
      *
      * @param responseLiveData livedata donde se setean los elementos
      * @param image            Fichero que contiene una imagen
      */
-    public static void getEmbedding(MutableLiveData<ElementResponse<ImageEmbeddingVector>> responseLiveData, File image) {
+    public static void getEmbedding(MutableLiveData<ElementResponse<ImageEmbeddingVector>> responseLiveData, File image, String algorithm) {
 
         InputStream in;
         try {
@@ -45,7 +48,7 @@ public class EmbeddingRepository {
             while (in.read(buf) != -1);
             RequestBody requestBody = RequestBody
                     .create(MediaType.parse("application/octet-stream"), buf);
-            Call<NetworkElementResponse<ImageEmbeddingVector>> call = ImageEmbeddingService.getEmbedding("inception-v3", requestBody);
+            Call<NetworkElementResponse<ImageEmbeddingVector>> call = ImageEmbeddingService.getEmbedding(algorithm, requestBody);
             call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, responseLiveData));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -58,7 +61,11 @@ public class EmbeddingRepository {
         }
     }
 
-    public static void getEmbedding(NetworkElementResponseCallback<ImageEmbeddingVector> callback, File image){
+    public static ImageRegister getImageRegisterById(long imageId){
+        return DBHelper.getImageById(imageId);
+    }
+
+    public static void getEmbedding(NetworkElementResponseCallback<ImageEmbeddingVector> callback, File image, String algorithm){
 
         InputStream in = null;
         try {
@@ -68,7 +75,7 @@ public class EmbeddingRepository {
             while (in.read(buf) != -1);
             RequestBody requestBody = RequestBody
                     .create(MediaType.parse("application/octet-stream"), buf);
-            Call<NetworkElementResponse<ImageEmbeddingVector>> call = ImageEmbeddingService.getEmbedding("inception-v3", requestBody);
+            Call<NetworkElementResponse<ImageEmbeddingVector>> call = ImageEmbeddingService.getEmbedding(algorithm, requestBody);
             call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, callback));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -87,11 +94,15 @@ public class EmbeddingRepository {
         }
     }
 
-    public static void insertImageEmbedding(File imageFile, ImageEmbeddingVector vector){
-        ImageRegister imageRegister = new ImageRegister(imageFile.getName(), vector.getEmbedding(), false);
+    public static long registerImageCapture(File imageFile, long experimentId, Date date){
+        ImageRegister imageRegister = new ImageRegister(imageFile.getName(), imageFile.getParent(), new ArrayList<>(), false, false, false, experimentId, date);
         //TODO Refactorizar para quitar livedata
         MutableLiveData<Boolean> result = new MutableLiveData<>();
-        DBHelper.insertImageRegister(imageRegister, result);
+        return DBHelper.insertImageRegister(imageRegister, result);
 
+    }
+    public static void registerImageEmbedding(ImageRegister imageRegister, ImageEmbeddingVector vector){
+        imageRegister.setEmbedding(vector.getEmbedding());
+        DBHelper.updateImage(imageRegister);
     }
 }

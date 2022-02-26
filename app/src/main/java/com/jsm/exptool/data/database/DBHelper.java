@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
+import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.ImageRegister;
 
 import java.util.List;
@@ -28,25 +29,46 @@ public class DBHelper {
     }
 
     /*
+    EXPERIMENTS
+     */
+
+    public static long insertExperiment(final Experiment experiment) {
+               return appDatabase.experimentDao().insert(experiment);
+    }
+
+    public static List<Experiment> getExperiments() {
+        return appDatabase.experimentDao().getExperiments();
+    }
+
+
+    public static Experiment getExperimentById(long experimentId) {
+        return appDatabase.experimentDao().selectById(experimentId);
+    }
+
+    public static int deleteImagesById(Experiment register) {
+        return appDatabase.experimentDao().deleteById(register.getInternalId());
+    }
+
+    /*
     IMAGE REGISTERS
      */
 
 
-    public static void insertImageRegister(final ImageRegister imageRegister, MutableLiveData<Boolean> ended) {
-            //TODO Migrar a Executors + handlers
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    appDatabase.imageDao().insert(imageRegister);
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    super.onPostExecute(aVoid);
-                    ended.setValue(true);
-                }
-            }.execute();
+    public static long insertImageRegister(final ImageRegister imageRegister, MutableLiveData<Boolean> ended) {
+//            //TODO Migrar a Executors + handlers
+//            new AsyncTask<Void, Void, Void>() {
+//                @Override
+//                protected Void doInBackground(Void... voids) {
+                  return appDatabase.imageDao().insert(imageRegister);
+//                    return null;
+//                }
+//
+//                @Override
+//                protected void onPostExecute(Void aVoid) {
+//                    super.onPostExecute(aVoid);
+//                    ended.setValue(true);
+//                }
+//            }.execute();
 
     }
 
@@ -54,13 +76,21 @@ public class DBHelper {
         return appDatabase.imageDao().getImages();
     }
 
-
-    public static ImageRegister getImageById(ImageRegister beer) {
-        return appDatabase.imageDao().selectById(beer.getInternalId());
+    public static List<ImageRegister> getImagesFromExperiment(Experiment experiment) {
+        return appDatabase.imageDao().getImagesFromExperiment(experiment.getId());
     }
 
-    public static void deleteImagesById(ImageRegister beer) {
-        appDatabase.imageDao().deleteById(beer.getInternalId());
+
+    public static ImageRegister getImageById(long imageId) {
+        return appDatabase.imageDao().selectById(imageId);
+    }
+
+    public static int updateImage(ImageRegister register) {
+        return appDatabase.imageDao().update(register);
+    }
+
+    public static int deleteImagesById(ImageRegister register) {
+        return appDatabase.imageDao().deleteById(register.getInternalId());
     }
 
 

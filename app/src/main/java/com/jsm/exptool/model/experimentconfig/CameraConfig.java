@@ -1,4 +1,4 @@
-package com.jsm.exptool.model;
+package com.jsm.exptool.model.experimentconfig;
 
 import android.os.Parcel;
 

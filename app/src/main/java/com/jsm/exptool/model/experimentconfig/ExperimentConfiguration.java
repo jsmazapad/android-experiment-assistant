@@ -1,15 +1,17 @@
-package com.jsm.exptool.model;
+package com.jsm.exptool.model.experimentconfig;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.room.Ignore;
 
 import com.jsm.exptool.libs.camera.CameraProvider;
 
 public class ExperimentConfiguration implements Parcelable {
 
-    private CameraConfig cameraConfig;
-    private AudioConfig audioConfig;
-    private GlobalConfig globalConfig = new GlobalConfig();
+    @Ignore private CameraConfig cameraConfig;
+    @Ignore private AudioConfig audioConfig;
+    @Ignore private GlobalConfig globalConfig = new GlobalConfig();
 
     public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig) {
         this.cameraConfig = cameraConfig;

@@ -1,4 +1,5 @@
-package com.jsm.exptool.model;
+package com.jsm.exptool.model.experimentconfig;
+
 
 public class FrequencyConfigurationVO<T extends RepeatableElement> {
     private T repeatableElement;

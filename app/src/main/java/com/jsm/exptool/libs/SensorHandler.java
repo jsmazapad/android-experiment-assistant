@@ -8,7 +8,7 @@ import android.os.Build;
 import com.jsm.exptool.App;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.model.Sensor.Accelerometer;
 import com.jsm.exptool.model.Sensor.AmbientTemperature;
 import com.jsm.exptool.model.Sensor.GPS;

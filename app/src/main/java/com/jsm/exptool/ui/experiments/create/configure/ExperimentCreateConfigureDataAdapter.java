@@ -8,8 +8,8 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.FrequencyConfigurationVO;
-import com.jsm.exptool.model.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
 public class ExperimentCreateConfigureDataAdapter extends BaseRecyclerAdapter<FrequencyConfigurationVO, ExperimentCreateConfigureDataViewHolder, RepeatableElement> {
     /**

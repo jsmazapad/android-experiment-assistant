@@ -5,8 +5,12 @@ import android.os.Parcelable;
 import android.provider.BaseColumns;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,36 +27,62 @@ public class Experiment implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(index = true, name = COLUMN_ID)
-    private int internalId;
+    private long internalId;
     private int id;
-    private int user_id;
+    private int userId;
     private String title;
     private String description;
-    private Date init_date;
-    private Date end_date;
+    private Date initDate;
+    private Date endDate;
     private int status;
-    private ExperimentConfiguration configuration;
-    private List<MySensor> sensors = new ArrayList<>();
-    private ArrayList<ImageRegister> images = new ArrayList<>();;
-    private ArrayList<SoundRegister> sounds = new ArrayList<>();;
-    private int sdk_device;
+    @Embedded private ExperimentConfiguration configuration;
+    @Ignore private List<MySensor> sensors = new ArrayList<>();
+    @Ignore private ArrayList<ImageRegister> images = new ArrayList<>();;
+    @Ignore private ArrayList<SoundRegister> sounds = new ArrayList<>();;
+    private int sdkDevice;
     private String device;
 
 
-    public Experiment(int id, int user_id, String title, String description, Date init_date, Date end_date, int status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdk_device, String device) {
+    @Ignore
+    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, int status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdkDevice, String device) {
         this.id = id;
-        this.user_id = user_id;
+        this.userId = userId;
         this.title = title;
         this.description = description;
-        this.init_date = init_date;
-        this.end_date = end_date;
+        this.initDate = initDate;
+        this.endDate = endDate;
         this.configuration = configuration;
         this.status = status;
         this.sensors = sensors;
         this.images = images;
         this.sounds = sounds;
-        this.sdk_device = sdk_device;
+        this.sdkDevice = sdkDevice;
         this.device = device;
+    }
+
+    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, int status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdkDevice, String device) {
+        this.internalId = internalId;
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.initDate = initDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.configuration = configuration;
+        this.sensors = sensors;
+        this.images = images;
+        this.sounds = sounds;
+        this.sdkDevice = sdkDevice;
+        this.device = device;
+    }
+
+    public long getInternalId() {
+        return internalId;
+    }
+
+    public void setInternalId(long internalId) {
+        this.internalId = internalId;
     }
 
     public int getId() {
@@ -63,12 +93,12 @@ public class Experiment implements Parcelable {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -87,20 +117,20 @@ public class Experiment implements Parcelable {
         this.description = description;
     }
 
-    public Date getInit_date() {
-        return init_date;
+    public Date getInitDate() {
+        return initDate;
     }
 
-    public void setInit_date(Date init_date) {
-        this.init_date = init_date;
+    public void setInitDate(Date initDate) {
+        this.initDate = initDate;
     }
 
-    public Date getEnd_date() {
-        return end_date;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public int getStatus() {
@@ -143,12 +173,12 @@ public class Experiment implements Parcelable {
         this.sounds = sounds;
     }
 
-    public int getSdk_device() {
-        return sdk_device;
+    public int getSdkDevice() {
+        return sdkDevice;
     }
 
-    public void setSdk_device(int sdk_device) {
-        this.sdk_device = sdk_device;
+    public void setSdkDevice(int sdkDevice) {
+        this.sdkDevice = sdkDevice;
     }
 
     public String getDevice() {
@@ -166,30 +196,32 @@ public class Experiment implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.internalId);
         dest.writeInt(this.id);
-        dest.writeInt(this.user_id);
+        dest.writeInt(this.userId);
         dest.writeString(this.title);
         dest.writeString(this.description);
-        dest.writeLong(this.init_date != null ? this.init_date.getTime() : -1);
-        dest.writeLong(this.end_date != null ? this.end_date.getTime() : -1);
+        dest.writeLong(this.initDate != null ? this.initDate.getTime() : -1);
+        dest.writeLong(this.endDate != null ? this.endDate.getTime() : -1);
         dest.writeParcelable(this.configuration,0);
         dest.writeInt(this.status);
         dest.writeList(this.sensors);
         dest.writeList(this.images);
         dest.writeList(this.sounds);
-        dest.writeInt(this.sdk_device);
+        dest.writeInt(this.sdkDevice);
         dest.writeString(this.device);
     }
 
     public void readFromParcel(Parcel source) {
+        this.internalId = source.readLong();
         this.id = source.readInt();
-        this.user_id = source.readInt();
+        this.userId = source.readInt();
         this.title = source.readString();
         this.description = source.readString();
         long tmpInit_date = source.readLong();
-        this.init_date = tmpInit_date == -1 ? null : new Date(tmpInit_date);
+        this.initDate = tmpInit_date == -1 ? null : new Date(tmpInit_date);
         long tmpEnd_date = source.readLong();
-        this.end_date = tmpEnd_date == -1 ? null : new Date(tmpEnd_date);
+        this.endDate = tmpEnd_date == -1 ? null : new Date(tmpEnd_date);
         this.status = source.readInt();
         this.configuration = source.readParcelable(ExperimentConfiguration.class.getClassLoader());
         this.sensors = new ArrayList<>();
@@ -198,7 +230,7 @@ public class Experiment implements Parcelable {
         source.readList(this.images, ImageRegister.class.getClassLoader());
         this.sounds = new ArrayList<SoundRegister>();
         source.readList(this.sounds, SoundRegister.class.getClassLoader());
-        this.sdk_device = source.readInt();
+        this.sdkDevice = source.readInt();
         this.device = source.readString();
     }
 

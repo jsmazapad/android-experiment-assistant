@@ -11,12 +11,12 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.libs.MultiSpinner;
-import com.jsm.exptool.model.AudioConfig;
-import com.jsm.exptool.model.CameraConfig;
+import com.jsm.exptool.model.experimentconfig.AudioConfig;
+import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.ExperimentConfiguration;
+import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.repositories.SensorsRepository;
 
 import java.util.ArrayList;

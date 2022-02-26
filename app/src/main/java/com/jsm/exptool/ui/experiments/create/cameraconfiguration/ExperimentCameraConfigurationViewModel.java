@@ -19,7 +19,7 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.libs.camera.CameraProvider;
-import com.jsm.exptool.model.CameraConfig;
+import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.ui.camera.CameraPermissionsInterface;
