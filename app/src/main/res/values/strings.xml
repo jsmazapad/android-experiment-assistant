@@ -52,9 +52,17 @@
     <string name="flash_selector_button_content_description">Selección de flash</string>
     <string name="camera_selector_button_content_description">Selección de cámara</string>
     <string name="camera_configuration_embedding_title">Configuración de algoritmo de embedding</string>
+
+    <!--
+    PERFORM EXPERIMENT
+    -->
     <string name="default_button_save_title">Guardar</string>
     <string name="perform_experiment_init_text">Iniciar</string>
     <string name="perform_expriment_finish_text">Finalizar</string>
+    <string name="default_error_database_register_entity">Se ha producido un error en el registro de datos</string>
+    <string name="experiment_perform_resume_dialog_num_images"><![CDATA[Número de imágenes registradas: <b>%d</b><br>]]></string>
+    <string name="experiment_perform_resume_dialog_num_embedded"><![CDATA[<br>Número de imágenes analizadas en remoto: <b>%d</b><br>]]></string>
+
 
 
 </resources>

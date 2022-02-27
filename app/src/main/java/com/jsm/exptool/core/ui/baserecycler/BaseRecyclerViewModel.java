@@ -25,7 +25,7 @@ import java.util.List;
  * @param <T> Tipo de objeto del listado usado para alimentar los datos del recycler
  * @param <ResponseType> Tipo de datos que se obtiene del response del repositorio
  */
-public abstract class BaseRecyclerViewModel<T, ResponseType> extends LoadingViewModel implements RetryAction, SetShowDialogFalse {
+public abstract class BaseRecyclerViewModel<T, ResponseType> extends LoadingViewModel  {
 
     protected MutableLiveData<List<T>> elements = new MutableLiveData<>();
     protected MutableLiveData<BaseException> error = new MutableLiveData<>();
@@ -47,13 +47,7 @@ public abstract class BaseRecyclerViewModel<T, ResponseType> extends LoadingView
      * flag reactivo para indicar cuando se tiene que ocultar el recyclerview
      */
     protected MutableLiveData<Boolean> recyclerVisibility = new MutableLiveData<>();
-    //Manejador de errores, sirve para realizar las acciones adecuadas a cada uno de ellos
-    protected UIErrorHandler errorHandler = new BaseUIErrorHandler();
 
-    /**
-     * Flag utilizado para asegurar en procesos complejos con programación reactiva que sólo se muestra un diálogo de error a la vez
-     */
-    private boolean showingDialog = false;
 
 
     public BaseRecyclerViewModel(Application app, Object... args) {
@@ -132,17 +126,7 @@ public abstract class BaseRecyclerViewModel<T, ResponseType> extends LoadingView
         getRepositoryData();
     }
 
-    /**
-     * Floag para indicar si se está mostrando actualmente un dialog
-     * @return
-     */
-    private boolean isShowingDialog() {
-        return showingDialog;
-    }
 
-    private void setShowingDialog(boolean showingDialog) {
-        this.showingDialog = showingDialog;
-    }
 
     /**
      * Función para realizar transformaciones entre el listado obtenido en la respuesta y
@@ -172,26 +156,12 @@ public abstract class BaseRecyclerViewModel<T, ResponseType> extends LoadingView
     public abstract void callRepositoryForData();
 
     /**
-     * Reintenta la operación de trar datos del repositorio
+     * Reintenta la operación de traer datos del repositorio
      */
+    @Override
     public void retryAction(){
         setShowDialogFalse();
         onRefresh();
     }
 
-    /**
-     * Setea la opción de mostrar diálogo a false para controlar que no se muestre mas de un diálogo a la vez
-     */
-    public void setShowDialogFalse() {
-        setShowingDialog(false);
-    }
-
-    /**
-     * Maneja los errores
-     * @param exception Excepción con la información del error
-     * @param context Contexto donde se procesará el error
-     */
-    public void handleError(BaseException exception, Context context){
-       errorHandler.handleError(exception, context, this, this);
-    }
 }

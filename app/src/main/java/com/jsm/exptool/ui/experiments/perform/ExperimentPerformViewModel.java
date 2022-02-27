@@ -6,8 +6,10 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import android.Manifest;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.text.Html;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,7 +21,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.core.ui.RetryAction;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
+import com.jsm.exptool.core.ui.loading.LoadingViewModel;
+import com.jsm.exptool.core.utils.ModalMessage;
+import com.jsm.exptool.libs.DeviceUtils;
 import com.jsm.exptool.libs.camera.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
@@ -35,7 +42,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ExperimentPerformViewModel extends BaseViewModel {
+public class ExperimentPerformViewModel extends LoadingViewModel {
 
     private final Experiment experiment;
     private final WorksOrchestratorProvider orchestratorProvider;
@@ -85,6 +92,7 @@ public class ExperimentPerformViewModel extends BaseViewModel {
 
     public void handleExperimentState(Context context) {
         if (!experimentInitiated) {
+            experimentInitiated = true;
             initExperiment(context);
         } else {
             finishExperiment(context);
@@ -92,34 +100,58 @@ public class ExperimentPerformViewModel extends BaseViewModel {
     }
 
     private void initExperiment(Context context) {
-        changeStateText.setValue(getApplication().getString(R.string.perform_expriment_finish_text));
+        //TODO Extraer comportamiento a provider
         this.experiment.setInitDate(new Date());
-        this.experiment.setSdkDevice(Build.VERSION.SDK_INT);
-        this.experiment.setDevice(Build.DEVICE);
+        this.experiment.setSdkDevice(DeviceUtils.getDeviceSDK());
+        this.experiment.setDevice(DeviceUtils.getDeviceModel());
         this.experiment.setStatus(Experiment.ExperimentStatus.INITIATED);
-        initImageCapture(context);
-        ExperimentsRepository.updateExperiment(this.experiment);
-    }
+        changeStateText.setValue(getApplication().getString(R.string.perform_expriment_finish_text));
 
-    private void finishExperiment(Context context) {
-        if(!enableHandleExperimentButton.getValue()) {
-            enableHandleExperimentButton.setValue(false);
-            for (Timer timer : timers) {
-                timer.cancel();
-            }
-            timers = new ArrayList<>();
-            this.experiment.setEndDate(new Date());
-            this.experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
-            ExperimentsRepository.updateExperiment(this.experiment);
+        if(saveExperiment(context)){
+           initImageCapture(context);
         }
     }
 
-    public void initCameraProvider(Context context, CameraPermissionsInterface cameraPermission, PreviewView previewView) {
+    private void finishExperiment(Context context) {
+
+
+        enableHandleExperimentButton.setValue(false);
+        for (Timer timer : timers) {
+            timer.cancel();
+        }
+        timers = new ArrayList<>();
+        //TODO Extraer comportamiento a provider
+        this.experiment.setEndDate(new Date());
+        this.experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
+        if(saveExperiment(context)){
+            showResumeDialog(context);
+        }
+    }
+
+    private boolean saveExperiment(Context context){
+        boolean operationSuccess = false;
+        int updatedRows = ExperimentsRepository.updateExperiment(this.experiment);
+        if(updatedRows < 1){
+            errorHandler.handleError(new BaseException(getApplication().getString(R.string.default_error_database_register_entity), true), context, () -> {
+                saveExperiment(context);
+            }, this);
+        }else{
+            operationSuccess = true;
+        }
+        return operationSuccess;
+
+    }
+
+    public void initCameraProvider(Context context, LifecycleOwner owner, CameraPermissionsInterface cameraPermission, PreviewView previewView) {
         if (experiment.getConfiguration().isCameraEnabled()) {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 cameraPermission.requestPermissions();
+                return;
             }
             CameraProvider.getInstance().initCamera(context, previewView, null);
+            previewView.getPreviewStreamState().observe(owner, streamState -> {
+                isLoading.setValue(streamState.equals(PreviewView.StreamState.IDLE));
+            });
         }
     }
 
@@ -170,5 +202,19 @@ public class ExperimentPerformViewModel extends BaseViewModel {
             numEmbeddings.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
         });
 
+    }
+
+    public void showResumeDialog(Context context){
+        StringBuilder builder = new StringBuilder();
+        if(experiment.getConfiguration().isCameraEnabled()) {
+            builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_images), numImages.getValue())));
+            if(experiment.getConfiguration().getCameraConfig().getEmbeddingAlgorithm() != null){
+                builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_embedded), numEmbeddings.getValue())));
+            }
+        }
+
+        ModalMessage.showModalMessage(context, "Resumen del experimento", builder.toString(), null, (dialog, which) -> {
+            //TODO Navegar a listado experimentos
+        }, null, null);
     }
 }

@@ -58,7 +58,7 @@ public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFra
     @Override
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
-        viewModel.initCameraProvider(getContext(), this, binding.getRoot().findViewById(R.id.cameraPreview));
+        viewModel.initCameraProvider(getContext(), getViewLifecycleOwner(), this, binding.getRoot().findViewById(R.id.cameraPreview));
         viewModel.initWorkInfoObservers(getViewLifecycleOwner());
 
     }
@@ -79,7 +79,7 @@ public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFra
                     }
 
                     if (permissionOk){
-                        viewModel.initCameraProvider(getContext(), this, binding.getRoot().findViewById(R.id.cameraPreview));
+                        viewModel.initCameraProvider(getContext(), getViewLifecycleOwner(), this, binding.getRoot().findViewById(R.id.cameraPreview));
                     }else{
                         //TODO Sustituir por mensaje de error descriptivo
                         handleError(new BaseException("Error en permisos", false), getContext(), null);
