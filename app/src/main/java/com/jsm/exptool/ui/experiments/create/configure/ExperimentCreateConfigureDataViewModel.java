@@ -15,7 +15,7 @@ import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.libs.camera.CameraProvider;
+import com.jsm.exptool.providers.CameraProvider;
 
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;

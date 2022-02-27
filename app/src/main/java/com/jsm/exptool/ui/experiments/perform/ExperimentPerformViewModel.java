@@ -6,9 +6,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import android.Manifest;
 import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.text.Html;
 import android.util.Log;
 
@@ -22,12 +20,10 @@ import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.exceptions.BaseException;
-import com.jsm.exptool.core.ui.RetryAction;
-import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.core.ui.loading.LoadingViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
-import com.jsm.exptool.libs.camera.CameraProvider;
+import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;

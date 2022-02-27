@@ -12,13 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.SavedStateHandle;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
-import com.jsm.exptool.libs.camera.CameraProvider;
+import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;

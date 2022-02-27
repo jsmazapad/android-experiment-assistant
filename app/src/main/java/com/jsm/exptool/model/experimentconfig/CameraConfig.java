@@ -6,7 +6,7 @@ import androidx.room.Embedded;
 import androidx.room.Ignore;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.libs.camera.CameraProvider;
+import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
 
 public class CameraConfig extends RepeatableElement{

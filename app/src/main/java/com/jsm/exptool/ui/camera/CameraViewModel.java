@@ -16,7 +16,7 @@ import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.libs.ImageResizer;
-import com.jsm.exptool.libs.camera.CameraProvider;
+import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
 import com.jsm.exptool.model.ImageEmbeddingVector;
 

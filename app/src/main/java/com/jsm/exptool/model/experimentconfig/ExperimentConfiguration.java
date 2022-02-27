@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 
-import com.jsm.exptool.libs.camera.CameraProvider;
-
 public class ExperimentConfiguration implements Parcelable {
 
     //TODO Eliminar este parámetro y hacer que extienda de RepeatableElement

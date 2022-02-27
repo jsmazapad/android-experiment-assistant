@@ -2,7 +2,7 @@ package com.jsm.exptool.data.database.typeconverters;
 
 import androidx.room.TypeConverter;
 
-import com.jsm.exptool.libs.camera.CameraProvider;
+import com.jsm.exptool.providers.CameraProvider;
 
 public class CameraPositionsConverter {
 
