@@ -2,6 +2,9 @@ package com.jsm.exptool.model.experimentconfig;
 
 import android.os.Parcel;
 
+import androidx.room.Embedded;
+import androidx.room.Ignore;
+
 import com.jsm.exptool.R;
 import com.jsm.exptool.libs.camera.CameraProvider;
 import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
@@ -11,22 +14,21 @@ public class CameraConfig extends RepeatableElement{
 
     CameraProvider.FlashModes flashMode = CameraProvider.FlashModes.OFF;
     CameraProvider.CameraPositions cameraPosition = CameraProvider.CameraPositions.REAR;
-    EmbeddingAlgorithm embeddingAlgorithm;
-
+    @Embedded EmbeddingAlgorithm embeddingAlgorithm;
     public CameraConfig(int nameStringResource, int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
         super(nameStringResource, interval, intervalMin);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
         this.embeddingAlgorithm = embeddingAlgorithm;
     }
-
+    @Ignore
     public CameraConfig( int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
         super(R.string.camera, interval, intervalMin);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
         this.embeddingAlgorithm = embeddingAlgorithm;
     }
-
+    @Ignore
     public CameraConfig(){
 
     }

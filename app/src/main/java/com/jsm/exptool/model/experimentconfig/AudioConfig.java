@@ -1,11 +1,16 @@
 package com.jsm.exptool.model.experimentconfig;
 
-import android.os.Parcel;
 
-import com.jsm.exptool.R;
-import com.jsm.exptool.libs.camera.CameraProvider;
+import androidx.room.Ignore;
 
 public class AudioConfig extends RepeatableElement{
 
 
+    public AudioConfig(int interval, int intervalMin, int nameStringResource) {
+        super(interval, intervalMin, nameStringResource);
+    }
+    @Ignore
+    public AudioConfig(){
+
+    }
 }

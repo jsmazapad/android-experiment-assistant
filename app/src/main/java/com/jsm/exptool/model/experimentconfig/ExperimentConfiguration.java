@@ -3,22 +3,33 @@ package com.jsm.exptool.model.experimentconfig;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Embedded;
 import androidx.room.Ignore;
 
 import com.jsm.exptool.libs.camera.CameraProvider;
 
 public class ExperimentConfiguration implements Parcelable {
 
-    @Ignore private CameraConfig cameraConfig;
-    @Ignore private AudioConfig audioConfig;
-    @Ignore private GlobalConfig globalConfig = new GlobalConfig();
+    //TODO Eliminar este parámetro y hacer que extienda de RepeatableElement
+    //private int defaultFrequency;
+    @Embedded(prefix = "camera_config_") private CameraConfig cameraConfig;
+    @Embedded(prefix = "audio_config_") private AudioConfig audioConfig;
+    @Embedded(prefix = "global_config_") private GlobalConfig globalConfig = new GlobalConfig();
 
-    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig) {
+//    @Ignore
+//    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig) {
+//        this.cameraConfig = cameraConfig;
+//        this.audioConfig = audioConfig;
+//        this.globalConfig = globalConfig != null ? globalConfig : this.globalConfig;
+//    }
+
+    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig /*,int defaultFrequency*/) {
         this.cameraConfig = cameraConfig;
         this.audioConfig = audioConfig;
         this.globalConfig = globalConfig != null ? globalConfig : this.globalConfig;
+//        this.defaultFrequency = defaultFrequency;
     }
-
+    @Ignore
     public ExperimentConfiguration() {
 
     }
@@ -59,7 +70,14 @@ public class ExperimentConfiguration implements Parcelable {
     public boolean isAudioEnabled() {
         return audioConfig != null;
     }
-
+//
+//    public int getDefaultFrequency() {
+//        return defaultFrequency;
+//    }
+//
+//    public void setDefaultFrequency(int defaultFrequency) {
+//        this.defaultFrequency = defaultFrequency;
+//    }
 
     @Override
     public int describeContents() {

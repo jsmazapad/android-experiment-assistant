@@ -1,11 +1,9 @@
 package com.jsm.exptool.providers;
 
-import android.content.Context;
-
 import java.util.concurrent.TimeUnit;
 
 public class TimeDisplayStringProvider {
-    public static String millisecondsToStringBestDisplay(int milliseconds){
+    public static String millisecondsToStringBestDisplay(long milliseconds){
         String stringToReturn;
         long minutes
                 = TimeUnit.MILLISECONDS.toMinutes(milliseconds);

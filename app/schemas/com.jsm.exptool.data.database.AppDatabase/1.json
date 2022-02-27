@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "28df52287496d4f92ca8a3f26372af4a",
+    "identityHash": "bfc683ad22d09fc43ca14774cc21af1c",
     "entities": [
       {
         "tableName": "imageRegisters",
@@ -83,7 +83,7 @@
       },
       {
         "tableName": "experiments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_nameStringResource` INTEGER, `global_config_interval` INTEGER, `global_config_intervalMin` INTEGER, `global_config_nameStringResource` INTEGER)",
         "fields": [
           {
             "fieldPath": "internalId",
@@ -144,6 +144,108 @@
             "columnName": "device",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.interval",
+            "columnName": "camera_config_interval",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.intervalMin",
+            "columnName": "camera_config_intervalMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.nameStringResource",
+            "columnName": "camera_config_nameStringResource",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.flashMode",
+            "columnName": "camera_config_flashMode",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.cameraPosition",
+            "columnName": "camera_config_cameraPosition",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.displayName",
+            "columnName": "camera_config_displayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.remoteServerName",
+            "columnName": "camera_config_remoteServerName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.descriptionTranslatableRes",
+            "columnName": "camera_config_descriptionTranslatableRes",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.optimalImageWidth",
+            "columnName": "camera_config_optimalImageWidth",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.optimalImageHeight",
+            "columnName": "camera_config_optimalImageHeight",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.maxParallelRequest",
+            "columnName": "camera_config_maxParallelRequest",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.interval",
+            "columnName": "audio_config_interval",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.intervalMin",
+            "columnName": "audio_config_intervalMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.nameStringResource",
+            "columnName": "audio_config_nameStringResource",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.globalConfig.interval",
+            "columnName": "global_config_interval",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.globalConfig.intervalMin",
+            "columnName": "global_config_intervalMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.globalConfig.nameStringResource",
+            "columnName": "global_config_nameStringResource",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -167,7 +269,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"28df52287496d4f92ca8a3f26372af4a\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"bfc683ad22d09fc43ca14774cc21af1c\")"
     ]
   }
 }

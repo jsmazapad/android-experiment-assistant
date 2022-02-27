@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ExperimentsRepository {
 
     public static void getExperiments(MutableLiveData<ListResponse<Experiment>> responseLiveData){
-        responseLiveData.setValue(new ListResponse<Experiment>(new ArrayList<>()));
+        responseLiveData.setValue(new ListResponse<>(DBHelper.getExperiments()));
     }
 
     public static long registerExperiment(Experiment experiment){

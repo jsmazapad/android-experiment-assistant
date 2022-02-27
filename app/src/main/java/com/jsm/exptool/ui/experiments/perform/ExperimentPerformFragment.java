@@ -29,6 +29,7 @@ import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.ui.camera.CameraPermissionsInterface;
 
+import java.util.Date;
 import java.util.Map;
 
 public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFragmentBinding, ExperimentPerformViewModel> implements CameraPermissionsInterface {
@@ -38,6 +39,8 @@ public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFra
     protected ExperimentPerformViewModel createViewModel() {
         //TODO Código pruebas, comentar
         Experiment experiment = new Experiment();
+        experiment.setTitle("Experimento "+ new Date().getTime());
+        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  "+ new Date().getTime());
         ExperimentConfiguration configuration = new ExperimentConfiguration();
         CameraConfig cameraConfig = new CameraConfig();
         cameraConfig.setInterval(1000);
