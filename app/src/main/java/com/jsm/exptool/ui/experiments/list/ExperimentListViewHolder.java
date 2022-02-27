@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.providers.DateProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment> {
@@ -31,7 +32,7 @@ public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment>
     public void fillViewHolder(Experiment element) {
         titleTV.setText(element.getTitle());
         descriptionTV.setText(element.getDescription());
-        dateTV.setText(element.getInitDate().toString());
+        dateTV.setText(DateProvider.dateToDisplayStringWithTime(element.getInitDate()));
         lengthTV.setText(TimeDisplayStringProvider.millisecondsToStringBestDisplay(element.getEndDate().getTime()-element.getInitDate().getTime()));
         imagesIV.setVisibility(element.getConfiguration().isCameraEnabled()? View.VISIBLE: View.GONE);
         soundsIV.setVisibility(element.getConfiguration().isAudioEnabled()? View.VISIBLE: View.GONE);

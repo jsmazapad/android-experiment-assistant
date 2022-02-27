@@ -33,10 +33,11 @@
 
         <TextView
             android:id="@+id/dateTV"
-            style="@style/BaseItemListSecondaryTextView"
+            style="@style/BaseItemListSecondaryBoldTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Fecha de inicio"/>
+            android:gravity="end"
+            tools:text="Fecha de inicio" />
 
 
 
