@@ -1,5 +1,7 @@
 package com.jsm.exptool.providers;
 
+import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY;
+import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY_UNIT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.EMBEDDING_ALG;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.IMAGE_DATE_TIMESTAMP;
@@ -12,6 +14,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.work.BackoffPolicy;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkContinuation;
@@ -27,6 +30,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class WorksOrchestratorProvider {
@@ -89,7 +93,7 @@ public class WorksOrchestratorProvider {
             continuation = continuation.then(processImageRequest);
             //Obtención de vector embebido
             Data embeddingAdditionalData = createInputData(embeddingAdditionalValuesMap);
-            OneTimeWorkRequest obtainEmbeddingRequest = new OneTimeWorkRequest.Builder(ObtainEmbeddingWorker.class).setInputData(embeddingAdditionalData).build();
+            OneTimeWorkRequest obtainEmbeddingRequest = new OneTimeWorkRequest.Builder(ObtainEmbeddingWorker.class).setInputData(embeddingAdditionalData).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
             continuation = continuation.then(obtainEmbeddingRequest);
 
         }

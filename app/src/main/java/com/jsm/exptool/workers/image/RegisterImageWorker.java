@@ -9,6 +9,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.PROCESSED_IMAGE_H
 import static com.jsm.exptool.config.WorkerPropertiesConstants.PROCESSED_IMAGE_WIDTH;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Data;
@@ -41,7 +42,7 @@ public class RegisterImageWorker extends Worker {
         File imageFile = new File(imageFileName);
        //TODO Refactorizar para pasar un objeto limpio
         long insertedRowId = ImagesRepository.registerImageCapture(imageFile, experimentId, new Date(dateTimestamp));
-
+        Log.d("IMAGE_REGISTER", String.format("insertado con id %d", insertedRowId));
         Data outputData = new Data.Builder()
                 .putLong(IMAGE_REGISTER_ID, insertedRowId)
                 .build();

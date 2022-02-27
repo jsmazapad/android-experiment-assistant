@@ -19,7 +19,7 @@ public class ListConverter {
         List<Double> list = new ArrayList<>();
 
 
-        if(stringedList != null) {
+        if(stringedList != null && !"".equals(stringedList)) {
             String [] values = stringedList.split(DELIMITER);
             Double [] parsed = new Double[values.length];
             try {

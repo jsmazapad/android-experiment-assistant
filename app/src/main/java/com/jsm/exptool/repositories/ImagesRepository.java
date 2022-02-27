@@ -101,8 +101,8 @@ public class ImagesRepository {
         return DBHelper.insertImageRegister(imageRegister, result);
 
     }
-    public static void registerImageEmbedding(ImageRegister imageRegister, ImageEmbeddingVector vector){
+    public static int registerImageEmbedding(ImageRegister imageRegister, ImageEmbeddingVector vector){
         imageRegister.setEmbedding(vector.getEmbedding());
-        DBHelper.updateImage(imageRegister);
+        return DBHelper.updateImage(imageRegister);
     }
 }
