@@ -53,6 +53,8 @@
     <string name="camera_selector_button_content_description">Selección de cámara</string>
     <string name="camera_configuration_embedding_title">Configuración de algoritmo de embedding</string>
     <string name="default_button_save_title">Guardar</string>
+    <string name="perform_experiment_init_text">Iniciar</string>
+    <string name="perform_expriment_finish_text">Finalizar</string>
 
 
 </resources>

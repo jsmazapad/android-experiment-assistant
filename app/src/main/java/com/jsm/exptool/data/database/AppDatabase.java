@@ -5,6 +5,9 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.jsm.exptool.data.database.typeconverters.DateConverter;
+import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
+import com.jsm.exptool.data.database.typeconverters.ListConverter;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.ImageRegister;
 
@@ -14,7 +17,7 @@ import com.jsm.exptool.model.ImageRegister;
  */
 
 @Database(entities = {ImageRegister.class, Experiment.class}, version = 1)
-@TypeConverters({ListConverter.class, DateConverter.class})
+@TypeConverters({ListConverter.class, DateConverter.class, ExperimentStatusConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     /**
      * Obtiene un DAO de la entidad ImageRegister para realizar operaciones con la BD

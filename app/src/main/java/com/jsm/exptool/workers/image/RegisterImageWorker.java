@@ -1,12 +1,9 @@
 package com.jsm.exptool.workers.image;
 
-import static com.jsm.exptool.config.WorkerPropertiesConstants.EXPERIMENT_ID;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.IMAGE_DATE_TIMESTAMP;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.IMAGE_FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.IMAGE_REGISTER_ID;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.PROCESSED_IMAGE_FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.PROCESSED_IMAGE_HEIGHT;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.PROCESSED_IMAGE_WIDTH;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_DATE_TIMESTAMP;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_REGISTER_ID;
 
 import android.content.Context;
 import android.util.Log;
@@ -17,11 +14,9 @@ import androidx.work.ListenableWorker;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.jsm.exptool.libs.ImageResizer;
 import com.jsm.exptool.repositories.ImagesRepository;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 
 

@@ -1,4 +1,4 @@
-package com.jsm.exptool.data.database;
+package com.jsm.exptool.data.database.typeconverters;
 
 import androidx.room.TypeConverter;
 

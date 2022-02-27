@@ -2,22 +2,28 @@ package com.jsm.exptool.providers;
 
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY;
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY_UNIT;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.EMBEDDING_ALG;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.EXPERIMENT_ID;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.IMAGE_DATE_TIMESTAMP;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.IMAGE_FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.PROCESSED_IMAGE_FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.PROCESSED_IMAGE_HEIGHT;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.PROCESSED_IMAGE_WIDTH;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMBEDDING_ALG;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_DATE_TIMESTAMP;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_HEIGHT;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_WIDTH;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.PROCESS_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.work.BackoffPolicy;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkContinuation;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.jsm.exptool.model.Experiment;
@@ -29,8 +35,8 @@ import com.jsm.exptool.workers.image.RegisterImageWorker;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 
 public class WorksOrchestratorProvider {
@@ -43,16 +49,18 @@ public class WorksOrchestratorProvider {
 
     private WorksOrchestratorProvider() {
 
-    };
+    }
+
+    ;
 
     public static synchronized WorksOrchestratorProvider getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new WorksOrchestratorProvider();
         }
-        return(INSTANCE);
+        return (INSTANCE);
     }
 
-    public void init(Application application){
+    public void init(Application application) {
         mWorkManager = WorkManager.getInstance(application);
         mWorkManager.cancelAllWork();
         mWorkManager.pruneWork();
@@ -70,7 +78,8 @@ public class WorksOrchestratorProvider {
 
         //Register image
         Data registerImageData = createInputData(registerImageValues);
-        OneTimeWorkRequest registerImageRequest = new OneTimeWorkRequest.Builder(RegisterImageWorker.class).setInputData(registerImageData).build();
+        OneTimeWorkRequest registerImageRequest = new OneTimeWorkRequest.Builder(RegisterImageWorker.class)
+                .setInputData(registerImageData).addTag(REGISTER_IMAGE).build();
         WorkContinuation continuation = mWorkManager.beginWith(registerImageRequest);
 
 
@@ -89,11 +98,13 @@ public class WorksOrchestratorProvider {
 
             //Procesado de imagen
             Data processImageData = createInputData(processImageValuesMap);
-            OneTimeWorkRequest processImageRequest = new OneTimeWorkRequest.Builder(ProcessImageWorker.class).setInputData(processImageData).build();
+            OneTimeWorkRequest processImageRequest = new OneTimeWorkRequest.Builder(ProcessImageWorker.class)
+                    .setInputData(processImageData).addTag(PROCESS_IMAGE).build();
             continuation = continuation.then(processImageRequest);
             //Obtención de vector embebido
             Data embeddingAdditionalData = createInputData(embeddingAdditionalValuesMap);
-            OneTimeWorkRequest obtainEmbeddingRequest = new OneTimeWorkRequest.Builder(ObtainEmbeddingWorker.class).setInputData(embeddingAdditionalData).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
+            OneTimeWorkRequest obtainEmbeddingRequest = new OneTimeWorkRequest.Builder(ObtainEmbeddingWorker.class)
+                    .setInputData(embeddingAdditionalData).addTag(OBTAIN_EMBEDDED_IMAGE).addTag(REMOTE_WORK).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
             continuation = continuation.then(obtainEmbeddingRequest);
 
         }
@@ -111,13 +122,13 @@ public class WorksOrchestratorProvider {
 
     private Data createInputData(Map<String, Object> valuesMap) {
         Data.Builder builder = new Data.Builder();
-        for (Map.Entry<String,Object> entry:valuesMap.entrySet()) {
+        for (Map.Entry<String, Object> entry : valuesMap.entrySet()) {
             if (entry.getKey() != null && entry.getValue() != null) {
                 if (entry.getValue() instanceof String) {
-                    builder.putString(entry.getKey(), (String)entry.getValue());
-                }else if (entry.getValue() instanceof Integer) {
+                    builder.putString(entry.getKey(), (String) entry.getValue());
+                } else if (entry.getValue() instanceof Integer) {
                     builder.putInt(entry.getKey(), (Integer) entry.getValue());
-                }else if (entry.getValue() instanceof Long) {
+                } else if (entry.getValue() instanceof Long) {
                     builder.putLong(entry.getKey(), (Long) entry.getValue());
                 }
             }
@@ -125,6 +136,20 @@ public class WorksOrchestratorProvider {
         return builder.build();
     }
 
+    public LiveData<List<WorkInfo>> getWorkInfoByTag(String tag) {
+        return mWorkManager.getWorkInfosByTagLiveData(tag);
+    }
+
+    public int countSuccessWorks(List<WorkInfo> workInfos){
+        int succeededCounter = 0;
+        for (WorkInfo info : workInfos){
+            if(info.getState().isFinished() && info.getState() == WorkInfo.State.SUCCEEDED)
+            {
+                succeededCounter++;
+            }
+        }
+        return succeededCounter;
+    }
 
 
 }

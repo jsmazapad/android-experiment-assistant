@@ -6,9 +6,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.jsm.exptool.data.database.ListConverter;
 
 import java.util.Date;
 import java.util.List;

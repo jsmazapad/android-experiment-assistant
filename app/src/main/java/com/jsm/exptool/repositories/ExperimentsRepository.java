@@ -18,4 +18,9 @@ public class ExperimentsRepository {
         return DBHelper.insertExperiment(experiment);
     }
 
+    public static int updateExperiment(Experiment experiment){
+        return DBHelper.updateExperiment(experiment);
+    }
+
+
 }

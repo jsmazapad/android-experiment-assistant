@@ -49,6 +49,10 @@ public class DBHelper {
         return appDatabase.experimentDao().deleteById(register.getInternalId());
     }
 
+    public static int updateExperiment(Experiment register) {
+        return appDatabase.experimentDao().update(register);
+    }
+
     /*
     IMAGE REGISTERS
      */

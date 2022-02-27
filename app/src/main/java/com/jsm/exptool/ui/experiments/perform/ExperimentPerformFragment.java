@@ -59,6 +59,7 @@ public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFra
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
         viewModel.initCameraProvider(getContext(), this, binding.getRoot().findViewById(R.id.cameraPreview));
+        viewModel.initWorkInfoObservers(getViewLifecycleOwner());
 
     }
 

@@ -10,6 +10,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.jsm.exptool.libs.camera.CameraProvider;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class Experiment implements Parcelable {
     private String description;
     private Date initDate;
     private Date endDate;
-    private int status;
+    private ExperimentStatus status;
     @Embedded private ExperimentConfiguration configuration;
     @Ignore private List<MySensor> sensors = new ArrayList<>();
     @Ignore private ArrayList<ImageRegister> images = new ArrayList<>();;
@@ -44,7 +45,7 @@ public class Experiment implements Parcelable {
 
 
     @Ignore
-    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, int status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdkDevice, String device) {
+    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdkDevice, String device) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -60,7 +61,7 @@ public class Experiment implements Parcelable {
         this.device = device;
     }
 
-    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, int status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdkDevice, String device) {
+    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdkDevice, String device) {
         this.internalId = internalId;
         this.id = id;
         this.userId = userId;
@@ -133,11 +134,11 @@ public class Experiment implements Parcelable {
         this.endDate = endDate;
     }
 
-    public int getStatus() {
+    public ExperimentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(ExperimentStatus status) {
         this.status = status;
     }
 
@@ -203,8 +204,9 @@ public class Experiment implements Parcelable {
         dest.writeString(this.description);
         dest.writeLong(this.initDate != null ? this.initDate.getTime() : -1);
         dest.writeLong(this.endDate != null ? this.endDate.getTime() : -1);
+
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
         dest.writeParcelable(this.configuration,0);
-        dest.writeInt(this.status);
         dest.writeList(this.sensors);
         dest.writeList(this.images);
         dest.writeList(this.sounds);
@@ -222,7 +224,8 @@ public class Experiment implements Parcelable {
         this.initDate = tmpInit_date == -1 ? null : new Date(tmpInit_date);
         long tmpEnd_date = source.readLong();
         this.endDate = tmpEnd_date == -1 ? null : new Date(tmpEnd_date);
-        this.status = source.readInt();
+        int tmpExperimentStatus = source.readInt();
+        this.status = tmpExperimentStatus == -1 ? null : ExperimentStatus.values()[tmpExperimentStatus];
         this.configuration = source.readParcelable(ExperimentConfiguration.class.getClassLoader());
         this.sensors = new ArrayList<>();
         source.readList(this.sensors, Integer.class.getClassLoader());
@@ -252,4 +255,29 @@ public class Experiment implements Parcelable {
             return new Experiment[size];
         }
     };
+
+    public enum ExperimentStatus{
+        CREATED("CREATED"),
+        INITIATED("INITIATED"),
+        FINISHED("FINISHED");
+
+        public final String status;
+
+        ExperimentStatus(String status) {
+            this.status = status;
+        }
+
+        public static ExperimentStatus chooseByStatus(String status){
+            ExperimentStatus returnValue = null;
+            for (ExperimentStatus statusEnum: ExperimentStatus.values()) {
+                if (statusEnum.status == status)
+                {
+                    returnValue = statusEnum;
+                }
+
+            }
+            return returnValue;
+        }
+    }
+
 }

@@ -16,20 +16,88 @@
     android:layout_height="match_parent"
     tools:context=".ui.experiments.perform.ExperimentPerformFragment">
 
-    <TextView
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
-    <Button
-        style="@style/FullWidthButton"
-        android:text="Iniciar"
-        android:onClick="@{()-> viewModel.initExperiment(context)}"/>
-    <androidx.camera.view.PreviewView
-        android:id="@+id/cameraPreview"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imageCard"
+            style="@style/BaseCardView">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Imágenes" />
+                <androidx.camera.view.PreviewView
+                    android:id="@+id/cameraPreview"
+                    android:visibility="@{viewModel.imageCardEnabled ? View.VISIBLE : View.GONE}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+                        <TextView
+                            style="@style/BaseItemListSecondaryTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="10dp"
+                            android:text="Nº de imágenes" />
+
+                        <TextView
+                            style="@style/BaseItemListSecondaryBoldTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.numImages}" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:visibility="@{viewModel.embeddedInfoEnabled ? View.VISIBLE : View.GONE}"
+                        android:orientation="horizontal">
+                        <TextView
+                            style="@style/BaseItemListSecondaryTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="10dp"
+                            android:text="Nº de vectores de embedding" />
+
+                        <TextView
+                            style="@style/BaseItemListSecondaryBoldTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.numEmbeddings}" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <Button
+            style="@style/FullWidthButton"
+            android:enabled="@{viewModel.enableHandleExperimentButton}"
+            android:text="@{viewModel.changeStateText}"
+            android:onClick="@{()-> viewModel.handleExperimentState(context)}"/>
+    </LinearLayout>
+
 
 </FrameLayout>
 </layout>

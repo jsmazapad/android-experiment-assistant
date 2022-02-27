@@ -1,9 +1,9 @@
 package com.jsm.exptool.workers.image;
 
 import static com.jsm.exptool.config.NetworkConstants.MAX_RETRIES;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.EMBEDDING_ALG;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.IMAGE_FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.IMAGE_REGISTER_ID;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMBEDDING_ALG;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_REGISTER_ID;
 
 import android.content.Context;
 import android.util.Log;
