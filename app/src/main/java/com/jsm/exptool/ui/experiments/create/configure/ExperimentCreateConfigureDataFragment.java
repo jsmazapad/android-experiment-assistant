@@ -22,6 +22,7 @@ import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.Sensor.Accelerometer;
 import com.jsm.exptool.model.Sensor.Gravity;
+import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
             experiment.getConfiguration().setCameraConfig(new CameraConfig());
             experiment.getConfiguration().getCameraConfig().setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
             experiment.getConfiguration().setAudioConfig(new AudioConfig());
+            experiment.getConfiguration().getAudioConfig().setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
             experiment.setSensors(new ArrayList<MySensor>() {
                 {
                     add(new Accelerometer());

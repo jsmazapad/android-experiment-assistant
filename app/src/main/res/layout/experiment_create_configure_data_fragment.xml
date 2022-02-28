@@ -50,7 +50,7 @@
                 app:viewModel="@{viewModel}"/>
 
             <include layout="@layout/experiment_configure_audio_card_include"
-                android:visibility="@{viewModel.cameraSettingsEnabled ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.audioSettingsEnabled ? View.VISIBLE : View.GONE}"
                 app:viewModel="@{viewModel}"/>
 
             <com.google.android.material.card.MaterialCardView

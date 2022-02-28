@@ -5,6 +5,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -74,6 +75,14 @@ public abstract class BaseViewModel extends AndroidViewModel implements  SetShow
      */
     public void retryAction(){
         setShowDialogFalse();
+    }
+
+    /**
+     * Inicializa los observadores
+     * @param owner
+     */
+    public void initObservers(LifecycleOwner owner){
+
     }
 
 }

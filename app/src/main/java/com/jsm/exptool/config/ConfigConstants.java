@@ -9,4 +9,5 @@ public class ConfigConstants {
     public static final String DISPLAY_DATE_WITH_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
     //Argumentos de paso entre fragments
     public static final String CAMERA_CONFIG_ARG = "CAMERA_CONFIG_ARG";
+    public static final String AUDIO_CONFIG_ARG = "AUDIO_CONFIG_ARG";
 }

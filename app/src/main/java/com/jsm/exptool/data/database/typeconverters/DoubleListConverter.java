@@ -7,10 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Converter para insertar listas de Strings,
+ * Converter para insertar listas de Double,
  * Room no las entiende y hay que proporcionarle conversores de datos Custom
  */
-public class ListConverter {
+public class DoubleListConverter {
 
     private final static String DELIMITER = "@###@";
 

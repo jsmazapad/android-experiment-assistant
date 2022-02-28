@@ -62,15 +62,4 @@ public class RepeatableElement implements Parcelable {
         readFromParcel(in);
     }
 
-    public static final Parcelable.Creator<RepeatableElement> CREATOR = new Parcelable.Creator<RepeatableElement>() {
-        @Override
-        public RepeatableElement createFromParcel(Parcel source) {
-            return new RepeatableElement(source);
-        }
-
-        @Override
-        public RepeatableElement[] newArray(int size) {
-            return new RepeatableElement[size];
-        }
-    };
 }

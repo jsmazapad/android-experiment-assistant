@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_experiment_configure">
+    app:startDestination="@id/nav_experiment_create_audio_configuration">
 
 
     <fragment
@@ -34,6 +34,15 @@
         <argument
             android:name="cameraConfig"
             app:argType="com.jsm.exptool.model.experimentconfig.CameraConfig" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_experiment_create_audio_configuration"
+        android:name="com.jsm.exptool.ui.experiments.create.audioconfiguration.ExperimentAudioConfigurationFragment"
+        android:label="@string/title_experiments_configure_audio_fragment"
+        tools:layout="@layout/experiment_create_audio_confguration_fragment">
+        <argument
+            android:name="audioConfig"
+            app:argType="com.jsm.exptool.model.experimentconfig.AudioConfig" />
     </fragment>
     <fragment
         android:id="@+id/nav_experiment_create"

@@ -59,6 +59,7 @@ public abstract class BaseFragment<BT extends ViewDataBinding, VM extends BaseVi
 
             binding.setLifecycleOwner(this);
             executeExtraActionsInsideBindingInit();
+            viewModel.initObservers(getViewLifecycleOwner());
         }
 
         return binding.getRoot();

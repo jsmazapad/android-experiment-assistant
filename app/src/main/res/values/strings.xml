@@ -62,6 +62,15 @@
     <string name="default_error_database_register_entity">Se ha producido un error en el registro de datos</string>
     <string name="experiment_perform_resume_dialog_num_images"><![CDATA[Número de imágenes registradas: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_embedded"><![CDATA[<br>Número de imágenes analizadas en remoto: <b>%d</b><br>]]></string>
+    <!--
+  AUDIO CONFIGURATION
+  -->
+    <string name="audio_configuration_title">Configuración de grabación de audio</string>
+    <string name="audio_option_spinner_title">Seleccione formato de audio</string>
+    <string name="audio_bitrate_spinner_title">Seleccione bitrate</string>
+    <string name="audio_configuration_audio_option_title">Configuración de encoder de audio</string>
+    <string name="audio_configuration_audio_bitrate_title">Configuración de Bitrate</string>
+
 
 
 

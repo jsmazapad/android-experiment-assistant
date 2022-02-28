@@ -38,13 +38,13 @@ public class Experiment implements Parcelable {
     @Embedded private ExperimentConfiguration configuration;
     @Ignore private List<MySensor> sensors = new ArrayList<>();
     @Ignore private ArrayList<ImageRegister> images = new ArrayList<>();;
-    @Ignore private ArrayList<SoundRegister> sounds = new ArrayList<>();;
+    @Ignore private ArrayList<AudioRegister> sounds = new ArrayList<>();;
     private int sdkDevice;
     private String device;
 
 
     @Ignore
-    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdkDevice, String device) {
+    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, int sdkDevice, String device) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -60,7 +60,7 @@ public class Experiment implements Parcelable {
         this.device = device;
     }
 
-    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<SoundRegister> sounds, int sdkDevice, String device) {
+    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, int sdkDevice, String device) {
         this.internalId = internalId;
         this.id = id;
         this.userId = userId;
@@ -165,11 +165,11 @@ public class Experiment implements Parcelable {
         this.images = images;
     }
 
-    public ArrayList<SoundRegister> getSounds() {
+    public ArrayList<AudioRegister> getSounds() {
         return sounds;
     }
 
-    public void setSounds(ArrayList<SoundRegister> sounds) {
+    public void setSounds(ArrayList<AudioRegister> sounds) {
         this.sounds = sounds;
     }
 
@@ -230,8 +230,8 @@ public class Experiment implements Parcelable {
         source.readList(this.sensors, Integer.class.getClassLoader());
         this.images = new ArrayList<ImageRegister>();
         source.readList(this.images, ImageRegister.class.getClassLoader());
-        this.sounds = new ArrayList<SoundRegister>();
-        source.readList(this.sounds, SoundRegister.class.getClassLoader());
+        this.sounds = new ArrayList<AudioRegister>();
+        source.readList(this.sounds, AudioRegister.class.getClassLoader());
         this.sdkDevice = source.readInt();
         this.device = source.readString();
     }

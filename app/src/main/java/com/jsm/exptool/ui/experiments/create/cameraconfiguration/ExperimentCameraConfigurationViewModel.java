@@ -122,7 +122,7 @@ public class ExperimentCameraConfigurationViewModel extends BaseViewModel {
     }
 
     public EmbeddingAlgorithmsSpinnerAdapter getEmbeddingAlgAdapter(Context context){
-        return new EmbeddingAlgorithmsSpinnerAdapter(context, embbedingAlgorithms, R.layout.experiment_create_camera_configuration_spinner_list_item);
+        return new EmbeddingAlgorithmsSpinnerAdapter(context, embbedingAlgorithms, R.layout.generic_title_description_spinner_list_item);
     }
 
     public void handleRequestPermissions(BaseFragment fragment){

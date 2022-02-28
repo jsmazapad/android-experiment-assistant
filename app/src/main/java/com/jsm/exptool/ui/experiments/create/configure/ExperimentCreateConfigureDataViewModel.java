@@ -15,6 +15,7 @@ import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
+import com.jsm.exptool.model.AudioRecordingOption;
 import com.jsm.exptool.providers.CameraProvider;
 
 import com.jsm.exptool.model.Experiment;
@@ -100,6 +101,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         }
 
         initCameraSettingsData();
+        initAudioSettingsData();
 
     }
 
@@ -126,6 +128,11 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     }
 
     public void onCameraSelectConfiguration(Context c) {
+        NavController navController = ((MainActivity)c).getNavController();
+        navController.navigate(ExperimentCreateConfigureDataFragmentDirections.actionNavExperimentConfigureToNavExperimentCreateCameraConfiguration(this.cameraConfig.getRepeatableElement()));
+    }
+
+    public void onAudioSelectConfiguration(Context c) {
         NavController navController = ((MainActivity)c).getNavController();
         navController.navigate(ExperimentCreateConfigureDataFragmentDirections.actionNavExperimentConfigureToNavExperimentCreateCameraConfiguration(this.cameraConfig.getRepeatableElement()));
     }
@@ -282,6 +289,19 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         if (this.cameraSettingsEnabled.getValue() && cameraConfig != null) {
             this.cameraFlashImageResource.setValue(CameraProvider.getInstance().getFlashImageResource(cameraConfig.getRepeatableElement().getFlashMode()));
             this.cameraPositionImageResource.setValue(CameraProvider.getInstance().getCameraPositionImageResource(cameraConfig.getRepeatableElement().getCameraPosition()));
+            if(this.imageEmbeddingEnabled.getValue()){
+                this.embeddingAlgName.setValue(cameraConfig.getRepeatableElement().getEmbeddingAlgorithm().getDisplayName());
+            }
+        }
+    }
+
+    public void initAudioSettingsData(){
+        AudioConfig audioConfig = this.experiment.getConfiguration().getAudioConfig();
+        if (this.audioSettingsEnabled.getValue() && audioConfig != null) {
+            AudioRecordingOption recordingOption = audioConfig.getRecordingOption();
+            this.audioRecordBitRate.setValue(recordingOption != null? recordingOption.getSelectedEncodingBitRate() : null);
+            this.audioRecordOptionTitle.setValue(recordingOption != null? recordingOption.getDisplayName() : "");
+
             if(this.imageEmbeddingEnabled.getValue()){
                 this.embeddingAlgName.setValue(cameraConfig.getRepeatableElement().getEmbeddingAlgorithm().getDisplayName());
             }

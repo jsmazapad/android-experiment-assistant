@@ -10,109 +10,110 @@
             name="viewModel"
             type="com.jsm.exptool.ui.experiments.create.configure.ExperimentCreateConfigureDataViewModel" />
     </data>
-<com.google.android.material.card.MaterialCardView
-    android:id="@+id/cameraCard"
-    style="@style/BaseCardView"
-    tools:showIn="@layout/experiment_create_configure_data_fragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/cameraCardTitleTV"
-                style="@style/BaseCardTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/camera" />
-
-            <TextView
-                android:id="@+id/cameraFrequencyTV"
-                style="@style/BaseCardTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@{String.valueOf(viewModel.cameraFreqValue)}"
-                android:textAlignment="textEnd"
-                tools:text="0ms" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    style="@style/BaseIcon"
-                    android:src="@{viewModel.cameraPositionImageResource}"
-                    android:contentDescription="@string/camera_position_configuration_content_description" />
-
-                <ImageView
-                    style="@style/BaseIcon"
-                    android:src="@{viewModel.cameraFlashImageResource}"
-                    android:contentDescription="@string/camera_flashmode_configuration_content_description" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    style="@style/FrequencyButton"
-                    android:layout_width="wrap_content"
-                    android:contentDescription="@string/camera_frequency_configuration_content_description"
-                    android:onClick="@{() -> viewModel.onCameraSelectFrequency(context)}" />
-
-                <ImageButton
-                    style="@style/SettingsButton"
-                    android:layout_width="wrap_content"
-                    android:contentDescription="@string/camera_settings_configuration_content_description"
-                    android:onClick="@{() -> viewModel.onCameraSelectConfiguration(context)}"
-                    android:src="@drawable/ic_baseline_settings_24" />
-            </LinearLayout>
-        </LinearLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cameraCard"
+        style="@style/BaseCardView"
+        tools:showIn="@layout/experiment_create_configure_data_fragment">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
-            android:visibility="@{viewModel.imageEmbeddingEnabled ? View.VISIBLE : View.GONE}">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                style="@style/BaseItemListSecondaryTextView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="5dp"
-                android:paddingEnd="10dp"
-                android:text="@string/camera_frequency_configuration_embedding_alg_title" />
+                android:orientation="horizontal">
 
-            <TextView
-                style="@style/BaseItemListSecondaryBoldTextView"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/cameraCardTitleTV"
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/camera" />
+
+                <TextView
+                    android:id="@+id/cameraFrequencyTV"
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{viewModel.cameraFreqValue}"
+                    android:textAlignment="textEnd"
+                    tools:text="0ms" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.embeddingAlgName}" />
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/BaseIcon"
+                        android:contentDescription="@string/camera_position_configuration_content_description"
+                        android:src="@{viewModel.cameraPositionImageResource}" />
+
+                    <ImageView
+                        style="@style/BaseIcon"
+                        android:contentDescription="@string/camera_flashmode_configuration_content_description"
+                        android:src="@{viewModel.cameraFlashImageResource}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        style="@style/FrequencyButton"
+                        android:layout_width="wrap_content"
+                        android:contentDescription="@string/camera_frequency_configuration_content_description"
+                        android:onClick="@{() -> viewModel.onCameraSelectFrequency(context)}" />
+
+                    <ImageButton
+                        style="@style/SettingsButton"
+                        android:layout_width="wrap_content"
+                        android:contentDescription="@string/camera_settings_configuration_content_description"
+                        android:onClick="@{() -> viewModel.onCameraSelectConfiguration(context)}"
+                        android:src="@drawable/ic_baseline_settings_24" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:visibility="@{viewModel.imageEmbeddingEnabled ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    style="@style/BaseItemListSecondaryTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="10dp"
+                    android:text="@string/camera_frequency_configuration_embedding_alg_title" />
+
+                <TextView
+                    style="@style/BaseItemListSecondaryBoldTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.embeddingAlgName}" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

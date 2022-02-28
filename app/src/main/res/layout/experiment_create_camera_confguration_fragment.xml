@@ -97,8 +97,8 @@
                 android:prompt="@string/embedding_alg_spinner_title"
                 android:entries="@{viewModel.embbedingAlgorithms}"
                 app:spinnerAdapter="@{ viewModel.getEmbeddingAlgAdapter(context)}"
-                app:selectedValue="@={viewModel.SelectedEmbeddingAlgorithm}"
-                tools:listitem="@layout/experiment_create_camera_configuration_spinner_list_item" />
+                app:selectedValue="@={viewModel.selectedEmbeddingAlgorithm}"
+                tools:listitem="@layout/generic_title_description_spinner_list_item" />
             <TextView
                 style="@style/BaseItemListSecondaryTextView"
                 android:visibility="@{viewModel.isEmbeddedAlgorithmEnabled ? View.GONE : View.VISIBLE}"

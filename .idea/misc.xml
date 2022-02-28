@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.24583333333333332" />
+        <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.2109375" />
+        <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.2109375" />
         <entry key="app/src/main/res/drawable/bottom_border_background.xml" value="0.27" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.10914855072463768" />
         <entry key="app/src/main/res/layout/camera_confguration_fragment.xml" value="0.3496376811594203" />
@@ -11,8 +13,9 @@
         <entry key="app/src/main/res/layout/configuration_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_delay.xml" value="0.13253012048192772" />
         <entry key="app/src/main/res/layout/dialog_select_frequency.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/experiment_configure_audio_card_include.xml" value="1.1348684210526316" />
+        <entry key="app/src/main/res/layout/experiment_configure_audio_card_include.xml" value="0.75" />
         <entry key="app/src/main/res/layout/experiment_configure_camera_card_include.xml" value="0.27239583333333334" />
+        <entry key="app/src/main/res/layout/experiment_create_audio_confguration_fragment.xml" value="0.20520833333333333" />
         <entry key="app/src/main/res/layout/experiment_create_basic_data_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/experiment_create_basic_data_list_item.xml" value="0.3125" />
         <entry key="app/src/main/res/layout/experiment_create_camera_confguration_fragment.xml" value="0.5" />
@@ -25,6 +28,7 @@
         <entry key="app/src/main/res/layout/experiments_fragment.xml" value="0.26510416666666664" />
         <entry key="app/src/main/res/layout/experiments_list_fragment.xml" value="0.3958333333333333" />
         <entry key="app/src/main/res/layout/experiments_list_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/generic_title_description_spinner_list_item.xml" value="0.2109375" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.15443840579710144" />
         <entry key="app/src/main/res/layout/make_experiment_fragment.xml" value="0.3958333333333333" />
         <entry key="app/src/main/res/layout/view_layout_frequency_selector.xml" value="0.19630192502532928" />

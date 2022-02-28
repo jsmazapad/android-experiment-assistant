@@ -1,11 +1,11 @@
-package com.jsm.exptool.data.database;
+package com.jsm.exptool.data.database.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.jsm.exptool.model.ImageRegister;
+import com.jsm.exptool.model.AudioRegister;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * a partir de esta interface se autogenera el código necesario
  */
 @Dao
-public interface ImageRegisterDao {
+public interface AudioRegisterDao {
 
     /**
      * Selecciona todas las entidades de la BD
@@ -23,16 +23,16 @@ public interface ImageRegisterDao {
      * con otras fuentes de datos y lo ordenamos mediante programación
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME)
-    List<ImageRegister> getImages();
+    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME)
+    List<AudioRegister> getAudios();
 
     /**
      * Selecciona un registro mediante su id (externo)
      * @param id id de la entidad objetivo
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE _id" + " = :id LIMIT 1")
-    ImageRegister selectById(long id);
+    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE _id" + " = :id LIMIT 1")
+    AudioRegister selectById(long id);
 
     /**
      * Selecciona todas las entidades de la BD para un experimento
@@ -40,8 +40,8 @@ public interface ImageRegisterDao {
      * con otras fuentes de datos y lo ordenamos mediante programación
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId LIMIT 1")
-    List<ImageRegister> getImagesFromExperiment(long experimentId);
+    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId LIMIT 1")
+    List<AudioRegister> getAudiosFromExperiment(long experimentId);
 
     /**
      * Inserta un registro
@@ -49,7 +49,7 @@ public interface ImageRegisterDao {
      * @return Id del elemento insertado
      */
     @Insert
-    long insert(ImageRegister register);
+    long insert(AudioRegister register);
 
     /**
      * Actualiza un registro
@@ -57,13 +57,13 @@ public interface ImageRegisterDao {
      * @return num de registros afectados
      */
     @Update
-    int update(ImageRegister register);
+    int update(AudioRegister register);
 
     /**
      * Elimina un registro usando su id (externo)
      * @param id
      * @return  número de registros eliminados
      */
-    @Query("DELETE FROM " + ImageRegister.TABLE_NAME + " WHERE _id = :id")
+    @Query("DELETE FROM " + AudioRegister.TABLE_NAME + " WHERE _id = :id")
     int deleteById(long id);
 }

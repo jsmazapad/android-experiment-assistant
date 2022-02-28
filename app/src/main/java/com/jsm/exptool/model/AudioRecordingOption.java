@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.StringRes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AudioRecordingOption implements Parcelable {
     String displayName;
@@ -15,9 +16,9 @@ public class AudioRecordingOption implements Parcelable {
     private int audioEncoder;
     private String fileExtension;
     int selectedEncodingBitRate;
-    private ArrayList<Integer> encodingBitRatesOptions;
+    private List<Integer> encodingBitRatesOptions;
 
-    public AudioRecordingOption(String displayName, @StringRes int descriptionTranslatableRes, int audioSource, int outputFormat, int audioEncoder, String fileExtension, int selectedEncodingBitRate, ArrayList<Integer> encodingBitRatesOptions) {
+    public AudioRecordingOption(String displayName, @StringRes int descriptionTranslatableRes, int audioSource, int outputFormat, int audioEncoder, String fileExtension, int selectedEncodingBitRate, List<Integer> encodingBitRatesOptions) {
         this.displayName = displayName;
         this.descriptionTranslatableRes = descriptionTranslatableRes;
         this.audioSource = audioSource;
@@ -84,11 +85,11 @@ public class AudioRecordingOption implements Parcelable {
         this.selectedEncodingBitRate = selectedEncodingBitRate;
     }
 
-    public ArrayList<Integer> getEncodingBitRatesOptions() {
+    public List<Integer> getEncodingBitRatesOptions() {
         return encodingBitRatesOptions;
     }
 
-    public void setEncodingBitRatesOptions(ArrayList<Integer> encodingBitRatesOptions) {
+    public void setEncodingBitRatesOptions(List<Integer> encodingBitRatesOptions) {
         this.encodingBitRatesOptions = encodingBitRatesOptions;
     }
 
