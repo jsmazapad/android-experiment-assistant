@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -23,9 +24,9 @@ public class Proximity extends MySensor implements SensorEventListener {
     public float proximity;
 
     public Proximity() {
-        super(SensorConfigConstants.TYPE_PROXIMITY, R.string.proximity,  SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_PROXIMITY, R.string.proximity,  FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
 
-        if (sensor.getMinDelay()/1000 > SensorConfigConstants.MIN_INTERVAL_MILLIS){
+        if (sensor.getMinDelay()/1000 > FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS){
             Proximity.this.intervalMin = sensor.getMinDelay()/1000;
             Proximity.this.interval = sensor.getMinDelay()/1000;
         }

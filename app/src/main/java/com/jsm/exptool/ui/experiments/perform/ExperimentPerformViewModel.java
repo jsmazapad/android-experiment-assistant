@@ -3,16 +3,13 @@ package com.jsm.exptool.ui.experiments.perform;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
 
-import android.Manifest;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.text.Html;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.camera.view.PreviewView;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -20,6 +17,7 @@ import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.loading.LoadingViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
@@ -27,9 +25,11 @@ import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
+import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.providers.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
-import com.jsm.exptool.ui.camera.CameraPermissionsInterface;
+import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -138,12 +138,11 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
 
     }
 
-    public void initCameraProvider(Context context, LifecycleOwner owner, CameraPermissionsInterface cameraPermission, PreviewView previewView) {
+    public void initCameraProvider(Context context, LifecycleOwner owner, RequestPermissionsInterface cameraPermission, PreviewView previewView) {
         if (experiment.getConfiguration().isCameraEnabled()) {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                cameraPermission.requestPermissions();
+            if (RequestPermissionsProvider.handleCheckPermissionsForCamera(context, cameraPermission))
                 return;
-            }
+
             CameraProvider.getInstance().initCamera(context, previewView, null);
             previewView.getPreviewStreamState().observe(owner, streamState -> {
                 isLoading.setValue(streamState.equals(PreviewView.StreamState.IDLE));
@@ -213,4 +212,25 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
             //TODO Navegar a listado experimentos
         }, null, null);
     }
+
+    public void handleRequestPermissions(BaseFragment fragment){
+        PermissionsResultCallBack callback =  new PermissionsResultCallBack() {
+            @Override
+            public void onPermissionsAccepted() {
+                initCameraProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
+            }
+
+            @Override
+            public void onPermissionsError(List<String> rejectedPermissions) {
+                //TODO Mejorar error
+                handleError(new BaseException("Error en permisos", false), fragment.getContext());
+            }
+        };
+
+        RequestPermissionsProvider.requestPermissionsForCamera(fragment, callback);
+
+    }
+
+
+
 }

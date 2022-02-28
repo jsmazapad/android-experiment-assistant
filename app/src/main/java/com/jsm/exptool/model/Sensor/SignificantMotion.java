@@ -6,6 +6,7 @@ import android.hardware.TriggerEvent;
 import android.hardware.TriggerEventListener;
 import android.util.Log;
 
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -33,7 +34,7 @@ public class SignificantMotion extends MySensor {
     };
 
     public SignificantMotion() {
-        super(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION, R.string.significant_motion,  SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION, R.string.significant_motion,  FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
             SignificantMotion.this.intervalMin = 0;
             SignificantMotion.this.interval = 0;
     }

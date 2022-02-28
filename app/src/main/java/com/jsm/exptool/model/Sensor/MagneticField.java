@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -25,9 +26,9 @@ public class MagneticField extends MySensor implements SensorEventListener {
     public float z;
 
     public MagneticField() {
-        super(SensorConfigConstants.TYPE_MAGNETIC_FIELD, R.string.magnetic_field, SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_MAGNETIC_FIELD, R.string.magnetic_field, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
 
-        if (sensor.getMinDelay()/1000 > SensorConfigConstants.MIN_INTERVAL_MILLIS){
+        if (sensor.getMinDelay()/1000 > FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS){
             MagneticField.this.intervalMin = sensor.getMinDelay()/1000;
             MagneticField.this.interval = sensor.getMinDelay()/1000;
         }

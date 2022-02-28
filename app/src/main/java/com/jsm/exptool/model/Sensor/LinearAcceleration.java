@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -25,9 +26,9 @@ public class LinearAcceleration extends MySensor implements SensorEventListener 
     public float z;
 
     public LinearAcceleration() {
-        super(SensorConfigConstants.TYPE_LINEAR_ACCELERATION, R.string.linear_acceleration, SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_LINEAR_ACCELERATION, R.string.linear_acceleration, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
 
-        if (sensor.getMinDelay()/1000 > SensorConfigConstants.MIN_INTERVAL_MILLIS){
+        if (sensor.getMinDelay()/1000 > FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS){
             LinearAcceleration.this.intervalMin = sensor.getMinDelay()/1000;
             LinearAcceleration.this.interval = sensor.getMinDelay()/1000;
         }

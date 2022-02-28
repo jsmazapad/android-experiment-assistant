@@ -16,6 +16,9 @@ import java.io.File;
 public class CameraProvider {
 
 
+    /**
+     * Manejador de la cámara
+     */
     CameraXHandler cameraHandler;
 
     private static CameraProvider INSTANCE = null;
@@ -24,20 +27,37 @@ public class CameraProvider {
 
     private CameraProvider() {
         cameraHandler = new CameraXHandler();
-    };
+    }
+
 
     public static synchronized CameraProvider getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new CameraProvider();
         }
-        return(INSTANCE);
+        return (INSTANCE);
     }
 
-    public void initCamera(Context context, PreviewView previewView, ImageReceivedCallback imageReceivedCallback, FlashModes flashMode, CameraPositions cameraPosition){
+    /**
+     * Inicializa la cámara
+     *
+     * @param context
+     * @param previewView
+     * @param imageReceivedCallback
+     * @param flashMode
+     * @param cameraPosition
+     */
+    public void initCamera(Context context, PreviewView previewView, ImageReceivedCallback imageReceivedCallback, FlashModes flashMode, CameraPositions cameraPosition) {
         cameraHandler.initCamera(context, previewView, imageReceivedCallback, flashMode.flashMode, cameraPosition.cameraPositionMode);
     }
 
-    public void initCamera(Context context, PreviewView previewView, ImageReceivedCallback imageReceivedCallback){
+    /**
+     * Inicializa la cámara
+     *
+     * @param context
+     * @param previewView
+     * @param imageReceivedCallback
+     */
+    public void initCamera(Context context, PreviewView previewView, ImageReceivedCallback imageReceivedCallback) {
         cameraHandler.initCamera(context, previewView, imageReceivedCallback);
     }
 
@@ -45,34 +65,73 @@ public class CameraProvider {
 //    public void closeCamera(){
 //    }
 
-    public void setFlashMode(Context context, FlashModes mode){
+    /**
+     * Setea el tipo de flash de la cámara
+     *
+     * @param context
+     * @param mode
+     */
+    public void setFlashMode(Context context, FlashModes mode) {
         cameraHandler.changeFlash(context, mode.flashMode);
     }
 
-    public FlashModes getFlashMode(){
+    /**
+     * Obtiene el tipo de flash de la cámara
+     *
+     * @return
+     */
+    public FlashModes getFlashMode() {
         return CameraProvider.FlashModes.chooseByFlashMode(cameraHandler.getFlashMode());
     }
 
-    public CameraPositions switchCamera(Context context){
+    /**
+     * Rota entre la cámara delantera y la trasera
+     *
+     * @param context
+     * @return La posición a la que ha rotado la cámara
+     */
+    public CameraPositions switchCamera(Context context) {
         return CameraPositions.chooseByLensFacing(cameraHandler.switchLensFacing(context));
     }
 
-    public CameraPositions getCameraPosition(){
+    /**
+     * Obtiene la posición de la cámara
+     *
+     * @return
+     */
+    public CameraPositions getCameraPosition() {
         return CameraProvider.CameraPositions.chooseByLensFacing(cameraHandler.getLensFacing());
     }
 
-    public void takePicture(File f){
+    /**
+     * Realiza una foto con el callback proporcionado al iniciar la cámara
+     *
+     * @param f
+     */
+    public void takePicture(File f) {
         cameraHandler.takePicture(f);
     }
 
-    public void takePicture(File f, ImageReceivedCallback imageReceivedCallback){
+    /**
+     * Realiza una foto sustituyendo el callback de la cámara
+     *
+     * @param f
+     * @param imageReceivedCallback
+     */
+    public void takePicture(File f, ImageReceivedCallback imageReceivedCallback) {
         cameraHandler.takePicture(f, imageReceivedCallback);
     }
 
 
+    /**
+     * Obtiene una imagen asociada al modo de flash proporcionado
+     *
+     * @param mode
+     * @return
+     */
 
-    public int getFlashImageResource(FlashModes mode){
-        switch (mode){
+    public int getFlashImageResource(FlashModes mode) {
+        switch (mode) {
             case ON:
                 return R.drawable.ic_flash_on;
             case OFF:
@@ -84,8 +143,14 @@ public class CameraProvider {
         }
     }
 
-    public int getCameraPositionImageResource(CameraPositions mode){
-        switch (mode){
+    /**
+     * Obtiene una imagen asociada a la posición de la cámara proporcionada
+     *
+     * @param mode
+     * @return
+     */
+    public int getCameraPositionImageResource(CameraPositions mode) {
+        switch (mode) {
             case FRONT:
                 return R.drawable.ic_baseline_camera_front_24;
             case REAR:
@@ -95,6 +160,9 @@ public class CameraProvider {
         }
     }
 
+    /**
+     * Tipos de Flash
+     */
     public enum FlashModes {
         OFF(ImageCapture.FLASH_MODE_OFF),
         AUTO(ImageCapture.FLASH_MODE_AUTO),
@@ -107,11 +175,10 @@ public class CameraProvider {
             this.flashMode = flashMode;
         }
 
-        public static FlashModes chooseByFlashMode(int imageCaptureMode){
+        public static FlashModes chooseByFlashMode(int imageCaptureMode) {
             FlashModes returnValue = null;
-            for (FlashModes mode: FlashModes.values()) {
-                if (mode.flashMode == imageCaptureMode)
-                {
+            for (FlashModes mode : FlashModes.values()) {
+                if (mode.flashMode == imageCaptureMode) {
                     returnValue = mode;
                 }
 
@@ -120,7 +187,10 @@ public class CameraProvider {
         }
     }
 
-    public enum CameraPositions{
+    /**
+     * Posiciones de la cámara
+     */
+    public enum CameraPositions {
         REAR(CameraSelector.LENS_FACING_BACK),
         FRONT(CameraSelector.LENS_FACING_FRONT);
 
@@ -131,11 +201,10 @@ public class CameraProvider {
             this.cameraPositionMode = cameraPositionMode;
         }
 
-        public static CameraPositions chooseByLensFacing(int cameraPosition){
+        public static CameraPositions chooseByLensFacing(int cameraPosition) {
             CameraPositions returnValue = null;
-            for (CameraPositions mode: CameraPositions.values()) {
-                if (mode.cameraPositionMode == cameraPosition)
-                {
+            for (CameraPositions mode : CameraPositions.values()) {
+                if (mode.cameraPositionMode == cameraPosition) {
                     returnValue = mode;
                 }
 

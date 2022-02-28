@@ -2,7 +2,7 @@ package com.jsm.exptool.providers;
 
 import android.content.SharedPreferences;
 
-import com.jsm.exptool.config.SensorConfigConstants;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.core.utils.PreferenceManager;
 
 /**
@@ -15,7 +15,9 @@ public class PreferencesProvider {
     private final static String PASSWORD = "PASSWORD";
     private final static String USER = "USER";
     private final static String REMOTE_SERVER = "REMOTE_SERVER";
-    private final static String DEFAULT_FREQ = "DEFAULT_FREQ";
+    private final static String SENSOR_DEFAULT_FREQ = "SENSOR_DEFAULT_FREQ";
+    private final static String CAMERA_DEFAULT_FREQ = "CAMERA_DEFAULT_FREQ";
+    private final static String AUDIO_DEFAULT_FREQ = "AUDIO_DEFAULT_FREQ";
 
 
 //    /**
@@ -99,17 +101,51 @@ public class PreferencesProvider {
         }
     }
 
-    public static int getDefaultFreq() {
-        int data = PreferenceManager.getSharedPreferences().getInt(DEFAULT_FREQ, SensorConfigConstants.DEFAULT_FREQ);
+    public static int getSensorDefaultFreq() {
+        int data = PreferenceManager.getSharedPreferences().getInt(SENSOR_DEFAULT_FREQ, FrequencyConstants.DEFAULT_SENSOR_FREQ);
         return data;
 
     }
 
-    public static void setDefaultFreq(int value) {
+    public static void setSensorDefaultFreq(int value) {
         try {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
-            editor.putInt(DEFAULT_FREQ, value);
+            editor.putInt(SENSOR_DEFAULT_FREQ, value);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getCameraDefaultFreq() {
+        int data = PreferenceManager.getSharedPreferences().getInt(CAMERA_DEFAULT_FREQ, FrequencyConstants.DEFAULT_CAMERA_FREQ);
+        return data;
+
+    }
+
+    public static void setCameraDefaultFreq(int value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putInt(CAMERA_DEFAULT_FREQ, value);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getAudioDefaultFreq() {
+        int data = PreferenceManager.getSharedPreferences().getInt(AUDIO_DEFAULT_FREQ, FrequencyConstants.DEFAULT_AUDIO_FREQ);
+        return data;
+
+    }
+
+    public static void setAudioDefaultFreq(int value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putInt(AUDIO_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
             e.printStackTrace();

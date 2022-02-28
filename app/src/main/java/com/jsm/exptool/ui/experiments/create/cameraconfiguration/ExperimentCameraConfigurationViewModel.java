@@ -2,26 +2,27 @@ package com.jsm.exptool.ui.experiments.create.cameraconfiguration;
 
 import static com.jsm.exptool.config.ConfigConstants.CAMERA_CONFIG_ARG;
 
-import android.Manifest;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.camera.view.PreviewView;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
-import com.jsm.exptool.ui.camera.CameraPermissionsInterface;
+import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
+import com.jsm.exptool.providers.RequestPermissionsProvider;
+import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.List;
@@ -45,10 +46,10 @@ public class ExperimentCameraConfigurationViewModel extends BaseViewModel {
         selectedEmbeddingAlgorithm.setValue(cameraConfig.getEmbeddingAlgorithm() != null ? cameraConfig.getEmbeddingAlgorithm(): embbedingAlgorithms.get(0));
     }
 
-    public void initCameraProvider(Context context, CameraPermissionsInterface cameraPermission, PreviewView previewView) {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            cameraPermission.requestPermissions();
-        }
+    public void initCameraProvider(Context context, RequestPermissionsInterface cameraPermission, PreviewView previewView) {
+        if (RequestPermissionsProvider.handleCheckPermissionsForCamera(context, cameraPermission))
+            return;
+
         CameraProvider.getInstance().initCamera(context, previewView, null, cameraConfig.getFlashMode(), cameraConfig.getCameraPosition());
     }
 
@@ -68,9 +69,6 @@ public class ExperimentCameraConfigurationViewModel extends BaseViewModel {
         return selectedEmbeddingAlgorithm;
     }
 
-//    public void setSelectedEmbeddingAlgorithm(MutableLiveData<EmbeddingAlgorithm> selectedEmbeddingAlgorithm) {
-//        this.selectedEmbeddingAlgorithm = selectedEmbeddingAlgorithm;
-//    }
 
     public boolean isEmbeddedAlgorithmEnabled(){
         return cameraConfig.getEmbeddingAlgorithm() != null;
@@ -125,6 +123,24 @@ public class ExperimentCameraConfigurationViewModel extends BaseViewModel {
 
     public EmbeddingAlgorithmsSpinnerAdapter getEmbeddingAlgAdapter(Context context){
         return new EmbeddingAlgorithmsSpinnerAdapter(context, embbedingAlgorithms, R.layout.experiment_create_camera_configuration_spinner_list_item);
+    }
+
+    public void handleRequestPermissions(BaseFragment fragment){
+        PermissionsResultCallBack callback =  new PermissionsResultCallBack() {
+            @Override
+            public void onPermissionsAccepted() {
+                initCameraProvider(fragment.getContext(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
+            }
+
+            @Override
+            public void onPermissionsError(List<String> rejectedPermissions) {
+                //TODO Mejorar error
+                handleError(new BaseException("Error en permisos", false), fragment.getContext());
+            }
+        };
+
+        RequestPermissionsProvider.requestPermissionsForCamera(fragment, callback);
+
     }
 
 

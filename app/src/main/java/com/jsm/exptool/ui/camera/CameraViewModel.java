@@ -11,6 +11,7 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
 
+import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
@@ -18,7 +19,7 @@ import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.libs.ImageResizer;
 import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
-import com.jsm.exptool.model.ImageEmbeddingVector;
+import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class CameraViewModel extends BaseViewModel implements ImageReceivedCallb
         super(application);
     }
 
-    public void initCameraProvider(Context context, CameraPermissionsInterface cameraPermission, PreviewView previewView){
+    public void initCameraProvider(Context context, RequestPermissionsInterface cameraPermission, PreviewView previewView){
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             cameraPermission.requestPermissions();
         }

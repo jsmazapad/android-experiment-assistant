@@ -18,16 +18,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.CameraFragmentBinding;
-import com.jsm.exptool.model.ImageEmbeddingVector;
+import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
+import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
 
 import java.util.Map;
 
-public class CameraFragment extends BaseFragment<CameraFragmentBinding, CameraViewModel> implements CameraPermissionsInterface {
+public class RequestFragment extends BaseFragment<CameraFragmentBinding, CameraViewModel> implements RequestPermissionsInterface {
 
 
     @Override

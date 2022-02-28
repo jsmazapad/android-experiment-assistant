@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -25,9 +26,9 @@ public class GameRotationVector extends MySensor implements SensorEventListener 
     public float z;
 
     public GameRotationVector() {
-        super(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR, R.string.game_rotation_vector, SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR, R.string.game_rotation_vector, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
 
-        if (sensor.getMinDelay()/1000 > SensorConfigConstants.MIN_INTERVAL_MILLIS){
+        if (sensor.getMinDelay()/1000 > FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS){
             GameRotationVector.this.intervalMin = sensor.getMinDelay()/1000;
             GameRotationVector.this.interval = sensor.getMinDelay()/1000;
         }

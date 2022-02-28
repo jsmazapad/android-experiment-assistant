@@ -2,7 +2,7 @@ package com.jsm.exptool.data.network.deserializers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.jsm.exptool.model.ImageEmbeddingVector;
+import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
 
 
 class ImageEmbeddingVectorDeserializerStrategy implements DeserializerElementStrategyInterface<ImageEmbeddingVector> {

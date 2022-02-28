@@ -13,6 +13,7 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -31,7 +32,7 @@ public class GPS extends MySensor implements LocationListener {
     public DecimalFormat format = new DecimalFormat("#.0000000");
 
     public GPS() {
-        super(SensorConfigConstants.TYPE_GPS, R.string.gps, SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_GPS, R.string.gps, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
     }
 
     public void updateGUI() {

@@ -12,8 +12,7 @@ import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.data.network.AnalyticsApiService;
 import com.jsm.exptool.data.network.AppDeserializerProvider;
 import com.jsm.exptool.data.network.AppNetworkErrorTreatment;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.ImageEmbeddingVector;
+import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
 import com.jsm.exptool.model.ImageRegister;
 
 import java.io.File;

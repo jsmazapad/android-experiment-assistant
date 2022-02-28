@@ -6,6 +6,7 @@ import android.hardware.TriggerEvent;
 import android.hardware.TriggerEventListener;
 import android.util.Log;
 
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -33,7 +34,7 @@ public class StepDetector extends MySensor {
     };
 
     public StepDetector() {
-        super(SensorConfigConstants.TYPE_STEP_DETECTOR, R.string.step_detect,  SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_STEP_DETECTOR, R.string.step_detect,  FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
             StepDetector.this.intervalMin = 0;
             StepDetector.this.interval = 0;
     }

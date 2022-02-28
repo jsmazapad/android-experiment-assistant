@@ -7,6 +7,7 @@ import android.hardware.TriggerEventListener;
 import android.util.Log;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -35,7 +36,7 @@ public class StationaryDetect extends MySensor {
     };
 
     public StationaryDetect() {
-        super(SensorConfigConstants.TYPE_STATIONARY_DETECT, R.string.stationary_detect,  SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_STATIONARY_DETECT, R.string.stationary_detect,  FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
             StationaryDetect.this.intervalMin = 0;
             StationaryDetect.this.interval = 0;
     }

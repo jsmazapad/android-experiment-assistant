@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="AMR_NB_description">Adaptive Multi-Rate Narrowband. Optimized for speech recording. AMR speech codec consists of a multi-rate narrowband speech codec that encodes narrowband (200–3400 Hz) signals at variable bit rates ranging from 4.75 to 12.2 kbit/s with toll quality (extracted from Wikipedia)</string>
+    <string name="AMR_WB_description">Adaptive Multi-Rate Wideband. Optimized for speech recording. Provides improved speech quality due to a wider speech bandwidth of 50–7000 Hz compared to narrowband speech coders (extracted from Wikipedia)</string>
+    <string name="AAC_HE_description">High–Efficiency Advanced Audio Coding (HE–AAC) is an audio coding format for lossy data compression of digital audio defined as an MPEG–4 Audio profile in ISO/IEC 14496–3(extracted from Wikipedia)</string>
+</resources>

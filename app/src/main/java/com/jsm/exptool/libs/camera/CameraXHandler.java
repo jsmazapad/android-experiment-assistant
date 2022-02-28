@@ -121,6 +121,7 @@ public class CameraXHandler {
                 // Currently no exceptions thrown. cameraProviderFuture.get()
                 // shouldn't block since the listener is being called, so no need to
                 // handle InterruptedException.
+                e.printStackTrace();
             }
         }, ContextCompat.getMainExecutor(context));
     }
@@ -134,9 +135,7 @@ public class CameraXHandler {
 
     //TODO Desacoplar de init imageReceivedCallback y recibirlo desde aquí
     public void takePicture(File mFile){
-        if (imageReceivedCallback != null){
-            this.imageReceivedCallback = imageReceivedCallback;
-        }
+
         Executor cameraExecutor =  Executors.newSingleThreadExecutor();
         ImageCapture.OutputFileOptions outputFileOptions =
                 new ImageCapture.OutputFileOptions.Builder(mFile).build();

@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -25,9 +26,9 @@ public class GeomagneticRotationVector extends MySensor implements SensorEventLi
     public float z;
 
     public GeomagneticRotationVector() {
-        super(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR, R.string.geomagnetic_rotation_vector, SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR, R.string.geomagnetic_rotation_vector, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
 
-        if (sensor.getMinDelay()/1000 > SensorConfigConstants.MIN_INTERVAL_MILLIS){
+        if (sensor.getMinDelay()/1000 > FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS){
             GeomagneticRotationVector.this.intervalMin = sensor.getMinDelay()/1000;
             GeomagneticRotationVector.this.interval = sensor.getMinDelay()/1000;
         }

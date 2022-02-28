@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -23,8 +24,8 @@ public class StepCounter extends MySensor implements SensorEventListener {
     public float step;
 
     public StepCounter() {
-        super(SensorConfigConstants.TYPE_STEP_COUNTER, R.string.step_counter,  SensorConfigConstants.MIN_INTERVAL_MILLIS);
-        if (sensor.getMinDelay()/1000 > SensorConfigConstants.MIN_INTERVAL_MILLIS){
+        super(SensorConfigConstants.TYPE_STEP_COUNTER, R.string.step_counter,  FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
+        if (sensor.getMinDelay()/1000 > FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS){
             StepCounter.this.intervalMin = sensor.getMinDelay()/1000;
             StepCounter.this.interval = sensor.getMinDelay()/1000;
         }

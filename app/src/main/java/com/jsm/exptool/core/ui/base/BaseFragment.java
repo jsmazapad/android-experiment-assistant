@@ -125,5 +125,12 @@ public abstract class BaseFragment<BT extends ViewDataBinding, VM extends BaseVi
         setShowingDialog(false);
     }
 
+    /**
+     * Devuelve el binding de la vista
+     */
+    protected BT getBinding() {
+        return binding;
+    }
+
 
 }

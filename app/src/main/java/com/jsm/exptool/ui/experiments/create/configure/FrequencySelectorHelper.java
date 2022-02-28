@@ -1,6 +1,6 @@
 package com.jsm.exptool.ui.experiments.create.configure;
 
-import static com.jsm.exptool.config.SensorConfigConstants.DEFAULT_STEPS_FREQ;
+import static com.jsm.exptool.config.FrequencyConstants.DEFAULT_STEPS_FREQ;
 
 import android.widget.ImageButton;
 import android.widget.SeekBar;

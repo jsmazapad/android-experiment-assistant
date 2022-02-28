@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
-import com.jsm.exptool.model.ImageEmbeddingVector;
+import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

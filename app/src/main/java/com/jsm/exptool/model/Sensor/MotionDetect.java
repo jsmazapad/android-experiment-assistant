@@ -6,6 +6,7 @@ import android.hardware.TriggerEvent;
 import android.hardware.TriggerEventListener;
 import android.util.Log;
 
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -33,7 +34,7 @@ public class MotionDetect extends MySensor {
     };
 
     public MotionDetect() {
-        super(SensorConfigConstants.TYPE_MOTION_DETECT, R.string.motion_detect,  SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_MOTION_DETECT, R.string.motion_detect,  FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
             MotionDetect.this.intervalMin = 0;
             MotionDetect.this.interval = 0;
     }

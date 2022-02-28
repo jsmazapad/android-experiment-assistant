@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.jsm.exptool.BuildConfig;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
@@ -23,9 +24,9 @@ public class HeartRate extends MySensor implements SensorEventListener {
     public float rate;
 
     public HeartRate() {
-        super(SensorConfigConstants.TYPE_HEART_RATE, R.string.heart_rate,  SensorConfigConstants.MIN_INTERVAL_MILLIS);
+        super(SensorConfigConstants.TYPE_HEART_RATE, R.string.heart_rate,  FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS);
 
-        if (sensor.getMinDelay()/1000 > SensorConfigConstants.MIN_INTERVAL_MILLIS){
+        if (sensor.getMinDelay()/1000 > FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS){
             HeartRate.this.intervalMin = sensor.getMinDelay()/1000;
             HeartRate.this.interval = sensor.getMinDelay()/1000;
         }
