@@ -11,100 +11,114 @@
             name="viewModel"
             type="com.jsm.exptool.ui.experiments.create.configure.ExperimentCreateConfigureDataViewModel" />
     </data>
-
-    <androidx.core.widget.NestedScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_gravity="top">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="80dp"
+                android:orientation="vertical">
 
 
-            <include layout="@layout/experiment_configure_camera_card_include"
-                android:visibility="@{viewModel.cameraSettingsEnabled ? View.VISIBLE : View.GONE}"
-                app:viewModel="@{viewModel}"/>
+                <include
+                    layout="@layout/experiment_configure_camera_card_include"
+                    android:visibility="@{viewModel.cameraSettingsEnabled ? View.VISIBLE : View.GONE}"
+                    app:viewModel="@{viewModel}" />
 
-            <include layout="@layout/experiment_configure_audio_card_include"
-                android:visibility="@{viewModel.audioSettingsEnabled ? View.VISIBLE : View.GONE}"
-                app:viewModel="@{viewModel}"/>
+                <include
+                    layout="@layout/experiment_configure_audio_card_include"
+                    android:visibility="@{viewModel.audioSettingsEnabled ? View.VISIBLE : View.GONE}"
+                    app:viewModel="@{viewModel}" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/sensorsCard"
-                style="@style/BaseCardView"
-                android:visibility="@{viewModel.sensorSettingsEnabled ? View.VISIBLE : View.GONE}">
-
-                <LinearLayout
-                    android:id="@+id/linearLayout4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/experimentSensorsTitleTV"
-                        style="@style/BaseCardTitleTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sensors" />
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/globalFrequencyCard"
-                        style="@style/BaseCardView">
-
-
-
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/sensorsCard"
+                    style="@style/BaseCardView"
+                    android:visibility="@{viewModel.sensorSettingsEnabled ? View.VISIBLE : View.GONE}">
 
                     <LinearLayout
+                        android:id="@+id/linearLayout4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/globalFreqCardTitleTV"
-                            style="@style/BaseItemListSecondaryBoldTextView"
+                            android:id="@+id/experimentSensorsTitleTV"
+                            style="@style/BaseCardTitleTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/select_global_frequency_text" />
+                            android:text="@string/sensors" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/globalFrequencyCard"
+                            style="@style/BaseCardView">
 
 
-                        <include
-                            android:id="@+id/frequencySelectorIncluded"
-                            layout="@layout/view_layout_frequency_selector" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/globalFreqCardTitleTV"
+                                    style="@style/BaseItemListSecondaryBoldTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/select_global_frequency_text" />
+
+
+                                <include
+                                    android:id="@+id/frequencySelectorIncluded"
+                                    layout="@layout/view_layout_frequency_selector" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/elementsRV"
+                            style="@style/RecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="128dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:listitem="@layout/experiment_create_basic_data_list_item">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <TextView
+                            android:id="@+id/empty"
+                            style="@style/TextViewNoItems"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/default_recyclerview_emptyMessage"
+                            android:visibility="@{viewModel.textEmptyVisibility ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
                     </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
+            </LinearLayout>
 
+        </androidx.core.widget.NestedScrollView>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/elementsRV"
-                        style="@style/RecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="128dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:listitem="@layout/experiment_create_basic_data_list_item">
+        <com.google.android.material.button.MaterialButton
+            style="@style/FullWidthButton"
+            android:layout_gravity="bottom|center_horizontal|center_vertical"
+            android:onClick="@{(view) -> viewModel.finishConfiguration(context)}"
+            android:text="@string/button_finish_configuration_title" />
+    </FrameLayout>
 
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <TextView
-                        android:id="@+id/empty"
-                        style="@style/TextViewNoItems"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/default_recyclerview_emptyMessage"
-                        android:visibility="@{viewModel.textEmptyVisibility ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 </layout>

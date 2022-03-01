@@ -335,4 +335,8 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     public void onSeekBarValueSelected(int value, SeekBar seekbarId) {
         this.globalFreqValue.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(value));
     }
+
+    public void finishConfiguration(Context context){
+
+    }
 }

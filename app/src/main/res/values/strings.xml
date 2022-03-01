@@ -24,6 +24,7 @@
     -->
     <string name="use_default_frequency">Usar frecuencia global</string>
     <string name="button_continue">Continuar</string>
+    <string name="button_finish_configuration_title">Finalizar configuración</string>
     <!--
     CREATE EXPERIMENT: CAMERA CARD
     -->
