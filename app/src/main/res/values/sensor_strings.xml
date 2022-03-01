@@ -25,4 +25,6 @@
     <string name="gps">GPS</string>
     <string name="camera">Cámara</string>
     <string name="audio">Audio</string>
+    <string name="sensors">Sensores</string>
+
 </resources>

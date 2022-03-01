@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.create.configure;
+package com.jsm.exptool.libs;
 
 import static com.jsm.exptool.config.FrequencyConstants.DEFAULT_STEPS_FREQ;
 
@@ -8,14 +8,12 @@ import android.widget.TextView;
 
 
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
-public class FrequencySelectorHelper {
+public class SeekbarSelectorHelper {
 
-    public static <T extends RepeatableElement> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencyConfigurationVO<T> sensorConfiguration, SelectFrequencyDialogProvider.OnFrequencySelectedListener listener, final int minValue, final int maxValue) {
+    public static <T extends RepeatableElement> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue) {
 
         final TextView minDelayTV = includedSelectorBinding.minDelayTV;
         final TextView maxDelayTV = includedSelectorBinding.maxDelayTV;
@@ -23,8 +21,8 @@ public class FrequencySelectorHelper {
         final ImageButton minusButton = includedSelectorBinding.minusButton;
         final ImageButton plusButton = includedSelectorBinding.plusButton;
         final SeekBar seekbarFrequency = includedSelectorBinding.seekbarFrequency;
-        seekbarFrequency.setMax((int) maxValue);
-        seekbarFrequency.setProgress(sensorConfiguration.getRepeatableElement().getInterval());
+        seekbarFrequency.setMax(maxValue);
+        seekbarFrequency.setProgress(initialValue);
         seekbarFrequency.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
@@ -42,14 +40,13 @@ public class FrequencySelectorHelper {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if (seekBar.getProgress() < minValue) {
-                    seekBar.setProgress((int) minValue);
+                    seekBar.setProgress(minValue);
                 } else if (seekBar.getProgress() > maxValue) {
-                    seekBar.setProgress((int) maxValue);
+                    seekBar.setProgress(maxValue);
                 }
 
                 if (listener != null) {
-                    sensorConfiguration.getRepeatableElement().setInterval((int) includedSelectorBinding.seekbarFrequency.getProgress());
-                    listener.onFrequencySelected(sensorConfiguration);
+                    listener.onSeekBarValueSelected(includedSelectorBinding.seekbarFrequency.getProgress(), includedSelectorBinding.seekbarFrequency);
                 }
             }
 
@@ -58,9 +55,9 @@ public class FrequencySelectorHelper {
 
         minDelayTV.setText(TimeDisplayStringProvider.millisecondsToStringBestDisplay(minValue));
         maxDelayTV.setText(TimeDisplayStringProvider.millisecondsToStringBestDisplay(maxValue));
-        changeFrequencyText(frequencyTV, sensorConfiguration.getRepeatableElement().getInterval());
+        changeFrequencyText(frequencyTV, includedSelectorBinding.seekbarFrequency.getProgress());
         minusButton.setOnClickListener(v -> {
-            if (seekbarFrequency.getProgress() >= sensorConfiguration.getRepeatableElement().getIntervalMin() + DEFAULT_STEPS_FREQ && seekbarFrequency.getProgress() >= minValue + DEFAULT_STEPS_FREQ) {
+            if (seekbarFrequency.getProgress() >= minValue + DEFAULT_STEPS_FREQ && seekbarFrequency.getProgress() >= minValue + DEFAULT_STEPS_FREQ) {
                 seekbarFrequency.setProgress(seekbarFrequency.getProgress() - DEFAULT_STEPS_FREQ);
                 changeFrequencyText(frequencyTV, seekbarFrequency.getProgress());
             }
@@ -78,5 +75,9 @@ public class FrequencySelectorHelper {
 
     private static void changeFrequencyText(TextView frequencyTV, int value) {
         frequencyTV.setText(TimeDisplayStringProvider.millisecondsToStringBestDisplay(value));
+    }
+
+    public interface FrequencySelectorListener{
+        void onSeekBarValueSelected(int value, SeekBar seekBar);
     }
 }

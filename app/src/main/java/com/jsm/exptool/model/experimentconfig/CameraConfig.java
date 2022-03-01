@@ -16,21 +16,21 @@ public class CameraConfig extends RepeatableElement{
     CameraProvider.CameraPositions cameraPosition = CameraProvider.CameraPositions.REAR;
     @Embedded EmbeddingAlgorithm embeddingAlgorithm;
     public CameraConfig(int nameStringResource, int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
-        super(nameStringResource, interval, intervalMin);
+        super(interval, intervalMin, nameStringResource);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
         this.embeddingAlgorithm = embeddingAlgorithm;
     }
     @Ignore
     public CameraConfig( int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
-        super(R.string.camera, interval, intervalMin);
+        super(interval, intervalMin, R.string.audio);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
         this.embeddingAlgorithm = embeddingAlgorithm;
     }
     @Ignore
     public CameraConfig(){
-
+        this.nameStringResource = R.string.camera;
     }
 
 

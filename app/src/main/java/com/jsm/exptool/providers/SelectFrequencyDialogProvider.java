@@ -1,43 +1,60 @@
 package com.jsm.exptool.providers;
 
+import static com.jsm.exptool.ui.experiments.create.configure.ExperimentCreateConfigureDataViewModel.CONFIGURING_AUDIO_DURATION_TAG;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.jsm.exptool.R;
 import com.jsm.exptool.databinding.DialogSelectFrequencyBinding;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
+import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-import com.jsm.exptool.ui.experiments.create.configure.FrequencySelectorHelper;
+import com.jsm.exptool.libs.SeekbarSelectorHelper;
 
 
 public class SelectFrequencyDialogProvider {
     //TODO Refactorizar interface comun entre cámara, imagen y sensores
-    public static <T extends RepeatableElement> void  createDialog(Context context, FrequencyConfigurationVO<T> sensorConfiguration, OnFrequencySelectedListener listener, final int minValue, final int maxValue) {
+    public static <T extends RepeatableElement> void  createDialog(Context context, FrequencyConfigurationVO<T> frequencyConfiguration, OnFrequencySelectedListener listener, final int minValue, final int maxValue, final int initialValue, boolean showGlobal, @Nullable String selectedAttributeTag, @Nullable String alternativeTitle) {
 
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(context);
         DialogSelectFrequencyBinding binding = DialogSelectFrequencyBinding.inflate(layoutInflaterAndroid);
         View mView = binding.getRoot();
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         mBuilder.setView(mView);
-        mBuilder.setTitle(String.format(context.getString(R.string.configure_frequency_title), context.getString(sensorConfiguration.getRepeatableElement().getNameStringResource())));
+        if(alternativeTitle == null) {
+            mBuilder.setTitle(String.format(context.getString(R.string.configure_frequency_title), context.getString(frequencyConfiguration.getRepeatableElement().getNameStringResource())));
+        }else{
+            mBuilder.setTitle(alternativeTitle);
+        }
         ViewLayoutFrequencySelectorBinding includedSelectorBinding = binding.frequencySelectorIncluded;
-        FrequencySelectorHelper.initFrequencySelector( includedSelectorBinding,  sensorConfiguration,  null, minValue, maxValue);
+        SeekbarSelectorHelper.initFrequencySelector( includedSelectorBinding,null, minValue, maxValue, initialValue);
         final SwitchMaterial defaultFreqSwitch = binding.switchSensorGlobalFrequency;
-        defaultFreqSwitch.setOnCheckedChangeListener((compoundButton, checked) -> {
-            sensorConfiguration.setDefaultConfigurationEnabled(checked);
-            binding.frequencySelectorLL.setVisibility(checked? View.GONE : View.VISIBLE);
-        });
-        defaultFreqSwitch.setChecked(sensorConfiguration.isDefaultConfigurationEnabled());
+        if(showGlobal) {
+            defaultFreqSwitch.setOnCheckedChangeListener((compoundButton, checked) -> {
+                frequencyConfiguration.setDefaultConfigurationEnabled(checked);
+                binding.frequencySelectorLL.setVisibility(checked ? View.GONE : View.VISIBLE);
+            });
+            defaultFreqSwitch.setChecked(frequencyConfiguration.isDefaultConfigurationEnabled());
+        }else{
+            defaultFreqSwitch.setVisibility(View.GONE);
+            defaultFreqSwitch.setChecked(false);
+        }
 
 
         mBuilder.setPositiveButton(R.string.default_modal_okButton, (dialog, which) -> {
-            sensorConfiguration.getRepeatableElement().setInterval((int) includedSelectorBinding.seekbarFrequency.getProgress());
-            listener.onFrequencySelected(sensorConfiguration);
+            if(CONFIGURING_AUDIO_DURATION_TAG.equals(selectedAttributeTag)) {
+                ((AudioConfig)frequencyConfiguration.getRepeatableElement()).setRecordingDuration(includedSelectorBinding.seekbarFrequency.getProgress());
+            }else{
+                frequencyConfiguration.getRepeatableElement().setInterval(includedSelectorBinding.seekbarFrequency.getProgress());
+            }
+            listener.onFrequencySelected(frequencyConfiguration, selectedAttributeTag);
         });
         mBuilder.setNegativeButton(R.string.default_modal_cancelButton, (dialog, which) -> dialog.cancel());
 
@@ -50,6 +67,6 @@ public class SelectFrequencyDialogProvider {
 
 
     public interface OnFrequencySelectedListener{
-        <T extends RepeatableElement> void onFrequencySelected(FrequencyConfigurationVO<T> sensorConfiguration);
+        <T extends RepeatableElement> void onFrequencySelected(FrequencyConfigurationVO<T> sensorConfiguration, String selectedAttributeTag);
     }
 }

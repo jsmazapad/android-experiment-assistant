@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_experiment_create_audio_configuration">
+    app:startDestination="@id/nav_experiment_configure">
 
 
     <fragment
@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_nav_experiment_configure_to_nav_experiment_create_camera_configuration"
             app:destination="@id/nav_experiment_create_camera_configuration" />
+        <action
+            android:id="@+id/action_nav_experiment_configure_to_nav_experiment_create_audio_configuration"
+            app:destination="@id/nav_experiment_create_audio_configuration" />
     </fragment>
 
 </navigation>

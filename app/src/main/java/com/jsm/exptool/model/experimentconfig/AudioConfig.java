@@ -6,19 +6,31 @@ import android.os.Parcel;
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.model.AudioRecordingOption;
 
-public class AudioConfig extends RepeatableElement{
+public class AudioConfig extends RepeatableElement {
 
-    @Embedded private AudioRecordingOption recordingOption;
+    @Embedded
+    private AudioRecordingOption recordingOption;
+    int recordingDuration;
 
-    public AudioConfig(int interval, int intervalMin, int nameStringResource,AudioRecordingOption recordingOption) {
+    public AudioConfig(int nameStringResource, int interval, int intervalMin, AudioRecordingOption recordingOption, int recordingDuration) {
         super(interval, intervalMin, nameStringResource);
         this.recordingOption = recordingOption;
+        this.recordingDuration = recordingDuration;
     }
-    @Ignore
-    public AudioConfig(){
 
+    @Ignore
+    public AudioConfig(int interval, int intervalMin, AudioRecordingOption recordingOption, int recordingDuration) {
+        super(interval, intervalMin, R.string.audio);
+        this.recordingOption = recordingOption;
+        this.recordingDuration = recordingDuration;
+    }
+
+    @Ignore
+    public AudioConfig() {
+        this.nameStringResource = R.string.audio;
     }
 
     public AudioRecordingOption getRecordingOption() {
@@ -29,6 +41,13 @@ public class AudioConfig extends RepeatableElement{
         this.recordingOption = recordingOption;
     }
 
+    public int getRecordingDuration() {
+        return recordingDuration;
+    }
+
+    public void setRecordingDuration(int recordingDuration) {
+        this.recordingDuration = recordingDuration;
+    }
 
     @Override
     public int describeContents() {
@@ -39,11 +58,13 @@ public class AudioConfig extends RepeatableElement{
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeParcelable(this.recordingOption, flags);
+        dest.writeInt(this.recordingDuration);
     }
 
     public void readFromParcel(Parcel source) {
         super.readFromParcel(source);
         this.recordingOption = source.readParcelable(AudioRecordingOption.class.getClassLoader());
+        this.recordingDuration = source.readInt();
     }
 
     protected AudioConfig(Parcel in) {

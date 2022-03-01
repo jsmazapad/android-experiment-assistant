@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 public class RepeatableElement implements Parcelable {
     // Interval in milliseconds
-    public int interval;
-    public int intervalMin;
+    protected int interval;
+    protected int intervalMin;
     protected int nameStringResource;
 
     public RepeatableElement(int interval, int intervalMin, int nameStringResource) {
@@ -40,6 +40,7 @@ public class RepeatableElement implements Parcelable {
     }
 
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -59,7 +60,18 @@ public class RepeatableElement implements Parcelable {
     }
 
     protected RepeatableElement(Parcel in) {
-        readFromParcel(in);
+       readFromParcel(in);
     }
 
+    public static final Creator<RepeatableElement> CREATOR = new Creator<RepeatableElement>() {
+        @Override
+        public RepeatableElement createFromParcel(Parcel source) {
+            return new RepeatableElement(source);
+        }
+
+        @Override
+        public RepeatableElement[] newArray(int size) {
+            return new RepeatableElement[size];
+        }
+    };
 }

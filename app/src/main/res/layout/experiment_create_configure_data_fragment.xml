@@ -21,29 +21,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/globalFrequencyCard"
-                style="@style/BaseCardView">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/globalFreqCardTitleTV"
-                        style="@style/BaseCardTitleTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Frecuencia Global" />
-
-                    <include
-                        android:id="@+id/frequencySelectorIncluded"
-                        layout="@layout/view_layout_frequency_selector" />
-                </LinearLayout>
-
-
-            </com.google.android.material.card.MaterialCardView>
 
             <include layout="@layout/experiment_configure_camera_card_include"
                 android:visibility="@{viewModel.cameraSettingsEnabled ? View.VISIBLE : View.GONE}"
@@ -69,7 +46,33 @@
                         style="@style/BaseCardTitleTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sensores" />
+                        android:text="@string/sensors" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/globalFrequencyCard"
+                        style="@style/BaseCardView">
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/globalFreqCardTitleTV"
+                            style="@style/BaseItemListSecondaryBoldTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_global_frequency_text" />
+
+
+                        <include
+                            android:id="@+id/frequencySelectorIncluded"
+                            layout="@layout/view_layout_frequency_selector" />
+                    </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
 
 
                     <androidx.recyclerview.widget.RecyclerView

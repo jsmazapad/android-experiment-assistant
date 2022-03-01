@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "38346e2452601a4615083296f5de6a99",
+    "identityHash": "6aa785e2d5a0fbabc000f82853c30b83",
     "entities": [
       {
         "tableName": "imageRegisters",
@@ -83,7 +83,7 @@
       },
       {
         "tableName": "experiments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_nameStringResource` INTEGER, `audio_config_displayName` TEXT, `audio_config_descriptionTranslatableRes` INTEGER, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `global_config_interval` INTEGER, `global_config_intervalMin` INTEGER, `global_config_nameStringResource` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_nameStringResource` INTEGER, `audio_config_recordingDuration` INTEGER, `audio_config_displayName` TEXT, `audio_config_descriptionTranslatableRes` INTEGER, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `global_config_interval` INTEGER, `global_config_intervalMin` INTEGER, `global_config_nameStringResource` INTEGER)",
         "fields": [
           {
             "fieldPath": "internalId",
@@ -226,6 +226,12 @@
           {
             "fieldPath": "configuration.audioConfig.nameStringResource",
             "columnName": "audio_config_nameStringResource",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingDuration",
+            "columnName": "audio_config_recordingDuration",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -382,7 +388,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"38346e2452601a4615083296f5de6a99\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6aa785e2d5a0fbabc000f82853c30b83\")"
     ]
   }
 }

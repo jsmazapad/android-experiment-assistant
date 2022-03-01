@@ -27,19 +27,26 @@
     <!--
     CREATE EXPERIMENT: CAMERA CARD
     -->
-    <string name="not_configured_functionality_text">Este experimento no tiene configurada esta funcionalidad</string>
+    <string name="not_configured_functionality_text">Este experimento no tiene habilitada esta funcionalidad</string>
     <string name="camera_frequency_configuration_content_description">Configurar frecuencia de actualización de cámara</string>
     <string name="camera_frequency_configuration_embedding_alg_title">Embedding:</string>
     <string name="camera_position_configuration_content_description">Posición de la cámara</string>
     <string name="camera_flashmode_configuration_content_description">Modo de flash de la cámara</string>
     <string name="camera_settings_configuration_content_description">Configurar las propiedades de la cámara</string>
-
+    <!--
+    CREATE EXPERIMENT: AUDIO CARD
+    -->
+    <string name="audio_frequency_configuration_content_description">Configurar frecuencia de inicio de grabación de audio</string>
+    <string name="audio_duration_configuration_content_description">Configurar duración de grabaciones de audio</string>
+    <string name="audio_settings_configuration_content_description">Configurar las propiedades de la grabación de audio</string>
     <!--
     FREQUENCY
     -->
+    <string name="select_global_frequency_text">Seleccione Frecuencia Global</string>
     <string name="min_delay">Delay mínimo</string>
     <string name="max_delay">Delay máximo</string>
     <string name="configure_frequency_title">Configurar Frecuencia:\n%s</string>
+    <string name="configure_duration">Configurar Duración:\n%s</string>
     <string name="content_description_slider_to_select_frequency">Slider to select frequency</string>
     <string name="global_frequency_literal">Global</string>
 
@@ -70,7 +77,6 @@
     <string name="audio_bitrate_spinner_title">Seleccione bitrate</string>
     <string name="audio_configuration_audio_option_title">Configuración de encoder de audio</string>
     <string name="audio_configuration_audio_bitrate_title">Configuración de Bitrate</string>
-
 
 
 

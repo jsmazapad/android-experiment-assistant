@@ -105,6 +105,10 @@
     </style>
 
     <style name="FrequencyButton" parent="BaseImageButton" >
+        <item name="srcCompat">@drawable/ic_baseline_av_timer_24</item>
+    </style>
+
+    <style name="DurationButton" parent="BaseImageButton" >
         <item name="srcCompat">@drawable/ic_baseline_timer_24</item>
     </style>
 
