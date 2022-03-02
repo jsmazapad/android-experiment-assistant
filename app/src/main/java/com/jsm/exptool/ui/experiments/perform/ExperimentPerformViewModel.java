@@ -244,7 +244,7 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
 
     private void initAudioComponents() {
 
-        imageCardEnabled.setValue(experiment.getConfiguration().isAudioEnabled());
+        audioCardEnabled.setValue(experiment.getConfiguration().isAudioEnabled());
 
     }
 
@@ -262,7 +262,7 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         //AUDIO
         LiveData<List<WorkInfo>> registerAudioWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_AUDIO);
         registerAudioWorkInfo.observe(owner, workInfoList -> {
-            numImages.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+            numAudios.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
         });
 
     }
