@@ -15,7 +15,7 @@ import com.jsm.exptool.R;
 public class ModalMessage {
 
     /**
-     * Crea un diálogo, si no se le pasa buttonOkLabel pone la etiqueta por defecto del botón Ok, si no se le pasa buttonCancelLabel
+     * Crea un diálogo de dos botones, si no se le pasa buttonOkLabel pone la etiqueta por defecto del botón Ok, si no se le pasa buttonCancelLabel
      * no genera el botón de cancelar
      *
      * @param context
@@ -27,8 +27,25 @@ public class ModalMessage {
      * @param buttonCancelListener
      *
      */
-
     public static void showModalMessage(Context context, String title, String message, @Nullable String buttonOkLabel, @Nullable DialogInterface.OnClickListener buttonOkListener, @Nullable String buttonCancelLabel, @Nullable DialogInterface.OnClickListener buttonCancelListener) {
+        showModalMessageWithThreeButtons(context, title, message, buttonOkLabel, buttonOkListener, buttonCancelLabel, buttonCancelListener, null, null);
+    }
+
+
+    /**
+     * Crea un diálogo de tres botones, si no se le pasa buttonOkLabel pone la etiqueta por defecto del botón Ok, si no se le pasa buttonCancelLabel
+     * no genera el botón de cancelar, si no se le pasa buttonMiddleLabel no genera el botón de enmedio
+     * @param context
+     * @param title
+     * @param message
+     * @param buttonOkLabel
+     * @param buttonOkListener
+     * @param buttonCancelLabel
+     * @param buttonCancelListener
+     * @param buttonMiddleLabel
+     * @param buttonMiddleListener
+     */
+    public static void showModalMessageWithThreeButtons(Context context, String title, String message, @Nullable String buttonOkLabel, @Nullable DialogInterface.OnClickListener buttonOkListener, @Nullable String buttonCancelLabel, @Nullable DialogInterface.OnClickListener buttonCancelListener, @Nullable String buttonMiddleLabel, @Nullable DialogInterface.OnClickListener buttonMiddleListener) {
 
         String okLabel = context.getString(R.string.default_modal_okButton);
         if (buttonOkLabel != null) {
@@ -70,17 +87,21 @@ public class ModalMessage {
                     }
                 });
 
-            dialogBuilder.setCancelable(false);
+
+        }
+        if (buttonMiddleLabel != null) {
 
 
-//            if (buttonCancelListener != null) {
-//                dialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        buttonCancelListener.onClick(dialog, 0);
-//                    }
-//                });
-//            }
+            dialogBuilder.setNeutralButton(buttonMiddleLabel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(buttonMiddleListener != null) {
+                        buttonMiddleListener.onClick(dialog, which);
+
+                    }
+
+                }
+            });
 
 
         }

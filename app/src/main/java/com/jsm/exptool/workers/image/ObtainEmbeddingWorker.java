@@ -2,7 +2,7 @@ package com.jsm.exptool.workers.image;
 
 import static com.jsm.exptool.config.NetworkConstants.MAX_RETRIES;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMBEDDING_ALG;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_REGISTER_ID;
 
 import android.content.Context;
@@ -31,7 +31,7 @@ public class ObtainEmbeddingWorker extends RxWorker {
         Log.d("IMAGE_REGISTER", String.format("Reintento num %d", getRunAttemptCount()));
 
         return Single.create(emitter -> {
-            String imageFilePath = getInputData().getString(IMAGE_FILE_NAME);
+            String imageFilePath = getInputData().getString(FILE_NAME);
             long insertedRowId = getInputData().getLong(IMAGE_REGISTER_ID, -1);
             String embeddingAlg = getInputData().getString(EMBEDDING_ALG);
             if(imageFilePath == null || embeddingAlg == null || insertedRowId == -1){

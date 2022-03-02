@@ -1,7 +1,11 @@
 package com.jsm.exptool.libs.requestpermissions;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -29,5 +33,20 @@ public class RequestPermissionsHandler {
 
                 });
         mPermissionResult.launch(permissions);
+    }
+
+    public static boolean handleCheckPermissionsForElement(Context context, RequestPermissionsInterface requestPermissions, String[] permissions) {
+        boolean needToRequestPermission = false;
+        for (String permission : permissions) {
+            needToRequestPermission = (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED);
+            if (needToRequestPermission) {
+                break;
+            }
+        }
+        if (needToRequestPermission) {
+            requestPermissions.requestPermissions();
+        }
+        return needToRequestPermission;
+
     }
 }

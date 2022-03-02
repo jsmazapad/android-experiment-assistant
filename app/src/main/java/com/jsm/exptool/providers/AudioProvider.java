@@ -29,19 +29,19 @@ public class AudioProvider {
         return AudioConfigConstants.SUPPORTED_AUDIO_CONFIGURATIONS;
     }
 
-    boolean record(File file, AudioRecordingOption recordingOption){
+    public boolean record(File file, AudioRecordingOption recordingOption){
         return audioHandler.startRecording(file, recordingOption.getAudioSource(), recordingOption.getOutputFormat(), recordingOption.getSelectedEncodingBitRate(), recordingOption.getAudioEncoder());
     }
 
-    void stopRecording(){
+    public void stopRecording(){
         audioHandler.stopRecording();
     }
 
-    boolean play(File f){
+    public boolean play(File f){
         return audioHandler.startPlaying(f);
     }
 
-    void stopPlaying(){
+    public void stopPlaying(){
         audioHandler.stopPlaying();
     }
 

@@ -4,13 +4,14 @@ import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY;
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY_UNIT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMBEDDING_ALG;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_DATE_TIMESTAMP;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_HEIGHT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_WIDTH;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.PROCESS_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 
@@ -28,6 +29,7 @@ import androidx.work.WorkManager;
 
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
+import com.jsm.exptool.workers.audio.RegisterAudioWorker;
 import com.jsm.exptool.workers.image.ObtainEmbeddingWorker;
 import com.jsm.exptool.workers.image.ProcessImageWorker;
 import com.jsm.exptool.workers.image.RegisterImageWorker;
@@ -66,14 +68,27 @@ public class WorksOrchestratorProvider {
         mWorkManager.pruneWork();
     }
 
+    public void executeAudioChain(Context context, File mFile, Date date, Experiment experiment){
+        Map<String, Object> registerImageValues = new HashMap<String, Object>() {{
+            put(FILE_NAME, mFile.getPath());
+            put(EXPERIMENT_ID, experiment.getInternalId());
+            put(DATE_TIMESTAMP, date.getTime());
+        }};
+        //Register image
+        Data registerImageData = createInputData(registerImageValues);
+        OneTimeWorkRequest registerAudioRequest = new OneTimeWorkRequest.Builder(RegisterAudioWorker.class)
+                .setInputData(registerImageData).addTag(REGISTER_AUDIO).build();
+        mWorkManager.enqueue(registerAudioRequest);
+    }
+
     public void executeImageChain(Context context, File mFile, Date date, Experiment experiment) {
         Log.d("WORKER", "Image chain started");
         CameraConfig cameraConfig = experiment.getConfiguration().getCameraConfig();
 
         Map<String, Object> registerImageValues = new HashMap<String, Object>() {{
-            put(IMAGE_FILE_NAME, mFile.getPath());
+            put(FILE_NAME, mFile.getPath());
             put(EXPERIMENT_ID, experiment.getInternalId());
-            put(IMAGE_DATE_TIMESTAMP, date.getTime());
+            put(DATE_TIMESTAMP, date.getTime());
         }};
 
         //Register image
@@ -87,7 +102,7 @@ public class WorksOrchestratorProvider {
             String processedFileName = mFile.getParent() + "/resized" + mFile.getName();
 
             Map<String, Object> processImageValuesMap = new HashMap<String, Object>() {{
-                put(IMAGE_FILE_NAME, mFile.getPath());
+                put(FILE_NAME, mFile.getPath());
                 put(PROCESSED_IMAGE_FILE_NAME, processedFileName);
                 put(PROCESSED_IMAGE_HEIGHT, cameraConfig.getEmbeddingAlgorithm().getOptimalImageHeight());
                 put(PROCESSED_IMAGE_WIDTH, cameraConfig.getEmbeddingAlgorithm().getOptimalImageHeight());

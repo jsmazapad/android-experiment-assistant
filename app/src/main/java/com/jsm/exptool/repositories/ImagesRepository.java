@@ -95,9 +95,7 @@ public class ImagesRepository {
 
     public static long registerImageCapture(File imageFile, long experimentId, Date date){
         ImageRegister imageRegister = new ImageRegister(imageFile.getName(), imageFile.getParent(), new ArrayList<>(), false, false, false, experimentId, date);
-        //TODO Refactorizar para quitar livedata
-        MutableLiveData<Boolean> result = new MutableLiveData<>();
-        return DBHelper.insertImageRegister(imageRegister, result);
+        return DBHelper.insertImageRegister(imageRegister);
 
     }
     public static int registerImageEmbedding(ImageRegister imageRegister, ImageEmbeddingVector vector){

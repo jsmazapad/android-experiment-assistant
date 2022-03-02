@@ -24,6 +24,9 @@
         android:name="com.jsm.exptool.ui.experiments.perform.ExperimentPerformFragment"
         android:label="@string/title_configuration_fragment"
         tools:layout="@layout/experiment_perform_fragment">
+        <argument
+            android:name="experiment"
+            app:argType="com.jsm.exptool.model.Experiment" />
     </fragment>
 
     <fragment
@@ -67,6 +70,9 @@
         <action
             android:id="@+id/action_nav_experiment_configure_to_nav_experiment_create_audio_configuration"
             app:destination="@id/nav_experiment_create_audio_configuration" />
+        <action
+            android:id="@+id/action_nav_experiment_configure_to_nav_perform_experiment"
+            app:destination="@id/nav_perform_experiment" />
     </fragment>
 
 </navigation>

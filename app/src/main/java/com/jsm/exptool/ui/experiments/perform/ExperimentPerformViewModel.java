@@ -1,6 +1,7 @@
 package com.jsm.exptool.ui.experiments.perform;
 
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
 
 import android.app.Application;
@@ -16,11 +17,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.config.ConfigConstants;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.loading.LoadingViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
+import com.jsm.exptool.model.experimentconfig.AudioConfig;
+import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
@@ -52,6 +56,10 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
     private final MutableLiveData<Boolean> imageCardEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> embeddedInfoEnabled = new MutableLiveData<>(false);
 
+    private final MutableLiveData<Integer> numAudios = new MutableLiveData<>(0);
+    private final MutableLiveData<Boolean> audioCardEnabled = new MutableLiveData<>(false);
+
+
 
     public ExperimentPerformViewModel(@NonNull Application application, Experiment experiment) {
         super(application);
@@ -59,6 +67,7 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         orchestratorProvider = WorksOrchestratorProvider.getInstance();
         orchestratorProvider.init(getApplication());
         initImageComponents();
+        initAudioComponents();
         changeStateText.setValue(application.getString(R.string.perform_experiment_init_text));
     }
 
@@ -76,6 +85,14 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
 
     public MutableLiveData<Boolean> getEmbeddedInfoEnabled() {
         return embeddedInfoEnabled;
+    }
+
+    public MutableLiveData<Integer> getNumAudios() {
+        return numAudios;
+    }
+
+    public MutableLiveData<Boolean> getAudioCardEnabled() {
+        return audioCardEnabled;
     }
 
     public MutableLiveData<String> getChangeStateText() {
@@ -103,8 +120,11 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         this.experiment.setStatus(Experiment.ExperimentStatus.INITIATED);
         changeStateText.setValue(getApplication().getString(R.string.perform_expriment_finish_text));
 
-        if(saveExperiment(context)){
-           initImageCapture(context);
+        if (saveExperiment(context)) {
+            initImageCapture(context);
+            initAudioRecording(context);
+        } else {
+            //TODO Mensaje de error con reintento
         }
     }
 
@@ -119,19 +139,19 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         //TODO Extraer comportamiento a provider
         this.experiment.setEndDate(new Date());
         this.experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
-        if(saveExperiment(context)){
+        if (saveExperiment(context)) {
             showResumeDialog(context);
         }
     }
 
-    private boolean saveExperiment(Context context){
+    private boolean saveExperiment(Context context) {
         boolean operationSuccess = false;
         int updatedRows = ExperimentsRepository.updateExperiment(this.experiment);
-        if(updatedRows < 1){
+        if (updatedRows < 1) {
             errorHandler.handleError(new BaseException(getApplication().getString(R.string.default_error_database_register_entity), true), context, () -> {
                 saveExperiment(context);
             }, this);
-        }else{
+        } else {
             operationSuccess = true;
         }
         return operationSuccess;
@@ -147,6 +167,13 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
             previewView.getPreviewStreamState().observe(owner, streamState -> {
                 isLoading.setValue(streamState.equals(PreviewView.StreamState.IDLE));
             });
+        }
+    }
+
+    public void initAudioProvider(Context context, LifecycleOwner owner, RequestPermissionsInterface cameraPermission) {
+        if (experiment.getConfiguration().isCameraEnabled()) {
+            if (RequestPermissionsProvider.handleCheckPermissionsForCamera(context, cameraPermission))
+                return;
         }
     }
 
@@ -179,10 +206,45 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         }
     }
 
+    private void initAudioRecording(Context context) {
+        if (experiment.getConfiguration().isAudioEnabled() && experiment.getConfiguration().getAudioConfig() != null) {
+            AudioConfig audioConfig = experiment.getConfiguration().getAudioConfig();
+            Timer audioTimer = new Timer();
+            timers.add(audioTimer);
+
+            audioTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+
+                    Log.d("WORKER", "Audio requested");
+                    Date date = new Date();
+                    File mFile = new File(context.getExternalFilesDir(null), date + "audio." + audioConfig.getRecordingOption().getFileExtension());
+                    AudioProvider.getInstance().record(mFile, audioConfig.getRecordingOption());
+                    //Tras un delay = duracion de la grabación, se ejecuta el timer para la grbación
+                    audioTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Log.e("AUDIOWORKER", "audiostop");
+                            AudioProvider.getInstance().stopRecording();
+                            orchestratorProvider.executeAudioChain(getApplication(), mFile, date, experiment);
+
+                        }
+                    }, audioConfig.getRecordingDuration());
+                }
+            }, 0, audioConfig.getInterval());
+        }
+    }
+
     private void initImageComponents() {
         CameraConfig cameraConfig = experiment.getConfiguration().getCameraConfig();
         imageCardEnabled.setValue(experiment.getConfiguration().isCameraEnabled());
         embeddedInfoEnabled.setValue(experiment.getConfiguration().isCameraEnabled() && cameraConfig.getEmbeddingAlgorithm() != null);
+
+    }
+
+    private void initAudioComponents() {
+
+        imageCardEnabled.setValue(experiment.getConfiguration().isAudioEnabled());
 
     }
 
@@ -197,13 +259,19 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
             numEmbeddings.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
         });
 
+        //AUDIO
+        LiveData<List<WorkInfo>> registerAudioWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_AUDIO);
+        registerAudioWorkInfo.observe(owner, workInfoList -> {
+            numImages.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+        });
+
     }
 
-    public void showResumeDialog(Context context){
+    public void showResumeDialog(Context context) {
         StringBuilder builder = new StringBuilder();
-        if(experiment.getConfiguration().isCameraEnabled()) {
+        if (experiment.getConfiguration().isCameraEnabled()) {
             builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_images), numImages.getValue())));
-            if(experiment.getConfiguration().getCameraConfig().getEmbeddingAlgorithm() != null){
+            if (experiment.getConfiguration().getCameraConfig().getEmbeddingAlgorithm() != null) {
                 builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_embedded), numEmbeddings.getValue())));
             }
         }
@@ -213,24 +281,27 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         }, null, null);
     }
 
-    public void handleRequestPermissions(BaseFragment fragment){
-        PermissionsResultCallBack callback =  new PermissionsResultCallBack() {
+    public void handleRequestPermissions(BaseFragment fragment) {
+
+        PermissionsResultCallBack callback = new PermissionsResultCallBack() {
             @Override
             public void onPermissionsAccepted() {
-                initCameraProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
+                if (experiment.getConfiguration().isCameraEnabled())
+                    initCameraProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
             }
 
             @Override
             public void onPermissionsError(List<String> rejectedPermissions) {
-                //TODO Mejorar error
+                //TODO Mejorar error, desconectar camara e informar
                 handleError(new BaseException("Error en permisos", false), fragment.getContext());
             }
         };
-
-        RequestPermissionsProvider.requestPermissionsForCamera(fragment, callback);
+        if (experiment.getConfiguration().isCameraEnabled())
+            RequestPermissionsProvider.requestPermissionsForCamera(fragment, callback);
+        if (experiment.getConfiguration().isAudioEnabled())
+            RequestPermissionsProvider.requestPermissionsForAudioRecording(fragment, callback);
 
     }
-
 
 
 }

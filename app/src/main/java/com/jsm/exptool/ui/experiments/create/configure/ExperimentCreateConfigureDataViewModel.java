@@ -5,6 +5,7 @@ import static com.jsm.exptool.config.ConfigConstants.CAMERA_CONFIG_ARG;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.SeekBar;
 
 import androidx.lifecycle.LifecycleOwner;
@@ -15,7 +16,9 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
+import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 import com.jsm.exptool.libs.SeekbarSelectorHelper;
 import com.jsm.exptool.model.AudioRecordingOption;
@@ -31,6 +34,7 @@ import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
+import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.ArrayList;
@@ -58,7 +62,6 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     //TODO Desemwrappar de FrequencyVO audio y cámara
     private final FrequencyConfigurationVO<CameraConfig> cameraConfigFrequencyVO;
     private final FrequencyConfigurationVO<AudioConfig> audioConfigFrequencyVO;
-//    private final GlobalConfig globalConfig;
 
 
     /*Frecuencias*/
@@ -166,13 +169,6 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         return imageEmbeddingEnabled;
     }
 
-    public MutableLiveData<String> getGlobalFreqValue() {
-        return globalFreqValue;
-    }
-
-    public void setGlobalFreqValue(MutableLiveData<String> globalFreqValue) {
-        this.globalFreqValue = globalFreqValue;
-    }
 
     /*Frecuencias*/
 
@@ -337,6 +333,22 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     }
 
     public void finishConfiguration(Context context){
+        ModalMessage.showModalMessageWithThreeButtons(context, "Finalización de configuración",
+                "Su experimento se va a registrar en la aplicación, ¿cuando desea iniciarlo?","Ahora mismo", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    long experimentId = registerExperiment();
+                    this.experiment.setInternalId(experimentId);
+                    ((BaseActivity)context).getNavController().navigate(ExperimentCreateConfigureDataFragmentDirections.actionNavExperimentConfigureToNavPerformExperiment(this.experiment));
+                },
+                "Mas tarde", (dialog, which)->{},
+                context.getString(R.string.default_modal_cancelButton), (dialog, which)->{}
+                );
 
+
+    }
+
+    public final long registerExperiment(){
+        this.experiment.getConfiguration().setCameraConfig(cameraConfigFrequencyVO.getRepeatableElement());
+        this.experiment.getConfiguration().setAudioConfig(audioConfigFrequencyVO.getRepeatableElement());
+        return ExperimentsRepository.registerExperiment(this.experiment);
     }
 }

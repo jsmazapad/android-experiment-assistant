@@ -66,9 +66,13 @@ public class AudioHandler {
     public void stopRecording() {
         isRecording = false;
         if (recorder != null) {
-            recorder.stop();
-            recorder.release();
-            recorder = null;
+            try {
+                recorder.stop();
+                recorder.release();
+                recorder = null;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

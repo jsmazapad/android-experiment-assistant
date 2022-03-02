@@ -19,11 +19,11 @@ public class ExperimentAudioConfigurationFragment extends BaseFragment<Experimen
 
     @Override
     protected ExperimentAudioConfigurationViewModel createViewModel() {
-        //AudioConfig audioConfig = ExperimentAudioConfigurationFragmentArgs.fromBundle(getArguments()).getAudioConfig();
+        AudioConfig audioConfig = ExperimentAudioConfigurationFragmentArgs.fromBundle(getArguments()).getAudioConfig();
         //TODO Código pruebas, borrar
-        AudioConfig audioConfig = new AudioConfig();
-        audioConfig.setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(2));
-        audioConfig.getRecordingOption().setSelectedEncodingBitRate(audioConfig.getRecordingOption().getEncodingBitRatesOptions().get(1));
+//        AudioConfig audioConfig = new AudioConfig();
+//        audioConfig.setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(2));
+//        audioConfig.getRecordingOption().setSelectedEncodingBitRate(audioConfig.getRecordingOption().getEncodingBitRatesOptions().get(1));
 
         ExperimentAudioConfigurationViewModel viewModel = new ViewModelProvider(this, new ExperimentAudioConfigurationViewModelFactory(getActivity().getApplication(), audioConfig)).get(ExperimentAudioConfigurationViewModel.class);
 

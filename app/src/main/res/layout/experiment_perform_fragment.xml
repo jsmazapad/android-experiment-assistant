@@ -32,6 +32,7 @@
         android:orientation="vertical">
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/imageCard"
+            android:visibility="@{viewModel.imageCardEnabled ? View.VISIBLE : View.GONE}"
             style="@style/BaseCardView">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,7 +45,6 @@
                     android:text="Imágenes" />
                 <androidx.camera.view.PreviewView
                     android:id="@+id/cameraPreview"
-                    android:visibility="@{viewModel.imageCardEnabled ? View.VISIBLE : View.GONE}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -94,6 +94,50 @@
                             android:layout_height="wrap_content"
                             android:text="@{viewModel.numEmbeddings}" />
                     </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/audioCard"
+            android:visibility="@{viewModel.audioCardEnabled ? View.VISIBLE : View.GONE}"
+            style="@style/BaseCardView">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Audio" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+                        <TextView
+                            style="@style/BaseItemListSecondaryTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="10dp"
+                            android:text="Nº de archivos de audio" />
+
+                        <TextView
+                            style="@style/BaseItemListSecondaryBoldTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.numAudios}" />
+                    </LinearLayout>
+
 
                 </LinearLayout>
             </LinearLayout>

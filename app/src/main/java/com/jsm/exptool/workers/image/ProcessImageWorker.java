@@ -1,6 +1,6 @@
 package com.jsm.exptool.workers.image;
 
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_REGISTER_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_HEIGHT;
@@ -26,7 +26,7 @@ public class ProcessImageWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        String imageFileName = getInputData().getString(IMAGE_FILE_NAME);
+        String imageFileName = getInputData().getString(FILE_NAME);
         String targetImageFileName = getInputData().getString(PROCESSED_IMAGE_FILE_NAME);
         long insertedRowId = getInputData().getLong(IMAGE_REGISTER_ID, -1);
         int optimalWidth = getInputData().getInt(PROCESSED_IMAGE_WIDTH, 299);
@@ -45,7 +45,7 @@ public class ProcessImageWorker extends Worker {
         }
         ImageResizer.resizeImageFile(imageFile, targetFile, Math.max(optimalWidth, optimalHeight));
         Data outputData = new Data.Builder()
-                .putString(IMAGE_FILE_NAME, targetFile.getPath())
+                .putString(FILE_NAME, targetFile.getPath())
                 .putLong(IMAGE_REGISTER_ID, insertedRowId)
                 .build();
         return Result.success(outputData);

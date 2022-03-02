@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
+import com.jsm.exptool.model.AudioRegister;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.ImageRegister;
 
@@ -58,22 +59,8 @@ public class DBHelper {
      */
 
 
-    public static long insertImageRegister(final ImageRegister imageRegister, MutableLiveData<Boolean> ended) {
-//            //TODO Migrar a Executors + handlers
-//            new AsyncTask<Void, Void, Void>() {
-//                @Override
-//                protected Void doInBackground(Void... voids) {
+    public static long insertImageRegister(final ImageRegister imageRegister) {
                   return appDatabase.imageDao().insert(imageRegister);
-//                    return null;
-//                }
-//
-//                @Override
-//                protected void onPostExecute(Void aVoid) {
-//                    super.onPostExecute(aVoid);
-//                    ended.setValue(true);
-//                }
-//            }.execute();
-
     }
 
     public static List<ImageRegister> getImages() {
@@ -95,6 +82,35 @@ public class DBHelper {
 
     public static int deleteImagesById(ImageRegister register) {
         return appDatabase.imageDao().deleteById(register.getInternalId());
+    }
+
+
+    /*
+    AUDIO REGISTERS
+     */
+    public static long insertAudioRegister(final AudioRegister audioRegister) {
+        return appDatabase.audioDao().insert(audioRegister);
+    }
+
+    public static List<AudioRegister> getAudios() {
+        return appDatabase.audioDao().getAudios();
+    }
+
+    public static List<AudioRegister> getAudiosFromExperiment(Experiment experiment) {
+        return appDatabase.audioDao().getAudiosFromExperiment(experiment.getId());
+    }
+
+
+    public static AudioRegister getAudioById(long imageId) {
+        return appDatabase.audioDao().selectById(imageId);
+    }
+
+    public static int updateAudio(AudioRegister register) {
+        return appDatabase.audioDao().update(register);
+    }
+
+    public static int deleteAudiosById(AudioRegister register) {
+        return appDatabase.audioDao().deleteById(register.getInternalId());
     }
 
 

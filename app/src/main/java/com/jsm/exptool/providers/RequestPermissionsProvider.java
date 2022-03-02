@@ -26,23 +26,19 @@ public class RequestPermissionsProvider {
     }
 
     public static boolean handleCheckPermissionsForCamera(Context context, RequestPermissionsInterface requestPermissions) {
-        boolean needToRequestPermission = false;
-        for (String permission : CAMERA_PERMISSIONS) {
-            needToRequestPermission = (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED);
-            if (needToRequestPermission) {
-                break;
-            }
-        }
-        if (needToRequestPermission) {
-            requestPermissions.requestPermissions();
-        }
-        return needToRequestPermission;
-
+        return RequestPermissionsHandler.handleCheckPermissionsForElement(context, requestPermissions, CAMERA_PERMISSIONS);
     }
 
 
     public static void requestPermissionsForAudioRecording(Fragment fragment, PermissionsResultCallBack callback) {
         RequestPermissionsHandler.requestPermissions(fragment, RECORDING_AUDIO_PERMISSIONS, callback);
     }
+
+    public static boolean handleCheckPermissionsForAudio(Context context, RequestPermissionsInterface requestPermissions) {
+        return RequestPermissionsHandler.handleCheckPermissionsForElement(context, requestPermissions, RECORDING_AUDIO_PERMISSIONS);
+
+    }
+
+
 
 }
