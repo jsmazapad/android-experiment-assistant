@@ -88,16 +88,20 @@ public class MultiSpinner extends androidx.appcompat.widget.AppCompatSpinner imp
     }
 
     public void setItems(List<String> items, String defaultText, String prompText,
-                         MultiSpinnerListener listener) {
+                         MultiSpinnerListener listener, boolean [] selectedItems) {
         this.items = items;
         this.defaultText = defaultText;
         this.listener = listener;
         this.prompText = prompText;
 
         // all deselected by default
-        selected = new boolean[items.size()];
-        for (int i = 0; i < selected.length; i++)
-            selected[i] = false;
+        if(selectedItems == null) {
+            selected = new boolean[items.size()];
+            for (int i = 0; i < selected.length; i++)
+                selected[i] = false;
+        }else{
+            selected = selectedItems;
+        }
 
         // all text on the spinner
         ArrayAdapter<String> adapter = new ArrayAdapter(getContext(),

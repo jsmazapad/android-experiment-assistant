@@ -95,15 +95,15 @@ public class MySensor extends RepeatableElement implements Cloneable {
         isRecording = in.readByte() != 0;
     }
 
-    public static final Creator<RepeatableElement> CREATOR = new Creator<RepeatableElement>() {
+    public static final Creator<MySensor> CREATOR = new Creator<MySensor>() {
         @Override
-        public RepeatableElement createFromParcel(Parcel in) {
+        public MySensor createFromParcel(Parcel in) {
             return new MySensor(in);
         }
 
         @Override
-        public RepeatableElement[] newArray(int size) {
-            return new RepeatableElement[size];
+        public MySensor[] newArray(int size) {
+            return new MySensor[size];
         }
     };
 

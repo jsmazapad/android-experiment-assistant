@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
@@ -17,6 +18,7 @@ import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.SensorsConfig;
 import com.jsm.exptool.repositories.SensorsRepository;
 
 import java.util.ArrayList;
@@ -31,11 +33,13 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
     private boolean embeddingEnabled = false;
     private boolean audioEnabled = false;
     private List<MySensor> sensors;
+    private List<String> sensorStrings;
+    private boolean [] selectedSensorPositions;
 
 
     public ExperimentCreateBasicDataViewModel(Application app){
         super(app);
-        sensors = SensorsRepository.getSensors();
+        initSpinnerData();
     }
 
     @Override
@@ -57,7 +61,6 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
     public void callRepositoryForData() {
 
     }
-    // TODO: Implement the ViewModel
 
 
     public String getTitle() {
@@ -116,13 +119,21 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
         this.sensors = sensors;
     }
 
-    public void configureSpinner(MultiSpinner spinner){
-        List<String> list = new ArrayList<>();
-        for (RepeatableElement sensor : sensors) {
+    private void initSpinnerData(){
+        sensors = SensorsRepository.getSensors();
+        sensorStrings = new ArrayList<>();
+        selectedSensorPositions = new boolean[sensors.size()];
+        for (int i = 0; i< sensors.size(); i++) {
+            RepeatableElement sensor = sensors.get(i);
+            selectedSensorPositions[i] = false;
             String string = getApplication().getString(sensor.getNameStringResource());
-            list.add(string);
+            sensorStrings.add(string);
         }
-        spinner.setItems(list, "","Seleccione sensores", this);
+
+    }
+
+    public void configureSpinner(MultiSpinner spinner){
+        spinner.setItems(sensorStrings, "","Seleccione sensores", this, selectedSensorPositions);
 
     }
 
@@ -134,6 +145,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
     @Override
     public void onItemsSelected(boolean[] selected) {
 
+        selectedSensorPositions = selected;
         List <MySensor> selectedSensors = new ArrayList();
         for(int i=0; i<selected.length; i++){
             if (selected[i]){
@@ -162,10 +174,10 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
         }else{
             String error = "";
             if(!validTitle){
-                error ="El campo nombre es obligatorio\n";
+                error =context.getString(R.string.mandatory_name_field_error);
             }
             if(!validAtLeastOneOption){
-                error += "Debe seleccionar al menos una función multimedia o un sensor";
+                error += context.getString(R.string.at_least_one_experiment_conf_option_error);
             }
 
             handleError(new BaseException(error, false),context);
@@ -180,8 +192,12 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
         configuration.setAudioConfig(this.audioEnabled ? new AudioConfig() : null);
         experiment.setConfiguration(configuration);
         if(this.cameraEnabled.getValue() != null) {
-            configuration.setCameraConfig(this.cameraEnabled.getValue() ? new CameraConfig() : null);        }
-        experiment.setSensors(this.elements.getValue());
+            configuration.setCameraConfig(this.cameraEnabled.getValue() ? new CameraConfig() : null);}
+        //Los elementos almacenados en recycler son los sensores seleccionados finalmente
+        List <MySensor> selectedSensors= this.elements.getValue();
+        if(selectedSensors != null && selectedSensors.size() > 0) {
+            configuration.setSensorConfig(new SensorsConfig(this.elements.getValue()));
+        }
         return experiment;
     }
 }

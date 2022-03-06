@@ -12,16 +12,13 @@
             type="com.jsm.exptool.ui.experiments.create.basicdata.ExperimentCreateBasicDataViewModel" />
     </data>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <androidx.core.widget.NestedScrollView style="@style/BaseNestedLayoutInsideFrameLayout">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/basicDataCard"
@@ -154,7 +151,7 @@
                             android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:contentDescription="Seleccionar sensores"
+                            android:contentDescription="@string/select_sensors"
                             android:minHeight="48dp"
                             android:spinnerMode="dialog">
 
@@ -182,13 +179,16 @@
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-                <com.google.android.material.button.MaterialButton
-                    style="@style/FullWidthButton"
-                    android:onClick="@{() -> viewModel.completeStep(context)}"
-                    android:text="@string/button_continue">
 
-                </com.google.android.material.button.MaterialButton>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+        <com.google.android.material.button.MaterialButton
+            style="@style/FullWidthButton"
+            android:layout_gravity="bottom|center_horizontal"
+            android:onClick="@{() -> viewModel.completeStep(context)}"
+            android:text="@string/button_continue">
+
+        </com.google.android.material.button.MaterialButton>
+    </FrameLayout>
 
 </layout>

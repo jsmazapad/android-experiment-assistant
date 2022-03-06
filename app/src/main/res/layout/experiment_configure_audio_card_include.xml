@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@{viewModel.audioFreqValue}"
+                    android:text="@{viewModel.audioFreqValueText}"
                     android:textAlignment="textEnd"
                     tools:text="0ms" />
             </LinearLayout>
@@ -68,7 +68,7 @@
                         tools:text="4400" />
                     <TextView
                         style="@style/BaseItemListSecondaryBoldTextView"
-                        android:text="@{viewModel.audioDurationValue}"
+                        android:text="@{viewModel.audioDurationValueText}"
                         tools:text="4400" />
 
                 </LinearLayout>

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.jsm.exptool.BuildConfig;
 import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
+import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.Measure;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.App;
@@ -19,7 +20,7 @@ import java.util.Date;
 import java.util.TimerTask;
 
 public class Temperature extends MySensor implements SensorEventListener {
-    private SensorManager sensorManager = (SensorManager) App.getSensorManager();
+    private SensorManager sensorManager = SensorHandler.getInstance().getSensorManager();
     private Sensor sensor = this.sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_TEMPERATURE);
     public float degree;
 

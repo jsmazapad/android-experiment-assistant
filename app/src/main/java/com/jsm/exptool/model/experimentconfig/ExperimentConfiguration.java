@@ -13,19 +13,15 @@ public class ExperimentConfiguration implements Parcelable {
     @Embedded(prefix = "camera_config_") private CameraConfig cameraConfig;
     @Embedded(prefix = "audio_config_") private AudioConfig audioConfig;
     @Embedded(prefix = "global_config_") private GlobalConfig globalConfig = new GlobalConfig();
+    @Embedded(prefix = "sensor_config_") private SensorsConfig sensorConfig;
 
-//    @Ignore
-//    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig) {
-//        this.cameraConfig = cameraConfig;
-//        this.audioConfig = audioConfig;
-//        this.globalConfig = globalConfig != null ? globalConfig : this.globalConfig;
-//    }
 
-    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig /*,int defaultFrequency*/) {
+
+    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig, SensorsConfig sensorConfig) {
         this.cameraConfig = cameraConfig;
         this.audioConfig = audioConfig;
         this.globalConfig = globalConfig != null ? globalConfig : this.globalConfig;
-//        this.defaultFrequency = defaultFrequency;
+        this.sensorConfig = sensorConfig;
     }
     @Ignore
     public ExperimentConfiguration() {
@@ -56,26 +52,45 @@ public class ExperimentConfiguration implements Parcelable {
         this.globalConfig = globalConfig;
     }
 
+    public SensorsConfig getSensorConfig() {
+        return sensorConfig;
+    }
+
+    public void setSensorConfig(SensorsConfig sensorConfig) {
+        this.sensorConfig = sensorConfig;
+    }
+
+    /**
+     * Método auxiliar para saber si la configuración del experimento tiene cámara asociada
+     * @return
+     */
     public boolean isCameraEnabled() {
         return cameraConfig != null;
     }
 
+    /**
+     * Método auxiliar para saber si la configuración del experimento tiene image embedding asociado
+     * @return
+     */
     public boolean isEmbeddingEnabled() {
         return cameraConfig != null && cameraConfig.getEmbeddingAlgorithm() != null;
     }
 
-
+    /**
+     * Método auxiliar para saber si la configuración del experimento tiene audio asociado
+     * @return
+     */
     public boolean isAudioEnabled() {
         return audioConfig != null;
     }
-//
-//    public int getDefaultFrequency() {
-//        return defaultFrequency;
-//    }
-//
-//    public void setDefaultFrequency(int defaultFrequency) {
-//        this.defaultFrequency = defaultFrequency;
-//    }
+    /**
+     * Método auxiliar para saber si la configuración del experimento tiene lectura de sensores asociada
+     * @return
+     */
+    public boolean isSensorEnabled() {
+        return sensorConfig != null && sensorConfig.getSensors() != null && sensorConfig.getSensors().size() > 0;
+    }
+
 
     @Override
     public int describeContents() {
@@ -87,12 +102,14 @@ public class ExperimentConfiguration implements Parcelable {
         dest.writeParcelable(this.cameraConfig, flags);
         dest.writeParcelable(this.audioConfig, flags);
         dest.writeParcelable(this.globalConfig, flags);
+        dest.writeParcelable(this.sensorConfig, flags);
     }
 
     public void readFromParcel(Parcel source) {
         this.cameraConfig = source.readParcelable(CameraConfig.class.getClassLoader());
         this.audioConfig = source.readParcelable(AudioConfig.class.getClassLoader());
         this.globalConfig = source.readParcelable(GlobalConfig.class.getClassLoader());
+        this.sensorConfig = source.readParcelable(SensorsConfig.class.getClassLoader());
     }
 
     protected ExperimentConfiguration(Parcel in) {

@@ -7,12 +7,13 @@ import android.hardware.SensorManager;
 
 import com.jsm.exptool.core.utils.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
+import com.jsm.exptool.libs.SensorHandler;
 
 
 public class App extends Application {
 
     private static Context context;
-    private static SensorManager sensorManager;
+//    private static SensorManager sensorManager;
 
     @Override
     public void onCreate() {
@@ -21,7 +22,9 @@ public class App extends Application {
             DBHelper.initialize(this);
             PreferenceManager.initialize(this);
             App.context = getApplicationContext();
-            App.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            SensorHandler.getInstance().initialize(this);
+
+           // App.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         } catch (Exception e) {
             //No se debe llegar a este punto nunca
@@ -33,7 +36,7 @@ public class App extends Application {
         return App.context;
     }
 
-    public static SensorManager getSensorManager(){
-        return  App.sensorManager;
-    }
+//    public static SensorManager getSensorManager(){
+//        return  App.sensorManager;
+//    }
 }

@@ -25,6 +25,9 @@
     <string name="use_default_frequency">Usar frecuencia global</string>
     <string name="button_continue">Continuar</string>
     <string name="button_finish_configuration_title">Finalizar configuración</string>
+    <string name="select_sensors">Seleccionar sensores</string>
+    <string name="mandatory_name_field_error">El campo nombre es obligatorio\n</string>
+    <string name="at_least_one_experiment_conf_option_error">Debe seleccionar al menos una función multimedia o un sensor</string>
     <!--
     CREATE EXPERIMENT: CAMERA CARD
     -->
