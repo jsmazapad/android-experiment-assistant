@@ -12,27 +12,33 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class RequestPermissionsHandler {
-    public static void requestPermissions(Fragment fragment, String[] permissions, PermissionsResultCallBack callback) {
-        ActivityResultLauncher<String[]> mPermissionResult = fragment.registerForActivityResult(
+    public static ActivityResultLauncher<String[]> registerToRequestPermissions(Fragment fragment, String[] permissions, PermissionsResultCallBack callback) {
+        ActivityResultLauncher<String[]> mPermissionResultHandler = fragment.registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),
                 result -> {
-                    ArrayList<String> permissionsRejected = new ArrayList<>(permissions.length);
-                    for (Map.Entry<String, Boolean> entry : result.entrySet()) {
-                        if (entry.getValue()) {
-                        } else {
-                            permissionsRejected.add(entry.getKey());
+                    if(result.size() > 0) {
+                        ArrayList<String> permissionsRejected = new ArrayList<>(permissions.length);
+                        for (Map.Entry<String, Boolean> entry : result.entrySet()) {
+                            if (entry.getValue()) {
+                            } else {
+                                permissionsRejected.add(entry.getKey());
+                            }
                         }
-                    }
 
-                    if (permissionsRejected.size() == 0) {
-                        callback.onPermissionsAccepted();
-                    } else {
-                        callback.onPermissionsError(permissionsRejected);
+                        if (permissionsRejected.size() == 0) {
+                            callback.onPermissionsAccepted();
+                        } else {
+                            callback.onPermissionsError(permissionsRejected);
+                        }
                     }
 
 
                 });
-        mPermissionResult.launch(permissions);
+        return mPermissionResultHandler;
+    }
+
+    public static void requestPermissions(ActivityResultLauncher<String[]> mPermissionResultHandler, String[] permissions){
+        mPermissionResultHandler.launch(permissions);
     }
 
     public static boolean handleCheckPermissionsForElement(Context context, RequestPermissionsInterface requestPermissions, String[] permissions) {

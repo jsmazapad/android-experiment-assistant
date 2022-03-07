@@ -137,7 +137,11 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
 
     @Override
     public void callRepositoryForData() {
-        apiResponseRepositoryHolder.setValue(new ListResponse<>(experiment.getConfiguration().getSensorConfig().getSensors()));
+        List<MySensor> sensors = new ArrayList<>();
+        if(experiment.getConfiguration().isSensorEnabled()){
+            sensors=  experiment.getConfiguration().getSensorConfig().getSensors();
+        }
+        apiResponseRepositoryHolder.setValue(new ListResponse<>(sensors));
 
     }
 

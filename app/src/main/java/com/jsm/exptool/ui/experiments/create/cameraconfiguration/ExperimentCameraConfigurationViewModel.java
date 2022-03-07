@@ -8,6 +8,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.camera.view.PreviewView;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
@@ -23,6 +24,7 @@ import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
+import com.jsm.exptool.ui.experiments.perform.ExperimentPerformFragment;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.List;
@@ -125,22 +127,21 @@ public class ExperimentCameraConfigurationViewModel extends BaseViewModel {
         return new EmbeddingAlgorithmsSpinnerAdapter(context, embbedingAlgorithms, R.layout.generic_title_description_spinner_list_item);
     }
 
+    //TODO REfactorizar como experiments perform
     public void handleRequestPermissions(BaseFragment fragment){
-        PermissionsResultCallBack callback =  new PermissionsResultCallBack() {
-            @Override
-            public void onPermissionsAccepted() {
-                initCameraProvider(fragment.getContext(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
-            }
+        RequestPermissionsProvider.requestPermissionsForCamera(((ExperimentCameraConfigurationFragment)fragment).cameraRequestPermissions);
+    }
 
-            @Override
-            public void onPermissionsError(List<String> rejectedPermissions) {
-                //TODO Mejorar error
-                handleError(new BaseException("Error en permisos", false), fragment.getContext());
-            }
-        };
+    public void onCameraPermissionsAccepted(Fragment fragment) {
 
-        RequestPermissionsProvider.requestPermissionsForCamera(fragment, callback);
+        initCameraProvider(fragment.getContext(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
 
+    }
+
+
+    public void onPermissionsError(List<String> rejectedPermissions, Fragment fragment) {
+        //TODO Mejorar error, desconectar camara e informar
+        handleError(new BaseException("Error en permisos", false), fragment.getContext());
     }
 
 

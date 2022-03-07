@@ -2,30 +2,63 @@ package com.jsm.exptool.model;
 
 import android.os.Handler;
 import android.os.Parcel;
+import android.provider.BaseColumns;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
 import java.util.ArrayList;
 import java.util.Timer;
 
+@Entity(tableName = MySensor.TABLE_NAME)
 public class MySensor extends RepeatableElement implements Cloneable {
-    public int type;
-    public boolean active;
-    public boolean isRecording = false;
-    public ArrayList <Measure> data = new ArrayList();
-    public Timer timer;
-    public SensorEventInterface sensorEventInterface;
-    public Handler myHandler = new Handler();
+    /** The name of the table. */
+    public static final String TABLE_NAME = "sensors";
 
+    /** The name of the ID column. */
+    public static final String COLUMN_ID = BaseColumns._ID;
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(index = true, name = COLUMN_ID)
+    private long internalId;
+    private long experimentId;
+    public int type;
+    @Ignore public boolean active;
+    @Ignore public boolean isRecording = false;
+    @Ignore  public ArrayList <Measure> data = new ArrayList();
+    @Ignore  public Timer timer;
+    @Ignore  public SensorEventInterface sensorEventInterface;
+    @Ignore  public Handler myHandler = new Handler();
+    @Ignore
     public MySensor(int type, int rName){
         this.type = type;
         this.nameStringResource = rName;
     }
 
-    public MySensor(int type, int rName, int intervalMin) {
+    public MySensor(int interval, int intervalMin, int nameStringResource, long internalId, long experimentId, int type) {
+        super(interval, intervalMin, nameStringResource);
+        this.internalId = internalId;
+        this.experimentId = experimentId;
+        this.type = type;
+    }
+
+    @Ignore
+    public MySensor(int type, int nameStringResource, int intervalMin, int interval) {
+        this.type = type;
+        this.nameStringResource = nameStringResource;
+        this.intervalMin = intervalMin;
+        this.interval = interval;
+    }
+
+    @Ignore
+    public MySensor(int type, int nameStringResource, int intervalMin) {
         this.type = type;
 
-        this.nameStringResource = rName;
+        this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = intervalMin;
     }
@@ -49,6 +82,22 @@ public class MySensor extends RepeatableElement implements Cloneable {
     public final void reset() {
         this.data.clear();
         this.isRecording = false;
+    }
+
+    public long getInternalId() {
+        return internalId;
+    }
+
+    public void setInternalId(long internalId) {
+        this.internalId = internalId;
+    }
+
+    public long getExperimentId() {
+        return experimentId;
+    }
+
+    public void setExperimentId(long experimentId) {
+        this.experimentId = experimentId;
     }
 
     public final int getType(){return  this.type;}

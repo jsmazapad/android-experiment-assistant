@@ -11,6 +11,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.camera.view.PreviewView;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -158,6 +159,9 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
 
     }
 
+
+
+
     public void initCameraProvider(Context context, LifecycleOwner owner, RequestPermissionsInterface cameraPermission, PreviewView previewView) {
         if (experiment.getConfiguration().isCameraEnabled()) {
             if (RequestPermissionsProvider.handleCheckPermissionsForCamera(context, cameraPermission))
@@ -170,9 +174,9 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         }
     }
 
-    public void initAudioProvider(Context context, LifecycleOwner owner, RequestPermissionsInterface cameraPermission) {
+    public void initAudioProvider(Context context, LifecycleOwner owner, RequestPermissionsInterface audioPermission) {
         if (experiment.getConfiguration().isCameraEnabled()) {
-            if (RequestPermissionsProvider.handleCheckPermissionsForCamera(context, cameraPermission))
+            if (RequestPermissionsProvider.handleCheckPermissionsForCamera(context, audioPermission))
                 return;
         }
     }
@@ -283,24 +287,28 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
 
     public void handleRequestPermissions(BaseFragment fragment) {
 
-        PermissionsResultCallBack callback = new PermissionsResultCallBack() {
-            @Override
-            public void onPermissionsAccepted() {
-                if (experiment.getConfiguration().isCameraEnabled())
-                    initCameraProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
-            }
-
-            @Override
-            public void onPermissionsError(List<String> rejectedPermissions) {
-                //TODO Mejorar error, desconectar camara e informar
-                handleError(new BaseException("Error en permisos", false), fragment.getContext());
-            }
-        };
         if (experiment.getConfiguration().isCameraEnabled())
-            RequestPermissionsProvider.requestPermissionsForCamera(fragment, callback);
+            RequestPermissionsProvider.requestPermissionsForCamera(((ExperimentPerformFragment)fragment).cameraRequestPermissions);
         if (experiment.getConfiguration().isAudioEnabled())
-            RequestPermissionsProvider.requestPermissionsForAudioRecording(fragment, callback);
+            RequestPermissionsProvider.requestPermissionsForAudioRecording(((ExperimentPerformFragment)fragment).cameraRequestPermissions);
 
+    }
+
+    public void onCameraPermissionsAccepted(Fragment fragment) {
+        if (experiment.getConfiguration().isCameraEnabled())
+            initCameraProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
+
+    }
+
+    public void onAudioPermissionsAccepted(Fragment fragment) {
+
+        if(experiment.getConfiguration().isAudioEnabled())
+            initAudioProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment);
+    }
+
+    public void onPermissionsError(List<String> rejectedPermissions, Fragment fragment) {
+        //TODO Mejorar error, desconectar camara e informar
+        handleError(new BaseException("Error en permisos", false), fragment.getContext());
     }
 
 

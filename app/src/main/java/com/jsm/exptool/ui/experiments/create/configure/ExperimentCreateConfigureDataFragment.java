@@ -34,6 +34,7 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //TODO ¿Porque no se llama a super?
         View view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -21,8 +22,16 @@ public class RequestPermissionsProvider {
             Manifest.permission.RECORD_AUDIO
     };
 
-    public static void requestPermissionsForCamera(Fragment fragment, PermissionsResultCallBack callback) {
-        RequestPermissionsHandler.requestPermissions(fragment, CAMERA_PERMISSIONS, callback);
+    public static ActivityResultLauncher<String[]> registerForCameraPermissions(Fragment fragment, PermissionsResultCallBack callback){
+        return RequestPermissionsHandler.registerToRequestPermissions(fragment, CAMERA_PERMISSIONS, callback);
+    }
+
+    public static ActivityResultLauncher<String[]> registerForAudioPermissions(Fragment fragment, PermissionsResultCallBack callback){
+        return RequestPermissionsHandler.registerToRequestPermissions(fragment, RECORDING_AUDIO_PERMISSIONS, callback);
+    }
+
+    public static void requestPermissionsForCamera(ActivityResultLauncher<String[]> mPermissionResultHandler) {
+        RequestPermissionsHandler.requestPermissions(mPermissionResultHandler, CAMERA_PERMISSIONS);
     }
 
     public static boolean handleCheckPermissionsForCamera(Context context, RequestPermissionsInterface requestPermissions) {
@@ -30,8 +39,8 @@ public class RequestPermissionsProvider {
     }
 
 
-    public static void requestPermissionsForAudioRecording(Fragment fragment, PermissionsResultCallBack callback) {
-        RequestPermissionsHandler.requestPermissions(fragment, RECORDING_AUDIO_PERMISSIONS, callback);
+    public static void requestPermissionsForAudioRecording(ActivityResultLauncher<String[]> mPermissionResultHandler) {
+        RequestPermissionsHandler.requestPermissions(mPermissionResultHandler, RECORDING_AUDIO_PERMISSIONS);
     }
 
     public static boolean handleCheckPermissionsForAudio(Context context, RequestPermissionsInterface requestPermissions) {
