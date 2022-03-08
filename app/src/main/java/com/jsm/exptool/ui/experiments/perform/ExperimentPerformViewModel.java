@@ -3,6 +3,7 @@ package com.jsm.exptool.ui.experiments.perform;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
 
 import android.app.Application;
 import android.content.Context;
@@ -15,12 +16,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavController;
 import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.ConfigConstants;
+import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.core.ui.loading.LoadingViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
@@ -46,7 +50,7 @@ import java.util.SortedMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ExperimentPerformViewModel extends LoadingViewModel {
+public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, MySensor> {
 
     private final Experiment experiment;
     private final WorksOrchestratorProvider orchestratorProvider;
@@ -63,6 +67,13 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
     private final MutableLiveData<Integer> numAudios = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> audioCardEnabled = new MutableLiveData<>(false);
 
+    private final MutableLiveData<Integer> numSensors = new MutableLiveData<>(0);
+    private final MutableLiveData<Boolean> sensorCardEnabled = new MutableLiveData<>(false);
+
+    private final MutableLiveData<Integer> updateElementInRecycler = new MutableLiveData<>();
+
+
+
 
 
     public ExperimentPerformViewModel(@NonNull Application application, Experiment experiment) {
@@ -72,7 +83,11 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         orchestratorProvider.init(getApplication());
         initImageComponents();
         initAudioComponents();
+        initSensorComponents();
         changeStateText.setValue(application.getString(R.string.perform_experiment_init_text));
+        if(this.experiment.getConfiguration().isSensorEnabled()){
+            apiResponseRepositoryHolder.setValue(new ListResponse<>(experiment.getConfiguration().getSensorConfig().getSensors()));
+        }
     }
 
     public MutableLiveData<Integer> getNumImages() {
@@ -99,12 +114,24 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         return audioCardEnabled;
     }
 
+    public MutableLiveData<Integer> getNumSensors() {
+        return numSensors;
+    }
+
+    public MutableLiveData<Boolean> getSensorCardEnabled() {
+        return sensorCardEnabled;
+    }
+
     public MutableLiveData<String> getChangeStateText() {
         return changeStateText;
     }
 
     public MutableLiveData<Boolean> getEnableHandleExperimentButton() {
         return enableHandleExperimentButton;
+    }
+
+    public MutableLiveData<Integer> getUpdateElementInRecycler() {
+        return updateElementInRecycler;
     }
 
     public void handleExperimentState(Context context) {
@@ -251,13 +278,16 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
             Timer sensorTimer = new Timer();
             timers.add(sensorTimer);
 
-            for(MySensor sensor: sensorConfig.getSensors()){
+                for (int i=0; i<sensorConfig.getSensors().size(); i++){
+                final int position = i;
+                MySensor sensor = sensorConfig.getSensors().get(position);
                 sensor.initListener();
                 sensorTimer.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
                         Date date = new Date();
-                        SortedMap<String, Float> measure = sensor.getMeasure();
+                        elements.getValue().set(position, sensor);
+                        updateElementInRecycler.postValue(position);
                         orchestratorProvider.executeSensorChain(getApplication(), sensor, date, experiment);
 
                     }
@@ -279,6 +309,12 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
 
     }
 
+    private void initSensorComponents() {
+
+        sensorCardEnabled.setValue(experiment.getConfiguration().isSensorEnabled());
+
+    }
+
     public void initWorkInfoObservers(LifecycleOwner owner) {
         //Image
         LiveData<List<WorkInfo>> registerImageWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_IMAGE);
@@ -294,6 +330,11 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         LiveData<List<WorkInfo>> registerAudioWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_AUDIO);
         registerAudioWorkInfo.observe(owner, workInfoList -> {
             numAudios.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+        });
+
+        LiveData<List<WorkInfo>> registerSensorWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_SENSOR);
+        registerSensorWorkInfo.observe(owner, workInfoList -> {
+            numSensors.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
         });
 
     }
@@ -339,4 +380,23 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
     }
 
 
+    @Override
+    public List<MySensor> transformResponse(ListResponse<MySensor> response) {
+        return response.getResultList();
+    }
+
+    @Override
+    public void onItemSelected(int position, NavController navController, Context c) {
+
+    }
+
+    @Override
+    public void setConstructorParameters(Object... args) {
+
+    }
+
+    @Override
+    public void callRepositoryForData() {
+       //El origen de datos no viene del repositorio
+    }
 }

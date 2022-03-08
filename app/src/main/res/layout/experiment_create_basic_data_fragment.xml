@@ -163,7 +163,6 @@
                             style="@style/RecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:minHeight="128dp"
                             android:nestedScrollingEnabled="false"
                             tools:listitem="@layout/experiment_create_basic_data_list_item">
 

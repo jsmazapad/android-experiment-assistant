@@ -15,6 +15,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.experiments.perform.ExperimentPerformFragment">
+    <androidx.core.widget.NestedScrollView style="@style/BaseNestedLayoutInsideFrameLayout">
+
+    <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
+
+
     <ProgressBar
         android:id="@+id/indeterminateBar"
         android:layout_width="wrap_content"
@@ -22,9 +27,6 @@
         android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
         android:layout_gravity="center"
         />
-
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -142,12 +144,73 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-        <Button
-            style="@style/FullWidthButton"
-            android:enabled="@{viewModel.enableHandleExperimentButton}"
-            android:text="@{viewModel.changeStateText}"
-            android:onClick="@{()-> viewModel.handleExperimentState(context)}"/>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sensorCard"
+            android:visibility="@{viewModel.sensorCardEnabled ? View.VISIBLE : View.GONE}"
+            style="@style/BaseCardView">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/BaseCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sensores" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+                        <TextView
+                            style="@style/BaseItemListSecondaryTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="10dp"
+                            android:text="Nº de mediciones de sensor registradas" />
+
+                        <TextView
+                            style="@style/BaseItemListSecondaryBoldTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.numSensors}" />
+
+
+
+                    </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/elementsRV"
+                        style="@style/RecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/experiment_perform_sensor_list_item">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
+    </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+    <Button
+        style="@style/FullWidthButton"
+        android:layout_gravity="bottom|center_horizontal"
+        android:enabled="@{viewModel.enableHandleExperimentButton}"
+        android:text="@{viewModel.changeStateText}"
+        android:onClick="@{()-> viewModel.handleExperimentState(context)}"/>
 
 
 </FrameLayout>

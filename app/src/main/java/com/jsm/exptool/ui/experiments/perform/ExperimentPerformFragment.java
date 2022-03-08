@@ -13,7 +13,10 @@ import android.view.ViewGroup;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseFragment;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
 import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
 import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
@@ -32,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFragmentBinding, ExperimentPerformViewModel> implements RequestPermissionsInterface {
+public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPerformFragmentBinding, ExperimentPerformViewModel> implements RequestPermissionsInterface {
 
     ActivityResultLauncher<String[]> cameraRequestPermissions;
     ActivityResultLauncher<String[]> audioRequestPermissions;
@@ -96,8 +99,18 @@ public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFra
     }
 
     @Override
+    protected int getListItemResourceId() {
+        return R.layout.experiment_perform_sensor_list_item;
+    }
+
+    @Override
     protected ExperimentPerformFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
          return DataBindingUtil.inflate(inflater, R.layout.experiment_perform_fragment, container, false);
+    }
+
+    @Override
+    protected BaseRecyclerAdapter createAdapter() {
+        return new ExperimentPerformAdapter(getContext(), viewModel, getViewLifecycleOwner(), ((BaseActivity)getActivity()).getNavController(), getListItemResourceId());
     }
 
     @Override
@@ -111,7 +124,19 @@ public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFra
     }
 
     @Override
+    protected void setupRecyclerView() {
+        super.setupRecyclerView();
+        viewModel.getUpdateElementInRecycler().observe(getViewLifecycleOwner(), position ->{
+            if (position != null){
+                recyclerView.getAdapter().notifyItemChanged(position);
+            }
+        });
+    }
+
+    @Override
     public void requestPermissions(){
         viewModel.handleRequestPermissions(this);
     }
+
+
 }
