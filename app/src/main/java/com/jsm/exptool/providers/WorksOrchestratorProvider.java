@@ -12,10 +12,13 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEA
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_HEIGHT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_WIDTH;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SENSOR;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SENSOR_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.PROCESS_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 
 import android.app.Application;
@@ -30,7 +33,9 @@ import androidx.work.WorkContinuation;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import com.google.gson.Gson;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.workers.audio.RegisterAudioWorker;
 import com.jsm.exptool.workers.image.ObtainEmbeddingWorker;
@@ -73,21 +78,19 @@ public class WorksOrchestratorProvider {
         mWorkManager.pruneWork();
     }
 
-    public void executeSensorChain(Context context, SortedMap<String, Float> measure, int accuracy, Date date, Experiment experiment) {
-
-
-
+    public void executeSensorChain(Context context, MySensor sensor, Date date, Experiment experiment) {
 
         Map<String, Object> registerSensorValues = new HashMap<String, Object>() {{
-            put(MEASURE_KEYS, measure.keySet().toArray());
-            put(MEASURE_VALUES, measure.values().toArray());
-            put(MEASURE_ACCURACY, accuracy);
+            put(SENSOR, new Gson().toJson(sensor));
+            put(SENSOR_NAME, context.getString(sensor.getNameStringResource()));
             put(EXPERIMENT_ID, experiment.getInternalId());
             put(DATE_TIMESTAMP, date.getTime());
         }};
 
         Data registerSensorData = createInputData(registerSensorValues);
-
+        OneTimeWorkRequest registerSensorRequest = new OneTimeWorkRequest.Builder(RegisterAudioWorker.class)
+                .setInputData(registerSensorData).addTag(REGISTER_SENSOR).build();
+        mWorkManager.enqueue(registerSensorRequest);
     }
 
     public void executeAudioChain(Context context, File mFile, Date date, Experiment experiment){

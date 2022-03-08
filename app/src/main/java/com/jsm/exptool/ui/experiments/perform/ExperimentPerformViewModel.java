@@ -127,6 +127,7 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
         if (saveExperiment(context)) {
             initImageCapture(context);
             initAudioRecording(context);
+            initSensorRecording(context);
         } else {
             //TODO Mensaje de error con reintento
         }
@@ -243,6 +244,7 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
     }
 
     private void initSensorRecording(Context context) {
+        //TODO Quitar listeners de sensores al finalizar experimento
         if (experiment.getConfiguration().isSensorEnabled() && experiment.getConfiguration().getSensorConfig() != null
                 && experiment.getConfiguration().getSensorConfig().getSensors() != null) {
             SensorsConfig sensorConfig = experiment.getConfiguration().getSensorConfig();
@@ -256,7 +258,7 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
                     public void run() {
                         Date date = new Date();
                         SortedMap<String, Float> measure = sensor.getMeasure();
-                        orchestratorProvider.executeSensorChain(getApplication(), measure, date, experiment);
+                        orchestratorProvider.executeSensorChain(getApplication(), sensor, date, experiment);
 
                     }
                 }, 0, sensor.getInterval());

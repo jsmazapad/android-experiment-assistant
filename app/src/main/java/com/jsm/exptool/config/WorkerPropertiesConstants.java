@@ -13,6 +13,8 @@ public class WorkerPropertiesConstants {
         public static final String MEASURE_KEYS= "MEASURE_KEYS";
         public static final String MEASURE_VALUES= "MEASURE_VALUES";
         public static final String MEASURE_ACCURACY= "MEASURE_ACCURACY";
+        public static final String SENSOR_NAME= "SENSOR_NAME";
+        public static final String SENSOR= "SENSOR";
     }
     public class WorkTagsConstants {
         //IMAGES
@@ -22,6 +24,8 @@ public class WorkerPropertiesConstants {
         public static final String OBTAIN_EMBEDDED_IMAGE = "OBTAIN_EMBEDDED_IMAGE";
         //AUDIO
         public static final String REGISTER_AUDIO = "REGISTER_AUDIO";
+        //SENSOR
+        public static final String REGISTER_SENSOR = "REGISTER_SENSOR";
 
     }
 }

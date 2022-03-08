@@ -35,7 +35,7 @@ public class Accelerometer extends MySensor implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == type) {
+        if (event.sensor.getType() == sensorType) {
             measure.put(MeasureConfigConstants.POSITION_X, event.values[0]);
             measure.put(MeasureConfigConstants.POSITION_Y, event.values[0]);
             measure.put(MeasureConfigConstants.POSITION_Z, event.values[0]);
