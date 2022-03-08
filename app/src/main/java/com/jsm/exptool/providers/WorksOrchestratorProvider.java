@@ -6,6 +6,9 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMB
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_ACCURACY;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_KEYS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_VALUES;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_HEIGHT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_WIDTH;
@@ -39,6 +42,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 public class WorksOrchestratorProvider {
@@ -66,6 +71,23 @@ public class WorksOrchestratorProvider {
         mWorkManager = WorkManager.getInstance(application);
         mWorkManager.cancelAllWork();
         mWorkManager.pruneWork();
+    }
+
+    public void executeSensorChain(Context context, SortedMap<String, Float> measure, int accuracy, Date date, Experiment experiment) {
+
+
+
+
+        Map<String, Object> registerSensorValues = new HashMap<String, Object>() {{
+            put(MEASURE_KEYS, measure.keySet().toArray());
+            put(MEASURE_VALUES, measure.values().toArray());
+            put(MEASURE_ACCURACY, accuracy);
+            put(EXPERIMENT_ID, experiment.getInternalId());
+            put(DATE_TIMESTAMP, date.getTime());
+        }};
+
+        Data registerSensorData = createInputData(registerSensorValues);
+
     }
 
     public void executeAudioChain(Context context, File mFile, Date date, Experiment experiment){
@@ -127,13 +149,6 @@ public class WorksOrchestratorProvider {
 
     }
 
-    private Data createInputDataForString(String key, String value) {
-        Data.Builder builder = new Data.Builder();
-        if (value != null) {
-            builder.putString(key, value);
-        }
-        return builder.build();
-    }
 
     private Data createInputData(Map<String, Object> valuesMap) {
         Data.Builder builder = new Data.Builder();
@@ -145,6 +160,10 @@ public class WorksOrchestratorProvider {
                     builder.putInt(entry.getKey(), (Integer) entry.getValue());
                 } else if (entry.getValue() instanceof Long) {
                     builder.putLong(entry.getKey(), (Long) entry.getValue());
+                } else if (entry.getValue() instanceof Float[]){
+                    builder.putFloatArray(entry.getKey(), (float[]) entry.getValue());
+                }else if (entry.getValue() instanceof String[]){
+                    builder.putStringArray(entry.getKey(), (String[]) entry.getValue());
                 }
             }
         }

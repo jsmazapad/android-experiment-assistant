@@ -1,4 +1,4 @@
-package com.jsm.exptool.model;
+package com.jsm.exptool.model.register;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -13,11 +13,11 @@ public class AudioRegister extends MediaRegister{
 
     @Ignore
     public AudioRegister(String fileName, String fileDirectory, boolean dataRemoteSynced, boolean fileRemoteSynced, long experimentId, Date date) {
-        super(fileName, fileDirectory, dataRemoteSynced, fileRemoteSynced, experimentId, date);
+        super(experimentId, date,fileName, fileDirectory, dataRemoteSynced, fileRemoteSynced);
     }
 
     public AudioRegister(long internalId, String fileName, String fileDirectory, boolean dataRemoteSynced, boolean fileRemoteSynced, long experimentId, Date date) {
-        super(internalId, fileName, fileDirectory, dataRemoteSynced, fileRemoteSynced, experimentId, date);
+        super(internalId, experimentId, date, fileName, fileDirectory, dataRemoteSynced, fileRemoteSynced);
     }
 
 

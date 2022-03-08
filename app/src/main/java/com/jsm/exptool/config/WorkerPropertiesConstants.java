@@ -10,6 +10,9 @@ public class WorkerPropertiesConstants {
         public static final String PROCESSED_IMAGE_HEIGHT = "PROCESSED_IMAGE_HEIGHT";
         public static final String PROCESSED_IMAGE_WIDTH= "PROCESSED_IMAGE_WIDTH";
         public static final String EMBEDDING_ALG= "EMBEDDING_ALG";
+        public static final String MEASURE_KEYS= "MEASURE_KEYS";
+        public static final String MEASURE_VALUES= "MEASURE_VALUES";
+        public static final String MEASURE_ACCURACY= "MEASURE_ACCURACY";
     }
     public class WorkTagsConstants {
         //IMAGES

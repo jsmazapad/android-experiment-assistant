@@ -1,13 +1,9 @@
 package com.jsm.exptool.repositories;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.jsm.exptool.data.database.DBHelper;
-import com.jsm.exptool.model.AudioRegister;
-import com.jsm.exptool.model.ImageRegister;
+import com.jsm.exptool.model.register.AudioRegister;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class AudioRepository {

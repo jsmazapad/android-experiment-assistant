@@ -109,107 +109,107 @@ public class SensorHandler {
             sensors.add(new MagneticField());
         }
 
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ORIENTATION) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ORIENTATION).size() > 0) {
-            sensors.add(new Orientation());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GYROSCOPE) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GYROSCOPE).size() > 0) {
-            sensors.add(new Gyroscope());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_LIGHT) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_LIGHT).size() > 0) {
-            sensors.add(new Light());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_PRESSURE) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_PRESSURE).size() > 0){
-            sensors.add(new Pressure());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_TEMPERATURE) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_TEMPERATURE).size() > 0){
-            sensors.add(new Temperature());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_PROXIMITY) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_PROXIMITY).size() > 0){
-            sensors.add(new Proximity());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GRAVITY) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GRAVITY).size() > 0){
-            sensors.add(new Gravity());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_LINEAR_ACCELERATION) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_LINEAR_ACCELERATION).size() > 0){
-            sensors.add(new LinearAcceleration());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ROTATION_VECTOR) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ROTATION_VECTOR).size() > 0){
-            sensors.add(new RotationVector());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY).size() > 0){
-            sensors.add(new RelativeHumidity());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE).size() > 0){
-            sensors.add(new AmbientTemperature());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR).size() > 0){
-            sensors.add(new GameRotationVector());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION).size() > 0){
-            sensors.add(new SignificantMotion());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_DETECTOR) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_DETECTOR).size() > 0){
-            sensors.add(new StepDetector());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_COUNTER) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_COUNTER).size() > 0){
-            sensors.add(new StepCounter());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR).size() > 0){
-            sensors.add(new GeomagneticRotationVector());
-        }
-
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_RATE) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_RATE).size() > 0){
-            sensors.add(new HeartRate());
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STATIONARY_DETECT) != null
-                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_STATIONARY_DETECT).size() > 0){
-                sensors.add(new StationaryDetect());
-            }
-
-            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MOTION_DETECT) != null
-                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_MOTION_DETECT).size() > 0){
-                sensors.add(new MotionDetect());
-            }
-
-            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_BEAT) != null
-                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_BEAT).size() > 0){
-                sensors.add(new HeartBeat());
-            }
-
-        }
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ORIENTATION) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ORIENTATION).size() > 0) {
+//            sensors.add(new Orientation());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GYROSCOPE) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GYROSCOPE).size() > 0) {
+//            sensors.add(new Gyroscope());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_LIGHT) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_LIGHT).size() > 0) {
+//            sensors.add(new Light());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_PRESSURE) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_PRESSURE).size() > 0){
+//            sensors.add(new Pressure());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_TEMPERATURE) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_TEMPERATURE).size() > 0){
+//            sensors.add(new Temperature());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_PROXIMITY) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_PROXIMITY).size() > 0){
+//            sensors.add(new Proximity());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GRAVITY) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GRAVITY).size() > 0){
+//            sensors.add(new Gravity());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_LINEAR_ACCELERATION) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_LINEAR_ACCELERATION).size() > 0){
+//            sensors.add(new LinearAcceleration());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ROTATION_VECTOR) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ROTATION_VECTOR).size() > 0){
+//            sensors.add(new RotationVector());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY).size() > 0){
+//            sensors.add(new RelativeHumidity());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE).size() > 0){
+//            sensors.add(new AmbientTemperature());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR).size() > 0){
+//            sensors.add(new GameRotationVector());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION).size() > 0){
+//            sensors.add(new SignificantMotion());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_DETECTOR) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_DETECTOR).size() > 0){
+//            sensors.add(new StepDetector());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_COUNTER) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_COUNTER).size() > 0){
+//            sensors.add(new StepCounter());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR).size() > 0){
+//            sensors.add(new GeomagneticRotationVector());
+//        }
+//
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_RATE) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_RATE).size() > 0){
+//            sensors.add(new HeartRate());
+//        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STATIONARY_DETECT) != null
+//                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_STATIONARY_DETECT).size() > 0){
+//                sensors.add(new StationaryDetect());
+//            }
+//
+//            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MOTION_DETECT) != null
+//                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_MOTION_DETECT).size() > 0){
+//                sensors.add(new MotionDetect());
+//            }
+//
+//            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_BEAT) != null
+//                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_BEAT).size() > 0){
+//                sensors.add(new HeartBeat());
+//            }
+//
+//        }
     }
 }

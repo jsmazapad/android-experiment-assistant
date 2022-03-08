@@ -1,4 +1,4 @@
-package com.jsm.exptool.model;
+package com.jsm.exptool.model.register;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -17,14 +17,14 @@ public class ImageRegister extends MediaRegister {
 
     @Ignore
     public ImageRegister(String fileName, String fileDirectory, List<Double> embedding, boolean dataRemoteSynced, boolean fileRemoteSynced, boolean embeddingRemoteSynced, long experimentId, Date date) {
-        super(fileName, fileDirectory, dataRemoteSynced, fileRemoteSynced, experimentId, date);
+        super( experimentId, date, fileName, fileDirectory,   dataRemoteSynced, fileRemoteSynced);
 
         this.embedding = embedding;
         this.embeddingRemoteSynced = embeddingRemoteSynced;
     }
 
     public ImageRegister(long internalId, String fileName, String fileDirectory, List<Double> embedding, boolean dataRemoteSynced, boolean fileRemoteSynced, boolean embeddingRemoteSynced, long experimentId, Date date) {
-        super(internalId, fileName, fileDirectory, dataRemoteSynced, fileRemoteSynced, experimentId, date);
+        super(internalId, experimentId,  date, fileName, fileDirectory,   dataRemoteSynced, fileRemoteSynced);
 
         this.embedding = embedding;
         this.embeddingRemoteSynced = embeddingRemoteSynced;

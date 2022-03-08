@@ -1,14 +1,13 @@
 package com.jsm.exptool.data.database;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
-import com.jsm.exptool.model.AudioRegister;
+import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.ImageRegister;
+import com.jsm.exptool.model.register.ImageRegister;
+import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.List;
 
@@ -111,6 +110,34 @@ public class DBHelper {
 
     public static int deleteAudiosById(AudioRegister register) {
         return appDatabase.audioDao().deleteById(register.getInternalId());
+    }
+
+    /*
+    SENSOR REGISTERS
+     */
+    public static long insertSensorRegister(final SensorRegister audioRegister) {
+        return appDatabase.sensorDao().insert(audioRegister);
+    }
+
+    public static List<SensorRegister> getSensors() {
+        return appDatabase.sensorDao().getSensors();
+    }
+
+    public static List<SensorRegister> getSensorsFromExperiment(Experiment experiment) {
+        return appDatabase.sensorDao().getSensorsFromExperiment(experiment.getId());
+    }
+
+
+    public static SensorRegister getSensorById(long imageId) {
+        return appDatabase.sensorDao().selectById(imageId);
+    }
+
+    public static int updateSensor(SensorRegister register) {
+        return appDatabase.sensorDao().update(register);
+    }
+
+    public static int deleteSensorsById(SensorRegister register) {
+        return appDatabase.sensorDao().deleteById(register.getInternalId());
     }
 
 

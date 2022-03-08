@@ -5,7 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.jsm.exptool.model.AudioRegister;
+import com.jsm.exptool.model.register.AudioRegister;
 
 import java.util.List;
 

@@ -24,7 +24,9 @@ import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.loading.LoadingViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
+import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
+import com.jsm.exptool.model.experimentconfig.SensorsConfig;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
@@ -40,6 +42,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -236,6 +239,28 @@ public class ExperimentPerformViewModel extends LoadingViewModel {
                     }, audioConfig.getRecordingDuration());
                 }
             }, 0, audioConfig.getInterval());
+        }
+    }
+
+    private void initSensorRecording(Context context) {
+        if (experiment.getConfiguration().isSensorEnabled() && experiment.getConfiguration().getSensorConfig() != null
+                && experiment.getConfiguration().getSensorConfig().getSensors() != null) {
+            SensorsConfig sensorConfig = experiment.getConfiguration().getSensorConfig();
+            Timer sensorTimer = new Timer();
+            timers.add(sensorTimer);
+
+            for(MySensor sensor: sensorConfig.getSensors()){
+                sensor.initListener();
+                sensorTimer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Date date = new Date();
+                        SortedMap<String, Float> measure = sensor.getMeasure();
+                        orchestratorProvider.executeSensorChain(getApplication(), measure, date, experiment);
+
+                    }
+                }, 0, sensor.getInterval());
+            }
         }
     }
 

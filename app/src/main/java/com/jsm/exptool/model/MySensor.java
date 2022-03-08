@@ -1,6 +1,9 @@
 package com.jsm.exptool.model;
 
-import android.os.Handler;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Parcel;
 import android.provider.BaseColumns;
 
@@ -9,13 +12,17 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.jsm.exptool.config.SensorConfigConstants;
+import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
 import java.util.ArrayList;
-import java.util.Timer;
+import java.util.LinkedHashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 @Entity(tableName = MySensor.TABLE_NAME)
-public class MySensor extends RepeatableElement implements Cloneable {
+public class MySensor extends RepeatableElement implements Cloneable, SensorEventListener {
     /** The name of the table. */
     public static final String TABLE_NAME = "sensors";
 
@@ -27,16 +34,16 @@ public class MySensor extends RepeatableElement implements Cloneable {
     private long internalId;
     private long experimentId;
     public int type;
-    @Ignore public boolean active;
-    @Ignore public boolean isRecording = false;
-    @Ignore  public ArrayList <Measure> data = new ArrayList();
-    @Ignore  public Timer timer;
+    protected int accuracy;
+    protected SensorManager sensorManager = SensorHandler.getInstance().getSensorManager();
+    protected Sensor sensor;
+    @Ignore  protected SortedMap<String, Float> measure = new TreeMap<>();
     @Ignore  public SensorEventInterface sensorEventInterface;
-    @Ignore  public Handler myHandler = new Handler();
     @Ignore
     public MySensor(int type, int rName){
         this.type = type;
         this.nameStringResource = rName;
+        this.sensor = sensorManager.getDefaultSensor(type);
     }
 
     public MySensor(int interval, int intervalMin, int nameStringResource, long internalId, long experimentId, int type) {
@@ -44,6 +51,7 @@ public class MySensor extends RepeatableElement implements Cloneable {
         this.internalId = internalId;
         this.experimentId = experimentId;
         this.type = type;
+        this.sensor = sensorManager.getDefaultSensor(type);
     }
 
     @Ignore
@@ -52,37 +60,20 @@ public class MySensor extends RepeatableElement implements Cloneable {
         this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = interval;
+        this.sensor = sensorManager.getDefaultSensor(type);
     }
 
     @Ignore
     public MySensor(int type, int nameStringResource, int intervalMin) {
         this.type = type;
-
         this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = intervalMin;
+        this.sensor = sensorManager.getDefaultSensor(type);
     }
 
-    public final void record() {
-        this.isRecording = true;
-        this.timer = new Timer();
-        MySensor.this.setActive(true);
-        scheduleRecording();
-    }
 
-    public void scheduleRecording() {
-    }
 
-    public final void stop(){
-        this.isRecording = false;
-        MySensor.this.setActive(false);
-        data.remove(0);
-    }
-
-    public final void reset() {
-        this.data.clear();
-        this.isRecording = false;
-    }
 
     public long getInternalId() {
         return internalId;
@@ -102,29 +93,13 @@ public class MySensor extends RepeatableElement implements Cloneable {
 
     public final int getType(){return  this.type;}
 
-    public final boolean isActive() {
-        return this.active;
+
+    public SortedMap<String, Float> getMeasure() {
+        return measure;
     }
 
-    public void setActive(boolean isActive) {
-        this.active = isActive;
-    }
-
-    public final void setRecording(boolean isRecording2) {
-        this.isRecording = isRecording2;
-    }
-
-    public final boolean isRecording() {
-        return this.isRecording;
-    }
-
-
-    public ArrayList <Measure> getData() {
-        return data;
-    }
-
-    public void setData(ArrayList <Measure> data) {
-        this.data = data;
+    public void setMeasure(SortedMap<String, Float> measure) {
+        this.measure = measure;
     }
 
     public SensorEventInterface getSensorEventInterface() {
@@ -140,8 +115,7 @@ public class MySensor extends RepeatableElement implements Cloneable {
         nameStringResource = in.readInt();
         interval = in.readInt();
         intervalMin = in.readInt();
-        active = in.readByte() != 0;
-        isRecording = in.readByte() != 0;
+
     }
 
     public static final Creator<MySensor> CREATOR = new Creator<MySensor>() {
@@ -167,12 +141,28 @@ public class MySensor extends RepeatableElement implements Cloneable {
         dest.writeInt(nameStringResource);
         dest.writeInt(interval);
         dest.writeInt(intervalMin);
-        dest.writeByte((byte) (active ? 1 : 0));
-        dest.writeByte((byte) (isRecording ? 1 : 0));
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+    }
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        //No se usa en el presente desarrollo, no se reacciona a los cambios de precisión, sólo se reflejan
+    }
+
+    public void initListener(){
+        sensorManager.registerListener(this, sensor, 0);
+    }
+
+    public void cancelListener(){
+        sensorManager.unregisterListener(this);
     }
 }

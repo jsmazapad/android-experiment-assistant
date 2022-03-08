@@ -11,6 +11,8 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
+import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.model.register.ImageRegister;
 
 import java.util.ArrayList;
 import java.util.Date;
