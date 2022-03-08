@@ -32,8 +32,14 @@ public class RegisterSensorWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        MySensor sensor = null;
         String sensorName = getInputData().getString(SENSOR_NAME);
-        MySensor sensor = new Gson().fromJson(getInputData().getString(SENSOR), MySensor.class);
+        try {
+             sensor = new Gson().fromJson(getInputData().getString(SENSOR), MySensor.class);
+        }catch (Exception e){
+            Log.e("ERROR EN PARSEO", "ERROR EN PARSEO");
+            e.printStackTrace();
+        }
         long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
         long dateTimestamp = getInputData().getLong(DATE_TIMESTAMP, -1);
 //        int accuracy = getInputData().getInt(MEASURE_ACCURACY, -1);

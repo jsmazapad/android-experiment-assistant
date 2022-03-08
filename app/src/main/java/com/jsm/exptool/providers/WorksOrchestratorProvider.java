@@ -41,6 +41,7 @@ import com.jsm.exptool.workers.audio.RegisterAudioWorker;
 import com.jsm.exptool.workers.image.ObtainEmbeddingWorker;
 import com.jsm.exptool.workers.image.ProcessImageWorker;
 import com.jsm.exptool.workers.image.RegisterImageWorker;
+import com.jsm.exptool.workers.sensor.RegisterSensorWorker;
 
 import java.io.File;
 import java.util.Date;
@@ -88,7 +89,7 @@ public class WorksOrchestratorProvider {
         }};
 
         Data registerSensorData = createInputData(registerSensorValues);
-        OneTimeWorkRequest registerSensorRequest = new OneTimeWorkRequest.Builder(RegisterAudioWorker.class)
+        OneTimeWorkRequest registerSensorRequest = new OneTimeWorkRequest.Builder(RegisterSensorWorker.class)
                 .setInputData(registerSensorData).addTag(REGISTER_SENSOR).build();
         mWorkManager.enqueue(registerSensorRequest);
     }

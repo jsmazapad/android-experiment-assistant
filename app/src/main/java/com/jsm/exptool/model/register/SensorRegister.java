@@ -1,5 +1,6 @@
 package com.jsm.exptool.model.register;
 
+import androidx.annotation.StringRes;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
@@ -20,10 +21,13 @@ public class SensorRegister extends ExperimentRegister {
     private float value3;
     private String value3String;
     private String sensorName;
+    private int sensorType;
+    private @StringRes int sensorNameResource;
     private int accuracy;
 
-    public SensorRegister(long internalId,  long experimentId, Date date, boolean dataRemoteSynced, float value1,
-                          String value1String, float value2, String value2String, float value3, String value3String, String sensorName, int accuracy) {
+    public SensorRegister(long internalId, long experimentId, Date date, boolean dataRemoteSynced, float value1, String value1String,
+                          float value2, String value2String, float value3, String value3String, String sensorName,
+                          int sensorType, @StringRes int sensorNameResource, int accuracy) {
         super(internalId, experimentId, date, dataRemoteSynced);
         this.value1 = value1;
         this.value1String = value1String;
@@ -32,12 +36,14 @@ public class SensorRegister extends ExperimentRegister {
         this.value3 = value3;
         this.value3String = value3String;
         this.sensorName = sensorName;
+        this.sensorType = sensorType;
+        this.sensorNameResource = sensorNameResource;
         this.accuracy = accuracy;
     }
-
     @Ignore
-    public SensorRegister( long experimentId, Date date, boolean dataRemoteSynced, float value1,
-                           String value1String, float value2, String value2String, float value3, String value3String, String sensorName, int accuracy) {
+    public SensorRegister(long experimentId, Date date, boolean dataRemoteSynced, float value1, String value1String,
+                          float value2, String value2String, float value3, String value3String, String sensorName,
+                          int sensorType, @StringRes int sensorNameResource, int accuracy) {
         super(experimentId, date, dataRemoteSynced);
         this.value1 = value1;
         this.value1String = value1String;
@@ -46,14 +52,11 @@ public class SensorRegister extends ExperimentRegister {
         this.value3 = value3;
         this.value3String = value3String;
         this.sensorName = sensorName;
+        this.sensorType = sensorType;
+        this.sensorNameResource = sensorNameResource;
         this.accuracy = accuracy;
     }
 
-
-
-    public static String getTableName() {
-        return TABLE_NAME;
-    }
 
     public float getValue1() {
         return value1;
@@ -109,6 +112,22 @@ public class SensorRegister extends ExperimentRegister {
 
     public void setSensorName(String sensorName) {
         this.sensorName = sensorName;
+    }
+
+    public int getSensorType() {
+        return sensorType;
+    }
+
+    public void setSensorType(@StringRes int sensorType) {
+        this.sensorType = sensorType;
+    }
+
+    public @StringRes int getSensorNameResource() {
+        return sensorNameResource;
+    }
+
+    public void setSensorNameResource(int sensorNameResource) {
+        this.sensorNameResource = sensorNameResource;
     }
 
     public int getAccuracy() {

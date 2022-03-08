@@ -18,13 +18,17 @@ import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
 import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
 import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.Sensor.Accelerometer;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
+import com.jsm.exptool.model.experimentconfig.SensorsConfig;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -79,6 +83,9 @@ public class ExperimentPerformFragment extends BaseFragment<ExperimentPerformFra
         cameraConfig.setInterval(1000);
         cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         configuration.setCameraConfig(cameraConfig );
+        SensorsConfig sensorsConfig = new SensorsConfig();
+        sensorsConfig.setSensors(new ArrayList<MySensor>(){{add(new Accelerometer());}});
+        configuration.setSensorConfig(sensorsConfig);
         experiment.setConfiguration(configuration);
         long id = ExperimentsRepository.registerExperiment(experiment);
         experiment.setInternalId(id);

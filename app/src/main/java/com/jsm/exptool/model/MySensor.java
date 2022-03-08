@@ -30,17 +30,16 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
     @ColumnInfo(index = true, name = COLUMN_ID)
     private long internalId;
     private long experimentId;
-    public int sensorType;
+    protected int sensorType;
     protected int accuracy;
-    protected SensorManager sensorManager = SensorHandler.getInstance().getSensorManager();
-    protected Sensor sensor;
+    @Ignore protected Sensor sensor;
     @Ignore  protected SortedMap<String, Float> measure = new TreeMap<>();
     @Ignore  public SensorEventInterface sensorEventInterface;
     @Ignore
     public MySensor(int sensorType, int rName){
         this.sensorType = sensorType;
         this.nameStringResource = rName;
-        this.sensor = sensorManager.getDefaultSensor(sensorType);
+        this.sensor = SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType);
     }
 
     public MySensor(int interval, int intervalMin, int nameStringResource, long internalId, long experimentId, int sensorType) {
@@ -48,7 +47,7 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         this.internalId = internalId;
         this.experimentId = experimentId;
         this.sensorType = sensorType;
-        this.sensor = sensorManager.getDefaultSensor(sensorType);
+        this.sensor = SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType);
     }
 
     @Ignore
@@ -57,7 +56,7 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = interval;
-        this.sensor = sensorManager.getDefaultSensor(sensorType);
+        this.sensor = SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType);
     }
 
     @Ignore
@@ -66,7 +65,7 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = intervalMin;
-        this.sensor = sensorManager.getDefaultSensor(sensorType);
+        this.sensor = SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType);
     }
 
 
@@ -92,6 +91,10 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
 
     public int getAccuracy() {
         return accuracy;
+    }
+
+    public void setAccuracy(int accuracy) {
+        this.accuracy = accuracy;
     }
 
     public SortedMap<String, Float> getMeasure() {
@@ -159,10 +162,10 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
     }
 
     public void initListener(){
-        sensorManager.registerListener(this, sensor, 0);
+        SensorHandler.getInstance().getSensorManager().registerListener(this, sensor, 0);
     }
 
     public void cancelListener(){
-        sensorManager.unregisterListener(this);
+        SensorHandler.getInstance().getSensorManager().unregisterListener(this);
     }
 }

@@ -2,21 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a36495658d7c1e25a6957f9b6cb31286",
+    "identityHash": "ccf4a3b33341e72866a949fc7823618f",
     "entities": [
       {
         "tableName": "imageRegisters",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataRemoteSynced` INTEGER NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `fileName` TEXT, `fileDirectory` TEXT, `fileRemoteSynced` INTEGER NOT NULL, `embedding` TEXT, `embeddingRemoteSynced` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `fileName` TEXT, `fileDirectory` TEXT, `fileRemoteSynced` INTEGER NOT NULL, `embedding` TEXT, `embeddingRemoteSynced` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "internalId",
             "columnName": "_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "dataRemoteSynced",
-            "columnName": "dataRemoteSynced",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -31,6 +25,12 @@
             "columnName": "date",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "dataRemoteSynced",
+            "columnName": "dataRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "fileName",
@@ -340,17 +340,11 @@
       },
       {
         "tableName": "audioRegisters",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataRemoteSynced` INTEGER NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `fileName` TEXT, `fileDirectory` TEXT, `fileRemoteSynced` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `fileName` TEXT, `fileDirectory` TEXT, `fileRemoteSynced` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "internalId",
             "columnName": "_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "dataRemoteSynced",
-            "columnName": "dataRemoteSynced",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -365,6 +359,12 @@
             "columnName": "date",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "dataRemoteSynced",
+            "columnName": "dataRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "fileName",
@@ -405,7 +405,7 @@
       },
       {
         "tableName": "sensors",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interval` INTEGER NOT NULL, `intervalMin` INTEGER NOT NULL, `nameStringResource` INTEGER NOT NULL, `_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `type` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interval` INTEGER NOT NULL, `intervalMin` INTEGER NOT NULL, `nameStringResource` INTEGER NOT NULL, `_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `sensorType` INTEGER NOT NULL, `accuracy` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "interval",
@@ -438,8 +438,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "type",
-            "columnName": "type",
+            "fieldPath": "sensorType",
+            "columnName": "sensorType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accuracy",
+            "columnName": "accuracy",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -464,17 +470,11 @@
       },
       {
         "tableName": "sensorRegisters",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataRemoteSynced` INTEGER NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `value1` REAL NOT NULL, `value1String` TEXT, `value2` REAL NOT NULL, `value2String` TEXT, `value3` REAL NOT NULL, `value3String` TEXT, `sensorName` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `value1` REAL NOT NULL, `value1String` TEXT, `value2` REAL NOT NULL, `value2String` TEXT, `value3` REAL NOT NULL, `value3String` TEXT, `sensorName` TEXT, `sensorType` INTEGER NOT NULL, `sensorNameResource` INTEGER NOT NULL, `accuracy` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "internalId",
             "columnName": "_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "dataRemoteSynced",
-            "columnName": "dataRemoteSynced",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -489,6 +489,12 @@
             "columnName": "date",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "dataRemoteSynced",
+            "columnName": "dataRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "value1",
@@ -531,6 +537,24 @@
             "columnName": "sensorName",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "sensorType",
+            "columnName": "sensorType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sensorNameResource",
+            "columnName": "sensorNameResource",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accuracy",
+            "columnName": "accuracy",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -554,7 +578,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a36495658d7c1e25a6957f9b6cb31286\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ccf4a3b33341e72866a949fc7823618f\")"
     ]
   }
 }

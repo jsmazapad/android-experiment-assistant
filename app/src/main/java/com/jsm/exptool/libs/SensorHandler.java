@@ -12,28 +12,28 @@ import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.model.Sensor.Accelerometer;
-import com.jsm.exptool.model.Sensor.AmbientTemperature;
-import com.jsm.exptool.model.Sensor.GPS;
-import com.jsm.exptool.model.Sensor.GameRotationVector;
-import com.jsm.exptool.model.Sensor.GeomagneticRotationVector;
-import com.jsm.exptool.model.Sensor.Gravity;
-import com.jsm.exptool.model.Sensor.Gyroscope;
-import com.jsm.exptool.model.Sensor.HeartBeat;
-import com.jsm.exptool.model.Sensor.HeartRate;
-import com.jsm.exptool.model.Sensor.Light;
-import com.jsm.exptool.model.Sensor.LinearAcceleration;
-import com.jsm.exptool.model.Sensor.MagneticField;
-import com.jsm.exptool.model.Sensor.MotionDetect;
-import com.jsm.exptool.model.Sensor.Orientation;
-import com.jsm.exptool.model.Sensor.Pressure;
-import com.jsm.exptool.model.Sensor.Proximity;
-import com.jsm.exptool.model.Sensor.RelativeHumidity;
-import com.jsm.exptool.model.Sensor.RotationVector;
-import com.jsm.exptool.model.Sensor.SignificantMotion;
-import com.jsm.exptool.model.Sensor.StationaryDetect;
-import com.jsm.exptool.model.Sensor.StepCounter;
-import com.jsm.exptool.model.Sensor.StepDetector;
-import com.jsm.exptool.model.Sensor.Temperature;
+//import com.jsm.exptool.model.Sensor.AmbientTemperature;
+//import com.jsm.exptool.model.Sensor.GPS;
+//import com.jsm.exptool.model.Sensor.GameRotationVector;
+//import com.jsm.exptool.model.Sensor.GeomagneticRotationVector;
+//import com.jsm.exptool.model.Sensor.Gravity;
+//import com.jsm.exptool.model.Sensor.Gyroscope;
+//import com.jsm.exptool.model.Sensor.HeartBeat;
+//import com.jsm.exptool.model.Sensor.HeartRate;
+//import com.jsm.exptool.model.Sensor.Light;
+//import com.jsm.exptool.model.Sensor.LinearAcceleration;
+//import com.jsm.exptool.model.Sensor.MagneticField;
+//import com.jsm.exptool.model.Sensor.MotionDetect;
+//import com.jsm.exptool.model.Sensor.Orientation;
+//import com.jsm.exptool.model.Sensor.Pressure;
+//import com.jsm.exptool.model.Sensor.Proximity;
+//import com.jsm.exptool.model.Sensor.RelativeHumidity;
+//import com.jsm.exptool.model.Sensor.RotationVector;
+//import com.jsm.exptool.model.Sensor.SignificantMotion;
+//import com.jsm.exptool.model.Sensor.StationaryDetect;
+//import com.jsm.exptool.model.Sensor.StepCounter;
+//import com.jsm.exptool.model.Sensor.StepDetector;
+//import com.jsm.exptool.model.Sensor.Temperature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,17 +97,17 @@ public class SensorHandler {
 
 
     private void createAvailableSensorsList(){
-        sensors.add(new GPS());
+//        sensors.add(new GPS());
 
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ACCELEROMETER) != null
                 && sensorManager.getSensorList(SensorConfigConstants.TYPE_ACCELEROMETER).size() > 0) {
             sensors.add(new Accelerometer());
         }
 
-        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MAGNETIC_FIELD) != null
-                && sensorManager.getSensorList(SensorConfigConstants.TYPE_MAGNETIC_FIELD).size() > 0) {
-            sensors.add(new MagneticField());
-        }
+//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MAGNETIC_FIELD) != null
+//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_MAGNETIC_FIELD).size() > 0) {
+//            sensors.add(new MagneticField());
+//        }
 
 //        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ORIENTATION) != null
 //                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ORIENTATION).size() > 0) {

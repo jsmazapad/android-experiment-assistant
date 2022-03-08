@@ -31,7 +31,7 @@ public class SensorsRepository {
         }
 
         SensorRegister sensorRegister = new SensorRegister(experimentId, date, false, valuesToInsert[0], keysToInsert[0], valuesToInsert[1],
-                keysToInsert[1], valuesToInsert[2], keysToInsert[2], sensorName, sensor.getAccuracy());
+                keysToInsert[1], valuesToInsert[2], keysToInsert[2], sensorName, sensor.getSensorType(), sensor.getNameStringResource(), sensor.getAccuracy());
         return DBHelper.insertSensorRegister(sensorRegister);
     }
 
