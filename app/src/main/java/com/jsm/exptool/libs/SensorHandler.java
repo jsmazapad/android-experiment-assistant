@@ -102,6 +102,7 @@ public class SensorHandler {
     }
 
 
+    //TODO Completar con sensores con TriggerEventListener
     private void createAvailableSensorsList(){
 //        sensors.add(new GPS());
 
@@ -165,16 +166,17 @@ public class SensorHandler {
                 && sensorManager.getSensorList(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY).size() > 0){
             sensors.add(new MySensor(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY, R.string.relative_humidity, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.HUMIDITY)));
         }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE).size() > 0){
-//            sensors.add(new AmbientTemperature());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR).size() > 0){
-//            sensors.add(new GameRotationVector());
-//        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE, R.string.ambient_temperature, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.TEMPERATURE)));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR, R.string.game_rotation_vector, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
+
+        }
 //
 //        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION) != null
 //                && sensorManager.getSensorList(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION).size() > 0){
@@ -191,17 +193,17 @@ public class SensorHandler {
 //            sensors.add(new StepCounter());
 //        }
 //
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR).size() > 0){
-//            sensors.add(new GeomagneticRotationVector());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_RATE) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_RATE).size() > 0){
-//            sensors.add(new HeartRate());
-//        }
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR, R.string.geomagnetic_rotation_vector, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_RATE) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_RATE).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_HEART_RATE, R.string.heart_rate, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.HEART_RATE)));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STATIONARY_DETECT) != null
 //                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_STATIONARY_DETECT).size() > 0){
 //                sensors.add(new StationaryDetect());
@@ -212,13 +214,17 @@ public class SensorHandler {
 //                sensors.add(new MotionDetect());
 //            }
 //
-//            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_BEAT) != null
-//                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_BEAT).size() > 0){
-//                sensors.add(new HeartBeat());
-//            }
+            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_BEAT) != null
+                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_BEAT).size() > 0){
+                sensors.add(new MySensor(SensorConfigConstants.TYPE_HEART_BEAT, R.string.heart_beat, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.HEART_BEAT)));
+            }
 //
-//        }
+        }
     }
+
+    /*
+    MEDICIÓN DE SENSORES NO DISPARADOS
+     */
 
     private final TreeMap<String,Float> spatialValues = new TreeMap<String, Float>() {{
         put(MeasureConfigConstants.POSITION_X, 0f);
@@ -234,7 +240,6 @@ public class SensorHandler {
         }};
     }
 
-
     private final SensorEventInterface measureSpatialValues = (event, measure) -> {
         measure.put(MeasureConfigConstants.POSITION_X, event.values[0]);
         measure.put(MeasureConfigConstants.POSITION_Y, event.values[1]);
@@ -244,5 +249,9 @@ public class SensorHandler {
     private final SensorEventInterface measureOneValue = (event, measure) -> {
         measure.put(measure.firstKey(), event.values[0]);
     };
+
+     /*
+    MEDICIÓN DE SENSORES DISPARADOS
+     */
 
 }

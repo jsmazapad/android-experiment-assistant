@@ -10,6 +10,8 @@ public class MeasureConfigConstants {
     public static final String TEMPERATURE = "DEGREE";
     public static final String PROXIMITY = "PROXIMITY";
     public static final String HUMIDITY = "HUMIDITY";
+    public static final String HEART_RATE = "RATE";
+    public static final String HEART_BEAT = "BEAT";
 
 
 }

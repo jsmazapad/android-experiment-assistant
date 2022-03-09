@@ -35,19 +35,4 @@ public class SensorsRepository {
         return DBHelper.insertSensorRegister(sensorRegister);
     }
 
-//    public static long registerSensorCapture(String[] keys, Float[] values, int accuracy, String sensorName, long experimentId, Date date){
-//        String [] keysToInsert = new String[]{"","",""};
-//        float [] valuesToInsert = new float[]{0f,0f,0f};
-//
-//        for(int i=0; i<keys.length; i++)
-//        {
-//            keysToInsert[i] = keys[i];
-//            valuesToInsert[i] = values[i];
-//        }
-//
-//        SensorRegister sensorRegister = new SensorRegister(experimentId, date, false, valuesToInsert[0], keysToInsert[0], valuesToInsert[1],
-//                keysToInsert[1], valuesToInsert[2], keysToInsert[2], sensorName, accuracy);
-//        return DBHelper.insertSensorRegister(sensorRegister);
-//    }
-
 }

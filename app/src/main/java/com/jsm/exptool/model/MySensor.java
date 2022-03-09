@@ -1,9 +1,13 @@
 package com.jsm.exptool.model;
 
+import static android.hardware.SensorManager.SENSOR_STATUS_ACCURACY_HIGH;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.hardware.TriggerEvent;
+import android.hardware.TriggerEventListener;
 import android.os.Parcel;
 import android.provider.BaseColumns;
 
@@ -36,7 +40,14 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
     @Expose protected int accuracy;
     @Ignore protected Sensor sensor;
     @Expose @Ignore  protected SortedMap<String, Float> measure = new TreeMap<>();
-    @Ignore  public SensorEventInterface sensorEventInterface;
+    @Ignore  protected SensorEventInterface sensorEventInterface;
+    @Ignore  protected TriggerEventInterface triggerEventInterface;
+    @Ignore private TriggerEventListener triggerEventListener = new TriggerEventListener() {
+        @Override
+        public void onTrigger(TriggerEvent event) {
+            MySensor.this.onTrigger(event);
+        }
+    };
     @Ignore
     public MySensor(int sensorType, int rName){
         this.sensorType = sensorType;
@@ -69,6 +80,17 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         this.interval = intervalMin;
         this.sensorEventInterface = sensorEventInterface;
         this.measure = measure;
+        initSensor();
+    }
+
+    @Ignore
+    public MySensor(int sensorType, int nameStringResource, int intervalMin, TriggerEventInterface triggerEventInterface, SortedMap<String, Float> measure) {
+        this.sensorType = sensorType;
+        this.nameStringResource = nameStringResource;
+        this.intervalMin = intervalMin;
+        this.interval = intervalMin;
+        this.measure = measure;
+        this.triggerEventInterface = triggerEventInterface;
         initSensor();
     }
 
@@ -180,11 +202,31 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         //No se usa en el presente desarrollo, no se reacciona a los cambios de precisión, sólo se reflejan
     }
 
+
+    public void onTrigger(TriggerEvent event) {
+        if (this.triggerEventInterface != null){
+            this.accuracy = SENSOR_STATUS_ACCURACY_HIGH;
+            triggerEventInterface.readTriggeredSensor(event, measure);
+        }
+
+    }
+
     public void initListener(){
-        SensorHandler.getInstance().getSensorManager().registerListener(this, sensor, 0);
+
+        if (this.triggerEventInterface != null){
+            SensorHandler.getInstance().getSensorManager().requestTriggerSensor(triggerEventListener, sensor);
+        }else{
+            SensorHandler.getInstance().getSensorManager().registerListener(this, sensor, 0);
+        }
     }
 
     public void cancelListener(){
-        SensorHandler.getInstance().getSensorManager().unregisterListener(this);
+        if (this.triggerEventInterface != null) {
+            SensorHandler.getInstance().getSensorManager().cancelTriggerSensor(triggerEventListener, sensor);
+        }else{
+            SensorHandler.getInstance().getSensorManager().unregisterListener(this);
+        }
     }
+
+
 }
