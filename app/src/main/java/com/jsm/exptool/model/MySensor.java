@@ -40,6 +40,7 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
     @Expose protected int accuracy;
     @Ignore protected Sensor sensor;
     @Expose @Ignore  protected SortedMap<String, Float> measure = new TreeMap<>();
+    @Ignore  protected SortedMap<String, Float> initialMeasure = new TreeMap<>();
     @Ignore  protected SensorEventInterface sensorEventInterface;
     @Ignore  protected TriggerEventInterface triggerEventInterface;
     @Ignore private TriggerEventListener triggerEventListener = new TriggerEventListener() {
@@ -54,6 +55,8 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         this.nameStringResource = rName;
         initSensor();
     }
+
+    private boolean restartInitialMeasureAfterRead = false;
 
     public MySensor(int interval, int intervalMin, int nameStringResource, long internalId, long experimentId, int sensorType) {
         super(interval, intervalMin, nameStringResource);
@@ -84,13 +87,15 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
     }
 
     @Ignore
-    public MySensor(int sensorType, int nameStringResource, int intervalMin, TriggerEventInterface triggerEventInterface, SortedMap<String, Float> measure) {
+    public MySensor(int sensorType, int nameStringResource, int intervalMin, TriggerEventInterface triggerEventInterface, SortedMap<String, Float> measure, boolean restartInitialMeasureAfterRead) {
         this.sensorType = sensorType;
         this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = intervalMin;
         this.measure = measure;
         this.triggerEventInterface = triggerEventInterface;
+        this.restartInitialMeasureAfterRead = restartInitialMeasureAfterRead;
+        this.initialMeasure = measure;
         initSensor();
     }
 
@@ -133,7 +138,11 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
     }
 
     public SortedMap<String, Float> getMeasure() {
-        return measure;
+        SortedMap<String, Float> measureRegistered = this.measure;
+        if(restartInitialMeasureAfterRead){
+            this.measure = initialMeasure;
+        }
+        return measureRegistered;
     }
 
     public void setMeasure(SortedMap<String, Float> measure) {

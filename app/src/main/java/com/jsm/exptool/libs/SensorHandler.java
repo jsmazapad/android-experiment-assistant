@@ -3,7 +3,6 @@ package com.jsm.exptool.libs;
 import static android.content.Context.SENSOR_SERVICE;
 
 import android.content.Context;
-import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.os.Build;
@@ -15,29 +14,8 @@ import com.jsm.exptool.config.MeasureConfigConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.SensorEventInterface;
+import com.jsm.exptool.model.TriggerEventInterface;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-//import com.jsm.exptool.model.Sensor.AmbientTemperature;
-//import com.jsm.exptool.model.Sensor.GPS;
-//import com.jsm.exptool.model.Sensor.GameRotationVector;
-//import com.jsm.exptool.model.Sensor.GeomagneticRotationVector;
-//import com.jsm.exptool.model.Sensor.Gravity;
-//import com.jsm.exptool.model.Sensor.Gyroscope;
-//import com.jsm.exptool.model.Sensor.HeartBeat;
-//import com.jsm.exptool.model.Sensor.HeartRate;
-//import com.jsm.exptool.model.Sensor.Light;
-//import com.jsm.exptool.model.Sensor.LinearAcceleration;
-//import com.jsm.exptool.model.Sensor.MagneticField;
-//import com.jsm.exptool.model.Sensor.MotionDetect;
-//import com.jsm.exptool.model.Sensor.Orientation;
-//import com.jsm.exptool.model.Sensor.Pressure;
-//import com.jsm.exptool.model.Sensor.Proximity;
-//import com.jsm.exptool.model.Sensor.RelativeHumidity;
-//import com.jsm.exptool.model.Sensor.RotationVector;
-//import com.jsm.exptool.model.Sensor.SignificantMotion;
-//import com.jsm.exptool.model.Sensor.StationaryDetect;
-//import com.jsm.exptool.model.Sensor.StepCounter;
-//import com.jsm.exptool.model.Sensor.StepDetector;
-//import com.jsm.exptool.model.Sensor.Temperature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +80,12 @@ public class SensorHandler {
     }
 
 
-    //TODO Completar con sensores con TriggerEventListener
+    /**
+     * Crea listado de sensores disponibles para el dispositivo
+     * Mas info en @linktourl https://developer.android.com/reference/android/hardware/SensorEvent#values
+     */
     private void createAvailableSensorsList(){
+        //TODO, que hacer con GPS
 //        sensors.add(new GPS());
 
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ACCELEROMETER) != null
@@ -177,22 +159,23 @@ public class SensorHandler {
             sensors.add(new MySensor(SensorConfigConstants.TYPE_GAME_ROTATION_VECTOR, R.string.game_rotation_vector, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
 
         }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION).size() > 0){
-//            sensors.add(new SignificantMotion());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_DETECTOR) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_DETECTOR).size() > 0){
-//            sensors.add(new StepDetector());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_COUNTER) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_COUNTER).size() > 0){
-//            sensors.add(new StepCounter());
-//        }
-//
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION, R.string.significant_motion, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureTriggeredValue , createOneValueMap(MeasureConfigConstants.SIGNIFICANT_MOTION), true));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_DETECTOR) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_DETECTOR).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_STEP_DETECTOR, R.string.step_detect, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneTriggeredValueSum , createOneValueMap(MeasureConfigConstants.STEP_DETECTED), true));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_COUNTER) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_COUNTER).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_STEP_COUNTER, R.string.step_detect, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneTriggeredValueSum , createOneValueMap(MeasureConfigConstants.STEP_COUNTED), true));
+        }
+
+
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR) != null
                 && sensorManager.getSensorList(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR).size() > 0){
             sensors.add(new MySensor(SensorConfigConstants.TYPE_GEOMAGNETIC_ROTATION_VECTOR, R.string.geomagnetic_rotation_vector, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
@@ -204,16 +187,16 @@ public class SensorHandler {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STATIONARY_DETECT) != null
-//                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_STATIONARY_DETECT).size() > 0){
-//                sensors.add(new StationaryDetect());
-//            }
-//
-//            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MOTION_DETECT) != null
-//                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_MOTION_DETECT).size() > 0){
-//                sensors.add(new MotionDetect());
-//            }
-//
+            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STATIONARY_DETECT) != null
+                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_STATIONARY_DETECT).size() > 0){
+                sensors.add(new MySensor(SensorConfigConstants.TYPE_STATIONARY_DETECT, R.string.stationary_detect, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureTriggeredValue , createOneValueMap(MeasureConfigConstants.STATIONARY), true));
+            }
+
+            if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MOTION_DETECT) != null
+                    && sensorManager.getSensorList(SensorConfigConstants.TYPE_MOTION_DETECT).size() > 0){
+                sensors.add(new MySensor(SensorConfigConstants.TYPE_MOTION_DETECT, R.string.stationary_detect, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureTriggeredValue , createOneValueMap(MeasureConfigConstants.MOTION_DETECTED), true));
+            }
+
             if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_BEAT) != null
                     && sensorManager.getSensorList(SensorConfigConstants.TYPE_HEART_BEAT).size() > 0){
                 sensors.add(new MySensor(SensorConfigConstants.TYPE_HEART_BEAT, R.string.heart_beat, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.HEART_BEAT)));
@@ -250,8 +233,19 @@ public class SensorHandler {
         measure.put(measure.firstKey(), event.values[0]);
     };
 
+    private final SensorEventInterface measureOneValueSum = (event, measure) -> {
+        measure.put(measure.firstKey(), (measure.get(measure.firstKey()) == null ? 0f : measure.get(measure.firstKey()))  + event.values[0]);
+    };
+
      /*
     MEDICIÓN DE SENSORES DISPARADOS
      */
+
+    private final TriggerEventInterface measureOneTriggeredValueSum = (event, measure) -> {
+        measure.put(measure.firstKey(), (measure.get(measure.firstKey()) == null ? 0f : measure.get(measure.firstKey()))  + event.values[0]);
+    };
+    private final TriggerEventInterface measureTriggeredValue = (event, measure) -> {
+        measure.put(measure.firstKey(), event.values[0]);
+    };
 
 }
