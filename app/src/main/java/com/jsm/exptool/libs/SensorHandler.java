@@ -110,60 +110,61 @@ public class SensorHandler {
             sensors.add(new MySensor(SensorConfigConstants.TYPE_ACCELEROMETER, R.string.accelerometer, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
         }
 
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MAGNETIC_FIELD) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_MAGNETIC_FIELD).size() > 0) {
-//            sensors.add(new MagneticField());
-//        }
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MAGNETIC_FIELD) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_MAGNETIC_FIELD).size() > 0) {
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_MAGNETIC_FIELD, R.string.magnetic_field, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
 
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ORIENTATION) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ORIENTATION).size() > 0) {
-//            sensors.add(new Orientation());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GYROSCOPE) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GYROSCOPE).size() > 0) {
-//            sensors.add(new Gyroscope());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_LIGHT) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_LIGHT).size() > 0) {
-//            sensors.add(new Light());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_PRESSURE) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_PRESSURE).size() > 0){
-//            sensors.add(new Pressure());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_TEMPERATURE) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_TEMPERATURE).size() > 0){
-//            sensors.add(new Temperature());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_PROXIMITY) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_PROXIMITY).size() > 0){
-//            sensors.add(new Proximity());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GRAVITY) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GRAVITY).size() > 0){
-//            sensors.add(new Gravity());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_LINEAR_ACCELERATION) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_LINEAR_ACCELERATION).size() > 0){
-//            sensors.add(new LinearAcceleration());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ROTATION_VECTOR) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ROTATION_VECTOR).size() > 0){
-//            sensors.add(new RotationVector());
-//        }
-//
-//        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY) != null
-//                && sensorManager.getSensorList(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY).size() > 0){
-//            sensors.add(new RelativeHumidity());
-//        }
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ORIENTATION) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ORIENTATION).size() > 0) {
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_ORIENTATION, R.string.orientation, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GYROSCOPE) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GYROSCOPE).size() > 0) {
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_GYROSCOPE, R.string.gyroscope, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_LIGHT) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_LIGHT).size() > 0) {
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_LIGHT, R.string.light, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.ILLUMINANCE)));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_PRESSURE) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_PRESSURE).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_PRESSURE, R.string.pressure, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.PRESSURE)));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_TEMPERATURE) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_TEMPERATURE).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_TEMPERATURE, R.string.temperature, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.TEMPERATURE)));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_PROXIMITY) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_PROXIMITY).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_PROXIMITY, R.string.proximity, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.PROXIMITY)));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_GRAVITY) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_GRAVITY).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_GRAVITY, R.string.gravity, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_LINEAR_ACCELERATION) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_LINEAR_ACCELERATION).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_LINEAR_ACCELERATION, R.string.linear_acceleration, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ROTATION_VECTOR) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_ROTATION_VECTOR).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_ROTATION_VECTOR, R.string.rotation_vector, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
+        }
+
+        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY) != null
+                && sensorManager.getSensorList(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY).size() > 0){
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_RELATIVE_HUMIDITY, R.string.relative_humidity, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureOneValue , createOneValueMap(MeasureConfigConstants.HUMIDITY)));
+        }
 //
 //        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE) != null
 //                && sensorManager.getSensorList(SensorConfigConstants.TYPE_AMBIENT_TEMPERATURE).size() > 0){
@@ -226,10 +227,22 @@ public class SensorHandler {
 
     }};
 
+    private final SortedMap<String,Float> createOneValueMap(String key){
+        return new TreeMap<String, Float>() {{
+            put(key, 0f);
+
+        }};
+    }
+
+
     private final SensorEventInterface measureSpatialValues = (event, measure) -> {
         measure.put(MeasureConfigConstants.POSITION_X, event.values[0]);
         measure.put(MeasureConfigConstants.POSITION_Y, event.values[1]);
         measure.put(MeasureConfigConstants.POSITION_Z, event.values[2]);
+    };
+
+    private final SensorEventInterface measureOneValue = (event, measure) -> {
+        measure.put(measure.firstKey(), event.values[0]);
     };
 
 }
