@@ -162,12 +162,18 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
 
     private void finishExperiment(Context context) {
 
-
+        //Deshabilitamos botón
         enableHandleExperimentButton.setValue(false);
+        //Cancelamos timers
         for (Timer timer : timers) {
             timer.cancel();
         }
         timers = new ArrayList<>();
+        //Paramos escucha de sensores
+        if(experiment.getConfiguration().isSensorEnabled())
+        for (MySensor sensor: elements.getValue()) {
+            sensor.cancelListener();
+        }
         //TODO Extraer comportamiento a provider
         this.experiment.setEndDate(new Date());
         this.experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
@@ -347,6 +353,11 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
                 builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_embedded), numEmbeddings.getValue())));
             }
         }
+        if (experiment.getConfiguration().isAudioEnabled())
+            builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_audios), numAudios.getValue())));
+
+        if (experiment.getConfiguration().isSensorEnabled())
+            builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_sensors), numSensors.getValue())));
 
         ModalMessage.showModalMessage(context, "Resumen del experimento", builder.toString(), null, (dialog, which) -> {
             //TODO Navegar a listado experimentos

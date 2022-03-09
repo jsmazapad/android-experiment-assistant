@@ -88,7 +88,11 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         configuration.setCameraConfig(cameraConfig );
         SensorsConfig sensorsConfig = new SensorsConfig();
-        sensorsConfig.setSensors(new ArrayList<MySensor>(){{add(SensorHandler.getInstance().getSensors().get(0));}});
+        sensorsConfig.setSensors(new ArrayList<MySensor>(){{
+            add(SensorHandler.getInstance().getSensors().get(0));
+            add(SensorHandler.getInstance().getSensors().get(1));
+            add(SensorHandler.getInstance().getSensors().get(2));
+        }});
         configuration.setSensorConfig(sensorsConfig);
         experiment.setConfiguration(configuration);
         long id = ExperimentsRepository.registerExperiment(experiment);

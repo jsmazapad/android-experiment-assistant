@@ -73,6 +73,8 @@
     <string name="default_error_database_register_entity">Se ha producido un error en el registro de datos</string>
     <string name="experiment_perform_resume_dialog_num_images"><![CDATA[Número de imágenes registradas: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_embedded"><![CDATA[<br>Número de imágenes analizadas en remoto: <b>%d</b><br>]]></string>
+    <string name="experiment_perform_resume_dialog_num_audios"><![CDATA[Número de archivos de audio registrados: <b>%d</b><br>]]></string>
+    <string name="experiment_perform_resume_dialog_num_sensors"><![CDATA[Número de lecturas de sensor registradas: <b>%d</b><br>]]></string>
     <!--
   AUDIO CONFIGURATION
   -->
