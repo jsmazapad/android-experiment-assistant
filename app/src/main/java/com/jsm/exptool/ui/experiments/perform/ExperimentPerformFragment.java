@@ -19,10 +19,11 @@ import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
 import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
+import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.Sensor.Accelerometer;
+
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.SensorsConfig;
@@ -87,7 +88,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         configuration.setCameraConfig(cameraConfig );
         SensorsConfig sensorsConfig = new SensorsConfig();
-        sensorsConfig.setSensors(new ArrayList<MySensor>(){{add(new Accelerometer());}});
+        sensorsConfig.setSensors(new ArrayList<MySensor>(){{add(SensorHandler.getInstance().getSensors().get(0));}});
         configuration.setSensorConfig(sensorsConfig);
         experiment.setConfiguration(configuration);
         long id = ExperimentsRepository.registerExperiment(experiment);

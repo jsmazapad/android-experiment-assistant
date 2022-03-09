@@ -3,11 +3,13 @@ package com.jsm.exptool.model.experimentconfig;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+
 public class RepeatableElement implements Parcelable {
     // Interval in milliseconds
-    protected int interval;
-    protected int intervalMin;
-    protected int nameStringResource;
+    @Expose protected int interval;
+    @Expose protected int intervalMin;
+    @Expose protected int nameStringResource;
 
     public RepeatableElement(int interval, int intervalMin, int nameStringResource) {
         this.interval = interval;

@@ -15,12 +15,12 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentCreateConfigureDataFragmentBinding;
+import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.Sensor.Accelerometer;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 
@@ -74,7 +74,7 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
             experiment.getConfiguration().getAudioConfig().setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
             experiment.setSensors(new ArrayList<MySensor>() {
                 {
-                    add(new Accelerometer());
+                    add(SensorHandler.getInstance().getSensors().get(0));
 
                 }
             });

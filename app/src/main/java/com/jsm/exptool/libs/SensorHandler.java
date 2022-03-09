@@ -3,15 +3,19 @@ package com.jsm.exptool.libs;
 import static android.content.Context.SENSOR_SERVICE;
 
 import android.content.Context;
+import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.os.Build;
 
 import com.jsm.exptool.App;
+import com.jsm.exptool.R;
+import com.jsm.exptool.config.FrequencyConstants;
+import com.jsm.exptool.config.MeasureConfigConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorEventInterface;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-import com.jsm.exptool.model.Sensor.Accelerometer;
 //import com.jsm.exptool.model.Sensor.AmbientTemperature;
 //import com.jsm.exptool.model.Sensor.GPS;
 //import com.jsm.exptool.model.Sensor.GameRotationVector;
@@ -37,6 +41,8 @@ import com.jsm.exptool.model.Sensor.Accelerometer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class SensorHandler {
     private SensorManager sensorManager;
@@ -101,7 +107,7 @@ public class SensorHandler {
 
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ACCELEROMETER) != null
                 && sensorManager.getSensorList(SensorConfigConstants.TYPE_ACCELEROMETER).size() > 0) {
-            sensors.add(new Accelerometer());
+            sensors.add(new MySensor(SensorConfigConstants.TYPE_ACCELEROMETER, R.string.accelerometer, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, measureSpatialValues , (SortedMap<String, Float>) spatialValues.clone()));
         }
 
 //        if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MAGNETIC_FIELD) != null
@@ -212,4 +218,18 @@ public class SensorHandler {
 //
 //        }
     }
+
+    private final TreeMap<String,Float> spatialValues = new TreeMap<String, Float>() {{
+        put(MeasureConfigConstants.POSITION_X, 0f);
+        put(MeasureConfigConstants.POSITION_Y, 0f);
+        put(MeasureConfigConstants.POSITION_Z, 0f);
+
+    }};
+
+    private final SensorEventInterface measureSpatialValues = (event, measure) -> {
+        measure.put(MeasureConfigConstants.POSITION_X, event.values[0]);
+        measure.put(MeasureConfigConstants.POSITION_Y, event.values[1]);
+        measure.put(MeasureConfigConstants.POSITION_Z, event.values[2]);
+    };
+
 }

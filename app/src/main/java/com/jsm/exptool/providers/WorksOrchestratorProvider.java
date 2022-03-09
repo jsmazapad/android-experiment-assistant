@@ -34,6 +34,7 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
@@ -81,8 +82,11 @@ public class WorksOrchestratorProvider {
 
     public void executeSensorChain(Context context, MySensor sensor, Date date, Experiment experiment) {
 
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
         Map<String, Object> registerSensorValues = new HashMap<String, Object>() {{
-            put(SENSOR, new Gson().toJson(sensor));
+            put(SENSOR, gson.toJson(sensor));
             put(SENSOR_NAME, context.getString(sensor.getNameStringResource()));
             put(EXPERIMENT_ID, experiment.getInternalId());
             put(DATE_TIMESTAMP, date.getTime());

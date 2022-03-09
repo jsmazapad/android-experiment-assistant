@@ -12,6 +12,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
@@ -28,18 +30,18 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(index = true, name = COLUMN_ID)
-    private long internalId;
-    private long experimentId;
-    protected int sensorType;
-    protected int accuracy;
+    @Expose private long internalId;
+    @Expose private long experimentId;
+    @Expose protected int sensorType;
+    @Expose protected int accuracy;
     @Ignore protected Sensor sensor;
-    @Ignore  protected SortedMap<String, Float> measure = new TreeMap<>();
+    @Expose @Ignore  protected SortedMap<String, Float> measure = new TreeMap<>();
     @Ignore  public SensorEventInterface sensorEventInterface;
     @Ignore
     public MySensor(int sensorType, int rName){
         this.sensorType = sensorType;
         this.nameStringResource = rName;
-        this.sensor = SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType);
+        initSensor();
     }
 
     public MySensor(int interval, int intervalMin, int nameStringResource, long internalId, long experimentId, int sensorType) {
@@ -47,7 +49,7 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         this.internalId = internalId;
         this.experimentId = experimentId;
         this.sensorType = sensorType;
-        this.sensor = SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType);
+        initSensor();
     }
 
     @Ignore
@@ -56,16 +58,27 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = interval;
-        this.sensor = SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType);
+        initSensor();
     }
 
     @Ignore
-    public MySensor(int sensorType, int nameStringResource, int intervalMin) {
+    public MySensor(int sensorType, int nameStringResource, int intervalMin, SensorEventInterface sensorEventInterface, SortedMap<String, Float> measure) {
         this.sensorType = sensorType;
         this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = intervalMin;
+        this.sensorEventInterface = sensorEventInterface;
+        this.measure = measure;
+        initSensor();
+    }
+
+    public void initSensor(){
         this.sensor = SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType);
+        if (sensor.getMinDelay() / 1000 > FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS) {
+            this.intervalMin = sensor.getMinDelay() / 1000;
+            this.interval = sensor.getMinDelay() / 1000;
+        }
+
     }
 
 
@@ -153,6 +166,12 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == sensorType) {
+            if(sensorEventInterface != null) {
+                this.accuracy = event.accuracy;
+                sensorEventInterface.readSensor(event, measure);
+            }
+        }
     }
 
 

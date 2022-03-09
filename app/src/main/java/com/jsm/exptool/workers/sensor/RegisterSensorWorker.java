@@ -17,6 +17,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.SensorsRepository;
@@ -35,7 +36,10 @@ public class RegisterSensorWorker extends Worker {
         MySensor sensor = null;
         String sensorName = getInputData().getString(SENSOR_NAME);
         try {
-             sensor = new Gson().fromJson(getInputData().getString(SENSOR), MySensor.class);
+            Gson gson = new GsonBuilder()
+                    .excludeFieldsWithoutExposeAnnotation()
+                    .create();
+             sensor = gson.fromJson(getInputData().getString(SENSOR), MySensor.class);
         }catch (Exception e){
             Log.e("ERROR EN PARSEO", "ERROR EN PARSEO");
             e.printStackTrace();
