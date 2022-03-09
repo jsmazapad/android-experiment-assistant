@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_perform_experiment">
+    app:startDestination="@id/nav_view_experiment">
 
 
     <fragment
@@ -73,6 +73,16 @@
         <action
             android:id="@+id/action_nav_experiment_configure_to_nav_perform_experiment"
             app:destination="@id/nav_perform_experiment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_view_experiment"
+        android:name="com.jsm.exptool.ui.experiments.view.ExperimentViewFragment"
+        android:label="@string/title_configuration_fragment"
+        tools:layout="@layout/experiment_view_fragment">
+        <argument
+            android:name="experiment"
+            app:argType="com.jsm.exptool.model.Experiment" />
     </fragment>
 
 </navigation>

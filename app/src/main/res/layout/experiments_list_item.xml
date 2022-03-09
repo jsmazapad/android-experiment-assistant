@@ -67,12 +67,21 @@
             <ImageView
                 android:id="@+id/sensorsIV"
                 style="@style/BaseIcon"
-                android:contentDescription="Tiene sensores" />
+                android:contentDescription="Tiene sensores"
+                app:srcCompat="@drawable/ic_baseline_edgesensor_high_24" />
 
             <ImageView
                 android:id="@+id/syncIV"
                 style="@style/BaseIcon"
-                android:contentDescription="@string/camera_position_configuration_content_description" />
+                android:contentDescription="@string/camera_position_configuration_content_description"
+                app:srcCompat="@drawable/ic_baseline_cloud_sync_24" />
+
+            <ImageView
+                android:id="@+id/syncPendingIV"
+                style="@style/BaseIcon"
+                android:contentDescription="sync pending"
+                app:srcCompat="@drawable/ic_baseline_sync_problem_24"
+                 />
 
 
         </LinearLayout>
@@ -96,14 +105,13 @@
             style="@style/BaseItemListSecondaryTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Fecha de inicio" />
-
-        <ImageView
-            android:id="@+id/syncPendingIV"
-            style="@style/BaseIcon"
-            android:contentDescription="sync pending"
-            app:srcCompat="@android:drawable/ic_popup_sync"
-            app:tint="#F44336" />
+            tools:text="15m" />
+        <TextView
+            android:id="@+id/statusTV"
+            style="@style/BaseItemListSecondaryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Creado" />
 
     </LinearLayout>
 

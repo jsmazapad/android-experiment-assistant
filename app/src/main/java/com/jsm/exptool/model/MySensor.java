@@ -157,6 +157,14 @@ public class MySensor extends RepeatableElement implements Cloneable, SensorEven
         this.sensorEventInterface = sensorEventInterface;
     }
 
+    public boolean isRestartInitialMeasureAfterRead() {
+        return restartInitialMeasureAfterRead;
+    }
+
+    public void setRestartInitialMeasureAfterRead(boolean restartInitialMeasureAfterRead) {
+        this.restartInitialMeasureAfterRead = restartInitialMeasureAfterRead;
+    }
+
     protected MySensor(Parcel in) {
         sensorType = in.readInt();
         nameStringResource = in.readInt();

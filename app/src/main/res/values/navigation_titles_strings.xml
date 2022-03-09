@@ -8,5 +8,6 @@
     <string name="title_experiments_configure_audio_fragment">Configurar Audio</string>
     <string name="title_configuration_fragment">Configuration</string>
     <string name="title_perform_fragment">Realizar experimento</string>
+    <string name="title_view_fragment">Visualizar experimento</string>
 
 </resources>
