@@ -38,7 +38,12 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
     public ExperimentViewViewModel(Application app, Experiment experiment) {
         super(app);
         this.experiment = experiment;
+        initExperimentComponents();
 
+
+    }
+
+    public void initExperimentComponents(){
         ExperimentConfiguration experimentConfiguration = this.experiment.getConfiguration();
         ArrayList<RepeatableElement> experimentElements = new ArrayList<>();
         if(experimentConfiguration.isCameraEnabled()) {
@@ -58,6 +63,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
 
         description.setValue(experiment.getDescription());
         title.setValue(experiment.getTitle());
+        status.setValue(experiment.getStatus().status);
         initDateString.setValue(DateProvider.dateToDisplayStringWithTime(experiment.getInitDate()));
         endDateString.setValue(DateProvider.dateToDisplayStringWithTime(experiment.getEndDate()));
         try{

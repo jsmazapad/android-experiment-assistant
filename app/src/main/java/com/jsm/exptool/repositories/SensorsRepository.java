@@ -1,5 +1,8 @@
 package com.jsm.exptool.repositories;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.MySensor;
@@ -33,6 +36,11 @@ public class SensorsRepository {
         SensorRegister sensorRegister = new SensorRegister(experimentId, date, false, valuesToInsert[0], keysToInsert[0], valuesToInsert[1],
                 keysToInsert[1], valuesToInsert[2], keysToInsert[2], sensorName, sensor.getSensorType(), sensor.getNameStringResource(), sensor.getAccuracy());
         return DBHelper.insertSensorRegister(sensorRegister);
+    }
+
+    public static void getRegistersByTypeAndExperimentId(int type, long experimentId, MutableLiveData<ListResponse<SensorRegister>> responseLiveData){
+        responseLiveData.setValue(new ListResponse<>(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId)));
+
     }
 
 }

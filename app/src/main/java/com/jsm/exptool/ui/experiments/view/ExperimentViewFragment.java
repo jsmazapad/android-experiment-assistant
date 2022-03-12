@@ -52,6 +52,7 @@ public class ExperimentViewFragment extends BaseRecyclerFragment<ExperimentViewF
     protected ExperimentViewViewModel createViewModel() {
         //TODO Código pruebas, comentar
         Experiment experiment = new Experiment();
+        experiment.setStatus(Experiment.ExperimentStatus.CREATED);
         experiment.setTitle("Experimento "+ new Date().getTime());
         experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  "+ new Date().getTime());
         ExperimentConfiguration configuration = new ExperimentConfiguration();

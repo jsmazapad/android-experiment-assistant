@@ -79,6 +79,9 @@ public class Experiment implements Parcelable {
         this.device = device;
     }
 
+    public Experiment() {
+    }
+
     public long getInternalId() {
         return internalId;
     }
@@ -238,8 +241,7 @@ public class Experiment implements Parcelable {
         this.device = source.readString();
     }
 
-    public Experiment() {
-    }
+
 
     protected Experiment(Parcel in) {
         readFromParcel(in);

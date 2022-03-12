@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.List;
@@ -20,6 +21,13 @@ public interface SensorRegisterDao {
      */
     @Query("SELECT * FROM "+ SensorRegister.TABLE_NAME)
     List<SensorRegister> getSensors();
+
+    /**
+     * Selecciona todas las entidades de la BD de un tipo de sensor y experimento en concreto
+     * @return
+     */
+    @Query("SELECT * FROM "+ SensorRegister.TABLE_NAME + " WHERE sensorType = :type AND experimentId = :experimentId ORDER BY date DESC")
+    List<SensorRegister> getSensorsByTypeAndExperimentId(int type, long experimentId);
 
     /**
      * Selecciona un registro mediante su id (externo)

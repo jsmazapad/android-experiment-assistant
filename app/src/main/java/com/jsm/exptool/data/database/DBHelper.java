@@ -119,25 +119,29 @@ public class DBHelper {
         return appDatabase.sensorDao().insert(audioRegister);
     }
 
-    public static List<SensorRegister> getSensors() {
+    public static List<SensorRegister> getSensorRegisters() {
         return appDatabase.sensorDao().getSensors();
     }
 
-    public static List<SensorRegister> getSensorsFromExperiment(Experiment experiment) {
+    public static List<SensorRegister> getSensorRegistersFromExperiment(Experiment experiment) {
         return appDatabase.sensorDao().getSensorsFromExperiment(experiment.getId());
     }
 
 
-    public static SensorRegister getSensorById(long imageId) {
-        return appDatabase.sensorDao().selectById(imageId);
+    public static SensorRegister getSensorRegistersById(long sensorId) {
+        return appDatabase.sensorDao().selectById(sensorId);
     }
 
-    public static int updateSensor(SensorRegister register) {
+    public static int updateSensorRegister(SensorRegister register) {
         return appDatabase.sensorDao().update(register);
     }
 
-    public static int deleteSensorsById(SensorRegister register) {
+    public static int deleteSensorRegisterById(SensorRegister register) {
         return appDatabase.sensorDao().deleteById(register.getInternalId());
+    }
+
+    public static List<SensorRegister> getSensorRegistersByTypeAndExperimentId(int type, long experimentId) {
+        return appDatabase.sensorDao().getSensorsByTypeAndExperimentId(type, experimentId);
     }
 
 

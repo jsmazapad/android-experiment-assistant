@@ -137,4 +137,22 @@ public class SensorRegister extends ExperimentRegister {
     public void setAccuracy(int accuracy) {
         this.accuracy = accuracy;
     }
+
+    public String getDisplayString(){
+        StringBuilder builder = new StringBuilder();
+        if(value1String !=null && !"".equals(value1String)){
+            String value = String.format("%s: %f\n", value1String, value1);
+            builder.append(value);
+        }
+        if(value2String !=null && !"".equals(value2String)){
+            String value = String.format("%s: %f\n", value2String, value2);
+            builder.append(value);
+        }
+        if(value3String !=null && !"".equals(value3String)){
+            String value = String.format("%s: %f\n", value3String, value3);
+            builder.append(value);
+        }
+
+        return builder.toString();
+    }
 }
