@@ -11,6 +11,12 @@
         android:name="com.jsm.exptool.ui.experiments.list.ExperimentsListFragment"
         android:label="@string/title_experiments_fragment"
         tools:layout="@layout/experiments_list_fragment">
+        <argument
+            android:name="experiment"
+            app:argType="com.jsm.exptool.model.Experiment" />
+        <action
+            android:id="@+id/action_nav_experiments_to_nav_view_experiment"
+            app:destination="@id/nav_view_experiment" />
     </fragment>
     <fragment
         android:id="@+id/nav_configuration"
@@ -80,6 +86,9 @@
         android:name="com.jsm.exptool.ui.experiments.view.ExperimentViewFragment"
         android:label="@string/title_configuration_fragment"
         tools:layout="@layout/experiment_view_fragment">
+        <action
+            android:id="@+id/action_nav_view_experiment_to_nav_view_experiment_measures"
+            app:destination="@id/nav_view_experiment_measures" />
         <argument
             android:name="experiment"
             app:argType="com.jsm.exptool.model.Experiment" />
@@ -88,11 +97,14 @@
     <fragment
         android:id="@+id/nav_view_experiment_measures"
         android:name="com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment"
-        android:label="@string/title_configuration_fragment"
-        tools:layout="@layout/experiment_view_sensor_measures_fragment">
+        android:label="@string/title_view_registers_fragment"
+        tools:layout="@layout/experiment_view_registers_fragment">
         <argument
-            android:name="sensorRegister"
-            app:argType="com.jsm.exptool.model.register.SensorRegister" />
+            android:name="sensor"
+            app:argType="com.jsm.exptool.model.MySensor" />
+        <argument
+            android:name="experimentId"
+            app:argType="long" />
     </fragment>
 
 </navigation>

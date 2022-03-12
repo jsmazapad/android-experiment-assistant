@@ -71,7 +71,7 @@ public abstract class BaseRecyclerViewModel<T, ResponseType> extends LoadingView
         apiResponseMediator.addSource(apiResponseRepositoryHolder, apiListResponse -> {
             isLoading.setValue(false);
             if (apiListResponse.getError() == null) {
-                BaseRecyclerViewModel.this.elements.postValue(transformResponse(apiListResponse));
+                BaseRecyclerViewModel.this.elements.setValue(transformResponse(apiListResponse));
                 textEmptyVisibility.postValue(apiListResponse.getResultList() == null || apiListResponse.getResultList().size() == 0);
                 recyclerVisibility.setValue(true);
             } else {

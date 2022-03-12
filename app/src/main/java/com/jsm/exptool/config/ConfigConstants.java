@@ -16,5 +16,9 @@ public class ConfigConstants {
     public static final String PERMISSIONS_CAMERA_TAG = "PERMSSIONS_CAMERA_TAG";
     public static final String PERMISSIONS_AUDIO_TAG = "PERMISSIONS_AUDIO_TAG";
 
+    public static final int IMAGE_THUMBNAIL_WIDTH = 120;
+    public static final int IMAGE_THUMBNAIL_HEIGHT = 120;
+
+
 
 }

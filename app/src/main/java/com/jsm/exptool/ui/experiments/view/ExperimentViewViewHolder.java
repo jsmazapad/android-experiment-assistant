@@ -12,17 +12,17 @@ import java.util.Map;
 
 public class ExperimentViewViewHolder extends BaseRecyclerViewHolder<RepeatableElement> {
 
-    private final TextView sensorTitleTV;
+    private final TextView measuredItemTitleTV;
     protected ExperimentViewViewHolder(View v) {
         super(v);
 
-        this.sensorTitleTV = v.findViewById(R.id.sensorTitleTV);
+        this.measuredItemTitleTV = v.findViewById(R.id.measuredItemTitleTV);
 
     }
 
 
     @Override
     public void fillViewHolder(RepeatableElement element) {
-        sensorTitleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
+        measuredItemTitleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
     }
 }

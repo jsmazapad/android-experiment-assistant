@@ -1,5 +1,7 @@
 package com.jsm.exptool.model.register;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.BaseColumns;
 
 import androidx.room.ColumnInfo;
@@ -7,7 +9,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-public class ExperimentRegister {
+public class ExperimentRegister implements Parcelable {
     /**
      * The name of the ID column.
      */
@@ -32,36 +34,83 @@ public class ExperimentRegister {
         this.date = date;
     }
 
+
+
     public long getInternalId() {
         return internalId;
     }
+
 
     public void setInternalId(long internalId) {
         this.internalId = internalId;
     }
 
+
     public long getExperimentId() {
         return experimentId;
     }
+
 
     public void setExperimentId(long experimentId) {
         this.experimentId = experimentId;
     }
 
+
     public Date getDate() {
         return date;
     }
+
 
     public void setDate(Date date) {
         this.date = date;
     }
 
+
     public boolean isDataRemoteSynced() {
         return dataRemoteSynced;
     }
 
+
     public void setDataRemoteSynced(boolean dataRemoteSynced) {
         this.dataRemoteSynced = dataRemoteSynced;
     }
+
+
+
+    public int describeContents() {
+        return 0;
+    }
+
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.internalId);
+        dest.writeLong(this.experimentId);
+        dest.writeLong(this.date != null ? this.date.getTime() : -1);
+        dest.writeByte(this.dataRemoteSynced ? (byte) 1 : (byte) 0);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.internalId = source.readLong();
+        this.experimentId = source.readLong();
+        long tmpDate = source.readLong();
+        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.dataRemoteSynced = source.readByte() != 0;
+    }
+
+    protected ExperimentRegister(Parcel in) {
+        readFromParcel(in);
+    }
+
+    public static final Creator<ExperimentRegister> CREATOR = new Creator<ExperimentRegister>() {
+
+        public ExperimentRegister createFromParcel(Parcel in) {
+            return new ExperimentRegister(in);
+        }
+
+
+        public ExperimentRegister[] newArray(int size) {
+            return new ExperimentRegister[size];
+        }
+    };
 
 }

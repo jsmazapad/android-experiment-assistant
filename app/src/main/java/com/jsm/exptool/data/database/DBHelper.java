@@ -66,8 +66,9 @@ public class DBHelper {
         return appDatabase.imageDao().getImages();
     }
 
-    public static List<ImageRegister> getImagesFromExperiment(Experiment experiment) {
-        return appDatabase.imageDao().getImagesFromExperiment(experiment.getId());
+
+    public static List<ImageRegister> getImageRegistersByExperimentId(long experimentId) {
+        return appDatabase.imageDao().getImageRegistersByExperimentId(experimentId);
     }
 
 
@@ -95,8 +96,8 @@ public class DBHelper {
         return appDatabase.audioDao().getAudios();
     }
 
-    public static List<AudioRegister> getAudiosFromExperiment(Experiment experiment) {
-        return appDatabase.audioDao().getAudiosFromExperiment(experiment.getId());
+    public static List<AudioRegister> getAudioRegistersByExperimentId(long experimentId) {
+        return appDatabase.audioDao().getAudioRegistersByExperimentId(experimentId);
     }
 
 
@@ -123,8 +124,8 @@ public class DBHelper {
         return appDatabase.sensorDao().getSensors();
     }
 
-    public static List<SensorRegister> getSensorRegistersFromExperiment(Experiment experiment) {
-        return appDatabase.sensorDao().getSensorsFromExperiment(experiment.getId());
+    public static List<SensorRegister> getSensorRegistersByExperimentId(long experimentId) {
+        return appDatabase.sensorDao().getSensorsByExperimentId(experimentId);
     }
 
 
@@ -142,6 +143,7 @@ public class DBHelper {
 
     public static List<SensorRegister> getSensorRegistersByTypeAndExperimentId(int type, long experimentId) {
         return appDatabase.sensorDao().getSensorsByTypeAndExperimentId(type, experimentId);
+
     }
 
 

@@ -20,7 +20,7 @@ public class ImageUtils {
      * @param height                Altura a la que se redimensiona, si se le pasa -1 no redimensiona
      * @throws MalformedURLException
      */
-    public static void lazyloadFromUrl(String url, ImageView imageViewTarget, int placeHolderResourceId, int width, int height) throws MalformedURLException {
+    public static void lazyLoadFromUrl(String url, ImageView imageViewTarget, int placeHolderResourceId, int width, int height) throws MalformedURLException {
 
 
         Uri uri = Uri.parse(url);
@@ -35,6 +35,21 @@ public class ImageUtils {
                    request.into(imageViewTarget);
         } else {
             throw new MalformedURLException();
+        }
+    }
+
+    public static void lazyLoadFromDisk(String imagePath, ImageView imageViewTarget, int placeHolderResourceId, int width, int height) throws Exception {
+
+
+
+            RequestCreator request =  Picasso.get().load(imagePath).placeholder(placeHolderResourceId);
+
+            if(width > 0 && height > 0) {
+                request.resize(width, height)
+                        .centerInside();
+            }
+
+            request.into(imageViewTarget);
         }
     }
 }

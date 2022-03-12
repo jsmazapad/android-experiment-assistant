@@ -7,13 +7,17 @@ import com.jsm.exptool.core.data.network.NetworkElementResponseCallback;
 import com.jsm.exptool.core.data.network.RetrofitService;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
+import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.data.network.AnalyticsApiService;
 import com.jsm.exptool.data.network.AppDeserializerProvider;
 import com.jsm.exptool.data.network.AppNetworkErrorTreatment;
 import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
+import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.model.register.ImageRegister;
+import com.jsm.exptool.model.register.SensorRegister;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -101,5 +106,14 @@ public class ImagesRepository {
     public static int registerImageEmbedding(ImageRegister imageRegister, ImageEmbeddingVector vector){
         imageRegister.setEmbedding(vector.getEmbedding());
         return DBHelper.updateImage(imageRegister);
+    }
+
+    public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){
+        responseLiveData.setValue(new ListResponse<>(new ArrayList<ExperimentRegister>(){{addAll(DBHelper.getImageRegistersByExperimentId(experimentId));}}));
+    }
+
+    public static void getRegistersByExperimentId(long experimentId, MutableLiveData<ListResponse<ImageRegister>> responseLiveData){
+        responseLiveData.setValue(new ListResponse<>(DBHelper.getImageRegistersByExperimentId(experimentId)));
+
     }
 }

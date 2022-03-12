@@ -9,5 +9,6 @@
     <string name="title_configuration_fragment">Configuration</string>
     <string name="title_perform_fragment">Realizar experimento</string>
     <string name="title_view_fragment">Visualizar experimento</string>
+    <string name="title_view_registers_fragment">Visualizar medidas</string>
 
 </resources>

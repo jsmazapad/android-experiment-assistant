@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.view.measure.sensor.data;
+package com.jsm.exptool.ui.experiments.view.measure.data;
 
 import android.content.Context;
 import android.view.View;
@@ -8,11 +8,9 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.register.SensorRegister;
-import com.jsm.exptool.ui.experiments.list.ExperimentListViewHolder;
+import com.jsm.exptool.model.register.ExperimentRegister;
 
-public class ExperimentViewSensorMeasuresAdapter extends BaseRecyclerAdapter<SensorRegister, ExperimentViewSensorMeasureViewHolder, SensorRegister> {
+public class ExperimentViewDataMeasuresAdapter extends BaseRecyclerAdapter<ExperimentRegister, ExperimentViewDataMeasureViewHolder, ExperimentRegister> {
     /**
      * @param context
      * @param viewModel        ViewModel asociado al fragment donde se incluye el recyclerView
@@ -20,12 +18,12 @@ public class ExperimentViewSensorMeasuresAdapter extends BaseRecyclerAdapter<Sen
      * @param navController    Controlador de navegación (Android jetpack)
      * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
      */
-    public ExperimentViewSensorMeasuresAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
+    public ExperimentViewDataMeasuresAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
         super(context, viewModel, lifeCycleOwner, navController, listItemResource);
     }
 
     @Override
-    public ExperimentViewSensorMeasureViewHolder instanceViewHolder(View v) {
-        return new ExperimentViewSensorMeasureViewHolder(v);
+    public ExperimentViewDataMeasureViewHolder instanceViewHolder(View v) {
+        return new ExperimentViewDataMeasureViewHolder(v);
     }
 }

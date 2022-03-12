@@ -44,7 +44,7 @@ public interface SensorRegisterDao {
      * @return
      */
     @Query("SELECT * FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId LIMIT 1")
-    List<SensorRegister> getSensorsFromExperiment(long experimentId);
+    List<SensorRegister> getSensorsByExperimentId(long experimentId);
 
     /**
      * Inserta un registro

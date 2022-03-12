@@ -31,17 +31,15 @@ public interface ImageRegisterDao {
      * @param id id de la entidad objetivo
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE _id" + " = :id LIMIT 1")
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE _id = :id LIMIT 1")
     ImageRegister selectById(long id);
 
     /**
      * Selecciona todas las entidades de la BD para un experimento
-     * en este caso no realizamos order BY porque queremos un criterio uniforme
-     * con otras fuentes de datos y lo ordenamos mediante programación
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId LIMIT 1")
-    List<ImageRegister> getImagesFromExperiment(long experimentId);
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId ORDER BY date DESC")
+    List<ImageRegister> getImageRegistersByExperimentId(long experimentId);
 
     /**
      * Inserta un registro

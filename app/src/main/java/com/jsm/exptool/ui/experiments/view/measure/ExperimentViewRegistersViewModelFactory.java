@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.view.measure.sensor.data;
+package com.jsm.exptool.ui.experiments.view.measure;
 
 import android.app.Application;
 
@@ -10,24 +10,24 @@ import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.ui.experiments.view.ExperimentViewViewModel;
 
 
-public class ExperimentViewSensorViewModelFactory implements ViewModelProvider.Factory {
+public class ExperimentViewRegistersViewModelFactory implements ViewModelProvider.Factory {
 
     private Application app;
-    MySensor sensor;
     long experimentId;
+    MySensor sensor;
 
 
-    public ExperimentViewSensorViewModelFactory(Application app, MySensor sensor, long experimentId) {
+    public ExperimentViewRegistersViewModelFactory(Application app, long experimentId, MySensor sensor) {
         this.app = app;
-        this.sensor = sensor;
         this.experimentId = experimentId;
+        this.sensor = sensor;
 
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
-        if (modelClass == ExperimentViewViewModel.class) {
-            return (T) new ExperimentViewSensorMeasuresViewModel(app, sensor, experimentId);
+        if (modelClass == ExperimentViewRegistersViewModel.class) {
+            return (T) new ExperimentViewRegistersViewModel(app, experimentId, sensor);
         }else{
             return null;
         }

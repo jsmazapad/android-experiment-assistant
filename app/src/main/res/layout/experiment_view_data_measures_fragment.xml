@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.exptool.ui.experiments.view.measure.sensor.data.ExperimentViewSensorMeasuresFragment" />
+            type="com.jsm.exptool.ui.experiments.view.measure.sensor.data.ExperimentViewDataMeasuresViewModel" />
     </data>
 <LinearLayout
     android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             android:layout_weight="1"
             android:gravity="center|start"
             android:paddingStart="10dp"
-            android:text="2019-06-05 22:03"
+            android:text="Tiempo"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -49,6 +49,16 @@
             android:gravity="center|right"
             android:paddingEnd="10dp"
             android:text="Valor"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/sync"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:paddingEnd="10dp"
+            android:text="Sincronizado"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>

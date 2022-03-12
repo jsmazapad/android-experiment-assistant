@@ -1,49 +1,64 @@
 package com.jsm.exptool.ui.experiments.view.measure;
 
-import static com.jsm.exptool.config.ConfigConstants.EXPERIMENT_REGISTERS_ARG;
-import static com.jsm.exptool.config.ConfigConstants.SENSOR_ARG;
-
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.annotation.NonNull;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
+import com.jsm.exptool.BuildConfig;
 import com.jsm.exptool.R;
-import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.core.ui.base.BaseFragment;
+import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentViewRegistersFragmentBinding;
+import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.model.register.SensorRegister;
-import com.jsm.exptool.ui.experiments.view.measure.sensor.data.ExperimentViewSensorMeasuresViewModel;
-import com.jsm.exptool.ui.experiments.view.measure.sensor.graph.ExperimentViewSensorGraphFragment;
-import com.jsm.exptool.ui.experiments.view.measure.sensor.graph.ExperimentViewSensorGraphViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentViewRegistersFragmentBinding, ExperimentViewRegistersViewModel> {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private MeasureSectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager2 mViewPager;
-    private final static int NUM_PAGES = 2;
-    private MySensor measurableItem;
-    private ArrayList<SensorRegister> sensorRegisterList;
+
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v =  super.onCreateView(inflater, container, savedInstanceState);
+        viewModel.getApiResponseMediator().observe(getViewLifecycleOwner(), response->{});
+        viewModel.getElements().observe(getViewLifecycleOwner(), response->{
+            mSectionsPagerAdapter = new MeasureSectionsPagerAdapter(getChildFragmentManager(), getLifecycle(), new ArrayList<ExperimentRegister>(){{addAll(response);}}, viewModel.getMeasurableItem());
+            mViewPager = binding.viewPagerContainer;
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+        });
+        TabLayout tabLayout = binding.tabs;
+        return v;
+    }
+
+    public ExperimentViewRegistersViewModel getViewModel(){
+        return this.viewModel;
+    }
+
 
     @Override
     protected ExperimentViewRegistersViewModel createViewModel() {
-        return new ViewModelProvider(this).get(ExperimentViewRegistersViewModel.class);
+
+        //MySensor measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getSensor();
+        //long experimentId = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getExperimentId();
+
+        Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest();
+        long experimentId = experiment.getInternalId();
+        MySensor measurableItem = experiment.getConfiguration().getSensorConfig().getSensors().get(0);
+
+        return new ViewModelProvider(this, new ExperimentViewRegistersViewModelFactory(getActivity().getApplication(), experimentId, measurableItem)).get(ExperimentViewRegistersViewModel.class);
     }
 
     @Override
@@ -55,43 +70,8 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
     @Override
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager(), getLifecycle());
-        mViewPager = getActivity().findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+
     }
 
-    public class SectionsPagerAdapter extends FragmentStateAdapter {
-
-
-        public SectionsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-            super(fragmentManager, lifecycle);
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            Bundle args = new Bundle();
-            args.putParcelable(SENSOR_ARG, measurableItem);
-            args.putParcelableArrayList(EXPERIMENT_REGISTERS_ARG, sensorRegisterList);
-            switch (position){
-                // DATA
-                case 0:
-                    return new ExperimentViewRegistersFragment();
-                // GRAPH
-                case 1:
-                    if (measurableItem.getSensorType() != SensorConfigConstants.TYPE_GPS){
-                        return new ExperimentViewSensorGraphFragment();
-                    }else{
-//                        MeasuresMapFragment measuresMapFragment = new MeasuresMapFragment();
-//                        return measuresMapFragment;
-                    }
-            }
-            return null;
-        }
-
-        @Override
-        public int getItemCount() {
-            return NUM_PAGES;
-        }
-    }
 }

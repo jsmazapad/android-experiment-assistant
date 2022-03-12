@@ -1,5 +1,7 @@
 package com.jsm.exptool.model.register;
 
+import android.os.Parcel;
+
 import androidx.annotation.StringRes;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -155,4 +157,55 @@ public class SensorRegister extends ExperimentRegister {
 
         return builder.toString();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeFloat(this.value1);
+        dest.writeString(this.value1String);
+        dest.writeFloat(this.value2);
+        dest.writeString(this.value2String);
+        dest.writeFloat(this.value3);
+        dest.writeString(this.value3String);
+        dest.writeString(this.sensorName);
+        dest.writeInt(this.sensorType);
+        dest.writeInt(this.sensorNameResource);
+        dest.writeInt(this.accuracy);
+    }
+
+    public void readFromParcel(Parcel source) {
+        super.readFromParcel(source);
+        this.value1 = source.readFloat();
+        this.value1String = source.readString();
+        this.value2 = source.readFloat();
+        this.value2String = source.readString();
+        this.value3 = source.readFloat();
+        this.value3String = source.readString();
+        this.sensorName = source.readString();
+        this.sensorType = source.readInt();
+        this.sensorNameResource = source.readInt();
+        this.accuracy = source.readInt();
+    }
+
+    protected SensorRegister(Parcel in) {
+        super(in);
+        readFromParcel(in);
+    }
+
+    public static final Creator<SensorRegister> CREATOR = new Creator<SensorRegister>() {
+        @Override
+        public SensorRegister createFromParcel(Parcel source) {
+            return new SensorRegister(source);
+        }
+
+        @Override
+        public SensorRegister[] newArray(int size) {
+            return new SensorRegister[size];
+        }
+    };
 }

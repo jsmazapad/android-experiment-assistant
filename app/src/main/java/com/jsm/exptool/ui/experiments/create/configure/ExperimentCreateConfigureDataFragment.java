@@ -32,7 +32,6 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //TODO ¿Porque no se llama a super?
         View view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
@@ -62,25 +61,8 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
     protected ExperimentCreateConfigureDataViewModel createViewModel() {
 
         Experiment experiment;
-        if (!BuildConfig.FLAVOR.equals("mock")) {
-            experiment = ExperimentCreateConfigureDataFragmentArgs.fromBundle(getArguments()).getExperiment();
-        } else {
-            //TODO Código desarrollo
-            experiment = new Experiment();
-            experiment.setConfiguration(new ExperimentConfiguration());
-            experiment.getConfiguration().setCameraConfig(new CameraConfig());
-            experiment.getConfiguration().getCameraConfig().setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
-            experiment.getConfiguration().setAudioConfig(new AudioConfig());
-            experiment.getConfiguration().getAudioConfig().setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
-            experiment.setSensors(new ArrayList<MySensor>() {
-                {
-                    add(SensorHandler.getInstance().getSensors().get(0));
-
-                }
-            });
-        }
-        ExperimentCreateConfigureDataViewModel viewModel = new ViewModelProvider(this, new ExperimentCreateConfigureDataViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentCreateConfigureDataViewModel.class);
-        return viewModel;
+        experiment = ExperimentCreateConfigureDataFragmentArgs.fromBundle(getArguments()).getExperiment();
+        return new ViewModelProvider(this, new ExperimentCreateConfigureDataViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentCreateConfigureDataViewModel.class);
 
     }
 

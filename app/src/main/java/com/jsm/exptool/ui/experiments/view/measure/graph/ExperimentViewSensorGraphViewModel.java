@@ -1,27 +1,28 @@
-package com.jsm.exptool.ui.experiments.view.measure.sensor.graph;
+package com.jsm.exptool.ui.experiments.view.measure.graph;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
 
-import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.register.SensorRegister;
-import com.jsm.exptool.repositories.SensorsRepository;
 
 import java.util.List;
 
 public class ExperimentViewSensorGraphViewModel extends BaseViewModel {
 
     MySensor sensor;
-    long experimentId;
+    List<SensorRegister> registers;
 
 
     public ExperimentViewSensorGraphViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    public ExperimentViewSensorGraphViewModel(Application app, MySensor sensor, List<SensorRegister> registers) {
+        super(app);
+        this.sensor = sensor;
+        this.registers = registers;
     }
 }

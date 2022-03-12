@@ -79,26 +79,9 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
     @Override
     protected ExperimentPerformViewModel createViewModel() {
         //TODO Código pruebas, comentar
-        Experiment experiment = new Experiment();
-        experiment.setTitle("Experimento "+ new Date().getTime());
-        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  "+ new Date().getTime());
-        ExperimentConfiguration configuration = new ExperimentConfiguration();
-        CameraConfig cameraConfig = new CameraConfig();
-        cameraConfig.setInterval(1000);
-        cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
-        configuration.setCameraConfig(cameraConfig );
-        SensorsConfig sensorsConfig = new SensorsConfig();
-        sensorsConfig.setSensors(new ArrayList<MySensor>(){{
-            add(SensorHandler.getInstance().getSensors().get(0));
-            add(SensorHandler.getInstance().getSensors().get(1));
-            add(SensorHandler.getInstance().getSensors().get(2));
-        }});
-        configuration.setSensorConfig(sensorsConfig);
-        experiment.setConfiguration(configuration);
-        long id = ExperimentsRepository.registerExperiment(experiment);
-        experiment.setInternalId(id);
 
-        //Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
+
+        Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
 
         return new ViewModelProvider(this, new ExperimentPerformViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentPerformViewModel.class);
     }

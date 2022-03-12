@@ -55,24 +55,11 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
         setupRecyclerView();
     }
 
-    //TODO Ver porque no se puede heredar este método del padre
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         return super.onCreateView(inflater, container, savedInstanceState);
-//        if (binding == null) {
-//            viewModel = getViewModel();
-//            binding = getDataBinding(inflater, container);
-//            //Equivalente a binding.setViewModel(viewModel) genérico (viewModel es generado como variable)
-//            binding.setVariable(BR.viewModel, viewModel);
-//
-//            binding.setLifecycleOwner(this);
-//
-//            setupRecyclerView();
-//
-//        }
-//
-//        return binding.getRoot();
     }
 
     /**

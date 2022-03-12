@@ -6,6 +6,8 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.ArrayList;
@@ -38,9 +40,15 @@ public class SensorsRepository {
         return DBHelper.insertSensorRegister(sensorRegister);
     }
 
+    public static void getRegistersByTypeAndExperimentIdAsExperimentRegister(int type, long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){
+        responseLiveData.setValue(new ListResponse<>(new ArrayList<ExperimentRegister>(){{addAll(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId));}}));
+    }
+
     public static void getRegistersByTypeAndExperimentId(int type, long experimentId, MutableLiveData<ListResponse<SensorRegister>> responseLiveData){
         responseLiveData.setValue(new ListResponse<>(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId)));
 
     }
+
+
 
 }
