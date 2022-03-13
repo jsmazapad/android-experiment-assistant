@@ -44,6 +44,7 @@ public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModel<Experim
     public void onItemSelected(int position, NavController navController, Context c) {
         MediaRegister register = (MediaRegister) elements.getValue().get(position);
         fileSelectedPath.setValue(register.getFullPath());
+        viewerEnabled.setValue(true);
 
     }
 

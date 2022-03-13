@@ -7,6 +7,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
 
 public class ImageUtils {
 
@@ -52,7 +53,9 @@ public class ImageUtils {
     public static void lazyLoadFromDisk(String imagePath, ImageView imageViewTarget, int placeHolderResourceId, int width, int height) throws Exception {
 
 
-            RequestCreator request =  Picasso.get().load(imagePath).placeholder(placeHolderResourceId);
+        String uriString = "file:///"+imagePath;
+        URLEncoder.encode(uriString, "UTF-8");
+            RequestCreator request =  Picasso.get().load(uriString).placeholder(placeHolderResourceId);
 
             if(width > 0 && height > 0) {
                 request.resize(width, height)

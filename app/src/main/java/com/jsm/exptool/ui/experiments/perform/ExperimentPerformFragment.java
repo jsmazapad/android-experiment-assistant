@@ -17,6 +17,7 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
+import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
 import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
 import com.jsm.exptool.libs.SensorHandler;
@@ -80,8 +81,8 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
     protected ExperimentPerformViewModel createViewModel() {
         //TODO Código pruebas, comentar
 
-
-        Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
+        Experiment experiment = MockExamples.registerExperimentForPerformanceTest();
+        //Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
 
         return new ViewModelProvider(this, new ExperimentPerformViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentPerformViewModel.class);
     }

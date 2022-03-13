@@ -12,21 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
-import com.jsm.exptool.BuildConfig;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentViewRegistersFragmentBinding;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.experimentconfig.AudioConfig;
+import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.ArrayList;
 
 public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentViewRegistersFragmentBinding, ExperimentViewRegistersViewModel> {
 
-    private MeasureSectionsPagerAdapter mSectionsPagerAdapter;
+    private ExperimentViewRegistersSectionPagerAdapter mSectionsPagerAdapter;
     private ViewPager2 mViewPager;
 
 
@@ -36,7 +36,7 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
         TabLayout tabLayout = binding.tabs;
         viewModel.getApiResponseMediator().observe(getViewLifecycleOwner(), response->{});
         viewModel.getElements().observe(getViewLifecycleOwner(), response->{
-            mSectionsPagerAdapter = new MeasureSectionsPagerAdapter(getChildFragmentManager(), getLifecycle(), new ArrayList<ExperimentRegister>(){{addAll(response);}}, viewModel.getMeasurableItem());
+            mSectionsPagerAdapter = new ExperimentViewRegistersSectionPagerAdapter(getChildFragmentManager(), getLifecycle(), new ArrayList<ExperimentRegister>(){{addAll(response);}}, viewModel.getMeasurableItem());
             mViewPager = binding.viewPagerContainer;
             mViewPager.setAdapter(mSectionsPagerAdapter);
             mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -65,6 +65,8 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
             });
         });
 
+        tabLayout.getTabAt(1).setText(viewModel.getSecondTabTitle());
+
 
         return v;
     }
@@ -80,9 +82,10 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
         //MySensor measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getSensor();
         //long experimentId = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getExperimentId();
 
-        Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest();
+        Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest(getContext());
         long experimentId = experiment.getInternalId();
-        MySensor measurableItem = experiment.getConfiguration().getSensorConfig().getSensors().get(0);
+        //MySensor measurableItem = experiment.getConfiguration().getSensorConfig().getSensors().get(0);
+        AudioConfig measurableItem = experiment.getConfiguration().getAudioConfig();
 
         return new ViewModelProvider(this, new ExperimentViewRegistersViewModelFactory(getActivity().getApplication(), experimentId, measurableItem)).get(ExperimentViewRegistersViewModel.class);
     }

@@ -84,6 +84,13 @@
     <string name="audio_configuration_audio_option_title">Configuración de encoder de audio</string>
     <string name="audio_configuration_audio_bitrate_title">Configuración de Bitrate</string>
 
+    <!--
+VIEW EXPERIMENT MEASURES
+-->
+    <string name="data_tab_title">Datos</string>
+    <string name="graph_tab_title">Gráfica</string>
+    <string name="map_tab_title">Mapa</string>
+    <string name="gallery_tab_title">Galería</string>
 
 
 </resources>

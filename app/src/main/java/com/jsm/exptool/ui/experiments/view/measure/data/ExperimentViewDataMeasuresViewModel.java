@@ -33,7 +33,7 @@ public class ExperimentViewDataMeasuresViewModel extends BaseRecyclerViewModel<E
 
     @Override
     public void setConstructorParameters(Object... args) {
-        this.measurableItem = (MySensor) args[0];
+        this.measurableItem = (RepeatableElement) args[0];
         this.apiResponseRepositoryHolder.setValue(new ListResponse<>((List<ExperimentRegister>) args [1]));
 
     }

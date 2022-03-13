@@ -20,7 +20,7 @@ public class ImageRegisterGalleryViewHolder extends MediaRegisterGalleryViewHold
 
     @Override
     public void fillViewHolder(MediaRegister element) {
-        nameTV.setText(element.getFileName());
+        super.fillViewHolder(element);
         ImagesProvider.loadImageForListOrDetail(element.getFullPath() ,thumbnailIV, true );
     }
 }

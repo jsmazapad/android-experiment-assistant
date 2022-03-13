@@ -1,5 +1,8 @@
 package com.jsm.exptool.data.mock;
 
+import android.content.Context;
+
+import com.jsm.exptool.R;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
@@ -9,9 +12,15 @@ import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.SensorsConfig;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
+import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
+import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.repositories.SensorsRepository;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,7 +28,7 @@ import java.util.Random;
 
 public class MockExamples {
 
-    public static Experiment getFullExperiment(){
+    public static Experiment getFullExperiment() {
         //TODO Código desarrollo
         Experiment experiment = new Experiment();
         experiment.setConfiguration(new ExperimentConfiguration());
@@ -37,17 +46,17 @@ public class MockExamples {
         return experiment;
     }
 
-    public static Experiment registerExperimentForPerformanceTest(){
+    public static Experiment registerExperimentForPerformanceTest() {
         Experiment experiment = new Experiment();
-        experiment.setTitle("Experimento "+ new Date().getTime());
-        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  "+ new Date().getTime());
+        experiment.setTitle("Experimento " + new Date().getTime());
+        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
         ExperimentConfiguration configuration = new ExperimentConfiguration();
         CameraConfig cameraConfig = new CameraConfig();
         cameraConfig.setInterval(1000);
         cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
-        configuration.setCameraConfig(cameraConfig );
+        configuration.setCameraConfig(cameraConfig);
         SensorsConfig sensorsConfig = new SensorsConfig();
-        sensorsConfig.setSensors(new ArrayList<MySensor>(){{
+        sensorsConfig.setSensors(new ArrayList<MySensor>() {{
             add(SensorHandler.getInstance().getSensors().get(0));
             add(SensorHandler.getInstance().getSensors().get(1));
             add(SensorHandler.getInstance().getSensors().get(2));
@@ -59,22 +68,26 @@ public class MockExamples {
         return experiment;
     }
 
-    public static Experiment registerExperimentForSensorVisualizationTest(){
+    public static Experiment registerExperimentForSensorVisualizationTest(Context context) {
         Experiment experiment = new Experiment();
-        experiment.setTitle("Experimento "+ new Date().getTime());
-        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  "+ new Date().getTime());
+        experiment.setTitle("Experimento " + new Date().getTime());
+        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
         ExperimentConfiguration configuration = new ExperimentConfiguration();
         CameraConfig cameraConfig = new CameraConfig();
         cameraConfig.setInterval(1000);
         cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
-        configuration.setCameraConfig(cameraConfig );
+        configuration.setCameraConfig(cameraConfig);
         SensorsConfig sensorsConfig = new SensorsConfig();
-        sensorsConfig.setSensors(new ArrayList<MySensor>(){{
+        sensorsConfig.setSensors(new ArrayList<MySensor>() {{
             add(SensorHandler.getInstance().getSensors().get(0));
             add(SensorHandler.getInstance().getSensors().get(1));
             add(SensorHandler.getInstance().getSensors().get(2));
         }});
         configuration.setSensorConfig(sensorsConfig);
+
+        AudioConfig audioConfig = new AudioConfig();
+        configuration.setAudioConfig(audioConfig);
+
         experiment.setConfiguration(configuration);
         long id = ExperimentsRepository.registerExperiment(experiment);
         experiment.setInternalId(id);
@@ -82,10 +95,10 @@ public class MockExamples {
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        for (MySensor sensor:configuration.getSensorConfig().getSensors()) {
-            for (int i= 0; i<= 400; i++){
+        for (MySensor sensor : configuration.getSensorConfig().getSensors()) {
+            for (int i = 0; i <= 40; i++) {
                 cal.add(Calendar.HOUR, 1);
-                for (String key:sensor.getMeasure().keySet()) {
+                for (String key : sensor.getMeasure().keySet()) {
                     sensor.getMeasure().put(key, new Random().nextFloat());
                 }
 
@@ -95,6 +108,54 @@ public class MockExamples {
 
         }
 
+
+        File f = new File(context.getExternalFilesDir(null), "GAtos.jpg");
+
+        try {
+            if (!f.exists())
+                f.createNewFile();
+//id is some like R.drawable.b_image
+            InputStream inputStream = context.getResources().openRawResource(R.raw.cat_4001);
+            OutputStream out = new FileOutputStream(f);
+            byte buf[] = new byte[1024];
+            int len;
+            while ((len = inputStream.read(buf)) > 0)
+                out.write(buf, 0, len);
+            out.close();
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i <= 40; i++) {
+
+
+            ImagesRepository.registerImageCapture(f, id, cal.getTime());
+        }
+
+        File f2 = new File(context.getExternalFilesDir(null), "cat_sound.mp3");
+
+        try {
+            if (!f.exists())
+                f.createNewFile();
+//id is some like R.drawable.b_image
+            InputStream inputStream = context.getResources().openRawResource(R.raw.cat_sound);
+            OutputStream out = new FileOutputStream(f);
+            byte buf[] = new byte[1024];
+            int len;
+            while ((len = inputStream.read(buf)) > 0)
+                out.write(buf, 0, len);
+            out.close();
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i <= 40; i++) {
+
+
+            AudioRepository.registerAudioRecording(f2, id, cal.getTime());
+        }
 
 
         return experiment;

@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.google.android.exoplayer2.ExoPlayer;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
+import com.jsm.exptool.databinding.ExperimentViewGalleryAudioFragmentBinding;
 import com.jsm.exptool.databinding.ExperimentViewGalleryImageFragmentBinding;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;
@@ -21,11 +23,11 @@ import com.jsm.exptool.ui.experiments.view.measure.mediagallery.imagegallery.Ima
 import java.util.List;
 
 
-public class AudioRegisterGalleryFragment extends MediaRegisterGalleryFragment<ExperimentViewGalleryImageFragmentBinding, AudioRegisterGalleryViewModel> {
+public class AudioRegisterGalleryFragment extends MediaRegisterGalleryFragment<ExperimentViewGalleryAudioFragmentBinding, AudioRegisterGalleryViewModel> {
 
 
     @Override
-    protected ExperimentViewGalleryImageFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
+    protected ExperimentViewGalleryAudioFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {
         return DataBindingUtil.inflate(inflater, R.layout.experiment_view_gallery_audio_fragment, container, false);
     }
 
@@ -45,8 +47,12 @@ public class AudioRegisterGalleryFragment extends MediaRegisterGalleryFragment<E
     @Override
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
+        // Instantiate the player.
+        ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
+// Attach player to the view.
+        binding.mediaPV.setPlayer(player);
         viewModel.getFileSelectedPath().observe(getViewLifecycleOwner(), path -> {
-            viewModel.loadFullImage(path, binding.fullImageIV);
+            viewModel.loadAudio(path, player);
         });
     }
 
