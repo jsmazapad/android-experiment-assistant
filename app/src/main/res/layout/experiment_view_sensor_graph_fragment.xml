@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.exptool.ui.experiments.view.measure.sensor.graph.ExperimentViewSensorGraphViewModel" />
+            type="com.jsm.exptool.ui.experiments.view.measure.graph.ExperimentViewSensorGraphViewModel" />
     </data>
 
 <RelativeLayout

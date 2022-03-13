@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.view.measure.imagegallery;
+package com.jsm.exptool.ui.experiments.view.measure.mediagallery.imagegallery;
 
 import android.content.Context;
 import android.view.View;
@@ -6,13 +6,10 @@ import android.view.View;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.navigation.NavController;
 
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.ui.experiments.view.ExperimentViewViewHolder;
+import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewAdapter;
 
-public class ImageRegisterGalleryViewAdapter extends BaseRecyclerAdapter<ImageRegister, ImageRegisterGalleryViewHolder, ImageRegister> {
+public class ImageRegisterGalleryAdapter extends MediaRegisterGalleryViewAdapter<ImageRegisterGalleryViewHolder> {
     /**
      * @param context
      * @param viewModel        ViewModel asociado al fragment donde se incluye el recyclerView
@@ -20,9 +17,8 @@ public class ImageRegisterGalleryViewAdapter extends BaseRecyclerAdapter<ImageRe
      * @param navController    Controlador de navegación (Android jetpack)
      * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
      */
-    public ImageRegisterGalleryViewAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
+    public ImageRegisterGalleryAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
         super(context, viewModel, lifeCycleOwner, navController, listItemResource);
-
     }
 
     @Override

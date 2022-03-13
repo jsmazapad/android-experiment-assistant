@@ -33,13 +33,39 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v =  super.onCreateView(inflater, container, savedInstanceState);
+        TabLayout tabLayout = binding.tabs;
         viewModel.getApiResponseMediator().observe(getViewLifecycleOwner(), response->{});
         viewModel.getElements().observe(getViewLifecycleOwner(), response->{
             mSectionsPagerAdapter = new MeasureSectionsPagerAdapter(getChildFragmentManager(), getLifecycle(), new ArrayList<ExperimentRegister>(){{addAll(response);}}, viewModel.getMeasurableItem());
             mViewPager = binding.viewPagerContainer;
             mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    tabLayout.getTabAt(position);
+                    tabLayout.selectTab( tabLayout.getTabAt(position));
+                }
+            });
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    mViewPager.setCurrentItem(tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
         });
-        TabLayout tabLayout = binding.tabs;
+
+
         return v;
     }
 

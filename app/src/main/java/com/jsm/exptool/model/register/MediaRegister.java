@@ -34,6 +34,10 @@ public class MediaRegister extends ExperimentRegister {
         return fileDirectory;
     }
 
+    public String getFullPath(){
+        return this.fileDirectory + "/" +  this.fileName;
+    }
+
     public void setFileDirectory(String fileDirectory) {
         this.fileDirectory = fileDirectory;
     }

@@ -48,7 +48,7 @@ public class GraphHelper {
     }
 
     /**
-     * ESTABLECER VALORES DE MEDIDAS
+     * Establece los valores de las medidas de la gráfica
      */
     private void setDataValues(){
 
@@ -65,7 +65,7 @@ public class GraphHelper {
     }
 
     /**
-     * ESTABLECER DATASETS DE MEDIDAS
+     * Establece los datasets de la gráfica
      */
     private void setDataSets(){
         ArrayList<ILineDataSet> dataSets = new ArrayList<>() ;
@@ -105,7 +105,7 @@ public class GraphHelper {
     }
 
     /**
-     * ESTABLECER EJES GRAFICA
+     * Establece los ejes de la gráfica
      */
     private void setAxis(){
         XAxis xAxis = graph.getXAxis();

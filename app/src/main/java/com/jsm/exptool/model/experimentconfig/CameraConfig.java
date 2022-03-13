@@ -9,7 +9,7 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
 
-public class CameraConfig extends RepeatableElement{
+public class CameraConfig extends MultimediaConfig{
 
 
     CameraProvider.FlashModes flashMode = CameraProvider.FlashModes.OFF;

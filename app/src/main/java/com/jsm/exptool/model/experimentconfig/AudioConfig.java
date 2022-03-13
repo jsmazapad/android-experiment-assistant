@@ -9,7 +9,7 @@ import androidx.room.Ignore;
 import com.jsm.exptool.R;
 import com.jsm.exptool.model.AudioRecordingOption;
 
-public class AudioConfig extends RepeatableElement {
+public class AudioConfig extends MultimediaConfig {
 
     @Embedded
     private AudioRecordingOption recordingOption;

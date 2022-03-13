@@ -5,6 +5,7 @@ import static com.jsm.exptool.config.ConfigConstants.IMAGE_THUMBNAIL_WIDTH;
 
 import android.widget.ImageView;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.core.utils.ImageUtils;
 
 
@@ -13,15 +14,15 @@ import com.jsm.exptool.core.utils.ImageUtils;
  */
 public class ImagesProvider {
 
-    private static final int  PLACEHOLDER_RES_ID = R.drawable.beer_logo;
+    private static final int  PLACEHOLDER_RES_ID = R.drawable.ic_flip_camera;
 
     /**
      * Carga una imagen de manera perezosa
-     * @param url url donde está la imagen
+     * @param imagePath url donde está la imagen
      * @param imageViewTarget ImageView
      * @param isThumbnail Indica si la imagen se mostrará en una vista previa en listado
      */
-    public static void loadImageForListOrDetail(String url, ImageView imageViewTarget, boolean isThumbnail) {
+    public static void loadImageForListOrDetail(String imagePath, ImageView imageViewTarget, boolean isThumbnail) {
 
         try {
             int width = -1;
@@ -34,7 +35,7 @@ public class ImagesProvider {
 
             }
 
-            ImageUtils.lazyLoadFromUrl(url, imageViewTarget, PLACEHOLDER_RES_ID, width, height);
+            ImageUtils.lazyLoadFromDisk(imagePath, imageViewTarget, PLACEHOLDER_RES_ID, width, height);
         } catch (Exception e) {
             imageViewTarget.setImageResource(PLACEHOLDER_RES_ID);
         }

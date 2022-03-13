@@ -38,8 +38,18 @@ public class ImageUtils {
         }
     }
 
-    public static void lazyLoadFromDisk(String imagePath, ImageView imageViewTarget, int placeHolderResourceId, int width, int height) throws Exception {
+    /**
+     * Carga de manera perzosa una imagen desde el sistema de archivos
+     *
+     * @param imagePath             path de la imagen
+     * @param imageViewTarget       ImageView donde se carga la imagen
+     * @param placeHolderResourceId drawable que se usa como placeholder hasta que se carga la imagen o falla la carga
+     * @param width                 Ancho al que se redimensiona, si se le pasa -1 no redimensiona
+     * @param height                Altura a la que se redimensiona, si se le pasa -1 no redimensiona
+     * @throws MalformedURLException
+     */
 
+    public static void lazyLoadFromDisk(String imagePath, ImageView imageViewTarget, int placeHolderResourceId, int width, int height) throws Exception {
 
 
             RequestCreator request =  Picasso.get().load(imagePath).placeholder(placeHolderResourceId);
@@ -51,5 +61,4 @@ public class ImageUtils {
 
             request.into(imageViewTarget);
         }
-    }
 }

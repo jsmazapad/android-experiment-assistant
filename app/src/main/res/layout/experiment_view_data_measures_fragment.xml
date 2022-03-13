@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.exptool.ui.experiments.view.measure.sensor.data.ExperimentViewDataMeasuresViewModel" />
+            type="com.jsm.exptool.ui.experiments.view.measure.data.ExperimentViewDataMeasuresViewModel" />
     </data>
 <LinearLayout
     android:layout_width="match_parent"
