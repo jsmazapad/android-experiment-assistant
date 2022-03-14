@@ -11,6 +11,7 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.model.register.MediaRegister;
+import com.jsm.exptool.providers.DateProvider;
 import com.jsm.exptool.providers.ImagesProvider;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModel<Experim
 
     private MutableLiveData<Boolean> viewerEnabled = new MutableLiveData<>(false);
     private MutableLiveData<String> fileSelectedPath = new MutableLiveData<>();
+    private MutableLiveData<String> fileSelectedName = new MutableLiveData<>();
 
 
     public MediaRegisterGalleryViewModel(Application app, List<ExperimentRegister> imageRegisters) {
@@ -35,6 +37,10 @@ public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModel<Experim
         return fileSelectedPath;
     }
 
+    public MutableLiveData<String> getFileSelectedName() {
+        return fileSelectedName;
+    }
+
     @Override
     public List<ExperimentRegister> transformResponse(ListResponse<ExperimentRegister> response) {
         return response.getResultList();
@@ -44,6 +50,7 @@ public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModel<Experim
     public void onItemSelected(int position, NavController navController, Context c) {
         MediaRegister register = (MediaRegister) elements.getValue().get(position);
         fileSelectedPath.setValue(register.getFullPath());
+        fileSelectedName.setValue(DateProvider.dateToDisplayStringWithTime(register.getDate()));
         viewerEnabled.setValue(true);
 
     }

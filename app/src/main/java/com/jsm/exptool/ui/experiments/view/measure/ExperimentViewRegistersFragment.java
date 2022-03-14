@@ -33,6 +33,15 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v =  super.onCreateView(inflater, container, savedInstanceState);
+
+
+
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         TabLayout tabLayout = binding.tabs;
         viewModel.getApiResponseMediator().observe(getViewLifecycleOwner(), response->{});
         viewModel.getElements().observe(getViewLifecycleOwner(), response->{
@@ -67,8 +76,6 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
 
         tabLayout.getTabAt(1).setText(viewModel.getSecondTabTitle());
 
-
-        return v;
     }
 
     public ExperimentViewRegistersViewModel getViewModel(){
@@ -86,6 +93,7 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
         long experimentId = experiment.getInternalId();
         //MySensor measurableItem = experiment.getConfiguration().getSensorConfig().getSensors().get(0);
         AudioConfig measurableItem = experiment.getConfiguration().getAudioConfig();
+        //CameraConfig measurableItem = experiment.getConfiguration().getCameraConfig();
 
         return new ViewModelProvider(this, new ExperimentViewRegistersViewModelFactory(getActivity().getApplication(), experimentId, measurableItem)).get(ExperimentViewRegistersViewModel.class);
     }

@@ -31,14 +31,43 @@
             android:background="@color/transparent_gray"
             android:visibility="@{viewModel.viewerEnabled? View.VISIBLE: View.GONE}">
 
-            <com.google.android.exoplayer2.ui.StyledPlayerView
-                android:id="@+id/mediaPV"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                app:show_timeout="0"
-                app:hide_on_touch="false"
-                app:surface_type="none" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/BaseSubtitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@{viewModel.fileSelectedName}" />
+
+                    <ImageButton
+                        style="@style/AccesibilityMinSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="CLose Detail"
+                        android:onClick="@{()->viewModel.closeViewer()}"
+                        android:src="@drawable/ic_baseline_close_24" />
+                </LinearLayout>
+
+                <com.google.android.exoplayer2.ui.StyledPlayerView
+                    android:id="@+id/mediaPV"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+
+                    app:hide_on_touch="false"
+                    app:show_timeout="0"
+                    app:surface_type="none" />
+            </LinearLayout>
         </RelativeLayout>
 
     </RelativeLayout>

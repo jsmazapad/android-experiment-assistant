@@ -12,6 +12,10 @@ public class ConfigurationViewModel extends BaseViewModel {
     String username;
     String password;
     String serverUrl;
+    String analyticsKey;
+    int sensorDefaultFrequency;
+    int cameraDefaultFrequency;
+    int audioDefaultFrequency;
 
     public ConfigurationViewModel(@NonNull Application application) {
         super(application);

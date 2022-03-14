@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.jsm.exptool.ui.configuration.ConfigurationViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    style="@style/BaseCardView">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/remoteServerTitleTV"
+                            style="@style/BaseCardTitleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Configuración de servidor remoto" />
+
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="Usuario"
+                                android:text="@={viewModel.username}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="Contraseña"
+                                android:text="@={viewModel.password}" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="Url del servidor"
+                                android:text="@={viewModel.serverUrl}" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/checkConnectionButton"
+                            style="@style/BaseButton"
+                            android:layout_gravity="center"
+                            android:text="Comprobar conectividad" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/savePreferencesButton"
+                    style="@style/FullWidthButton"
+                    android:onClick="@{() -> viewModel.savePreferences()}"
+                    android:text="Guardar cambios" />
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

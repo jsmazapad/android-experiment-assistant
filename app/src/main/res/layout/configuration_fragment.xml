@@ -30,54 +30,47 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
-                    style="@style/BaseCardView">
+          <com.jsm.exptool.libs.ExpandableCard
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/BaseTextInputEditText"
+                        android:hint="Usuario"
+                        android:text="@={viewModel.username}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <TextView
-                            android:id="@+id/remoteServerTitleTV"
-                            style="@style/BaseCardTitleTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Configuración de servidor remoto" />
+                <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
-                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/BaseTextInputEditText"
+                        android:hint="Contraseña"
+                        android:text="@={viewModel.password}" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                style="@style/BaseTextInputEditText"
-                                android:hint="Usuario"
-                                android:text="@={viewModel.username}" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                style="@style/BaseTextInputEditText"
-                                android:hint="Contraseña"
-                                android:text="@={viewModel.password}" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/BaseTextInputEditText"
+                        android:hint="Url del servidor"
+                        android:text="@={viewModel.serverUrl}" />
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                <Button
+                    android:id="@+id/checkConnectionButton"
+                    style="@style/BaseButton"
+                    android:layout_gravity="center"
+                    android:text="Comprobar conectividad" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                style="@style/BaseTextInputEditText"
-                                android:hint="Url del servidor"
-                                android:text="@={viewModel.serverUrl}" />
+          </com.jsm.exptool.libs.ExpandableCard>
 
-                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <Button
-                            android:id="@+id/checkConnectionButton"
-                            style="@style/BaseButton"
-                            android:layout_gravity="center"
-                            android:text="Comprobar conectividad" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+
+
+
 
                 <Button
                     android:id="@+id/savePreferencesButton"
@@ -85,6 +78,7 @@
                     android:onClick="@{() -> viewModel.savePreferences()}"
                     android:text="Guardar cambios" />
             </LinearLayout>
+
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

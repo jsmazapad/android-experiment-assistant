@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView
+        style="@style/BaseCardView">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/titleTV"
+            style="@style/BaseCardTitleTextView"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:text="Configuración de servidor remoto" />
+        <ImageButton
+            android:id="@+id/collapseButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            style="@style/AccesibilityMinSize"
+            android:src="@drawable/ic_baseline_arrow_drop_down_24"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/innerContentLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </LinearLayout>
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</merge>

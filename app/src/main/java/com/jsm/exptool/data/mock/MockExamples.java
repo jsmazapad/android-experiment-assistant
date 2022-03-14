@@ -136,11 +136,11 @@ public class MockExamples {
         File f2 = new File(context.getExternalFilesDir(null), "cat_sound.mp3");
 
         try {
-            if (!f.exists())
-                f.createNewFile();
+            if (!f2.exists())
+                f2.createNewFile();
 //id is some like R.drawable.b_image
             InputStream inputStream = context.getResources().openRawResource(R.raw.cat_sound);
-            OutputStream out = new FileOutputStream(f);
+            OutputStream out = new FileOutputStream(f2);
             byte buf[] = new byte[1024];
             int len;
             while ((len = inputStream.read(buf)) > 0)

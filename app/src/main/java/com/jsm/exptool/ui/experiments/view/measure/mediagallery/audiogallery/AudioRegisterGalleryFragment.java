@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.databinding.ExperimentViewGalleryAudioFragmentBinding;
@@ -48,11 +49,10 @@ public class AudioRegisterGalleryFragment extends MediaRegisterGalleryFragment<E
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
         // Instantiate the player.
-        ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
-// Attach player to the view.
-        binding.mediaPV.setPlayer(player);
+        viewModel.initPlayer( getContext(),  binding.mediaPV);
+
         viewModel.getFileSelectedPath().observe(getViewLifecycleOwner(), path -> {
-            viewModel.loadAudio(path, player);
+            viewModel.loadAudio(path, getContext());
         });
     }
 
