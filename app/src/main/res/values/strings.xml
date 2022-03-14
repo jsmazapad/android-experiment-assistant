@@ -93,4 +93,11 @@ VIEW EXPERIMENT MEASURES
     <string name="gallery_tab_title">Galería</string>
 
 
+    <!--
+CONFIGURATION
+-->
+    <string name="expandable_card_expand_content_description">Expandir</string>
+    <string name="expandable_card_contract_content_description">Contraer</string>
+
+
 </resources>

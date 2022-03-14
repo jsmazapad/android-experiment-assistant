@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="ExpandableCard">
+        <attr name="title" format="string" />
+        <attr name="extra_info" format="string" />
+        <attr name="initial_expanded" format="boolean"/>
+    </declare-styleable>
 
 </resources>

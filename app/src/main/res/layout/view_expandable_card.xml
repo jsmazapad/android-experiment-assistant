@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
@@ -18,16 +19,24 @@
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="wrap_content"
-            android:text="Configuración de servidor remoto" />
+            tools:text="Card Title" />
+
         <ImageButton
             android:id="@+id/collapseButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             style="@style/AccesibilityMinSize"
+            android:contentDescription="@string/expandable_card_expand_content_description"
             android:src="@drawable/ic_baseline_arrow_drop_down_24"/>
 
     </LinearLayout>
+        <TextView
+            android:id="@+id/extraInfoTV"
+            style="@style/BaseItemListSecondaryTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Additional card info" />
 
     <LinearLayout
         android:id="@+id/innerContentLayout"
