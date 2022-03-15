@@ -24,7 +24,7 @@ import java.util.TreeMap;
 
 public class SensorHandler {
     private SensorManager sensorManager;
-    private LocationManager locationManager = (LocationManager) App.getAppContext().getSystemService(Context.LOCATION_SERVICE);
+    private LocationManager locationManager;
     private List<MySensor> sensors = new ArrayList();
     private ArrayList<RepeatableElement> selectedSensors = new ArrayList();
     private static SensorHandler instance;
@@ -39,6 +39,7 @@ public class SensorHandler {
     public void initialize(Context context)
     {
         this.sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
+        this.locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         createAvailableSensorsList();
     }
 

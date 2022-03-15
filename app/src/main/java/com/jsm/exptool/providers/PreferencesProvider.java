@@ -11,44 +11,15 @@ import com.jsm.exptool.core.utils.PreferenceManager;
  */
 public class PreferencesProvider {
 
-    //private final static String CAR_LOCATION = "CAR_LOCATION";
     private final static String PASSWORD = "PASSWORD";
     private final static String USER = "USER";
     private final static String REMOTE_SERVER = "REMOTE_SERVER";
     private final static String SENSOR_DEFAULT_FREQ = "SENSOR_DEFAULT_FREQ";
     private final static String CAMERA_DEFAULT_FREQ = "CAMERA_DEFAULT_FREQ";
     private final static String AUDIO_DEFAULT_FREQ = "AUDIO_DEFAULT_FREQ";
+    private final static String ANALYTICS_KEY = "ANALYTICS_KEY";
 
 
-//    /**
-//     * Obtiene la localización del vehículo guardada en SharedPreferences
-//     * @return
-//     */
-//    public static VehicleLocation getVehicleLocation() {
-//        String data = PreferenceManager.getSharedPreferences().getString(CAR_LOCATION, "");
-//        if (!"".equals(data)) {
-//            Gson gson = new GsonBuilder()
-//                    .create();
-//            return gson.fromJson(data, VehicleLocation.class);
-//        }else {
-//            return null;
-//        }
-//
-//    }
-//
-//    public static void setVehicleLocation(VehicleLocation location) {
-//        try {
-//            Gson gson = new GsonBuilder()
-//                    .create();
-//            String value = gson.toJson(location);
-//            SharedPreferences.Editor editor = PreferenceManager
-//                    .getSharedPreferences().edit();
-//            editor.putString(CAR_LOCATION, value);
-//            editor.commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public static String getPassword() {
         String data = PreferenceManager.getSharedPreferences().getString(PASSWORD, "");
@@ -95,6 +66,23 @@ public class PreferencesProvider {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
             editor.putString(REMOTE_SERVER, value);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getAnalyticsKey() {
+        String data = PreferenceManager.getSharedPreferences().getString(ANALYTICS_KEY, "");
+        return data;
+
+    }
+
+    public static void setAnalyticsKey(String value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putString(ANALYTICS_KEY, value);
             editor.commit();
         } catch (Exception e) {
             e.printStackTrace();

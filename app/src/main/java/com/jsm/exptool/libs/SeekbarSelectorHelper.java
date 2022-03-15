@@ -13,7 +13,13 @@ import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class SeekbarSelectorHelper {
 
+    private static final String DEFAULT_TAG= "DEFAULT_TAG";
+
     public static <T extends RepeatableElement> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue) {
+        initFrequencySelector(includedSelectorBinding,listener, minValue, maxValue, initialValue, DEFAULT_TAG);
+    }
+
+        public static <T extends RepeatableElement> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue, String tag) {
 
         final TextView minDelayTV = includedSelectorBinding.minDelayTV;
         final TextView maxDelayTV = includedSelectorBinding.maxDelayTV;
@@ -21,6 +27,7 @@ public class SeekbarSelectorHelper {
         final ImageButton minusButton = includedSelectorBinding.minusButton;
         final ImageButton plusButton = includedSelectorBinding.plusButton;
         final SeekBar seekbarFrequency = includedSelectorBinding.seekbarFrequency;
+        seekbarFrequency.setTag(tag);
         seekbarFrequency.setMax(maxValue);
         seekbarFrequency.setProgress(initialValue);
         seekbarFrequency.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

@@ -33,13 +33,14 @@
                 <com.jsm.exptool.libs.ExpandableCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:title="Configuración de servidor remoto">
+                    app:extra_info="@{viewModel.extraServerCardText}"
+                    app:title="@string/configuration_remote_server_card">
 
                     <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
                         <com.google.android.material.textfield.TextInputEditText
                             style="@style/BaseTextInputEditText"
-                            android:hint="Usuario"
+                            android:hint="@string/configuration_remote_username"
                             android:text="@={viewModel.username}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,7 +48,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             style="@style/BaseTextInputEditText"
-                            android:hint="Contraseña"
+                            android:hint="@string/configuration_remote_pass"
                             android:text="@={viewModel.password}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -56,7 +57,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             style="@style/BaseTextInputEditText"
-                            android:hint="Url del servidor"
+                            android:hint="@string/configuration_remote_server_url"
                             android:text="@={viewModel.serverUrl}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -65,13 +66,51 @@
                         android:id="@+id/checkConnectionButton"
                         style="@style/BaseButton"
                         android:layout_gravity="center"
-                        android:text="Comprobar conectividad" />
+                        android:text="@string/configuration_remote_check_connectivity" />
 
                 </com.jsm.exptool.libs.ExpandableCard>
 
                 <com.jsm.exptool.libs.ExpandableCard
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:extra_info="@{viewModel.extraFlurryCardText}"
+                    app:title="Clave Flurry Analytics">
+                    <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/BaseTextInputEditText"
+                            android:hint="clave analíticas"
+                            android:text="@={viewModel.analyticsKey}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </com.jsm.exptool.libs.ExpandableCard>
+                <com.jsm.exptool.libs.ExpandableCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:extra_info="@{viewModel.extraSensorCardText}"
+                    app:title="Configuración por defecto de frecuencia de lectura de sensor">
+                    <include
+                        android:id="@+id/sensorFrequencySelectorIncluded"
+                        layout="@layout/view_layout_frequency_selector" />
+                </com.jsm.exptool.libs.ExpandableCard>
+                <com.jsm.exptool.libs.ExpandableCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:extra_info="@{viewModel.extraCameraCardText}"
+                    app:title="Configuración por defecto de intervalo de toma de fotos de cámara">
+                    <include
+                        android:id="@+id/cameraFrequencySelectorIncluded"
+                        layout="@layout/view_layout_frequency_selector" />
+                </com.jsm.exptool.libs.ExpandableCard>
+                <com.jsm.exptool.libs.ExpandableCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:extra_info="@{viewModel.extraAudioCardText}"
+                    app:title="Configuración por defecto de intervalo de grabación de audio">
+                    <include
+                        android:id="@+id/audioFrequencySelectorIncluded"
+                        layout="@layout/view_layout_frequency_selector" />
                 </com.jsm.exptool.libs.ExpandableCard>
 
 
@@ -82,7 +121,7 @@
                     android:id="@+id/savePreferencesButton"
                     style="@style/FullWidthButton"
                     android:onClick="@{() -> viewModel.savePreferences()}"
-                    android:text="Guardar cambios" />
+                    android:text="@string/configuration_remote_save_changes" />
             </LinearLayout>
 
         </ScrollView>

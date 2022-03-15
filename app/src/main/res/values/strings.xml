@@ -98,6 +98,12 @@ CONFIGURATION
 -->
     <string name="expandable_card_expand_content_description">Expandir</string>
     <string name="expandable_card_contract_content_description">Contraer</string>
+    <string name="configuration_remote_server_card">Configuración de servidor remoto</string>
+    <string name="configuration_remote_username">Usuario</string>
+    <string name="configuration_remote_pass">Contraseña</string>
+    <string name="configuration_remote_server_url">Url del servidor</string>
+    <string name="configuration_remote_check_connectivity">Comprobar conectividad</string>
+    <string name="configuration_remote_save_changes">Guardar cambios</string>
 
 
 </resources>

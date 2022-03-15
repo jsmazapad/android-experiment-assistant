@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
+import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.R;
 
@@ -38,6 +40,10 @@ public class ExpandableCard extends LinearLayout {
         init(context, attrs);
     }
 
+    public boolean isCollapsed() {
+        return collapsed;
+    }
+
     private void init(Context context, AttributeSet attrs) {
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
@@ -60,7 +66,7 @@ public class ExpandableCard extends LinearLayout {
         titleTV.setText(title != null ? title : "");
         extraInfoTV = findViewById(R.id.extraInfoTV);
         extraInfoTV.setText(extraInfo != null ? extraInfo : "");
-        extraInfoTV.setVisibility(extraInfo != null ? VISIBLE: GONE);
+        extraInfoTV.setVisibility(extraInfo != null && collapsed ? VISIBLE: GONE);
         collapseButton = findViewById(R.id.collapseButton);
         innerContentLayout = findViewById(R.id.innerContentLayout);
         innerContentLayout.setVisibility(collapsed ? View.GONE : View.VISIBLE);
@@ -69,6 +75,7 @@ public class ExpandableCard extends LinearLayout {
         collapseButton.setOnClickListener(view -> {
             collapsed = !collapsed;
             innerContentLayout.setVisibility(collapsed ? View.GONE : View.VISIBLE);
+            extraInfoTV.setVisibility( !"".equals(extraInfoTV.getText()) && collapsed ? VISIBLE: GONE);
             collapseButton.setImageDrawable(context.getDrawable(collapsed? R.drawable.ic_baseline_arrow_drop_down_24 : R.drawable.ic_baseline_arrow_drop_up_24));
 
         });
@@ -86,5 +93,15 @@ public class ExpandableCard extends LinearLayout {
             removeView(views[i]);
             innerContentLayout.addView(views[i]);
         }
+    }
+
+    @BindingAdapter({"extra_info"})
+    public static void setExtraInfo(ExpandableCard card, MutableLiveData<String> newSelectedValue) {
+       String newValue = newSelectedValue.getValue();
+       if (card.extraInfoTV.getText() != newValue){
+           card.extraInfoTV.setText(newValue);
+           card.extraInfoTV.setVisibility( !"".equals(card.extraInfoTV.getText()) && card.isCollapsed() ? VISIBLE: GONE);
+
+       }
     }
 }
