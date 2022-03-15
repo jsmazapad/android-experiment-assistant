@@ -18,7 +18,7 @@ import com.jsm.exptool.ui.main.MainViewModel;
  */
 public abstract class BaseActivity<VM extends ViewModel> extends AppCompatActivity {
 
-    private NavController navController;
+    protected NavController navController;
     protected VM viewModel;
     public VM getViewModel() {
         return this.viewModel;
@@ -31,8 +31,12 @@ public abstract class BaseActivity<VM extends ViewModel> extends AppCompatActivi
     @Override
     protected void onResume() {
         super.onResume();
-        navController = Navigation.findNavController(this, getNavigationDiagramResource());
+       initNonMenuNavController();
 
+    }
+
+    protected void initNonMenuNavController(){
+        navController = Navigation.findNavController(this, getNavigationDiagramResource());
     }
 
     /**

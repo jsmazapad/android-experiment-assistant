@@ -5,7 +5,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-public class MainViewModel extends AndroidViewModel {
+import com.jsm.exptool.core.ui.menu.BaseMenuViewModel;
+
+public class MainViewModel extends BaseMenuViewModel {
     public MainViewModel(@NonNull Application application) {
         super(application);
     }
