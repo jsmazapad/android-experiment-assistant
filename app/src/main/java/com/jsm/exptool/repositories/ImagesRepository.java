@@ -116,4 +116,12 @@ public class ImagesRepository {
         responseLiveData.setValue(new ListResponse<>(DBHelper.getImageRegistersByExperimentId(experimentId)));
 
     }
+
+    public static int countRegistersByExperimentId(long experimentId){
+        return DBHelper.getImageRegistersByExperimentId(experimentId).size();
+    }
+
+    public static int countImagesWithoutEmbeddingsByExperimentId(long experimentId){
+        return DBHelper.getImageRegistersWithoutEmbeddingByExperimentId(experimentId).size();
+    }
 }

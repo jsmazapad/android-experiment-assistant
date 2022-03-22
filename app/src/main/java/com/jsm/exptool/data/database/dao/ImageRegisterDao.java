@@ -41,6 +41,8 @@ public interface ImageRegisterDao {
     @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId ORDER BY date DESC")
     List<ImageRegister> getImageRegistersByExperimentId(long experimentId);
 
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND (embedding NOT NULL OR embedding NOT LIKE '')ORDER BY date DESC")
+    List<ImageRegister> getImageRegistersWithoutEmbeddingByExperimentId(long experimentId);
     /**
      * Inserta un registro
      * @param register

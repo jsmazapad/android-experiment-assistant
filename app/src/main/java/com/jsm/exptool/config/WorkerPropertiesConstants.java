@@ -2,7 +2,7 @@ package com.jsm.exptool.config;
 
 public class WorkerPropertiesConstants {
     public class DataConstants{
-        public static final String FILE_NAME = "IMAGE_FILE_NAME";
+        public static final String FILE_NAME = "FILE_NAME";
         public static final String DATE_TIMESTAMP = "IMAGE_DATE";
         public static final String EXPERIMENT_ID= "EXPERIMENT_ID";
         public static final String IMAGE_REGISTER_ID= "IMAGE_REGISTER_ID";
@@ -15,6 +15,8 @@ public class WorkerPropertiesConstants {
         public static final String MEASURE_ACCURACY= "MEASURE_ACCURACY";
         public static final String SENSOR_NAME= "SENSOR_NAME";
         public static final String SENSOR= "SENSOR";
+        public static final String FILE_NAMES = "FILE_NAMES";
+        public static final String TABLE_NAME = "TABLE_NAME";
     }
     public class WorkTagsConstants {
         //IMAGES
@@ -26,6 +28,10 @@ public class WorkerPropertiesConstants {
         public static final String REGISTER_AUDIO = "REGISTER_AUDIO";
         //SENSOR
         public static final String REGISTER_SENSOR = "REGISTER_SENSOR";
+
+        //EXPORTACIÓN
+        public static final String EXPORT_REGISTERS = "EXPORT_REGISTERS";
+        public static final String ZIP_EXPORTED = "ZIP_EXPORTED";
 
     }
 }

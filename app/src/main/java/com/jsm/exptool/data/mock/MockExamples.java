@@ -12,6 +12,7 @@ import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.SensorsConfig;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
+import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.repositories.ImagesRepository;
@@ -35,8 +36,9 @@ public class MockExamples {
         experiment.getConfiguration().setCameraConfig(new CameraConfig());
         experiment.getConfiguration().getCameraConfig().setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         experiment.getConfiguration().setAudioConfig(new AudioConfig());
+        experiment.getConfiguration().setSensorConfig(new SensorsConfig());
         experiment.getConfiguration().getAudioConfig().setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
-        experiment.setSensors(new ArrayList<MySensor>() {
+        experiment.getConfiguration().getSensorConfig().setSensors(new ArrayList<MySensor>() {
             {
                 addAll(SensorHandler.getInstance().getSensors());
 
@@ -48,6 +50,7 @@ public class MockExamples {
 
     public static Experiment registerExperimentForPerformanceTest() {
         Experiment experiment = new Experiment();
+        experiment.setStatus(Experiment.ExperimentStatus.CREATED);
         experiment.setTitle("Experimento " + new Date().getTime());
         experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
         ExperimentConfiguration configuration = new ExperimentConfiguration();
@@ -75,6 +78,8 @@ public class MockExamples {
 
     public static Experiment registerExperimentForSensorVisualizationTest(Context context) {
         Experiment experiment = new Experiment();
+        experiment.setStatus(new Random().nextBoolean()? Experiment.ExperimentStatus.INITIATED: Experiment.ExperimentStatus.FINISHED);
+        //experiment.setStatus(Experiment.ExperimentStatus.CREATED);
         experiment.setTitle("Experimento " + new Date().getTime());
         experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
         ExperimentConfiguration configuration = new ExperimentConfiguration();
@@ -114,7 +119,7 @@ public class MockExamples {
         }
 
 
-        File f = new File(context.getExternalFilesDir(null), "GAtos.jpg");
+        File f = new File(FilePathsProvider.getImagesFilePath(context), "GAtos.jpg");
 
         try {
             if (!f.exists())
@@ -138,7 +143,7 @@ public class MockExamples {
             ImagesRepository.registerImageCapture(f, id, cal.getTime());
         }
 
-        File f2 = new File(context.getExternalFilesDir(null), "cat_sound.mp3");
+        File f2 = new File(FilePathsProvider.getAudiosFilePath(context), "cat_sound.mp3");
 
         try {
             if (!f2.exists())
@@ -165,4 +170,14 @@ public class MockExamples {
 
         return experiment;
     }
+
+    public static void createRandomCompletedExperiments(Context context){
+
+        for (int i=0; i<20; i++){
+            registerExperimentForSensorVisualizationTest(context);
+        }
+
+    }
 }
+
+

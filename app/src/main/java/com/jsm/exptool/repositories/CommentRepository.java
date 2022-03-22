@@ -17,4 +17,8 @@ public class CommentRepository {
         return DBHelper.insertCommentRegister(comment);
     }
 
+    public static int countRegistersByExperimentId(long experimentId){
+        return DBHelper.getCommentRegistersByExperimentId(experimentId).size();
+    }
+
 }

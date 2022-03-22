@@ -76,12 +76,12 @@ public class ExperimentRegister implements Parcelable {
     }
 
 
-
+    @Override
     public int describeContents() {
         return 0;
     }
 
-
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.internalId);
         dest.writeLong(this.experimentId);
@@ -98,7 +98,11 @@ public class ExperimentRegister implements Parcelable {
     }
 
     protected ExperimentRegister(Parcel in) {
-        readFromParcel(in);
+        this.internalId = in.readLong();
+        this.experimentId = in.readLong();
+        long tmpDate = in.readLong();
+        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.dataRemoteSynced = in.readByte() != 0;
     }
 
 }

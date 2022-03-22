@@ -346,7 +346,12 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
                     this.experiment.setInternalId(experimentId);
                     ((BaseActivity)context).getNavController().navigate(ExperimentCreateConfigureDataFragmentDirections.actionNavExperimentConfigureToNavPerformExperiment(this.experiment));
                 },
-                "Mas tarde", (dialog, which)->{},
+                "Mas tarde", (dialog, which)->{
+                    long experimentId = registerExperiment();
+                    this.experiment.setInternalId(experimentId);
+                    ((BaseActivity)context).getNavController().navigate(ExperimentCreateConfigureDataFragmentDirections.actionNavExperimentConfigureToNavExperiments());
+
+                },
                 context.getString(R.string.default_modal_cancelButton), (dialog, which)->{}
                 );
 

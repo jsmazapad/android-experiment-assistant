@@ -12,7 +12,9 @@ import androidx.room.PrimaryKey;
 
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.model.register.ImageRegister;
+import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,31 +40,16 @@ public class Experiment implements Parcelable {
     private Date endDate;
     private ExperimentStatus status;
     @Embedded private ExperimentConfiguration configuration;
-    @Ignore private List<MySensor> sensors = new ArrayList<>();
-    @Ignore private ArrayList<ImageRegister> images = new ArrayList<>();;
-    @Ignore private ArrayList<AudioRegister> sounds = new ArrayList<>();;
+    @Ignore private List<SensorRegister> sensors = new ArrayList<>();
+    @Ignore private ArrayList<ImageRegister> images = new ArrayList<>();
+    @Ignore private ArrayList<AudioRegister> sounds = new ArrayList<>();
+    @Ignore private ArrayList<CommentRegister> comments = new ArrayList<>();
     private int sdkDevice;
     private String device;
+    private boolean syncPending, embeddingPending, exportedPending;
 
 
-    @Ignore
-    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, int sdkDevice, String device) {
-        this.id = id;
-        this.userId = userId;
-        this.title = title;
-        this.description = description;
-        this.initDate = initDate;
-        this.endDate = endDate;
-        this.configuration = configuration;
-        this.status = status;
-        this.sensors = sensors;
-        this.images = images;
-        this.sounds = sounds;
-        this.sdkDevice = sdkDevice;
-        this.device = device;
-    }
-
-    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<MySensor> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, int sdkDevice, String device) {
+    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending) {
         this.internalId = internalId;
         this.id = id;
         this.userId = userId;
@@ -75,8 +62,32 @@ public class Experiment implements Parcelable {
         this.sensors = sensors;
         this.images = images;
         this.sounds = sounds;
+        this.comments = comments;
         this.sdkDevice = sdkDevice;
         this.device = device;
+        this.syncPending = syncPending;
+        this.embeddingPending = embeddingPending;
+        this.exportedPending = exportedPending;
+    }
+
+    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.initDate = initDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.configuration = configuration;
+        this.sensors = sensors;
+        this.images = images;
+        this.sounds = sounds;
+        this.comments = comments;
+        this.sdkDevice = sdkDevice;
+        this.device = device;
+        this.syncPending = syncPending;
+        this.embeddingPending = embeddingPending;
+        this.exportedPending = exportedPending;
     }
 
     public Experiment() {
@@ -154,11 +165,11 @@ public class Experiment implements Parcelable {
         this.configuration = configuration;
     }
 
-    public List<MySensor> getSensors() {
+    public List<SensorRegister> getSensors() {
         return sensors;
     }
 
-    public void setSensors(List<MySensor> sensors) {
+    public void setSensors(List<SensorRegister> sensors) {
         this.sensors = sensors;
     }
 
@@ -178,6 +189,14 @@ public class Experiment implements Parcelable {
         this.sounds = sounds;
     }
 
+    public ArrayList<CommentRegister> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<CommentRegister> comments) {
+        this.comments = comments;
+    }
+
     public int getSdkDevice() {
         return sdkDevice;
     }
@@ -194,70 +213,31 @@ public class Experiment implements Parcelable {
         this.device = device;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean isSyncPending() {
+        return syncPending;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.internalId);
-        dest.writeInt(this.id);
-        dest.writeInt(this.userId);
-        dest.writeString(this.title);
-        dest.writeString(this.description);
-        dest.writeLong(this.initDate != null ? this.initDate.getTime() : -1);
-        dest.writeLong(this.endDate != null ? this.endDate.getTime() : -1);
-
-        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
-        dest.writeParcelable(this.configuration,0);
-        dest.writeList(this.sensors);
-        dest.writeList(this.images);
-        dest.writeList(this.sounds);
-        dest.writeInt(this.sdkDevice);
-        dest.writeString(this.device);
+    public void setSyncPending(boolean syncPending) {
+        this.syncPending = syncPending;
     }
 
-    public void readFromParcel(Parcel source) {
-        this.internalId = source.readLong();
-        this.id = source.readInt();
-        this.userId = source.readInt();
-        this.title = source.readString();
-        this.description = source.readString();
-        long tmpInit_date = source.readLong();
-        this.initDate = tmpInit_date == -1 ? null : new Date(tmpInit_date);
-        long tmpEnd_date = source.readLong();
-        this.endDate = tmpEnd_date == -1 ? null : new Date(tmpEnd_date);
-        int tmpExperimentStatus = source.readInt();
-        this.status = tmpExperimentStatus == -1 ? null : ExperimentStatus.values()[tmpExperimentStatus];
-        this.configuration = source.readParcelable(ExperimentConfiguration.class.getClassLoader());
-        this.sensors = new ArrayList<>();
-        source.readList(this.sensors, Integer.class.getClassLoader());
-        this.images = new ArrayList<ImageRegister>();
-        source.readList(this.images, ImageRegister.class.getClassLoader());
-        this.sounds = new ArrayList<AudioRegister>();
-        source.readList(this.sounds, AudioRegister.class.getClassLoader());
-        this.sdkDevice = source.readInt();
-        this.device = source.readString();
+    public boolean isEmbeddingPending() {
+        return embeddingPending;
+    }
+
+    public void setEmbeddingPending(boolean embeddingPending) {
+        this.embeddingPending = embeddingPending;
+    }
+
+    public boolean isExportedPending() {
+        return exportedPending;
+    }
+
+    public void setExportedPending(boolean exportedPending) {
+        this.exportedPending = exportedPending;
     }
 
 
-
-    protected Experiment(Parcel in) {
-        readFromParcel(in);
-    }
-
-    public static final Parcelable.Creator<Experiment> CREATOR = new Parcelable.Creator<Experiment>() {
-        @Override
-        public Experiment createFromParcel(Parcel source) {
-            return new Experiment(source);
-        }
-
-        @Override
-        public Experiment[] newArray(int size) {
-            return new Experiment[size];
-        }
-    };
 
     public enum ExperimentStatus{
         CREATED("CREATED"),
@@ -283,4 +263,91 @@ public class Experiment implements Parcelable {
         }
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.internalId);
+        dest.writeInt(this.id);
+        dest.writeInt(this.userId);
+        dest.writeString(this.title);
+        dest.writeString(this.description);
+        dest.writeLong(this.initDate != null ? this.initDate.getTime() : -1);
+        dest.writeLong(this.endDate != null ? this.endDate.getTime() : -1);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeParcelable(this.configuration, flags);
+        dest.writeTypedList(this.sensors);
+        dest.writeTypedList(this.images);
+        dest.writeTypedList(this.sounds);
+        dest.writeTypedList(this.comments);
+        dest.writeInt(this.sdkDevice);
+        dest.writeString(this.device);
+        dest.writeByte(this.syncPending ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.embeddingPending ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.exportedPending ? (byte) 1 : (byte) 0);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.internalId = source.readLong();
+        this.id = source.readInt();
+        this.userId = source.readInt();
+        this.title = source.readString();
+        this.description = source.readString();
+        long tmpInitDate = source.readLong();
+        this.initDate = tmpInitDate == -1 ? null : new Date(tmpInitDate);
+        long tmpEndDate = source.readLong();
+        this.endDate = tmpEndDate == -1 ? null : new Date(tmpEndDate);
+        int tmpStatus = source.readInt();
+        this.status = tmpStatus == -1 ? null : ExperimentStatus.values()[tmpStatus];
+        this.configuration = source.readParcelable(ExperimentConfiguration.class.getClassLoader());
+        this.sensors = source.createTypedArrayList(SensorRegister.CREATOR);
+        this.images = source.createTypedArrayList(ImageRegister.CREATOR);
+        this.sounds = source.createTypedArrayList(AudioRegister.CREATOR);
+        this.comments = source.createTypedArrayList(CommentRegister.CREATOR);
+        this.sdkDevice = source.readInt();
+        this.device = source.readString();
+        this.syncPending = source.readByte() != 0;
+        this.embeddingPending = source.readByte() != 0;
+        this.exportedPending = source.readByte() != 0;
+    }
+
+    protected Experiment(Parcel in) {
+        this.internalId = in.readLong();
+        this.id = in.readInt();
+        this.userId = in.readInt();
+        this.title = in.readString();
+        this.description = in.readString();
+        long tmpInitDate = in.readLong();
+        this.initDate = tmpInitDate == -1 ? null : new Date(tmpInitDate);
+        long tmpEndDate = in.readLong();
+        this.endDate = tmpEndDate == -1 ? null : new Date(tmpEndDate);
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : ExperimentStatus.values()[tmpStatus];
+        this.configuration = in.readParcelable(ExperimentConfiguration.class.getClassLoader());
+        this.sensors = in.createTypedArrayList(SensorRegister.CREATOR);
+        this.images = in.createTypedArrayList(ImageRegister.CREATOR);
+        this.sounds = in.createTypedArrayList(AudioRegister.CREATOR);
+        this.comments = in.createTypedArrayList(CommentRegister.CREATOR);
+        this.sdkDevice = in.readInt();
+        this.device = in.readString();
+        this.syncPending = in.readByte() != 0;
+        this.embeddingPending = in.readByte() != 0;
+        this.exportedPending = in.readByte() != 0;
+    }
+
+    public static final Creator<Experiment> CREATOR = new Creator<Experiment>() {
+        @Override
+        public Experiment createFromParcel(Parcel source) {
+            return new Experiment(source);
+        }
+
+        @Override
+        public Experiment[] newArray(int size) {
+            return new Experiment[size];
+        }
+    };
 }

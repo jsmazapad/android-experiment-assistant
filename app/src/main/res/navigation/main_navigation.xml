@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_nav_experiments_to_nav_experiment_create"
             app:destination="@id/nav_experiment_create" />
+        <action
+            android:id="@+id/action_nav_experiments_to_nav_perform_experiment"
+            app:destination="@id/nav_perform_experiment" />
     </fragment>
     <fragment
         android:id="@+id/nav_configuration"
@@ -97,6 +100,9 @@
         <action
             android:id="@+id/action_nav_experiment_configure_to_nav_perform_experiment"
             app:destination="@id/nav_perform_experiment" />
+        <action
+            android:id="@+id/action_nav_experiment_configure_to_nav_experiments"
+            app:destination="@id/nav_experiments" />
     </fragment>
 
     <fragment

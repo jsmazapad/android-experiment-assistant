@@ -12,6 +12,7 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
+import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentsListFragmentBinding;
 
 public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsListFragmentBinding, ExperimentsListViewModel> {
@@ -28,6 +29,8 @@ public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsLis
 
     @Override
     protected ExperimentsListViewModel createViewModel() {
+
+        //MockExamples.createRandomCompletedExperiments(getContext());
         return new ViewModelProvider(this).get(ExperimentsListViewModel.class);
     }
 

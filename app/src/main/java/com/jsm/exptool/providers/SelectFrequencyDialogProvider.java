@@ -23,8 +23,8 @@ public class SelectFrequencyDialogProvider {
     //TODO Refactorizar interface comun entre cámara, imagen y sensores
     public static <T extends RepeatableElement> void  createDialog(Context context, FrequencyConfigurationVO<T> frequencyConfiguration, OnFrequencySelectedListener listener, final int minValue, final int maxValue, final int initialValue, boolean showGlobal, @Nullable String selectedAttributeTag, @Nullable String alternativeTitle) {
 
-        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(context);
-        DialogSelectFrequencyBinding binding = DialogSelectFrequencyBinding.inflate(layoutInflaterAndroid);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        DialogSelectFrequencyBinding binding = DialogSelectFrequencyBinding.inflate(layoutInflater);
         View mView = binding.getRoot();
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         mBuilder.setView(mView);

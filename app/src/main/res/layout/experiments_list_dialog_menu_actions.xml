@@ -1,26 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.jsm.exptool.ui.experiments.list.ExperimentsDialogActionsViewModel" />
+    </data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:id="@+id/custom_dialog_layout_design_user_input"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchSensorGlobalFrequency"
-        style="@style/BaseSwitch"
-        android:text="@string/use_default_frequency" />
+    <TextView
+        android:id="@+id/titleTV"
+        style="@style/BaseSubtitleTextView"
+       tools:text="Título"/>
+    <TextView
+        android:id="@+id/descriptionTV"
+        style="@style/BaseSubtitleTextView"
+        tools:text="Descripción del experimento realizado"/>
+    <com.jsm.exptool.libs.ExpandableCard
+        style="@style/BaseCardView"
+        app:title="Resumen del experimento"
+        app:extra_info="Expandir para ver resumen del experimento">
+    <TextView
+        style="@style/BaseSubtitleTextView"
+        android:text="Sensores"/>
+    <LinearLayout
+        style="@style/BorderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/hasSensors"
+            style="@style/BaseSubtitleTextView"
+            tools:text="Si"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/numSensors"
+            style="@style/BaseSubtitleTextView"
+            tools:text="16 registros"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+        style="@style/BaseSubtitleTextView"
+        android:text="Comentarios"/>
+    <LinearLayout
+        style="@style/BorderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/hasComments"
+            style="@style/BaseSubtitleTextView"
+            tools:text="Si"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/numComments"
+            style="@style/BaseSubtitleTextView"
+            tools:text="16 registros"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+        style="@style/BaseSubtitleTextView"
+        android:text="Imágenes"/>
+    <LinearLayout
+        style="@style/BorderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/hasImages"
+            style="@style/BaseSubtitleTextView"
+            tools:text="Si"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/numImages"
+            style="@style/BaseSubtitleTextView"
+            tools:text="16 registros"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+        style="@style/BaseSubtitleTextView"
+        android:text="Embedding"/>
+    <LinearLayout
+        style="@style/BorderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/hasEmbedding"
+            style="@style/BaseSubtitleTextView"
+            tools:text="Si"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/numEmbedding"
+            style="@style/BaseSubtitleTextView"
+            tools:text="16 registros"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+        style="@style/BaseSubtitleTextView"
+        android:text="Audio"/>
+    <LinearLayout
+        style="@style/BorderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/hasAudio"
+            style="@style/BaseSubtitleTextView"
+            tools:text="Si"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/numAudio"
+            style="@style/BaseSubtitleTextView"
+            tools:text="16 registros"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    </com.jsm.exptool.libs.ExpandableCard>
+
+    <Button
+        android:id="@+id/initExperimentButton"
+        style="@style/FullWidthButton"
+        android:text="Iniciar experimento"/>
+    <Button
+        android:id="@+id/seeDataButton"
+        style="@style/FullWidthButton"
+        android:text="Ver datos"/>
+    <Button
+        android:id="@+id/exportDataButton"
+        style="@style/FullWidthButton"
+        android:text="Exportar datos"/>
 
     <LinearLayout
-        android:id="@+id/frequencySelectorLL"
-        android:layout_width="fill_parent"
+        android:id="@+id/syncLL"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/frequencySelectorIncluded"
-            layout="@layout/view_layout_frequency_selector" />
+        <TextView
+            style="@style/BaseItemListSecondaryBoldTextView"
+            android:text="¿Parece que faltan elementos por sincronizar, desea sincronizar los datos con el servidor?" />
 
+        <Button
+            android:id="@+id/syncButton"
+            style="@style/FullWidthButton"
+            android:text="Sincronizar datos" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/endLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/BaseItemListSecondaryBoldTextView"
+            android:text="¿Parece que el experimento no finalizó correctamente, ¿desea finalizarlo?, si por el contrario desea continuar pulse sobre el botón ampliar experimento?" />
+
+        <Button
+            android:id="@+id/endExperimentButton"
+            style="@style/FullWidthButton"
+            android:text="Dar por finalizado" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/continueExperimentButton"
+        style="@style/FullWidthButton"
+        android:text="Ampliar experimento"/>
+    <Button
+        android:id="@+id/deleteExperimentButton"
+        style="@style/FullWidthButton"
+        android:text="Eliminar experimento"/>
+    <Button
+        android:id="@+id/copyExperimentButton"
+        style="@style/FullWidthButton"
+        android:text="Copiar configuración de experimento"/>
 </LinearLayout>
+</ScrollView>
+</layout>

@@ -2,34 +2,45 @@ package com.jsm.exptool.ui.experiments.list;
 
 import android.app.Application;
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
+import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.AudioRecordingOption;
+import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.providers.ExperimentActionsInterface;
+import com.jsm.exptool.providers.ExperimentProvider;
+import com.jsm.exptool.providers.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
-import com.jsm.exptool.ui.experiments.create.audioconfiguration.AudioRecordingOptionsSpinnerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, Experiment> {
+public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, Experiment> implements ExperimentActionsInterface {
 
-    MutableLiveData<List<ExperimentFilter>> filterOptions;
+    List<String> stateFilterOptions;
+    List<String> syncFilterOptions;
+    Experiment.ExperimentStatus statusFilter;
+    Boolean syncPending;
+    Boolean embeddingPending;
+    Boolean exportPending;
+
+
 
 
     public ExperimentsListViewModel(Application app) {
         super(app);
     }
 
-    public MutableLiveData<List<ExperimentFilter>> getFilterOptions() {
-        return filterOptions;
+    public List<String> getStateFilterOptions() {
+        return stateFilterOptions;
+    }
+
+    public List<String> getSyncFilterOptions() {
+        return syncFilterOptions;
     }
 
     @Override
@@ -39,73 +50,137 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
-        navController.navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavViewExperiment(elements.getValue().get(position)));
+        ExperimentProvider.createActionsDialog(c, elements.getValue().get(position), this);
     }
 
     @Override
     public void setConstructorParameters(Object... args) {
-        filterOptions = new MutableLiveData<>();
-        filterOptions.setValue(getExperimentFilterStates());
+
+        stateFilterOptions = getExperimentFilterStates();
+        syncFilterOptions = getSyncFilterStates();
     }
 
     @Override
     public void callRepositoryForData() {
-        ExperimentsRepository.getExperiments(apiResponseRepositoryHolder);
+        ExperimentsRepository.getExperiments(apiResponseRepositoryHolder, statusFilter);
     }
 
-    public void onSelectedFilter(int position){
+    public void onSelectedStateFilter(int position) {
+        Context context = getApplication();
+        if (stateFilterOptions.size() < position)
+            return;
+        String filter = stateFilterOptions.get(position);
+
+        if (filter.equals(context.getString(R.string.experiment_filter_name_create))) {
+            statusFilter = Experiment.ExperimentStatus.CREATED;
+        } else if (filter.equals(context.getString(R.string.experiment_filter_name_init))) {
+            statusFilter = Experiment.ExperimentStatus.INITIATED;
+        } else if (filter.equals(context.getString(R.string.experiment_filter_name_finished))) {
+            statusFilter = Experiment.ExperimentStatus.FINISHED;
+        } else if (filter.equals(context.getString(R.string.experiment_filter_name_all))) {
+            statusFilter = null;
+        }
+
+        callRepositoryForData();
 
     }
-    
 
-    List <ExperimentFilter> getExperimentFilterStates(){
-        return new ArrayList<ExperimentFilter>(){
+    public void onSelectedSyncFilter(int position) {
+        Context context = getApplication();
+        if (syncFilterOptions.size() < position)
+            return;
+        String filter = syncFilterOptions.get(position);
+
+        if (filter.equals(context.getString(R.string.experiment_filter_name_all))) {
+            syncPending = null;
+            embeddingPending = null;
+            exportPending = null;
+        } else if (filter.equals(context.getString(R.string.experiment_filter_name_pending_embedding))) {
+            syncPending = null;
+            embeddingPending = true;
+            exportPending = null;
+        } else if (filter.equals(context.getString(R.string.experiment_filter_name_pending_exported))) {
+            syncPending = null;
+            embeddingPending = null;
+            exportPending = true;
+        }else if (filter.equals(context.getString(R.string.experiment_filter_name_pending_sync))) {
+            syncPending = true;
+            embeddingPending = null;
+            exportPending = null;
+        }
+
+        callRepositoryForData();
+
+    }
+
+
+    List<String> getExperimentFilterStates() {
+        Context context = getApplication();
+        return new ArrayList<String>() {
             {
-                add(new ExperimentFilter(Experiment.ExperimentStatus.CREATED, Experiment.ExperimentStatus.CREATED.status));
-                add(new ExperimentFilter(Experiment.ExperimentStatus.INITIATED, Experiment.ExperimentStatus.INITIATED.status));
-                add(new ExperimentFilter(Experiment.ExperimentStatus.FINISHED, Experiment.ExperimentStatus.FINISHED.status));
-                add(new ExperimentFilter(null, null));
+                add(context.getString(R.string.experiment_filter_name_all));
+                add(context.getString(R.string.experiment_filter_name_create));
+                add(context.getString(R.string.experiment_filter_name_init));
+                add(context.getString(R.string.experiment_filter_name_finished));
             }
         };
     }
 
-    public class ExperimentFilter{
-        private final Experiment.ExperimentStatus status;
-        private final String filter;
-
-        public ExperimentFilter(@Nullable Experiment.ExperimentStatus status, String filter) {
-            this.status = status;
-            this.filter = filter;
-        }
-
-        public Experiment.ExperimentStatus getStatus() {
-            return status;
-        }
-
-        public String getFilter() {
-            return filter;
-        }
-
-        @Override
-        public String toString() {
-            String statusString = "";
-            switch (status){
-                case CREATED:
-                    statusString = "Creado";
-                    break;
-                case INITIATED:
-                    statusString = "Iniciado";
-                    break;
-                case FINISHED:
-                    statusString = "Finalizado";
-                    break;
-                default:
-                    statusString = "Todos";
-                    break;
-
+    List<String> getSyncFilterStates() {
+        Context context = getApplication();
+        return new ArrayList<String>() {
+            {
+                add(context.getString(R.string.experiment_filter_name_all));
+                add(context.getString(R.string.experiment_filter_name_pending_sync));
+                add(context.getString(R.string.experiment_filter_name_pending_embedding));
+                add(context.getString(R.string.experiment_filter_name_pending_exported));
             }
-            return statusString;
+        };
+    }
+
+
+    @Override
+    public void initExperiment(Context context, Experiment experiment) {
+        ((BaseActivity)context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavViewExperiment(experiment));
+    }
+
+    @Override
+    public void viewExperimentData(Context context, Experiment experiment) {
+        ((BaseActivity)context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavPerformExperiment(experiment));
+    }
+
+    @Override
+    public void exportExperiment(Context context, Experiment experiment) {
+        WorksOrchestratorProvider.getInstance().executeExportToCSV(experiment);
+    }
+
+    @Override
+    public void syncExperiment(Context context, Experiment experiment) {
+
+    }
+
+    @Override
+    public void endExperiment(Context context, Experiment experiment) {
+
+        if (ExperimentProvider.endExperiment(experiment)> 0){
+            ModalMessage.showSuccessfulOperation(context,null );
+        }else{
+            ModalMessage.showFailureOperation(context,null );
         }
     }
 
+    @Override
+    public void continueExperiment(Context context, Experiment experiment) {
+
+    }
+
+    @Override
+    public void deleteExperiment(Context context, Experiment experiment) {
+
+    }
+
+    @Override
+    public void copyExperiment(Context context, Experiment experiment) {
+
+    }
 }

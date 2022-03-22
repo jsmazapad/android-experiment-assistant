@@ -12,6 +12,7 @@ import com.jsm.exptool.core.utils.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.providers.PreferencesProvider;
+import com.jsm.exptool.providers.WorksOrchestratorProvider;
 
 
 public class App extends Application {
@@ -28,6 +29,7 @@ public class App extends Application {
             PreferenceManager.initialize(this);
             SensorHandler.getInstance().initialize(this);
 
+            //TODO Recoger cambios cuando se setea en configuración
             String analyticsKey = PreferencesProvider.getAnalyticsKey();
             if (!"".equals(analyticsKey)) {
                 new FlurryAgent.Builder()
@@ -37,6 +39,9 @@ public class App extends Application {
                         .withPerformanceMetrics(FlurryPerformance.ALL)
                         .build(this, analyticsKey);
             }
+
+            WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
+            orchestratorProvider.init(this);
 
 
 

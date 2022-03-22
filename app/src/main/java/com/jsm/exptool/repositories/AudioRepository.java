@@ -29,4 +29,9 @@ public class AudioRepository {
         responseLiveData.setValue(new ListResponse<>(DBHelper.getAudioRegistersByExperimentId(experimentId)));
 
     }
+
+    public static int countRegistersByExperimentId(long experimentId){
+        return DBHelper.getAudioRegistersByExperimentId(experimentId).size();
+    }
+
 }

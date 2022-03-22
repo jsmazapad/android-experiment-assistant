@@ -1,5 +1,7 @@
 package com.jsm.exptool.model.register;
 
+import android.os.Parcel;
+
 import java.util.Date;
 
 public class MediaRegister extends ExperimentRegister {
@@ -48,6 +50,34 @@ public class MediaRegister extends ExperimentRegister {
 
     public void setFileRemoteSynced(boolean fileRemoteSynced) {
         this.fileRemoteSynced = fileRemoteSynced;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.fileName);
+        dest.writeString(this.fileDirectory);
+        dest.writeByte(this.fileRemoteSynced ? (byte) 1 : (byte) 0);
+    }
+
+    public void readFromParcel(Parcel source) {
+        super.readFromParcel(source);
+        this.fileName = source.readString();
+        this.fileDirectory = source.readString();
+        this.fileRemoteSynced = source.readByte() != 0;
+    }
+
+    protected MediaRegister(Parcel in) {
+        super(in);
+        this.fileName = in.readString();
+        this.fileDirectory = in.readString();
+        this.fileRemoteSynced = in.readByte() != 0;
     }
 
 }

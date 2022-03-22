@@ -17,8 +17,12 @@
     <string name="default_modal_okButton">Ok</string>
     <string name="default_warning_title">Advertencia</string>
     <string name="default_info_title">Información</string>
-    <string name="default_modal_cancelButton">Cancel</string>
+    <string name="default_modal_cancelButton">Cancelar</string>
+    <string name="default_modal_closeButton">Cerrar</string>
     <string name="default_recyclerview_emptyMessage">No results found</string>
+    <string name="default_button_save_title">Guardar</string>
+    <string name="yes_configured">Si</string>
+    <string name="no_configured">No</string>
 
 
     <!--
@@ -69,15 +73,26 @@
     <!--
     PERFORM EXPERIMENT
     -->
-    <string name="default_button_save_title">Guardar</string>
+
     <string name="perform_experiment_init_text">Iniciar</string>
     <string name="perform_experiment_finish_text">Finalizar</string>
     <string name="default_succesful_operation">Operación realizada con éxito</string>
+    <string name="default_failure_operation">Su operación no pudo realizarse</string>
     <string name="default_error_database_register_entity">Se ha producido un error en el registro de datos</string>
     <string name="experiment_perform_resume_dialog_num_images"><![CDATA[Número de imágenes registradas: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_embedded"><![CDATA[<br>Número de imágenes analizadas en remoto: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_audios"><![CDATA[Número de archivos de audio registrados: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_sensors"><![CDATA[Número de lecturas de sensor registradas: <b>%d</b><br>]]></string>
+    <string name="experiment_perform_images_title">Imágenes</string>
+    <string name="experiment_perform_images_number">Nº de imágenes</string>
+    <string name="experiment_perform_num_embeddings">Nº de vectores de embedding</string>
+    <string name="experiment_perform_comments_title">Comentario</string>
+    <string name="experiment_perform_add_comment_button">Añadir comentario</string>
+    <string name="experiment_perform_num_comments">Nº comentarios</string>
+    <string name="experiment_perform_audio_title">Audio</string>
+    <string name="experiment_perform_num_audios">Nº de archivos de audio</string>
+    <string name="experiment_perform_sensors_title">Sensores</string>
+    <string name="experiment_perform_num_sensors">Nº de mediciones de sensor registradas</string>
     <!--
   AUDIO CONFIGURATION
   -->
@@ -125,16 +140,17 @@ ABOUT
 <p>Tutelada por</p>
 <p><strong>Gualberto Asencio Cort&eacute;s</strong></p>
 <p><strong>&copy; Joaqu&iacute;n Sainz de la Maza Padr&oacute; 2022</strong></p>]]></string>
-    <string name="experiment_perform_images_title">Imágenes</string>
-    <string name="experiment_perform_images_number">Nº de imágenes</string>
-    <string name="experiment_perform_num_embeddings">Nº de vectores de embedding</string>
-    <string name="experiment_perform_comments_title">Comentario</string>
-    <string name="experiment_perform_add_comment_button">Añadir comentario</string>
-    <string name="experiment_perform_num_comments">Nº comentarios</string>
-    <string name="experiment_perform_audio_title">Audio</string>
-    <string name="experiment_perform_num_audios">Nº de archivos de audio</string>
-    <string name="experiment_perform_sensors_title">Sensores</string>
-    <string name="experiment_perform_num_sensors">Nº de mediciones de sensor registradas</string>
+
+    <string name="experiment_filter_name_all">Todos</string>
+    <string name="experiment_filter_name_create">Creado</string>
+    <string name="experiment_filter_name_init">Iniciado</string>
+    <string name="experiment_filter_name_finished">Finalizado</string>
+    <string name="experiment_filter_name_pending_sync">Sincronización pendiente</string>
+    <string name="experiment_filter_name_pending_embedding">Pendiente obtención datos embedding</string>
+    <string name="experiment_filter_name_pending_exported">Pendiente exportar</string>
+    <string name="experiment_filter_status_prompt">Seleccione estado</string>
+    <string name="experiment_filter_sync_prompt">Seleccione filtros sincronización</string>
+    <string name="num_registers_format">%d registros</string>
 
 
 </resources>

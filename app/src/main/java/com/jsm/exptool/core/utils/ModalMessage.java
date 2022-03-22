@@ -126,4 +126,14 @@ public class ModalMessage {
     public static void showError(Context context, String message, @Nullable String buttonOkLabel, @Nullable DialogInterface.OnClickListener buttonOkListener, @Nullable String buttonCancelLabel, @Nullable DialogInterface.OnClickListener buttonCancelListener) {
         ModalMessage.showModalMessage(context, "Error", message, buttonOkLabel, buttonOkListener, buttonCancelLabel, buttonCancelListener);
     }
+
+    public static void showSuccessfulOperation(Context context, @Nullable DialogInterface.OnClickListener buttonOkListener){
+        ModalMessage.showModalMessage(context, context.getString(R.string.default_info_title),
+                context.getString(R.string.default_succesful_operation),null, buttonOkListener, null, null);
+    }
+
+    public static void showFailureOperation(Context context, @Nullable DialogInterface.OnClickListener buttonOkListener){
+        ModalMessage.showError(context,
+                context.getString(R.string.default_failure_operation),null, buttonOkListener, null, null);
+    }
 }

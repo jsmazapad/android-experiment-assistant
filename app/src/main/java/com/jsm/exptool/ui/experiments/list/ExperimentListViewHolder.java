@@ -8,6 +8,7 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.providers.DateProvider;
+import com.jsm.exptool.providers.ExperimentProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment> {
@@ -33,8 +34,18 @@ public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment>
     public void fillViewHolder(Experiment element) {
         titleTV.setText(element.getTitle());
         descriptionTV.setText(element.getDescription());
+        if("".equals(descriptionTV.getText())){
+            descriptionTV.setVisibility(View.GONE);
+        }else{
+            descriptionTV.setVisibility(View.VISIBLE);
+        }
         dateTV.setText(DateProvider.dateToDisplayStringWithTime(element.getInitDate()));
-        statusTV.setText(element.getStatus().status);
+        if("".equals(dateTV.getText())){
+            dateTV.setVisibility(View.GONE);
+        }else{
+            dateTV.setVisibility(View.VISIBLE);
+        }
+        statusTV.setText(ExperimentProvider.getTranslatableStringFromExperimentStatus(element.getStatus(), itemView.getContext()));
         try {
             lengthTV.setText(TimeDisplayStringProvider.millisecondsToStringBestDisplay(element.getEndDate().getTime() - element.getInitDate().getTime()));
         }catch (Exception e){

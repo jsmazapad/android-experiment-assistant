@@ -41,6 +41,7 @@ public interface AudioRegisterDao {
     @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId ORDER BY date DESC")
     List<AudioRegister> getAudioRegistersByExperimentId(long experimentId);
 
+
     /**
      * Inserta un registro
      * @param register

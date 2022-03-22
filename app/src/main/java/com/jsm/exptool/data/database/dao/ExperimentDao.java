@@ -7,8 +7,10 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.jsm.exptool.data.database.relations.ExperimentWithSensors;
+import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.experimentconfig.SensorsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +30,38 @@ public abstract class ExperimentDao {
      * @return
      */
 
-    public List<Experiment> getExperiments(){
-        List<ExperimentWithSensors> experimentsWithSensors = loadExperimentsWithSensors();
+    @Query("SELECT * FROM "+ Experiment.TABLE_NAME +" ORDER BY initDate")
+    public abstract List<Experiment> getExperiments();
+
+    @Query("SELECT * FROM "+ Experiment.TABLE_NAME +" WHERE status = :status ORDER BY initDate")
+    public abstract List<Experiment> getExperimentsFilteredByState(int status);
+
+    public List<Experiment> getExperimentsWithSensors(Experiment.ExperimentStatus statusFilter){
+        List<ExperimentWithSensors> experimentsWithSensors;
+        if(statusFilter == null) {
+            experimentsWithSensors = loadExperimentsWithSensors();
+        }else{
+            experimentsWithSensors = loadExperimentsWithSensorsFilteredByState(ExperimentStatusConverter.fromEnum(statusFilter));
+        }
+
         List<Experiment> experiments = new ArrayList<>(experimentsWithSensors.size());
         for(ExperimentWithSensors experimentWithSensors: experimentsWithSensors) {
-            experimentWithSensors.experiment.setSensors(experimentWithSensors.sensors);
+            if(experimentWithSensors.experiment.getConfiguration().getSensorConfig() == null){
+                experimentWithSensors.experiment.getConfiguration().setSensorConfig(new SensorsConfig());
+            }
+            experimentWithSensors.experiment.getConfiguration().getSensorConfig().setSensors(experimentWithSensors.sensors);
             experiments.add(experimentWithSensors.experiment);
         }
         return experiments;
     }
 
     @Transaction
-    @Query("SELECT * FROM "+ Experiment.TABLE_NAME)
+    @Query("SELECT * FROM "+ Experiment.TABLE_NAME +" ORDER BY initDate")
     public abstract List<ExperimentWithSensors> loadExperimentsWithSensors();
+
+    @Transaction
+    @Query("SELECT * FROM "+ Experiment.TABLE_NAME +" WHERE status = :status ORDER BY initDate")
+    public abstract List<ExperimentWithSensors> loadExperimentsWithSensorsFilteredByState(int status);
 
     /**
      * Selecciona un registro mediante su id (externo)

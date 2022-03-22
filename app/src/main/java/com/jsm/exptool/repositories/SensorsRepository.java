@@ -49,6 +49,10 @@ public class SensorsRepository {
 
     }
 
+    public static int countRegistersByExperimentId(long experimentId){
+        return DBHelper.getSensorRegistersByExperimentId(experimentId).size();
+    }
+
 
 
 }

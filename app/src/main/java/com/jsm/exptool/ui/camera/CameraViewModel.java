@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
+import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
@@ -57,7 +58,7 @@ public class CameraViewModel extends BaseViewModel implements ImageReceivedCallb
 
     @Override
     public void onImageReceived(File imageFile) {
-        File targetFile = new File(getApplication().getExternalFilesDir(null), "resized"+imageFile.getName());
+        File targetFile = new File(FilePathsProvider.getImagesFilePath(getApplication()), "resized"+imageFile.getName());
         try {
             if (!targetFile.exists()) {
                 targetFile.createNewFile();
@@ -84,7 +85,7 @@ public class CameraViewModel extends BaseViewModel implements ImageReceivedCallb
                @Override
                public void run() {
                    Date date = new Date();
-                   File mFile = new File(context.getExternalFilesDir(null), date +"pic.jpg");
+                   File mFile = new File(FilePathsProvider.getImagesFilePath(context), date +"pic.jpg");
 
                    CameraProvider.getInstance().takePicture(mFile);
                }

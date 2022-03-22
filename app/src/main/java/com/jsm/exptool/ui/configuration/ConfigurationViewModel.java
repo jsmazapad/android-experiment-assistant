@@ -15,6 +15,7 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
+import com.jsm.exptool.generated.callback.OnClickListener;
 import com.jsm.exptool.libs.SeekbarSelectorHelper;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
@@ -203,8 +204,7 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
                 context.getString(R.string.reset_suggestion_counter_warning_text),
                 null, (dialog, which) -> {
                     CommentSuggestionsRepository.resetSuggestionsCounter();
-                    ModalMessage.showModalMessage(context, context.getString(R.string.default_info_title),
-                            context.getString(R.string.default_succesful_operation),null, null, null, null);
+                    ModalMessage.showSuccessfulOperation(context,null );
                 }, context.getString(R.string.default_modal_cancelButton), null);
 
 

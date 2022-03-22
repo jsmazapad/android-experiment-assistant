@@ -14,12 +14,16 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PRO
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_WIDTH;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SENSOR;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SENSOR_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.TABLE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.EXPORT_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.PROCESS_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
+import static com.jsm.exptool.providers.ExportDataProvider.ELEMENTS_TO_EXPORT;
 
 import android.app.Application;
 import android.content.Context;
@@ -39,12 +43,15 @@ import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.workers.audio.RegisterAudioWorker;
+import com.jsm.exptool.workers.export.ExportExperimentWorker;
+import com.jsm.exptool.workers.export.ZipExportedExperimentWorker;
 import com.jsm.exptool.workers.image.ObtainEmbeddingWorker;
 import com.jsm.exptool.workers.image.ProcessImageWorker;
 import com.jsm.exptool.workers.image.RegisterImageWorker;
 import com.jsm.exptool.workers.sensor.RegisterSensorWorker;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -156,6 +163,33 @@ public class WorksOrchestratorProvider {
         continuation.enqueue();
 
     }
+
+
+    public void executeExportToCSV(Experiment experiment){
+        List<OneTimeWorkRequest> exportRegistersRequests = new ArrayList<>();
+        //Creamos listado de exportadores que se ejecutaran en paralelo
+        for (String element: ELEMENTS_TO_EXPORT) {
+            Map<String, Object> inputDataValues = new HashMap<String, Object>() {{
+                put(EXPERIMENT_ID, experiment.getInternalId());
+                put(TABLE_NAME, element);
+            }};
+
+            Data inputData = createInputData(inputDataValues);
+            OneTimeWorkRequest exportRequest = new OneTimeWorkRequest.Builder(ExportExperimentWorker.class)
+                    .setInputData(inputData).addTag(EXPORT_REGISTERS).addTag(element).build();
+            exportRegistersRequests.add(exportRequest);
+
+
+            //mWorkManager.enqueue();
+
+        }
+        OneTimeWorkRequest zipRequest = new OneTimeWorkRequest.Builder(ZipExportedExperimentWorker.class)
+                .addTag(ZIP_EXPORTED).build();
+
+        mWorkManager.beginWith(exportRegistersRequests).then(zipRequest).enqueue();
+
+    }
+
 
 
     private Data createInputData(Map<String, Object> valuesMap) {

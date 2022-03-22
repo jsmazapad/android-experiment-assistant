@@ -1,5 +1,7 @@
 package com.jsm.exptool.model.register;
 
+import android.os.Parcel;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
@@ -21,4 +23,33 @@ public class AudioRegister extends MediaRegister{
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+    }
+
+    public void readFromParcel(Parcel source) {
+        super.readFromParcel(source);
+    }
+
+    protected AudioRegister(Parcel in) {
+        super(in);
+    }
+
+    public static final Creator<AudioRegister> CREATOR = new Creator<AudioRegister>() {
+        @Override
+        public AudioRegister createFromParcel(Parcel source) {
+            return new AudioRegister(source);
+        }
+
+        @Override
+        public AudioRegister[] newArray(int size) {
+            return new AudioRegister[size];
+        }
+    };
 }

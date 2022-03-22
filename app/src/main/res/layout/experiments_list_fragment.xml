@@ -13,40 +13,48 @@
     </data>
 
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/BaseCardView"
-            >
-            <LinearLayout
+            <com.jsm.exptool.libs.ExpandableCard
+                android:id="@+id/filterCard"
+                style="@style/BaseCardView"
+                app:title="Filtros"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
+                android:layout_height="wrap_content">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Filtrar por:"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BaseItemListTextView"
+                        android:text="Estado"/>
                 <androidx.appcompat.widget.AppCompatSpinner
                     style="@style/BaseSpinner"
-                    android:prompt="@string/audio_option_spinner_title"
-                    android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedFilter(position)}"
+                    android:prompt="@string/experiment_filter_status_prompt"
+                    android:entries="@{viewModel.stateFilterOptions}"
+                    android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedStateFilter(position)}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </androidx.appcompat.widget.AppCompatSpinner>
-                <Button
-                    style="@style/FullWidthButton"
-                    android:text="Crear experimento"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatSpinner
+                    style="@style/BaseSpinner"
+                    android:prompt="@string/experiment_filter_sync_prompt"
+                    android:entries="@{viewModel.syncFilterOptions}"
+                    android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedSyncFilter(position)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </androidx.appcompat.widget.AppCompatSpinner>
+            </com.jsm.exptool.libs.ExpandableCard>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
@@ -54,7 +62,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filterCard"
             app:onRefreshListener="@{() -> viewModel.onRefresh()}"
             app:refreshing="@{viewModel.isLoading}">
 
@@ -66,7 +74,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filterCard"
                 tools:listitem="@layout/experiments_list_item">
 
             </androidx.recyclerview.widget.RecyclerView>

@@ -142,4 +142,9 @@ dependencies {
     FLURRY ANALYTICS
      */
     implementation 'com.flurry.android:analytics:13.1.0'
+
+    /*
+    CSV
+     */
+    implementation 'com.opencsv:opencsv:4.6'
 }

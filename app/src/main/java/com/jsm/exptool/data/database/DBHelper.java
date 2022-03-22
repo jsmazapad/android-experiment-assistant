@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
 import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.Experiment;
@@ -30,6 +31,10 @@ public class DBHelper {
         appDatabase = Room.databaseBuilder(context, AppDatabase.class, DB_NAME).allowMainThreadQueries().build();
     }
 
+    public static AppDatabase getAppDatabase() {
+        return appDatabase;
+    }
+
     /*
     EXPERIMENTS
      */
@@ -38,8 +43,13 @@ public class DBHelper {
                return appDatabase.experimentDao().insert(experiment);
     }
 
-    public static List<Experiment> getExperiments() {
-        return appDatabase.experimentDao().getExperiments();
+    public static List<Experiment> getExperiments(Experiment.ExperimentStatus statusFilter) {
+        if(statusFilter == null) {
+            return appDatabase.experimentDao().getExperiments();
+        }else{
+            return appDatabase.experimentDao().getExperimentsFilteredByState(ExperimentStatusConverter.fromEnum(statusFilter));
+        }
+
     }
 
 
@@ -72,6 +82,11 @@ public class DBHelper {
     public static List<ImageRegister> getImageRegistersByExperimentId(long experimentId) {
         return appDatabase.imageDao().getImageRegistersByExperimentId(experimentId);
     }
+
+    public static List<ImageRegister> getImageRegistersWithoutEmbeddingByExperimentId(long experimentId) {
+        return appDatabase.imageDao().getImageRegistersWithoutEmbeddingByExperimentId(experimentId);
+    }
+
 
 
     public static ImageRegister getImageById(long imageId) {

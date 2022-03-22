@@ -15,8 +15,8 @@ import java.util.TreeMap;
 
 public class ExperimentsRepository {
 
-    public static void getExperiments(MutableLiveData<ListResponse<Experiment>> responseLiveData){
-        responseLiveData.setValue(new ListResponse<>(DBHelper.getExperiments()));
+    public static void getExperiments(MutableLiveData<ListResponse<Experiment>> responseLiveData, Experiment.ExperimentStatus statusFilter){
+        responseLiveData.setValue(new ListResponse<>(DBHelper.getExperiments(statusFilter)));
     }
 
     public static long registerExperiment(Experiment experiment){
@@ -25,6 +25,10 @@ public class ExperimentsRepository {
 
     public static int updateExperiment(Experiment experiment){
         return DBHelper.updateExperiment(experiment);
+    }
+
+    public static Experiment getExperimentById(long experimentId){
+        return DBHelper.getExperimentById(experimentId);
     }
 
 

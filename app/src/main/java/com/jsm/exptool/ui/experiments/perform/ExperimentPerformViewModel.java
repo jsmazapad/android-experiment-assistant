@@ -38,6 +38,7 @@ import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.providers.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.CommentSuggestionsRepository;
@@ -275,7 +276,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
                 public void run() {
                     Log.d("WORKER", "Pic requested");
                     Date date = new Date();
-                    File mFile = new File(context.getExternalFilesDir(null), date + "pic.jpg");
+                    File mFile = new File(FilePathsProvider.getImagesFilePath(context), date + "pic.jpg");
                     CameraProvider.getInstance().takePicture(mFile, new ImageReceivedCallback() {
                         @Override
                         public void onImageReceived(File imageFile) {
@@ -305,7 +306,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
 
                     Log.d("WORKER", "Audio requested");
                     Date date = new Date();
-                    File mFile = new File(context.getExternalFilesDir(null), date + "audio." + audioConfig.getRecordingOption().getFileExtension());
+                    File mFile = new File(FilePathsProvider.getAudiosFilePath(context), date + "audio." + audioConfig.getRecordingOption().getFileExtension());
                     AudioProvider.getInstance().record(mFile, audioConfig.getRecordingOption());
                     //Tras un delay = duracion de la grabación, se ejecuta el timer para la grbación
                     audioTimer.schedule(new TimerTask() {
