@@ -51,7 +51,7 @@ public class ZipExportedExperimentWorker extends Worker {
 
         Zipper zipper = new Zipper();
         String [] filenamesArray = filenames.toArray(new String[0]);
-        //eEusamos el nombre del primer elemento pero cambiamos la extensión
+        //Reusamos el nombre del primer elemento pero cambiamos la extensión
         String zipName = filenamesArray[0].replace("csv", "zip");
         zipper.zip(filenamesArray, zipName);
 

@@ -216,15 +216,24 @@ public class WorksOrchestratorProvider {
         return mWorkManager.getWorkInfosByTagLiveData(tag);
     }
 
-    public int countSuccessWorks(List<WorkInfo> workInfos){
-        int succeededCounter = 0;
+
+    public int countWorksByState(List<WorkInfo> workInfos, WorkInfo.State state){
+        int counter = 0;
         for (WorkInfo info : workInfos){
-            if(info.getState().isFinished() && info.getState() == WorkInfo.State.SUCCEEDED)
+            if(info.getState().isFinished() && info.getState() == state)
             {
-                succeededCounter++;
+                counter++;
             }
         }
-        return succeededCounter;
+        return counter;
+    }
+
+    public int countSuccessWorks(List<WorkInfo> workInfos){
+        return countWorksByState(workInfos, WorkInfo.State.SUCCEEDED);
+    }
+
+    public int countFailureWorks(List<WorkInfo> workInfos){
+        return countWorksByState(workInfos, WorkInfo.State.FAILED);
     }
 
 

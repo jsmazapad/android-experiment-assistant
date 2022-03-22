@@ -38,4 +38,14 @@ public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsLis
     protected int getListItemResourceId() {
         return R.layout.experiments_list_item;
     }
+
+    @Override
+    public void executeExtraActionsInsideBindingInit() {
+        super.executeExtraActionsInsideBindingInit();
+        viewModel.getZippedFilePath().observe(getViewLifecycleOwner(), value ->{
+            if(value != null){
+                viewModel.shareZipped(getContext(), value);
+            }
+        });
+    }
 }

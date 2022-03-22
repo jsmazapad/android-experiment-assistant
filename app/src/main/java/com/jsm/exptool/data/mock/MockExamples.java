@@ -80,6 +80,10 @@ public class MockExamples {
         Experiment experiment = new Experiment();
         experiment.setStatus(new Random().nextBoolean()? Experiment.ExperimentStatus.INITIATED: Experiment.ExperimentStatus.FINISHED);
         //experiment.setStatus(Experiment.ExperimentStatus.CREATED);
+        experiment.setInitDate(new Date());
+        if (experiment.getStatus().equals(Experiment.ExperimentStatus.FINISHED)){
+            experiment.setEndDate(new Date());
+        }
         experiment.setTitle("Experimento " + new Date().getTime());
         experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
         ExperimentConfiguration configuration = new ExperimentConfiguration();

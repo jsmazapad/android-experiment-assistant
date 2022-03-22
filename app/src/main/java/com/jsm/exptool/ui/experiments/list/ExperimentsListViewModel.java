@@ -1,12 +1,28 @@
 package com.jsm.exptool.ui.experiments.list;
 
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.EXPORT_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
+
+import androidx.appcompat.app.AlertDialog;
+
 import android.app.Application;
 import android.content.Context;
+import android.net.Uri;
 
+import androidx.core.app.ShareCompat;
+import androidx.core.content.FileProvider;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
+import androidx.work.Data;
+import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
+import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
@@ -16,19 +32,20 @@ import com.jsm.exptool.providers.ExperimentProvider;
 import com.jsm.exptool.providers.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, Experiment> implements ExperimentActionsInterface {
 
-    List<String> stateFilterOptions;
-    List<String> syncFilterOptions;
-    Experiment.ExperimentStatus statusFilter;
-    Boolean syncPending;
-    Boolean embeddingPending;
-    Boolean exportPending;
-
-
+    private List<String> stateFilterOptions;
+    private List<String> syncFilterOptions;
+    private Experiment.ExperimentStatus statusFilter;
+    private Boolean syncPending;
+    private Boolean embeddingPending;
+    private Boolean exportPending;
+    private WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
+    private final MutableLiveData<String> zippedFilePath = new MutableLiveData<>();
 
 
     public ExperimentsListViewModel(Application app) {
@@ -41,6 +58,10 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
     public List<String> getSyncFilterOptions() {
         return syncFilterOptions;
+    }
+
+    public MutableLiveData<String> getZippedFilePath() {
+        return zippedFilePath;
     }
 
     @Override
@@ -103,7 +124,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
             syncPending = null;
             embeddingPending = null;
             exportPending = true;
-        }else if (filter.equals(context.getString(R.string.experiment_filter_name_pending_sync))) {
+        } else if (filter.equals(context.getString(R.string.experiment_filter_name_pending_sync))) {
             syncPending = true;
             embeddingPending = null;
             exportPending = null;
@@ -138,49 +159,83 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
         };
     }
 
-
     @Override
-    public void initExperiment(Context context, Experiment experiment) {
-        ((BaseActivity)context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavViewExperiment(experiment));
+    public void initObservers(LifecycleOwner owner) {
+        super.initObservers(owner);
+        LiveData<List<WorkInfo>> exportsWorkInfo = orchestratorProvider.getWorkInfoByTag(EXPORT_REGISTERS);
+        exportsWorkInfo.observe(owner, workInfoList -> {
+            if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
+                handleError(new BaseException("Ha habido un error con la exportación de datos", false), getApplication());
+            }
+        });
+
+        LiveData<List<WorkInfo>> zipWorkInfo = orchestratorProvider.getWorkInfoByTag(ZIP_EXPORTED);
+        zipWorkInfo.observe(owner, workInfoList -> {
+            if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
+                handleError(new BaseException("Ha habido un error con la exportación de datos", false), getApplication());
+            } else if (orchestratorProvider.countSuccessWorks(workInfoList) > 0) {
+                Data outputData = workInfoList.get(0).getOutputData();
+                String filename = outputData.getString(FILE_NAME);
+                zippedFilePath.setValue(filename);
+
+            }
+        });
     }
 
     @Override
-    public void viewExperimentData(Context context, Experiment experiment) {
-        ((BaseActivity)context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavPerformExperiment(experiment));
+    public void initExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
+        alertDialog.cancel();
+        ((BaseActivity) context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavPerformExperiment(experiment));
     }
 
     @Override
-    public void exportExperiment(Context context, Experiment experiment) {
-        WorksOrchestratorProvider.getInstance().executeExportToCSV(experiment);
-    }
-
-    @Override
-    public void syncExperiment(Context context, Experiment experiment) {
+    public void viewExperimentData(Context context, Experiment experiment, AlertDialog alertDialog) {
+        alertDialog.cancel();
+        ((BaseActivity) context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavViewExperiment(experiment));
 
     }
 
     @Override
-    public void endExperiment(Context context, Experiment experiment) {
+    public void exportExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
+        orchestratorProvider.executeExportToCSV(experiment);
+    }
 
-        if (ExperimentProvider.endExperiment(experiment)> 0){
-            ModalMessage.showSuccessfulOperation(context,null );
-        }else{
-            ModalMessage.showFailureOperation(context,null );
+    @Override
+    public void syncExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
+
+    }
+
+    @Override
+    public void endExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
+
+        if (ExperimentProvider.endExperiment(experiment) > 0) {
+            ModalMessage.showSuccessfulOperation(context, null);
+            callRepositoryForData();
+            alertDialog.cancel();
+
+        } else {
+            ModalMessage.showFailureOperation(context, null);
         }
     }
 
     @Override
-    public void continueExperiment(Context context, Experiment experiment) {
+    public void continueExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
 
     }
 
     @Override
-    public void deleteExperiment(Context context, Experiment experiment) {
+    public void deleteExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
 
     }
 
     @Override
-    public void copyExperiment(Context context, Experiment experiment) {
+    public void copyExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
 
+    }
+
+    public void shareZipped(Context context, String fileName) {
+        Uri path = FileProvider.getUriForFile(context, "com.jsm.exptool.fileprovider", new File(fileName));
+        ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(context).setStream(path).setChooserTitle("Almacenar en").setType("*/*");
+        intentBuilder.startChooser();
     }
 }

@@ -94,7 +94,6 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
         super(application);
         this.experiment = experiment;
         orchestratorProvider = WorksOrchestratorProvider.getInstance();
-        orchestratorProvider.init(getApplication());
         initImageComponents();
         initAudioComponents();
         initSensorComponents();

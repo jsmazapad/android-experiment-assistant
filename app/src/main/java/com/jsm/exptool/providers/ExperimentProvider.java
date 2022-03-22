@@ -43,7 +43,17 @@ public class ExperimentProvider {
     public static void createActionsDialog(Context context, Experiment experiment, ExperimentActionsInterface experimentActions) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ExperimentsListDialogMenuActionsBinding binding = ExperimentsListDialogMenuActionsBinding.inflate(layoutInflater);
+
         View mView = binding.getRoot();
+        AlertDialog alertDialog;
+
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
+        mBuilder.setView(mView);
+        mBuilder.setNegativeButton(R.string.default_modal_closeButton, (dialog, which) -> {
+        });
+        alertDialog = mBuilder.create();
+
+
         binding.titleTV.setText(experiment.getTitle());
         binding.descriptionTV.setText(experiment.getDescription());
         ExperimentConfiguration configuration = experiment.getConfiguration();
@@ -75,25 +85,25 @@ public class ExperimentProvider {
         }
         if (experimentActions != null) {
             binding.initExperimentButton.setOnClickListener(v -> {
-                experimentActions.initExperiment(context, experiment);
+                experimentActions.initExperiment(context, experiment, alertDialog);
             });
             binding.seeDataButton.setOnClickListener(v -> {
-                experimentActions.viewExperimentData(context, experiment);
+                experimentActions.viewExperimentData(context, experiment, alertDialog);
             });
             binding.exportDataButton.setOnClickListener(v -> {
-                experimentActions.exportExperiment(context, experiment);
+                experimentActions.exportExperiment(context, experiment, alertDialog);
             });
             binding.syncButton.setOnClickListener(v -> {
-                experimentActions.syncExperiment(context, experiment);
+                experimentActions.syncExperiment(context, experiment, alertDialog);
             });
             binding.endExperimentButton.setOnClickListener(v -> {
-                experimentActions.endExperiment(context, experiment);
+                experimentActions.endExperiment(context,experiment,  alertDialog);
             });
             binding.continueExperimentButton.setOnClickListener(v -> {
-                experimentActions.continueExperiment(context, experiment);
+                experimentActions.continueExperiment(context, experiment, alertDialog);
             });
             binding.deleteExperimentButton.setOnClickListener(v -> {
-                experimentActions.deleteExperiment(context, experiment);
+                experimentActions.deleteExperiment(context, experiment, alertDialog);
             });
 
             switch (experiment.getStatus()) {
@@ -127,12 +137,6 @@ public class ExperimentProvider {
             }
 
 
-            AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
-            mBuilder.setView(mView);
-            mBuilder.setNegativeButton(R.string.default_modal_closeButton, (dialog, which) -> {
-            });
-
-            AlertDialog alertDialog = mBuilder.create();
             alertDialog.show();
         }
     }
