@@ -101,16 +101,4 @@ public class ExperimentRegister implements Parcelable {
         readFromParcel(in);
     }
 
-    public static final Creator<ExperimentRegister> CREATOR = new Creator<ExperimentRegister>() {
-
-        public ExperimentRegister createFromParcel(Parcel in) {
-            return new ExperimentRegister(in);
-        }
-
-
-        public ExperimentRegister[] newArray(int size) {
-            return new ExperimentRegister[size];
-        }
-    };
-
 }

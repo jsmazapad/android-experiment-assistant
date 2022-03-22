@@ -1,19 +1,24 @@
 package com.jsm.exptool.ui.configuration;
 
 import android.app.Application;
+import android.content.Context;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
+import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
+import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 import com.jsm.exptool.libs.SeekbarSelectorHelper;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
+import com.jsm.exptool.repositories.CommentSuggestionsRepository;
 
 public class ConfigurationViewModel extends BaseViewModel implements SeekbarSelectorHelper.FrequencySelectorListener {
 
@@ -184,6 +189,25 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
                 extraServerCardText.setValue("No hay configuración");
                 }
         });
+
+    }
+
+    public void openSuggestionsConfig(Context context){
+        NavController navController = ((BaseActivity) context).getNavController();
+        navController.navigate(ConfigurationFragmentDirections.actionNavConfigurationToNavSuggestionConfiguration());
+
+    }
+
+    public void resetSuggestionsCounter(Context context){
+        ModalMessage.showModalMessage(context, context.getString(R.string.default_warning_title),
+                context.getString(R.string.reset_suggestion_counter_warning_text),
+                null, (dialog, which) -> {
+                    CommentSuggestionsRepository.resetSuggestionsCounter();
+                    ModalMessage.showModalMessage(context, context.getString(R.string.default_info_title),
+                            context.getString(R.string.default_succesful_operation),null, null, null, null);
+                }, context.getString(R.string.default_modal_cancelButton), null);
+
+
 
     }
 }

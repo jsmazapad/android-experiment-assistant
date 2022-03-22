@@ -4,8 +4,10 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.model.register.SensorRegister;
 
@@ -145,6 +147,77 @@ public class DBHelper {
         return appDatabase.sensorDao().getSensorsByTypeAndExperimentId(type, experimentId);
 
     }
+
+    /*
+    COMMENT REGISTERS
+     */
+    public static long insertCommentRegister(final CommentRegister commentRegister) {
+        return appDatabase.commentDao().insert(commentRegister);
+    }
+
+    public static List<CommentRegister> getCommentRegisters() {
+        return appDatabase.commentDao().getComments();
+    }
+
+    public static List<CommentRegister> getCommentRegistersByExperimentId(long experimentId) {
+        return appDatabase.commentDao().getCommentRegistersByExperimentId(experimentId);
+    }
+
+
+    public static CommentRegister getCommentRegistersById(long sensorId) {
+        return appDatabase.commentDao().selectById(sensorId);
+    }
+
+    public static int updateCommentRegister(CommentRegister register) {
+        return appDatabase.commentDao().update(register);
+    }
+
+    public static int deleteCommentRegisterById(CommentRegister register) {
+        return appDatabase.commentDao().deleteById(register.getInternalId());
+    }
+
+    /*
+   COMMENT SUGGESTIONS
+    */
+    public static long insertCommentSuggestion(final CommentSuggestion commentRegister) {
+        return appDatabase.commentSuggestionDao().insert(commentRegister);
+    }
+
+    public static List<CommentSuggestion> getCommentSuggestions(String stringToSearch) {
+        if (stringToSearch == null || "".equals(stringToSearch.trim()))
+        {
+            return appDatabase.commentSuggestionDao().getCommentSuggestions();
+        }else{
+            return appDatabase.commentSuggestionDao().getCommentSuggestionsFilterByString("%"+stringToSearch+"%");
+        }
+
+    }
+
+    public static List<CommentSuggestion> checkIfCommentSuggestionExists(String stringToSearch) {
+
+            return appDatabase.commentSuggestionDao().getCommentSuggestionsFilterByString(stringToSearch);
+
+    }
+
+
+    public static CommentSuggestion getCommentSuggestionById(long id) {
+        return appDatabase.commentSuggestionDao().selectById(id);
+    }
+
+    public static int updateCommentSuggestion(CommentSuggestion register) {
+        return appDatabase.commentSuggestionDao().update(register);
+    }
+
+    public static int deleteCommentSuggestionById(CommentSuggestion register) {
+        return appDatabase.commentSuggestionDao().deleteById(register.getInternalId());
+    }
+
+    public static long resetSuggestionsCounter(){
+        return appDatabase.commentSuggestionDao().resetSuggestionsCounter();
+    }
+
+
+
 
 
 

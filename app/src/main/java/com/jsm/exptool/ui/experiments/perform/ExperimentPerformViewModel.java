@@ -20,25 +20,27 @@ import androidx.navigation.NavController;
 import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.config.ConfigConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.core.ui.loading.LoadingViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
+import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.DeviceUtils;
+import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.SensorsConfig;
+import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.CameraProvider;
 import com.jsm.exptool.libs.camera.ImageReceivedCallback;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.providers.WorksOrchestratorProvider;
+import com.jsm.exptool.repositories.CommentSuggestionsRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 
@@ -46,7 +48,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.SortedMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,12 +64,24 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
     private final MutableLiveData<Integer> numEmbeddings = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> imageCardEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> embeddedInfoEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<String> imageCardExtraInfo = new MutableLiveData<>();
+
 
     private final MutableLiveData<Integer> numAudios = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> audioCardEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<String> audioCardExtraInfo = new MutableLiveData<>();
+
+    private MutableLiveData<String> comment = new MutableLiveData<>("");
+    private final MutableLiveData<String> commentCardExtraInfo = new MutableLiveData<>();
+    private final MutableLiveData<Integer> numComments = new MutableLiveData<>(0);
+    private final MutableLiveData<List<CommentSuggestion>> suggestions = new MutableLiveData<>();
+    private final MutableLiveData<ListResponse<CommentSuggestion>> suggestionsResponse = new MutableLiveData<>();
+
+
 
     private final MutableLiveData<Integer> numSensors = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> sensorCardEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<String> sensorCardExtraInfo = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> updateElementInRecycler = new MutableLiveData<>();
 
@@ -130,6 +143,38 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
         return enableHandleExperimentButton;
     }
 
+    public MutableLiveData<String> getComment() {
+        return comment;
+    }
+
+    public MutableLiveData<List<CommentSuggestion>> getSuggestions() {
+        return suggestions;
+    }
+
+    public void setComment(MutableLiveData<String> comment) {
+        this.comment = comment;
+    }
+
+    public MutableLiveData<Integer> getNumComments() {
+        return numComments;
+    }
+
+    public MutableLiveData<String> getImageCardExtraInfo() {
+        return imageCardExtraInfo;
+    }
+
+    public MutableLiveData<String> getAudioCardExtraInfo() {
+        return audioCardExtraInfo;
+    }
+
+    public MutableLiveData<String> getCommentCardExtraInfo() {
+        return commentCardExtraInfo;
+    }
+
+    public MutableLiveData<String> getSensorCardExtraInfo() {
+        return sensorCardExtraInfo;
+    }
+
     public MutableLiveData<Integer> getUpdateElementInRecycler() {
         return updateElementInRecycler;
     }
@@ -149,12 +194,13 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
         this.experiment.setSdkDevice(DeviceUtils.getDeviceSDK());
         this.experiment.setDevice(DeviceUtils.getDeviceModel());
         this.experiment.setStatus(Experiment.ExperimentStatus.INITIATED);
-        changeStateText.setValue(getApplication().getString(R.string.perform_expriment_finish_text));
+        changeStateText.setValue(getApplication().getString(R.string.perform_experiment_finish_text));
 
         if (saveExperiment(context)) {
             initImageCapture(context);
             initAudioRecording(context);
             initSensorRecording(context);
+            initCommentSuggestions(context);
         } else {
             //TODO Mensaje de error con reintento
         }
@@ -212,8 +258,8 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
     }
 
     public void initAudioProvider(Context context, LifecycleOwner owner, RequestPermissionsInterface audioPermission) {
-        if (experiment.getConfiguration().isCameraEnabled()) {
-            if (RequestPermissionsProvider.handleCheckPermissionsForCamera(context, audioPermission))
+        if (experiment.getConfiguration().isAudioEnabled()) {
+            if (RequestPermissionsProvider.handleCheckPermissionsForAudio(context, audioPermission))
                 return;
         }
     }
@@ -327,23 +373,38 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
         LiveData<List<WorkInfo>> embeddingImageWorkInfo = orchestratorProvider.getWorkInfoByTag(OBTAIN_EMBEDDED_IMAGE);
         registerImageWorkInfo.observe(owner, workInfoList -> {
             numImages.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+            generateImageExtraInfo();
         });
         embeddingImageWorkInfo.observe(owner, workInfoList -> {
             numEmbeddings.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+            generateImageExtraInfo();
         });
 
         //AUDIO
         LiveData<List<WorkInfo>> registerAudioWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_AUDIO);
         registerAudioWorkInfo.observe(owner, workInfoList -> {
             numAudios.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+            audioCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_audios) + " " + numAudios.getValue());
+
         });
 
         LiveData<List<WorkInfo>> registerSensorWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_SENSOR);
         registerSensorWorkInfo.observe(owner, workInfoList -> {
             numSensors.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+            sensorCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_sensors) + " "+ numSensors.getValue());
+
+
         });
 
     }
+
+    private void generateImageExtraInfo(){
+        String extraInfo = getApplication().getString(R.string.experiment_perform_images_number) + " " + numImages.getValue() + "\n"+
+                getApplication().getString(R.string.experiment_perform_images_number) + " " + numImages.getValue();
+                imageCardExtraInfo.setValue(extraInfo);
+
+    }
+
 
     public void showResumeDialog(Context context) {
         StringBuilder builder = new StringBuilder();
@@ -360,7 +421,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
             builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_sensors), numSensors.getValue())));
 
         ModalMessage.showModalMessage(context, "Resumen del experimento", builder.toString(), null, (dialog, which) -> {
-            //TODO Navegar a listado experimentos
+            ((BaseActivity)context).getNavController().navigate(ExperimentPerformFragmentDirections.actionNavPerformExperimentToNavExperiments());
         }, null, null);
     }
 
@@ -390,6 +451,20 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
         handleError(new BaseException("Error en permisos", false), fragment.getContext());
     }
 
+    public void saveComment(Context context){
+
+        if (DBHelper.insertCommentRegister(new CommentRegister(experiment.getInternalId(), new Date(), false, comment.getValue()))>0){
+            numComments.setValue(numComments.getValue()+1);
+            commentCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_comments) + " " + numComments.getValue());
+
+        }
+
+    }
+
+    public void initCommentSuggestions(Context context){
+        CommentSuggestionsRepository.getCommentSuggestions(suggestionsResponse, null);
+    }
+
 
     @Override
     public List<MySensor> transformResponse(ListResponse<MySensor> response) {
@@ -409,5 +484,15 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
     @Override
     public void callRepositoryForData() {
        //El origen de datos no viene del repositorio
+    }
+
+    @Override
+    public void initObservers(LifecycleOwner owner) {
+        super.initObservers(owner);
+        suggestionsResponse.observe(owner, response ->{
+            if (response != null && response.getResultList() != null){
+                suggestions.setValue(response.getResultList());
+            }
+        });
     }
 }

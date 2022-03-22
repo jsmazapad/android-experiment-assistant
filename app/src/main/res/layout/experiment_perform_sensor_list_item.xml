@@ -4,7 +4,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+    style="@style/BaseListItemRootElement"
     android:background="@drawable/bottom_border_background"
     android:orientation="vertical"
     android:padding="5dp">

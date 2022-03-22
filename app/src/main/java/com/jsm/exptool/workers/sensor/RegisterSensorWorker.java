@@ -46,9 +46,6 @@ public class RegisterSensorWorker extends Worker {
         }
         long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
         long dateTimestamp = getInputData().getLong(DATE_TIMESTAMP, -1);
-//        int accuracy = getInputData().getInt(MEASURE_ACCURACY, -1);
-//        String [] keys = getInputData().getStringArray(MEASURE_KEYS);
-//        float [] values = getInputData().getFloatArray(MEASURE_VALUES);
         if (sensorName == null || experimentId == -1 || dateTimestamp == -1 || sensor == null) {
             return Result.failure();
         }

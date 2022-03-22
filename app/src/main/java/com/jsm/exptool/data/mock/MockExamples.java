@@ -62,6 +62,11 @@ public class MockExamples {
             add(SensorHandler.getInstance().getSensors().get(2));
         }});
         configuration.setSensorConfig(sensorsConfig);
+        AudioConfig audioConfig = new AudioConfig();
+        audioConfig.setInterval(1000);
+        audioConfig.setRecordingDuration(500);
+        audioConfig.setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
+        configuration.setAudioConfig(audioConfig);
         experiment.setConfiguration(configuration);
         long id = ExperimentsRepository.registerExperiment(experiment);
         experiment.setInternalId(id);

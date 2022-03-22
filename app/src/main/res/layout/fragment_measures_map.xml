@@ -12,7 +12,7 @@
 
     <include
         android:id="@+id/loading"
-        layout="@layout/loading"
+        layout="@layout/view_loading_include"
         android:visibility="visible"/>
 
 </RelativeLayout>

@@ -19,6 +19,10 @@ public abstract class LoadingViewModel extends BaseViewModel {
         return isLoading;
     }
 
+    public void setIsLoading(boolean isLoading) {
+         this.isLoading.setValue(isLoading);
+    }
+
     public LoadingViewModel(Application app) {
         super(app);
     }

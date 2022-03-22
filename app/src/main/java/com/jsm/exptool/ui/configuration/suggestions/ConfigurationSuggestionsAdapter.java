@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.create.basicdata;
+package com.jsm.exptool.ui.configuration.suggestions;
 
 import android.content.Context;
 import android.view.View;
@@ -9,9 +9,11 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.CommentSuggestion;
+import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.ui.experiments.list.ExperimentListViewHolder;
 
-public class ExperimentCreateBasicDataAdapter extends BaseRecyclerAdapter<RepeatableElement, ExperimentCreateBasicDataViewHolder, RepeatableElement> {
+public class ConfigurationSuggestionsAdapter extends BaseRecyclerAdapter<CommentSuggestion, ConfigurationSuggestionViewHolder, CommentSuggestion> {
     DeleteActionListener listener;
     /**
      * @param context
@@ -20,13 +22,13 @@ public class ExperimentCreateBasicDataAdapter extends BaseRecyclerAdapter<Repeat
      * @param navController    Controlador de navegación (Android jetpack)
      * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
      */
-    public ExperimentCreateBasicDataAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource, DeleteActionListener listener) {
+    public ConfigurationSuggestionsAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource, DeleteActionListener listener) {
         super(context, viewModel, lifeCycleOwner, navController, listItemResource);
         this.listener = listener;
     }
 
     @Override
-    public ExperimentCreateBasicDataViewHolder instanceViewHolder(View v) {
-        return new ExperimentCreateBasicDataViewHolder(v, listener);
+    public ConfigurationSuggestionViewHolder instanceViewHolder(View v) {
+        return new ConfigurationSuggestionViewHolder(v, listener);
     }
 }

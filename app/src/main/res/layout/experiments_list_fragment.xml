@@ -13,9 +13,40 @@
     </data>
 
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/BaseCardView"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Filtrar por:"/>
+                <androidx.appcompat.widget.AppCompatSpinner
+                    style="@style/BaseSpinner"
+                    android:prompt="@string/audio_option_spinner_title"
+                    android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedFilter(position)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </androidx.appcompat.widget.AppCompatSpinner>
+                <Button
+                    style="@style/FullWidthButton"
+                    android:text="Crear experimento"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"

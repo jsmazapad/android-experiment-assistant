@@ -1,14 +1,11 @@
 package com.jsm.exptool.ui.experiments.perform;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
 import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-import com.jsm.exptool.ui.experiments.create.basicdata.DeleteActionListener;
 
 import java.util.Map;
 

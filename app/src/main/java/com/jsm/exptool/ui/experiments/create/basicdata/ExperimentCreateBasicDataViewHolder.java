@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
@@ -25,6 +26,6 @@ public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<
     @Override
     public void fillViewHolder(RepeatableElement element) {
         titleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
-        deleteIV.setOnClickListener(v -> {if(listener != null){listener.delete(element);}});
+        deleteIV.setOnClickListener(v -> {if(listener != null){listener.delete(element, itemView.getContext());}});
     }
 }

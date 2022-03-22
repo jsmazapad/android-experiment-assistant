@@ -9,6 +9,7 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.libs.MultiSpinner;
@@ -156,7 +157,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
     }
 
     @Override
-    public void delete(MySensor element) {
+    public void delete(MySensor element, Context context) {
         if(element != null) {
             List<MySensor> elementsValue= elements.getValue();
             elementsValue.remove(element);

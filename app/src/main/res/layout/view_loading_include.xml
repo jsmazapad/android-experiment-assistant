@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_gray">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            style="@style/BaseCardView"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+
+            android:orientation="vertical">
+
+            <com.jsm.exptool.libs.RotationImageView
+                android:id="@+id/loading_logo"
+                style="@style/BaseIcon"
+                android:layout_width="144dp"
+                android:layout_height="142dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:contentDescription="Cargando"
+                android:rotationX="4"
+                app:srcCompat="@drawable/ic_baseline_settings_24" />
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/BaseSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Cargando vista..."
+                android:textAlignment="center" />
+
+        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+</layout>

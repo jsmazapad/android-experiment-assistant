@@ -11,207 +11,248 @@
             name="viewModel"
             type="com.jsm.exptool.ui.experiments.perform.ExperimentPerformViewModel" />
     </data>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.experiments.perform.ExperimentPerformFragment">
-    <androidx.core.widget.NestedScrollView style="@style/BaseNestedLayoutInsideFrameLayout">
 
-    <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
-
-
-    <ProgressBar
-        android:id="@+id/indeterminateBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
-        android:layout_gravity="center"
-        />
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/imageCard"
-            android:visibility="@{viewModel.imageCardEnabled ? View.VISIBLE : View.GONE}"
-            style="@style/BaseCardView">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    style="@style/BaseCardTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Imágenes" />
-                <androidx.camera.view.PreviewView
-                    android:id="@+id/cameraPreview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true" />
+        android:layout_height="match_parent"
+        tools:context=".ui.experiments.perform.ExperimentPerformFragment">
+
+
+        <androidx.core.widget.NestedScrollView
+            style="@style/BaseNestedLayoutInsideFrameLayout">
+
+            <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
+
+
+<!--                <ProgressBar-->
+<!--                    android:id="@+id/indeterminateBar"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/BaseItemListSecondaryTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="5dp"
-                            android:paddingEnd="10dp"
-                            android:text="Nº de imágenes" />
 
-                        <TextView
-                            style="@style/BaseItemListSecondaryBoldTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewModel.numImages}" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:visibility="@{viewModel.embeddedInfoEnabled ? View.VISIBLE : View.GONE}"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/BaseItemListSecondaryTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="5dp"
-                            android:paddingEnd="10dp"
-                            android:text="Nº de vectores de embedding" />
+                    <com.jsm.exptool.libs.ExpandableCard
+                        android:id="@+id/imageCard"
+                        style="@style/BaseCardView"
+                        app:initial_expanded="true"
+                        app:title="@string/experiment_perform_images_title"
+                        app:extra_info="@{viewModel.imageCardExtraInfo}"
+                        android:visibility="@{viewModel.imageCardEnabled ? View.VISIBLE : View.GONE}">
 
-                        <TextView
-                            style="@style/BaseItemListSecondaryBoldTextView"
+
+                        <androidx.camera.view.PreviewView
+                            android:id="@+id/cameraPreview"
                             android:layout_width="wrap_content"
+                            android:layout_height="200dp" />
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="10dp"
+                                    android:text="@string/experiment_perform_images_number" />
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryBoldTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{viewModel.numImages}" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="horizontal"
+                                android:visibility="@{viewModel.embeddedInfoEnabled ? View.VISIBLE : View.GONE}">
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="10dp"
+                                    android:text="@string/experiment_perform_num_embeddings" />
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryBoldTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{viewModel.numEmbeddings}" />
+
+                            </LinearLayout>
+
+                    </com.jsm.exptool.libs.ExpandableCard>
+
+                    <com.jsm.exptool.libs.ExpandableCard
+                        android:id="@+id/commentsCard"
+                        style="@style/BaseCardView"
+                        app:initial_expanded="true"
+                        app:extra_info="@{viewModel.commentCardExtraInfo}"
+                        app:title="Comentarios">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.numEmbeddings}" />
-                    </LinearLayout>
+                            android:background="@color/white"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/BaseTextInputLayout"
+                                android:layout_height="wrap_content"
+                                app:endIconMode="clear_text">
+
+                                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                    android:id="@+id/commentsAutoCompleteTV"
+                                    style="@style/BaseTextInputEditText"
+                                    android:hint="@string/experiment_perform_comments_title"
+                                    android:text="@={viewModel.comment}"
+                                    android:textColorHint="#616161" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <Button
+                                android:id="@+id/saveSuggestionButton"
+                                style="@style/FullWidthButton"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{() -> viewModel.saveComment(context)}"
+                                android:text="@string/experiment_perform_add_comment_button" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="10dp"
+                                    android:text="@string/experiment_perform_num_comments" />
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryBoldTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{viewModel.numComments}" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </com.jsm.exptool.libs.ExpandableCard>
+
+                    <com.jsm.exptool.libs.ExpandableCard
+                        android:id="@+id/audioCard"
+                        style="@style/BaseCardView"
+                        android:visibility="@{viewModel.audioCardEnabled ? View.VISIBLE : View.GONE}"
+                        app:extra_info="@{viewModel.audioCardExtraInfo}"
+                        app:title="@string/experiment_perform_audio_title">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/BaseItemListSecondaryTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="10dp"
+                                android:text="@string/experiment_perform_num_audios" />
+
+                            <TextView
+                                style="@style/BaseItemListSecondaryBoldTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewModel.numAudios}" />
+                        </LinearLayout>
+
+                    </com.jsm.exptool.libs.ExpandableCard>
+
+                    <com.jsm.exptool.libs.ExpandableCard
+                        android:id="@+id/sensorCard"
+                        style="@style/BaseCardView"
+                        android:visibility="@{viewModel.sensorCardEnabled ? View.VISIBLE : View.GONE}"
+                        app:extra_info="@{viewModel.sensorCardExtraInfo}"
+                        app:title="@string/experiment_perform_sensors_title">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="10dp"
+                                    android:text="@string/experiment_perform_num_sensors" />
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryBoldTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{viewModel.numSensors}" />
+
+
+                            </LinearLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/elementsRV"
+                                style="@style/RecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false"
+                                tools:listitem="@layout/experiment_perform_sensor_list_item">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+
+                        </LinearLayout>
+                    </com.jsm.exptool.libs.ExpandableCard>
 
                 </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/audioCard"
-            android:visibility="@{viewModel.audioCardEnabled ? View.VISIBLE : View.GONE}"
-            style="@style/BaseCardView">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    style="@style/BaseCardTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Audio" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <include layout="@layout/view_loading_include"  android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/BaseItemListSecondaryTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="5dp"
-                            android:paddingEnd="10dp"
-                            android:text="Nº de archivos de audio" />
-
-                        <TextView
-                            style="@style/BaseItemListSecondaryBoldTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewModel.numAudios}" />
-                    </LinearLayout>
+        <Button
+            style="@style/FullWidthButton"
+            android:layout_gravity="bottom|center_horizontal"
+            android:enabled="@{viewModel.enableHandleExperimentButton}"
+            android:onClick="@{()-> viewModel.handleExperimentState(context)}"
+            android:text="@{viewModel.changeStateText}"
+            tools:ignore="SpeakableTextPresentCheck" />
 
 
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sensorCard"
-            android:visibility="@{viewModel.sensorCardEnabled ? View.VISIBLE : View.GONE}"
-            style="@style/BaseCardView">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    style="@style/BaseCardTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sensores" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:orientation="horizontal">
-                        <TextView
-                            style="@style/BaseItemListSecondaryTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="5dp"
-                            android:paddingEnd="10dp"
-                            android:text="Nº de mediciones de sensor registradas" />
-
-                        <TextView
-                            style="@style/BaseItemListSecondaryBoldTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewModel.numSensors}" />
-
-
-
-                    </LinearLayout>
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/elementsRV"
-                        style="@style/RecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        tools:listitem="@layout/experiment_perform_sensor_list_item">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-    </LinearLayout>
-    </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-    <Button
-        style="@style/FullWidthButton"
-        android:layout_gravity="bottom|center_horizontal"
-        android:enabled="@{viewModel.enableHandleExperimentButton}"
-        android:text="@{viewModel.changeStateText}"
-        android:onClick="@{()-> viewModel.handleExperimentState(context)}"/>
-
-
-</FrameLayout>
+    </FrameLayout>
 </layout>

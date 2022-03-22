@@ -2,6 +2,7 @@ package com.jsm.exptool.ui.experiments.perform;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
+import androidx.camera.view.PreviewView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -10,7 +11,10 @@ import androidx.annotation.NonNull;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
@@ -22,6 +26,7 @@ import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
 import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
+import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.MySensor;
 
@@ -41,6 +46,9 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
 
     ActivityResultLauncher<String[]> cameraRequestPermissions;
     ActivityResultLauncher<String[]> audioRequestPermissions;
+    MaterialAutoCompleteTextView autoCompleteTextView;
+    PreviewView previewView;
+
 
     PermissionResultCallbackForViewModel cameraPermissionsResultCallback = new PermissionResultCallbackForViewModel() {
         @Override
@@ -105,10 +113,25 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
     @Override
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
+        autoCompleteTextView = binding.commentsAutoCompleteTV;
+        autoCompleteTextView.setThreshold(0);
+        previewView = binding.cameraPreview;
         cameraPermissionsResultCallback.setViewModel(viewModel);
         viewModel.initCameraProvider(getContext(), getViewLifecycleOwner(), this, binding.getRoot().findViewById(R.id.cameraPreview));
         viewModel.initAudioProvider(getContext(), getViewLifecycleOwner(), this);
         viewModel.initWorkInfoObservers(getViewLifecycleOwner());
+        viewModel.getSuggestions().observe(getViewLifecycleOwner(), elements ->{
+            if (elements != null){
+                ArrayAdapter<CommentSuggestion> adapter = new ArrayAdapter<>(getContext(),
+                        android.R.layout.simple_dropdown_item_1line, elements);
+                autoCompleteTextView.setAdapter(adapter);
+            }
+        });
+
+        previewView.getPreviewStreamState().observe(getViewLifecycleOwner(), streamState -> {
+
+            viewModel.setIsLoading(!PreviewView.StreamState.STREAMING.equals(streamState));
+        });
 
     }
 

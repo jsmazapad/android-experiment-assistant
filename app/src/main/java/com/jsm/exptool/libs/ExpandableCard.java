@@ -52,7 +52,7 @@ public class ExpandableCard extends LinearLayout {
                 0, 0);
 
         try {
-            collapsed = a.getBoolean(R.styleable.ExpandableCard_initial_expanded, true);
+            collapsed = !a.getBoolean(R.styleable.ExpandableCard_initial_expanded, false);
             title = a.getString(R.styleable.ExpandableCard_title);
             extraInfo = a.getString(R.styleable.ExpandableCard_extra_info);
 

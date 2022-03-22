@@ -11,9 +11,6 @@
         android:name="com.jsm.exptool.ui.experiments.list.ExperimentsListFragment"
         android:label="@string/title_experiments_fragment"
         tools:layout="@layout/experiments_list_fragment">
-        <argument
-            android:name="experiment"
-            app:argType="com.jsm.exptool.model.Experiment" />
         <action
             android:id="@+id/action_nav_experiments_to_nav_view_experiment"
             app:destination="@id/nav_view_experiment" />
@@ -26,6 +23,15 @@
         android:name="com.jsm.exptool.ui.configuration.ConfigurationFragment"
         android:label="@string/title_configuration_fragment"
         tools:layout="@layout/configuration_fragment">
+        <action
+            android:id="@+id/action_nav_configuration_to_nav_suggestion_configuration"
+            app:destination="@id/nav_suggestion_configuration" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_suggestion_configuration"
+        android:name="com.jsm.exptool.ui.configuration.suggestions.ConfigurationSuggestionsFragment"
+        android:label="@string/title_configuration_suggestions_fragment"
+        tools:layout="@layout/configuration_suggestions_fragment">
     </fragment>
     <fragment
         android:id="@+id/nav_about"
@@ -42,6 +48,9 @@
         <argument
             android:name="experiment"
             app:argType="com.jsm.exptool.model.Experiment" />
+        <action
+            android:id="@+id/action_nav_perform_experiment_to_nav_experiments"
+            app:destination="@id/nav_experiments" />
     </fragment>
 
     <fragment

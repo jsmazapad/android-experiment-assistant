@@ -32,7 +32,7 @@
         <item name="hintTextColor">?colorSecondaryVariant</item>
     </style>
 
-    <style name="BaseTextInputEditText">
+    <style name="BaseTextInputEditText" parent="AccesibilityMinSize">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">5dp</item>
@@ -147,5 +147,16 @@
         <item name="android:fadeScrollbars">false</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_gravity">top</item>
+    </style>
+
+    <style name="BaseListItemRootElement">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+    <style name="DeleteIcon" parent="BaseIcon">
+        <item name="android:contentDescription">Delete</item>
+        <item name="android:src">@drawable/ic_baseline_delete_forever_24</item>
     </style>
 </resources>
