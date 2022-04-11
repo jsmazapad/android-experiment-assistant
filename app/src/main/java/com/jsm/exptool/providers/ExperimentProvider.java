@@ -122,7 +122,7 @@ public class ExperimentProvider {
                     binding.exportDataButton.setVisibility(View.GONE);
                     binding.syncLL.setVisibility(View.GONE);
                     binding.endLL.setVisibility(View.VISIBLE);
-                    binding.continueExperimentButton.setVisibility(View.GONE);
+                    binding.continueExperimentButton.setVisibility(View.VISIBLE);
                     binding.deleteExperimentButton.setVisibility(View.VISIBLE);
                     break;
                 case FINISHED:

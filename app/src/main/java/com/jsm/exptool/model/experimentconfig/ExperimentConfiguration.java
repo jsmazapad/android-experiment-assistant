@@ -13,11 +13,11 @@ public class ExperimentConfiguration implements Parcelable {
     @Embedded(prefix = "camera_config_") private CameraConfig cameraConfig;
     @Embedded(prefix = "audio_config_") private AudioConfig audioConfig;
     @Embedded(prefix = "global_config_") private GlobalConfig globalConfig = new GlobalConfig();
-    @Embedded(prefix = "sensor_config_") private SensorsConfig sensorConfig;
+    @Embedded(prefix = "sensor_config_") private SensorsGlobalConfig sensorConfig;
 
 
 
-    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig, SensorsConfig sensorConfig) {
+    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig, SensorsGlobalConfig sensorConfig) {
         this.cameraConfig = cameraConfig;
         this.audioConfig = audioConfig;
         this.globalConfig = globalConfig != null ? globalConfig : this.globalConfig;
@@ -52,11 +52,11 @@ public class ExperimentConfiguration implements Parcelable {
         this.globalConfig = globalConfig;
     }
 
-    public SensorsConfig getSensorConfig() {
+    public SensorsGlobalConfig getSensorConfig() {
         return sensorConfig;
     }
 
-    public void setSensorConfig(SensorsConfig sensorConfig) {
+    public void setSensorConfig(SensorsGlobalConfig sensorConfig) {
         this.sensorConfig = sensorConfig;
     }
 
@@ -109,7 +109,7 @@ public class ExperimentConfiguration implements Parcelable {
         this.cameraConfig = source.readParcelable(CameraConfig.class.getClassLoader());
         this.audioConfig = source.readParcelable(AudioConfig.class.getClassLoader());
         this.globalConfig = source.readParcelable(GlobalConfig.class.getClassLoader());
-        this.sensorConfig = source.readParcelable(SensorsConfig.class.getClassLoader());
+        this.sensorConfig = source.readParcelable(SensorsGlobalConfig.class.getClassLoader());
     }
 
     protected ExperimentConfiguration(Parcel in) {

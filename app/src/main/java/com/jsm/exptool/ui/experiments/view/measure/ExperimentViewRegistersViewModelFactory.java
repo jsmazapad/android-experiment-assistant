@@ -5,10 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-import com.jsm.exptool.ui.experiments.view.ExperimentViewViewModel;
 
 
 public class ExperimentViewRegistersViewModelFactory implements ViewModelProvider.Factory {

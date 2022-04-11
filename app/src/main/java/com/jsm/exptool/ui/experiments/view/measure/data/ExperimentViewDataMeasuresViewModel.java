@@ -7,7 +7,6 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.model.register.ExperimentRegister;
 

@@ -127,11 +127,11 @@
         android:label="@string/title_view_registers_fragment"
         tools:layout="@layout/experiment_view_registers_fragment">
         <argument
-            android:name="sensor"
-            app:argType="com.jsm.exptool.model.MySensor" />
-        <argument
             android:name="experimentId"
             app:argType="long" />
+        <argument
+            android:name="element"
+            app:argType="com.jsm.exptool.model.experimentconfig.RepeatableElement" />
     </fragment>
 
 </navigation>

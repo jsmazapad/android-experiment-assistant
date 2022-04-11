@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.jsm.exptool.config.SensorConfigConstants;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
@@ -44,8 +44,8 @@ public class ExperimentViewRegistersSectionPagerAdapter extends FragmentStateAda
                 return viewRegistersFragment;
             // GRAPH
             case 1:
-                if(measurableItem instanceof MySensor) {
-                    if (((MySensor)measurableItem).getSensorType() != SensorConfigConstants.TYPE_GPS) {
+                if(measurableItem instanceof SensorConfig) {
+                    if (((SensorConfig)measurableItem).getSensorType() != SensorConfigConstants.TYPE_GPS) {
                         return new ExperimentViewSensorGraphFragment();
                     } else {
 //                        MeasuresMapFragment measuresMapFragment = new MeasuresMapFragment();

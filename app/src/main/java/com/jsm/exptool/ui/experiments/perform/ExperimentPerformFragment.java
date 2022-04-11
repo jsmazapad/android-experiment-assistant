@@ -12,34 +12,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.jsm.exptool.R;
-import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
-import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
 import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
-import com.jsm.exptool.libs.SensorHandler;
-import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
 import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.MySensor;
 
-import com.jsm.exptool.model.experimentconfig.CameraConfig;
-import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
-import com.jsm.exptool.model.experimentconfig.SensorsConfig;
-import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
-import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPerformFragmentBinding, ExperimentPerformViewModel> implements RequestPermissionsInterface {
@@ -89,8 +76,8 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
     protected ExperimentPerformViewModel createViewModel() {
         //TODO Código pruebas, comentar
 
-        Experiment experiment = MockExamples.registerExperimentForPerformanceTest();
-        //Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
+        //Experiment experiment = MockExamples.registerExperimentForPerformanceTest();
+        Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
 
         return new ViewModelProvider(this, new ExperimentPerformViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentPerformViewModel.class);
     }
@@ -128,10 +115,13 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
             }
         });
 
-        previewView.getPreviewStreamState().observe(getViewLifecycleOwner(), streamState -> {
+        //En caso de que el experimento tenga imágenes se observa el estado del elemento previewView para saber cuando ha terminado de cargar
+        if(viewModel.getImageCardEnabled().getValue()) {
+            previewView.getPreviewStreamState().observe(getViewLifecycleOwner(), streamState -> {
 
-            viewModel.setIsLoading(!PreviewView.StreamState.STREAMING.equals(streamState));
-        });
+                viewModel.setIsLoading(!PreviewView.StreamState.STREAMING.equals(streamState));
+            });
+        }
 
     }
 

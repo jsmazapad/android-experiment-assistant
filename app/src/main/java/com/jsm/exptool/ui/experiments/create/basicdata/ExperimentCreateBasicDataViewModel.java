@@ -17,15 +17,15 @@ import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-import com.jsm.exptool.model.experimentconfig.SensorsConfig;
+import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.repositories.SensorsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<MySensor, MySensor> implements MultiSpinner.MultiSpinnerListener, DeleteActionListener<MySensor> {
+public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<SensorConfig, SensorConfig> implements MultiSpinner.MultiSpinnerListener, DeleteActionListener<SensorConfig> {
 
     private String title = "";
     private String description = "";
@@ -33,7 +33,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
     private MutableLiveData<Boolean> remoteSyncEnabled = new MutableLiveData<>(false);
     private boolean embeddingEnabled = false;
     private boolean audioEnabled = false;
-    private List<MySensor> sensors;
+    private List<SensorConfig> sensors;
     private List<String> sensorStrings;
     private boolean [] selectedSensorPositions;
 
@@ -44,7 +44,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
     }
 
     @Override
-    public List<MySensor> transformResponse(ListResponse<MySensor> response) {
+    public List<SensorConfig> transformResponse(ListResponse<SensorConfig> response) {
         return response.getResultList();
     }
 
@@ -112,11 +112,11 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
         this.embeddingEnabled = embeddingEnabled;
     }
 
-    public List<MySensor> getSensors() {
+    public List<SensorConfig> getSensors() {
         return sensors;
     }
 
-    public void setSensors(List<MySensor> sensors) {
+    public void setSensors(List<SensorConfig> sensors) {
         this.sensors = sensors;
     }
 
@@ -147,7 +147,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
     public void onItemsSelected(boolean[] selected) {
 
         selectedSensorPositions = selected;
-        List <MySensor> selectedSensors = new ArrayList();
+        List <SensorConfig> selectedSensors = new ArrayList();
         for(int i=0; i<selected.length; i++){
             if (selected[i]){
                 selectedSensors.add(sensors.get(i));
@@ -157,9 +157,9 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
     }
 
     @Override
-    public void delete(MySensor element, Context context) {
+    public void delete(SensorConfig element, Context context) {
         if(element != null) {
-            List<MySensor> elementsValue= elements.getValue();
+            List<SensorConfig> elementsValue= elements.getValue();
             elementsValue.remove(element);
             elements.setValue(elementsValue);
         }
@@ -195,9 +195,9 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<My
         if(this.cameraEnabled.getValue() != null) {
             configuration.setCameraConfig(this.cameraEnabled.getValue() ? new CameraConfig() : null);}
         //Los elementos almacenados en recycler son los sensores seleccionados finalmente
-        List <MySensor> selectedSensors= this.elements.getValue();
+        List <SensorConfig> selectedSensors= this.elements.getValue();
         if(selectedSensors != null && selectedSensors.size() > 0) {
-            configuration.setSensorConfig(new SensorsConfig(this.elements.getValue()));
+            configuration.setSensorConfig(new SensorsGlobalConfig(this.elements.getValue()));
         }
         return experiment;
     }

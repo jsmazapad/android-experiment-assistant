@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "044f5a76d167e2785bc75c735038ba41",
+    "identityHash": "57a132538204a140e1a5f7baff22a99f",
     "entities": [
       {
         "tableName": "imageRegisters",
@@ -422,7 +422,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "sensors",
+        "tableName": "experiment_sensors",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interval` INTEGER NOT NULL, `intervalMin` INTEGER NOT NULL, `nameStringResource` INTEGER NOT NULL, `_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `sensorType` INTEGER NOT NULL, `accuracy` INTEGER NOT NULL, `restartInitialMeasureAfterRead` INTEGER NOT NULL)",
         "fields": [
           {
@@ -482,12 +482,12 @@
         },
         "indices": [
           {
-            "name": "index_sensors__id",
+            "name": "index_experiment_sensors__id",
             "unique": false,
             "columnNames": [
               "_id"
             ],
-            "createSql": "CREATE  INDEX `index_sensors__id` ON `${TABLE_NAME}` (`_id`)"
+            "createSql": "CREATE  INDEX `index_experiment_sensors__id` ON `${TABLE_NAME}` (`_id`)"
           }
         ],
         "foreignKeys": []
@@ -696,7 +696,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"044f5a76d167e2785bc75c735038ba41\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"57a132538204a140e1a5f7baff22a99f\")"
     ]
   }
 }

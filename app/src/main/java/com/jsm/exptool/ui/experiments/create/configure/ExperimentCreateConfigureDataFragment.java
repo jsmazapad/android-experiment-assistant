@@ -9,22 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.BuildConfig;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentCreateConfigureDataFragmentBinding;
-import com.jsm.exptool.libs.SensorHandler;
-import com.jsm.exptool.model.experimentconfig.AudioConfig;
-import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
-import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.providers.AudioProvider;
-import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
-
-import java.util.ArrayList;
 
 
 public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<ExperimentCreateConfigureDataFragmentBinding, ExperimentCreateConfigureDataViewModel> {

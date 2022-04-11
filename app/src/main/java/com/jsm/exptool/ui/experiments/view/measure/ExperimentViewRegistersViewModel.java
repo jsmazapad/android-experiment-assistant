@@ -11,7 +11,7 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.MultimediaConfig;
@@ -39,8 +39,8 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
     private void initViewStrings(){
         title.setValue(getApplication().getString(measurableItem.getNameStringResource()));
 
-        if(measurableItem instanceof MySensor){
-            if(((MySensor) measurableItem).getSensorType() == SensorConfigConstants.TYPE_GPS){
+        if(measurableItem instanceof SensorConfig){
+            if(((SensorConfig) measurableItem).getSensorType() == SensorConfigConstants.TYPE_GPS){
                 secondTabTitle = R.string.map_tab_title;
             }else{
                 secondTabTitle =R.string.graph_tab_title;
@@ -92,8 +92,8 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
 
     @Override
     public void callRepositoryForData() {
-        if(measurableItem instanceof MySensor) {
-            SensorsRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(((MySensor)measurableItem).getSensorType(), experimentId, apiResponseRepositoryHolder);
+        if(measurableItem instanceof SensorConfig) {
+            SensorsRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(((SensorConfig)measurableItem).getSensorType(), experimentId, apiResponseRepositoryHolder);
         }else if(measurableItem instanceof CameraConfig){
             ImagesRepository.getRegistersByExperimentIdAsExperimentRegister(experimentId, apiResponseRepositoryHolder);
         }else if(measurableItem instanceof AudioConfig){

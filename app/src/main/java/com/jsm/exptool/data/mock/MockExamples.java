@@ -5,11 +5,11 @@ import android.content.Context;
 import com.jsm.exptool.R;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
-import com.jsm.exptool.model.experimentconfig.SensorsConfig;
+import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.providers.FilePathsProvider;
@@ -36,9 +36,9 @@ public class MockExamples {
         experiment.getConfiguration().setCameraConfig(new CameraConfig());
         experiment.getConfiguration().getCameraConfig().setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         experiment.getConfiguration().setAudioConfig(new AudioConfig());
-        experiment.getConfiguration().setSensorConfig(new SensorsConfig());
+        experiment.getConfiguration().setSensorConfig(new SensorsGlobalConfig());
         experiment.getConfiguration().getAudioConfig().setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
-        experiment.getConfiguration().getSensorConfig().setSensors(new ArrayList<MySensor>() {
+        experiment.getConfiguration().getSensorConfig().setSensors(new ArrayList<SensorConfig>() {
             {
                 addAll(SensorHandler.getInstance().getSensors());
 
@@ -58,13 +58,13 @@ public class MockExamples {
         cameraConfig.setInterval(1000);
         cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         configuration.setCameraConfig(cameraConfig);
-        SensorsConfig sensorsConfig = new SensorsConfig();
-        sensorsConfig.setSensors(new ArrayList<MySensor>() {{
+        SensorsGlobalConfig sensorsGlobalConfig = new SensorsGlobalConfig();
+        sensorsGlobalConfig.setSensors(new ArrayList<SensorConfig>() {{
             add(SensorHandler.getInstance().getSensors().get(0));
             add(SensorHandler.getInstance().getSensors().get(1));
             add(SensorHandler.getInstance().getSensors().get(2));
         }});
-        configuration.setSensorConfig(sensorsConfig);
+        configuration.setSensorConfig(sensorsGlobalConfig);
         AudioConfig audioConfig = new AudioConfig();
         audioConfig.setInterval(1000);
         audioConfig.setRecordingDuration(500);
@@ -91,13 +91,13 @@ public class MockExamples {
         cameraConfig.setInterval(1000);
         cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         configuration.setCameraConfig(cameraConfig);
-        SensorsConfig sensorsConfig = new SensorsConfig();
-        sensorsConfig.setSensors(new ArrayList<MySensor>() {{
+        SensorsGlobalConfig sensorsGlobalConfig = new SensorsGlobalConfig();
+        sensorsGlobalConfig.setSensors(new ArrayList<SensorConfig>() {{
             add(SensorHandler.getInstance().getSensors().get(0));
             add(SensorHandler.getInstance().getSensors().get(1));
             add(SensorHandler.getInstance().getSensors().get(2));
         }});
-        configuration.setSensorConfig(sensorsConfig);
+        configuration.setSensorConfig(sensorsGlobalConfig);
 
         AudioConfig audioConfig = new AudioConfig();
         configuration.setAudioConfig(audioConfig);
@@ -109,7 +109,7 @@ public class MockExamples {
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        for (MySensor sensor : configuration.getSensorConfig().getSensors()) {
+        for (SensorConfig sensor : configuration.getSensorConfig().getSensors()) {
             for (int i = 0; i <= 40; i++) {
                 cal.add(Calendar.HOUR, 1);
                 for (String key : sensor.getMeasure().keySet()) {

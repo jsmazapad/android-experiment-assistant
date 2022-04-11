@@ -6,9 +6,6 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMB
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_ACCURACY;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_KEYS;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_VALUES;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_HEIGHT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_WIDTH;
@@ -40,7 +37,7 @@ import androidx.work.WorkManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.workers.audio.RegisterAudioWorker;
 import com.jsm.exptool.workers.export.ExportExperimentWorker;
@@ -56,8 +53,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 
 public class WorksOrchestratorProvider {
@@ -87,7 +82,7 @@ public class WorksOrchestratorProvider {
         mWorkManager.pruneWork();
     }
 
-    public void executeSensorChain(Context context, MySensor sensor, Date date, Experiment experiment) {
+    public void executeSensorChain(Context context, SensorConfig sensor, Date date, Experiment experiment) {
 
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()

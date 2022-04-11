@@ -185,7 +185,7 @@
     <Button
         android:id="@+id/copyExperimentButton"
         style="@style/FullWidthButton"
-        android:text="Copiar configuración de experimento"/>
+        android:text="Crear experimento nuevo con la misma configuración"/>
 </LinearLayout>
 </ScrollView>
 </layout>

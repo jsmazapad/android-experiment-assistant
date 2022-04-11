@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.register.SensorRegister;
 import com.jsm.exptool.ui.experiments.view.measure.data.ExperimentViewDataMeasuresViewModel;
 
@@ -15,11 +15,11 @@ import java.util.List;
 public class ExperimentViewSensorGraphViewModelFactory implements ViewModelProvider.Factory {
 
     private Application app;
-    MySensor sensor;
+    SensorConfig sensor;
     List<SensorRegister> registers;
 
 
-    public ExperimentViewSensorGraphViewModelFactory(Application app, MySensor sensor, List<SensorRegister> registers ) {
+    public ExperimentViewSensorGraphViewModelFactory(Application app, SensorConfig sensor, List<SensorRegister> registers ) {
         this.app = app;
         this.sensor = sensor;
         this.registers = registers;

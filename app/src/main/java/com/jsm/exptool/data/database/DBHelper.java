@@ -44,11 +44,13 @@ public class DBHelper {
     }
 
     public static List<Experiment> getExperiments(Experiment.ExperimentStatus statusFilter) {
-        if(statusFilter == null) {
-            return appDatabase.experimentDao().getExperiments();
-        }else{
-            return appDatabase.experimentDao().getExperimentsFilteredByState(ExperimentStatusConverter.fromEnum(statusFilter));
-        }
+        return appDatabase.experimentDao().getExperimentsWithSensors(statusFilter);
+
+//        if(statusFilter == null) {
+//            return appDatabase.experimentDao().getExperiments();
+//        }else{
+//            return appDatabase.experimentDao().getExperimentsFilteredByState(ExperimentStatusConverter.fromEnum(statusFilter));
+//        }
 
     }
 

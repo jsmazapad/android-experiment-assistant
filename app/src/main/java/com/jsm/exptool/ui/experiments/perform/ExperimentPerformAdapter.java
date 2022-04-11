@@ -8,9 +8,9 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 
-public class ExperimentPerformAdapter extends BaseRecyclerAdapter<MySensor, ExperimentPerformViewHolder, MySensor> {
+public class ExperimentPerformAdapter extends BaseRecyclerAdapter<SensorConfig, ExperimentPerformViewHolder, SensorConfig> {
     /**
      * @param context
      * @param viewModel        ViewModel asociado al fragment donde se incluye el recyclerView

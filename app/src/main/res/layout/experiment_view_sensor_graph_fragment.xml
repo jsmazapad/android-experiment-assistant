@@ -24,10 +24,10 @@
 
     </com.github.mikephil.charting.charts.LineChart>
 
-    <include
-        android:id="@+id/loading"
-        layout="@layout/view_loading_include"
-        android:visibility="visible"/>
+<!--    <include-->
+<!--        android:id="@+id/loading"-->
+<!--        layout="@layout/view_loading_include"-->
+<!--        android:visibility="visible"/>-->
 
 </RelativeLayout>
 </layout>

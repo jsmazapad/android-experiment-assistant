@@ -17,9 +17,7 @@ import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentViewRegistersFragmentBinding;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.experimentconfig.AudioConfig;
-import com.jsm.exptool.model.experimentconfig.CameraConfig;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.model.register.ExperimentRegister;
 
 import java.util.ArrayList;
@@ -86,14 +84,16 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
     @Override
     protected ExperimentViewRegistersViewModel createViewModel() {
 
-        //MySensor measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getSensor();
+        //SensorConfig measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getSensor();
         //long experimentId = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getExperimentId();
 
         Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest(getContext());
         long experimentId = experiment.getInternalId();
-        //MySensor measurableItem = experiment.getConfiguration().getSensorConfig().getSensors().get(0);
-        AudioConfig measurableItem = experiment.getConfiguration().getAudioConfig();
+        //SensorConfig measurableItem = experiment.getConfiguration().getSensorConfig().getSensors().get(0);
+        //AudioConfig measurableItem = experiment.getConfiguration().getAudioConfig();
         //CameraConfig measurableItem = experiment.getConfiguration().getCameraConfig();
+
+        RepeatableElement measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getElement();
 
         return new ViewModelProvider(this, new ExperimentViewRegistersViewModelFactory(getActivity().getApplication(), experimentId, measurableItem)).get(ExperimentViewRegistersViewModel.class);
     }

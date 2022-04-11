@@ -127,7 +127,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
 
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
-
+        navController.navigate(ExperimentViewFragmentDirections.actionNavViewExperimentToNavViewExperimentMeasures(experiment.getInternalId(), elements.getValue().get(position)));
     }
 
     @Override

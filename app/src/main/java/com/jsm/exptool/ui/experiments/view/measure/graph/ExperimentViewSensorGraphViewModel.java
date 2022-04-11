@@ -5,14 +5,14 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.jsm.exptool.core.ui.base.BaseViewModel;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.List;
 
 public class ExperimentViewSensorGraphViewModel extends BaseViewModel {
 
-    MySensor sensor;
+    SensorConfig sensor;
     List<SensorRegister> registers;
 
 
@@ -20,7 +20,7 @@ public class ExperimentViewSensorGraphViewModel extends BaseViewModel {
         super(application);
     }
 
-    public ExperimentViewSensorGraphViewModel(Application app, MySensor sensor, List<SensorRegister> registers) {
+    public ExperimentViewSensorGraphViewModel(Application app, SensorConfig sensor, List<SensorRegister> registers) {
         super(app);
         this.sensor = sensor;
         this.registers = registers;

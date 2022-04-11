@@ -22,6 +22,7 @@ import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 import com.jsm.exptool.libs.SeekbarSelectorHelper;
 import com.jsm.exptool.model.AudioRecordingOption;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.providers.CameraProvider;
 
 import com.jsm.exptool.model.Experiment;
@@ -29,7 +30,6 @@ import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
-import com.jsm.exptool.model.MySensor;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
@@ -40,7 +40,7 @@ import com.jsm.exptool.ui.main.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewModel<FrequencyConfigurationVO<MySensor>, MySensor> implements SelectFrequencyDialogProvider.OnFrequencySelectedListener, SeekbarSelectorHelper.FrequencySelectorListener {
+public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewModel<FrequencyConfigurationVO<SensorConfig>, SensorConfig> implements SelectFrequencyDialogProvider.OnFrequencySelectedListener, SeekbarSelectorHelper.FrequencySelectorListener {
 
     public static final String CONFIGURING_AUDIO_DURATION_TAG = "CONFIGURING_AUDIO_DURATION_TAG";
 
@@ -114,9 +114,9 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     }
 
     @Override
-    public List<FrequencyConfigurationVO<MySensor>> transformResponse(ListResponse<MySensor> response) {
-        ArrayList<FrequencyConfigurationVO<MySensor>> listToReturn = new ArrayList<>();
-        for (MySensor sensor : response.getResultList()) {
+    public List<FrequencyConfigurationVO<SensorConfig>> transformResponse(ListResponse<SensorConfig> response) {
+        ArrayList<FrequencyConfigurationVO<SensorConfig>> listToReturn = new ArrayList<>();
+        for (SensorConfig sensor : response.getResultList()) {
             listToReturn.add(new FrequencyConfigurationVO<>(sensor));
         }
         return listToReturn;
@@ -124,7 +124,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
 
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
-        FrequencyConfigurationVO<MySensor> sensorFreqVO = elements.getValue().get(position);
+        FrequencyConfigurationVO<SensorConfig> sensorFreqVO = elements.getValue().get(position);
         SelectFrequencyDialogProvider.createDialog(c, sensorFreqVO, this, getSliderSensorMinValue(), getSliderSensorMaxValue(), sensorFreqVO.getRepeatableElement().getInterval(), true, null, null);
     }
 
@@ -137,7 +137,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
 
     @Override
     public void callRepositoryForData() {
-        List<MySensor> sensors = new ArrayList<>();
+        List<SensorConfig> sensors = new ArrayList<>();
         if(experiment.getConfiguration().isSensorEnabled()){
             sensors=  experiment.getConfiguration().getSensorConfig().getSensors();
         }
@@ -251,7 +251,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         RepeatableElement element = sensorConfiguration.getRepeatableElement();
         //Reseteamos el elemento que corresponda para que se actualice el valor en la vista
         //Databinding con LiveData no tiene manera de saber si el elemento ha cambiado sólo una propiedad
-        if (element instanceof MySensor) {
+        if (element instanceof SensorConfig) {
             elements.setValue(elements.getValue());
         } else if (element instanceof CameraConfig) {
             cameraFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(cameraConfigFrequencyVO.getRepeatableElement().getInterval()));
@@ -364,9 +364,9 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         this.experiment.getConfiguration().setAudioConfig(audioConfigFrequencyVO.getRepeatableElement());
 
         if(this.experiment.getConfiguration().isSensorEnabled()) {
-            List<FrequencyConfigurationVO<MySensor>> sensorConfigurations = elements.getValue();
-            ArrayList<MySensor> listToReturn = new ArrayList<>();
-            for (FrequencyConfigurationVO<MySensor> sensorConfig : sensorConfigurations) {
+            List<FrequencyConfigurationVO<SensorConfig>> sensorConfigurations = elements.getValue();
+            ArrayList<SensorConfig> listToReturn = new ArrayList<>();
+            for (FrequencyConfigurationVO<SensorConfig> sensorConfig : sensorConfigurations) {
                 if(sensorConfig.isDefaultConfigurationEnabled()){
                     sensorConfig.getRepeatableElement().setInterval(sensorGlobalValue);
                 }

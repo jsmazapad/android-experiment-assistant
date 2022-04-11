@@ -29,9 +29,9 @@ import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.DeviceUtils;
 import com.jsm.exptool.model.CommentSuggestion;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
-import com.jsm.exptool.model.experimentconfig.SensorsConfig;
+import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.CameraProvider;
@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, MySensor> {
+public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConfig, SensorConfig> {
 
     private final Experiment experiment;
     private final WorksOrchestratorProvider orchestratorProvider;
@@ -217,7 +217,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
         timers = new ArrayList<>();
         //Paramos escucha de sensores
         if(experiment.getConfiguration().isSensorEnabled())
-        for (MySensor sensor: elements.getValue()) {
+        for (SensorConfig sensor: elements.getValue()) {
             sensor.cancelListener();
         }
         //TODO Extraer comportamiento a provider
@@ -254,6 +254,8 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
             previewView.getPreviewStreamState().observe(owner, streamState -> {
                 isLoading.setValue(streamState.equals(PreviewView.StreamState.IDLE));
             });
+        }else{
+            isLoading.setValue(false);
         }
     }
 
@@ -326,13 +328,13 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
         //TODO Quitar listeners de sensores al finalizar experimento
         if (experiment.getConfiguration().isSensorEnabled() && experiment.getConfiguration().getSensorConfig() != null
                 && experiment.getConfiguration().getSensorConfig().getSensors() != null) {
-            SensorsConfig sensorConfig = experiment.getConfiguration().getSensorConfig();
+            SensorsGlobalConfig sensorConfig = experiment.getConfiguration().getSensorConfig();
             Timer sensorTimer = new Timer();
             timers.add(sensorTimer);
 
                 for (int i=0; i<sensorConfig.getSensors().size(); i++){
                 final int position = i;
-                MySensor sensor = sensorConfig.getSensors().get(position);
+                SensorConfig sensor = sensorConfig.getSensors().get(position);
                 sensor.initListener();
                 sensorTimer.scheduleAtFixedRate(new TimerTask() {
                     @Override
@@ -467,7 +469,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<MySensor, 
 
 
     @Override
-    public List<MySensor> transformResponse(ListResponse<MySensor> response) {
+    public List<SensorConfig> transformResponse(ListResponse<SensorConfig> response) {
         return response.getResultList();
     }
 

@@ -2,8 +2,8 @@ package com.jsm.exptool.ui.experiments.view.measure.graph;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -13,7 +13,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentViewSensorGraphFragmentBinding;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;
@@ -30,7 +30,7 @@ public class ExperimentViewSensorGraphFragment extends BaseFragment<ExperimentVi
 
     private ImageView imageView;
     //private Animatable animatable;
-    private LinearLayout loading;
+    private FrameLayout loading;
 
     private static final String TAG = "MeasuresGraph";
     @Override
@@ -47,20 +47,18 @@ public class ExperimentViewSensorGraphFragment extends BaseFragment<ExperimentVi
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
         RepeatableElement measurableItem = ((ExperimentViewRegistersFragment) getParentFragment()).getViewModel().getMeasurableItem();
-        if(!(measurableItem instanceof MySensor))
+        if(!(measurableItem instanceof SensorConfig))
         {
             return;
         }
 
-        MySensor sensor = (MySensor) measurableItem;
-
         List<ExperimentRegister> registers = ((ExperimentViewRegistersFragment) getParentFragment()).getViewModel().getElements().getValue();
 
-        loading = (LinearLayout) binding.getRoot().findViewById(R.id.loading);
-        imageView = loading.findViewById(R.id.loading_logo);
+        //loading =  binding.getRoot().findViewById(R.id.loading);
+        //imageView = loading.findViewById(R.id.loading_logo);
         //animatable = (Animatable) imageView.getDrawable();
 
-        LineChart graph = (LineChart) binding.getRoot().findViewById(R.id.lineChart);
+        LineChart graph = binding.lineChart;
         //graph.setDragEnabled(true);
         //graph.setScaleEnabled(false);
         ArrayList<ExperimentRegister> reversedArrayList = new ArrayList<ExperimentRegister>() {{

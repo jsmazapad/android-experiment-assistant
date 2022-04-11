@@ -5,11 +5,11 @@ import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.MySensor;
+import com.jsm.exptool.model.SensorConfig;
 
 import java.util.Map;
 
-public class ExperimentPerformViewHolder extends BaseRecyclerViewHolder<MySensor> {
+public class ExperimentPerformViewHolder extends BaseRecyclerViewHolder<SensorConfig> {
 
     private final TextView sensorTitleTV, valuesTV;
     protected ExperimentPerformViewHolder(View v) {
@@ -21,7 +21,7 @@ public class ExperimentPerformViewHolder extends BaseRecyclerViewHolder<MySensor
 
 
     @Override
-    public void fillViewHolder(MySensor element) {
+    public void fillViewHolder(SensorConfig element) {
         sensorTitleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
         StringBuilder builder = new StringBuilder();
         for(Map.Entry<String, Float> entry: element.getMeasure().entrySet()){

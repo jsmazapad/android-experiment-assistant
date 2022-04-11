@@ -2,10 +2,6 @@ package com.jsm.exptool.workers.sensor;
 
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_ACCURACY;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_KEYS;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.MEASURE_VALUES;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SENSOR;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SENSOR_NAME;
 
@@ -18,11 +14,9 @@ import androidx.work.WorkerParameters;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.repositories.AudioRepository;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.repositories.SensorsRepository;
 
-import java.io.File;
 import java.util.Date;
 
 public class RegisterSensorWorker extends Worker {
@@ -33,13 +27,13 @@ public class RegisterSensorWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        MySensor sensor = null;
+        SensorConfig sensor = null;
         String sensorName = getInputData().getString(SENSOR_NAME);
         try {
             Gson gson = new GsonBuilder()
                     .excludeFieldsWithoutExposeAnnotation()
                     .create();
-             sensor = gson.fromJson(getInputData().getString(SENSOR), MySensor.class);
+             sensor = gson.fromJson(getInputData().getString(SENSOR), SensorConfig.class);
         }catch (Exception e){
             Log.e("ERROR EN PARSEO", "ERROR EN PARSEO");
             e.printStackTrace();

@@ -9,8 +9,8 @@ import androidx.room.Update;
 import com.jsm.exptool.data.database.relations.ExperimentWithSensors;
 import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.MySensor;
-import com.jsm.exptool.model.experimentconfig.SensorsConfig;
+import com.jsm.exptool.model.SensorConfig;
+import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public abstract class ExperimentDao {
         List<Experiment> experiments = new ArrayList<>(experimentsWithSensors.size());
         for(ExperimentWithSensors experimentWithSensors: experimentsWithSensors) {
             if(experimentWithSensors.experiment.getConfiguration().getSensorConfig() == null){
-                experimentWithSensors.experiment.getConfiguration().setSensorConfig(new SensorsConfig());
+                experimentWithSensors.experiment.getConfiguration().setSensorConfig(new SensorsGlobalConfig());
             }
             experimentWithSensors.experiment.getConfiguration().getSensorConfig().setSensors(experimentWithSensors.sensors);
             experiments.add(experimentWithSensors.experiment);
@@ -74,10 +74,14 @@ public abstract class ExperimentDao {
 
     @Insert
     public long insert(Experiment register){
-        if(register.getConfiguration().getSensorConfig() != null && register.getConfiguration().getSensorConfig().getSensors() != null){
-            insertAllSensorForExperiment(register.getConfiguration().getSensorConfig().getSensors(), register);
+        long id = _insert(register);
+        if(id>-1) {
+            register.setInternalId(id);
+            if (register.getConfiguration().getSensorConfig() != null && register.getConfiguration().getSensorConfig().getSensors() != null) {
+                insertAllSensorForExperiment(register.getConfiguration().getSensorConfig().getSensors(), register);
+            }
         }
-        return _insert(register);
+        return id;
     }
     /**
      * Inserta un registro
@@ -105,8 +109,9 @@ public abstract class ExperimentDao {
 
 
     @Insert
-    private void insertAllSensorForExperiment(List<MySensor> sensors, Experiment experiment){
-        for(MySensor sensor : sensors){
+    private void insertAllSensorForExperiment(List<SensorConfig> sensors, Experiment experiment){
+
+        for(SensorConfig sensor : sensors){
             sensor.setExperimentId(experiment.getInternalId());
         }
         _insertAllSensors(sensors);
@@ -114,5 +119,5 @@ public abstract class ExperimentDao {
     }
 
     @Insert
-    abstract void _insertAllSensors(List<MySensor> sensors);
+    abstract void _insertAllSensors(List<SensorConfig> sensors);
 }

@@ -32,11 +32,11 @@ import java.util.List;
 
 public class ExperimentCameraConfigurationViewModel extends BaseViewModel {
 
-    private MutableLiveData<Integer> flashImageResource = new MutableLiveData<>();
-    private MutableLiveData<Integer> cameraSelectedImageResource = new MutableLiveData<>();
-    private CameraConfig cameraConfig;
-    private List<EmbeddingAlgorithm> embbedingAlgorithms = EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms();
-    private MutableLiveData<EmbeddingAlgorithm> selectedEmbeddingAlgorithm = new MutableLiveData<>();
+    private final MutableLiveData<Integer> flashImageResource = new MutableLiveData<>();
+    private final MutableLiveData<Integer> cameraSelectedImageResource = new MutableLiveData<>();
+    private final CameraConfig cameraConfig;
+    private final List<EmbeddingAlgorithm> embbedingAlgorithms = EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms();
+    private final MutableLiveData<EmbeddingAlgorithm> selectedEmbeddingAlgorithm = new MutableLiveData<>();
 
 
 
