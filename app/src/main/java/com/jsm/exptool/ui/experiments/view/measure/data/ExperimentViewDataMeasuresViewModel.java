@@ -6,13 +6,13 @@ import android.content.Context;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.model.register.ExperimentRegister;
 
 import java.util.List;
 
-public class ExperimentViewDataMeasuresViewModel extends BaseRecyclerViewModel<ExperimentRegister, ExperimentRegister> {
+public class ExperimentViewDataMeasuresViewModel extends BaseRecyclerViewModelListener<ExperimentRegister, ExperimentRegister> {
 
     RepeatableElement measurableItem;
 

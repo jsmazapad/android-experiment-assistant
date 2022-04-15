@@ -24,7 +24,7 @@ public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsLis
 
     @Override
     protected BaseRecyclerAdapter createAdapter() {
-        return new ExperimentsListAdapter(getContext(), viewModel, this, ((BaseActivity) this.getActivity()).getNavController(), getListItemResourceId());
+        return new ExperimentsListAdapter(getContext(), viewModel, viewModel.getElements(), ((BaseActivity) this.getActivity()).getNavController(), getListItemResourceId());
     }
 
     @Override

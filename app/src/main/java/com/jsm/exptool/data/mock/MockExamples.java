@@ -32,6 +32,14 @@ public class MockExamples {
     public static Experiment getFullExperiment() {
         //TODO Código desarrollo
         Experiment experiment = new Experiment();
+        experiment.setQuickComments(new ArrayList<String>(){{
+            add("Comentario de prueba");
+            add("Otro comentario");
+            add("Otro comentario más");
+            add("Comentario");
+            add("Comentario un poco mas largo");
+            add("Comentario número 6");
+        }});
         experiment.setConfiguration(new ExperimentConfiguration());
         experiment.getConfiguration().setCameraConfig(new CameraConfig());
         experiment.getConfiguration().getCameraConfig().setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
@@ -50,6 +58,14 @@ public class MockExamples {
 
     public static Experiment registerExperimentForPerformanceTest() {
         Experiment experiment = new Experiment();
+        experiment.setQuickComments(new ArrayList<String>(){{
+            add("Comentario de prueba");
+            add("Otro comentario");
+            add("Otro comentario más");
+            add("Comentario");
+            add("Comentario un poco mas largo");
+            add("Comentario número 6");
+        }});
         experiment.setStatus(Experiment.ExperimentStatus.CREATED);
         experiment.setTitle("Experimento " + new Date().getTime());
         experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
@@ -78,6 +94,14 @@ public class MockExamples {
 
     public static Experiment registerExperimentForSensorVisualizationTest(Context context) {
         Experiment experiment = new Experiment();
+        experiment.setQuickComments(new ArrayList<String>(){{
+            add("Comentario de prueba");
+            add("Otro comentario");
+            add("Otro comentario más");
+            add("Comentario");
+            add("Comentario un poco mas largo");
+            add("Comentario número 6");
+        }});
         experiment.setStatus(new Random().nextBoolean()? Experiment.ExperimentStatus.INITIATED: Experiment.ExperimentStatus.FINISHED);
         //experiment.setStatus(Experiment.ExperimentStatus.CREATED);
         experiment.setInitDate(new Date());

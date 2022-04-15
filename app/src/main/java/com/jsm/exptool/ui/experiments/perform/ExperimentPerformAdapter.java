@@ -4,22 +4,21 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
+import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
 import com.jsm.exptool.model.SensorConfig;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
-public class ExperimentPerformAdapter extends BaseRecyclerAdapter<SensorConfig, ExperimentPerformViewHolder, SensorConfig> {
-    /**
-     * @param context
-     * @param viewModel        ViewModel asociado al fragment donde se incluye el recyclerView
-     * @param lifeCycleOwner   Propietario del ciclo de vida
-     * @param navController    Controlador de navegación (Android jetpack)
-     * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
-     */
-    public ExperimentPerformAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
-        super(context, viewModel, lifeCycleOwner, navController, listItemResource);
+import java.util.List;
+
+public class ExperimentPerformAdapter extends BaseRecyclerAdapter<SensorConfig, ExperimentPerformViewHolder> {
+
+    public ExperimentPerformAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<SensorConfig>> elements, NavController navController, int listItemResource) {
+        super(context, onRecyclerItemSelectedListener, elements, navController, listItemResource);
 
     }
 

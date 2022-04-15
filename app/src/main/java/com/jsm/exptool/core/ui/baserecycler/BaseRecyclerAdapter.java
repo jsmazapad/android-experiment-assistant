@@ -1,16 +1,16 @@
 package com.jsm.exptool.core.ui.baserecycler;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jsm.exptool.core.exceptions.BaseException;
+import java.util.List;
 
 
 /**
@@ -18,41 +18,53 @@ import com.jsm.exptool.core.exceptions.BaseException;
  * Tiene mecanismos de actualización automática y manejo de errores usando programación reactiva (LiveData)
  * @param <T> Tipo de objetos que se muestran en el recyclerView
  * @param <VH> Tipo del ViewHolder que se utiliza para la creación de las vistas
- * @param <RT> Tipo del response del repositorio asociado al viewmodel
  */
-public abstract class BaseRecyclerAdapter<T, VH extends BaseRecyclerViewHolder<T>, RT> extends RecyclerView.Adapter<VH> {
+public abstract class BaseRecyclerAdapter<T, VH extends BaseRecyclerViewHolder<T>> extends RecyclerView.Adapter<VH> {
 
-    private Context context;
-    protected BaseRecyclerViewModel<T, RT> viewModel;
+    private final Context context;
+    protected LiveData<List<T>> elements;
+    protected OnRecyclerItemSelectedListener onRecyclerItemSelectedListener;
     protected NavController navController;
-    private int listItemResource;
+    private final int listItemResource;
 
+
+    //TODO Pensar si solo se usa el segundo constructor y se suprime este
+    /**
+     *
+     * @param context
+     * @param onRecyclerItemSelectedListener callback para cuando se hace click en un elemento
+     * @param elements Listado de elementos del recycler
+     * @param navController Controlador de navegación (Android jetpack)
+     * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
+     */
+    public BaseRecyclerAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<T>> elements, NavController navController, int listItemResource) {
+        super();
+        this.context = context;
+        this.onRecyclerItemSelectedListener = onRecyclerItemSelectedListener;
+        this.elements = elements;
+        this.navController = navController;
+        this.listItemResource = listItemResource;
+    }
 
     /**
      *
      * @param context
-     * @param viewModel ViewModel asociado al fragment donde se incluye el recyclerView
-     * @param lifeCycleOwner Propietario del ciclo de vida
+     * @param onRecyclerItemSelectedListener callback para cuando se hace click en un elemento
+     * @param elements Listado de elementos del recycler
+     * @param owner Propietario del ciclo de vida que se usará para la suscripción a cambios en los elementos proporcionados
      * @param navController Controlador de navegación (Android jetpack)
      * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
      */
-    public BaseRecyclerAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
+    public BaseRecyclerAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<T>> elements, LifecycleOwner owner, NavController navController, int listItemResource) {
         super();
         this.context = context;
-        this.viewModel = viewModel;
+        this.onRecyclerItemSelectedListener = onRecyclerItemSelectedListener;
+        this.elements = elements;
         this.navController = navController;
         this.listItemResource = listItemResource;
-
-        viewModel.getApiResponseMediator().observe(lifeCycleOwner, categoryApiListResponse -> Log.d("Activado", "Activado"));
-        viewModel.getElements().observe(lifeCycleOwner, categoriesResponse -> {
-
-                    this.notifyDataSetChanged();
-                }
-
-        );
-        viewModel.getError().observe(lifeCycleOwner, error -> {
-            viewModel.handleError((BaseException) error, context);
-        });
+        this.elements.observe(owner, elementsResponse ->{
+            this.notifyDataSetChanged();
+        } );
     }
 
     /**
@@ -84,9 +96,9 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseRecyclerViewHolder<T
      */
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        T element = viewModel.getElements().getValue().get(position);
+        T element = elements.getValue().get(position);
         holder.fillViewHolder(element);
-        holder.itemView.setOnClickListener(v -> viewModel.onItemSelected(position, navController, v.getContext()));
+        holder.itemView.setOnClickListener(v -> onRecyclerItemSelectedListener.onItemSelected(position, navController, v.getContext()));
 
     }
 
@@ -96,7 +108,7 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseRecyclerViewHolder<T
      */
     @Override
     public int getItemCount() {
-        return viewModel.getElements().getValue().size();
+        return elements.getValue().size();
     }
 
 

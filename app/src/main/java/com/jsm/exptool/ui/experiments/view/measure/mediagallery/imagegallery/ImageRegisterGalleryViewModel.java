@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.model.register.MediaRegister;
 import com.jsm.exptool.providers.ImagesProvider;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewModel;
 
@@ -18,11 +19,6 @@ public class ImageRegisterGalleryViewModel extends MediaRegisterGalleryViewModel
     public ImageRegisterGalleryViewModel(Application app, List<ExperimentRegister> imageRegisters) {
         super(app, imageRegisters);
 
-    }
-
-    @Override
-    public List<ExperimentRegister> transformResponse(ListResponse<ExperimentRegister> response) {
-        return response.getResultList();
     }
 
 

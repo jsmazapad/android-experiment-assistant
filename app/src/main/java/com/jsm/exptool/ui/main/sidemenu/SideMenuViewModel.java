@@ -6,14 +6,14 @@ import android.content.Context;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.repositories.MenuRepository;
 import com.jsm.exptool.ui.main.MenuElement;
 
 import java.util.List;
 
 
-public class SideMenuViewModel extends BaseRecyclerViewModel<MenuElement, MenuElement> {
+public class SideMenuViewModel extends BaseRecyclerViewModelListener<MenuElement, MenuElement> {
 
     public SideMenuViewModel(Application app) {
         super(app);

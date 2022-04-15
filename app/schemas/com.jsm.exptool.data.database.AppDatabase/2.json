@@ -2,51 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "1409680fa9b0cb606e81ee410f623bf8",
+    "identityHash": "e7d929424d0e1fe0b12a6eb25ee011d4",
     "entities": [
       {
         "tableName": "imageRegisters",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `imageName` TEXT, `imageDirectory` TEXT, `embedding` TEXT, `dataRemoteSynced` INTEGER NOT NULL, `imageRemoteSynced` INTEGER NOT NULL, `embeddingRemoteSynced` INTEGER NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `fileName` TEXT, `fileDirectory` TEXT, `fileRemoteSynced` INTEGER NOT NULL, `embedding` TEXT, `embeddingRemoteSynced` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "internalId",
             "columnName": "_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "imageName",
-            "columnName": "imageName",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "imageDirectory",
-            "columnName": "imageDirectory",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "embedding",
-            "columnName": "embedding",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "dataRemoteSynced",
-            "columnName": "dataRemoteSynced",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "imageRemoteSynced",
-            "columnName": "imageRemoteSynced",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "embeddingRemoteSynced",
-            "columnName": "embeddingRemoteSynced",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -61,6 +25,42 @@
             "columnName": "date",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "dataRemoteSynced",
+            "columnName": "dataRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileName",
+            "columnName": "fileName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fileDirectory",
+            "columnName": "fileDirectory",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fileRemoteSynced",
+            "columnName": "fileRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "embedding",
+            "columnName": "embedding",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "embeddingRemoteSynced",
+            "columnName": "embeddingRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -83,7 +83,7 @@
       },
       {
         "tableName": "experiments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `defaultFrequency` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `syncPending` INTEGER NOT NULL, `embeddingPending` INTEGER NOT NULL, `exportedPending` INTEGER NOT NULL, `quickComments` TEXT, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_nameStringResource` INTEGER, `audio_config_recordingDuration` INTEGER, `audio_config_displayName` TEXT, `audio_config_descriptionTranslatableRes` INTEGER, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `global_config_interval` INTEGER, `global_config_intervalMin` INTEGER, `global_config_nameStringResource` INTEGER, `sensor_config_interval` INTEGER, `sensor_config_intervalMin` INTEGER, `sensor_config_nameStringResource` INTEGER)",
         "fields": [
           {
             "fieldPath": "internalId",
@@ -146,8 +146,200 @@
             "notNull": false
           },
           {
-            "fieldPath": "configuration.defaultFrequency",
-            "columnName": "defaultFrequency",
+            "fieldPath": "syncPending",
+            "columnName": "syncPending",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "embeddingPending",
+            "columnName": "embeddingPending",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exportedPending",
+            "columnName": "exportedPending",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quickComments",
+            "columnName": "quickComments",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.interval",
+            "columnName": "camera_config_interval",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.intervalMin",
+            "columnName": "camera_config_intervalMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.nameStringResource",
+            "columnName": "camera_config_nameStringResource",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.flashMode",
+            "columnName": "camera_config_flashMode",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.cameraPosition",
+            "columnName": "camera_config_cameraPosition",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.displayName",
+            "columnName": "camera_config_displayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.remoteServerName",
+            "columnName": "camera_config_remoteServerName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.descriptionTranslatableRes",
+            "columnName": "camera_config_descriptionTranslatableRes",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.optimalImageWidth",
+            "columnName": "camera_config_optimalImageWidth",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.optimalImageHeight",
+            "columnName": "camera_config_optimalImageHeight",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.maxParallelRequest",
+            "columnName": "camera_config_maxParallelRequest",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.interval",
+            "columnName": "audio_config_interval",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.intervalMin",
+            "columnName": "audio_config_intervalMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.nameStringResource",
+            "columnName": "audio_config_nameStringResource",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingDuration",
+            "columnName": "audio_config_recordingDuration",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingOption.displayName",
+            "columnName": "audio_config_displayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingOption.descriptionTranslatableRes",
+            "columnName": "audio_config_descriptionTranslatableRes",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingOption.audioSource",
+            "columnName": "audio_config_audioSource",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingOption.outputFormat",
+            "columnName": "audio_config_outputFormat",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingOption.audioEncoder",
+            "columnName": "audio_config_audioEncoder",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingOption.fileExtension",
+            "columnName": "audio_config_fileExtension",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingOption.selectedEncodingBitRate",
+            "columnName": "audio_config_selectedEncodingBitRate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.audioConfig.recordingOption.encodingBitRatesOptions",
+            "columnName": "audio_config_encodingBitRatesOptions",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.globalConfig.interval",
+            "columnName": "global_config_interval",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.globalConfig.intervalMin",
+            "columnName": "global_config_intervalMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.globalConfig.nameStringResource",
+            "columnName": "global_config_nameStringResource",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.sensorConfig.interval",
+            "columnName": "sensor_config_interval",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.sensorConfig.intervalMin",
+            "columnName": "sensor_config_intervalMin",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "configuration.sensorConfig.nameStringResource",
+            "columnName": "sensor_config_nameStringResource",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -169,11 +361,389 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "audioRegisters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `fileName` TEXT, `fileDirectory` TEXT, `fileRemoteSynced` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "internalId",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "experimentId",
+            "columnName": "experimentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dataRemoteSynced",
+            "columnName": "dataRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileName",
+            "columnName": "fileName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fileDirectory",
+            "columnName": "fileDirectory",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fileRemoteSynced",
+            "columnName": "fileRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_audioRegisters__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "createSql": "CREATE  INDEX `index_audioRegisters__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "experiment_sensors",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interval` INTEGER NOT NULL, `intervalMin` INTEGER NOT NULL, `nameStringResource` INTEGER NOT NULL, `_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `sensorType` INTEGER NOT NULL, `accuracy` INTEGER NOT NULL, `restartInitialMeasureAfterRead` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "interval",
+            "columnName": "interval",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intervalMin",
+            "columnName": "intervalMin",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameStringResource",
+            "columnName": "nameStringResource",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "internalId",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "experimentId",
+            "columnName": "experimentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sensorType",
+            "columnName": "sensorType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accuracy",
+            "columnName": "accuracy",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "restartInitialMeasureAfterRead",
+            "columnName": "restartInitialMeasureAfterRead",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_experiment_sensors__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "createSql": "CREATE  INDEX `index_experiment_sensors__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "sensorRegisters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `value1` REAL NOT NULL, `value1String` TEXT, `value2` REAL NOT NULL, `value2String` TEXT, `value3` REAL NOT NULL, `value3String` TEXT, `sensorName` TEXT, `sensorType` INTEGER NOT NULL, `sensorNameResource` INTEGER NOT NULL, `accuracy` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "internalId",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "experimentId",
+            "columnName": "experimentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dataRemoteSynced",
+            "columnName": "dataRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value1",
+            "columnName": "value1",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value1String",
+            "columnName": "value1String",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value2",
+            "columnName": "value2",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value2String",
+            "columnName": "value2String",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value3",
+            "columnName": "value3",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value3String",
+            "columnName": "value3String",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sensorName",
+            "columnName": "sensorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sensorType",
+            "columnName": "sensorType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sensorNameResource",
+            "columnName": "sensorNameResource",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accuracy",
+            "columnName": "accuracy",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_sensorRegisters__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "createSql": "CREATE  INDEX `index_sensorRegisters__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "commentRegisters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `comment` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "internalId",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "experimentId",
+            "columnName": "experimentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dataRemoteSynced",
+            "columnName": "dataRemoteSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "comment",
+            "columnName": "comment",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_commentRegisters__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "createSql": "CREATE  INDEX `index_commentRegisters__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "commentSuggestions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `usedTimesCounter` INTEGER NOT NULL, `comment` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "internalId",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usedTimesCounter",
+            "columnName": "usedTimesCounter",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "comment",
+            "columnName": "comment",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_commentSuggestions__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "createSql": "CREATE  INDEX `index_commentSuggestions__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "quickCommentsCollections",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `quickComments` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "internalId",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "quickComments",
+            "columnName": "quickComments",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_quickCommentsCollections__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "createSql": "CREATE  INDEX `index_quickCommentsCollections__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1409680fa9b0cb606e81ee410f623bf8\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e7d929424d0e1fe0b12a6eb25ee011d4\")"
     ]
   }
 }

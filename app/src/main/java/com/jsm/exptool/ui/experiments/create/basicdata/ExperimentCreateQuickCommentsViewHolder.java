@@ -7,15 +7,13 @@ import android.widget.TextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
-public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<SensorConfig> {
+public class ExperimentCreateQuickCommentsViewHolder extends BaseRecyclerViewHolder<String> {
 
     private final TextView titleTV;
     private final ImageView deleteIV;
-    private final DeleteActionListener<SensorConfig> listener;
-    protected ExperimentCreateBasicDataViewHolder(View v, DeleteActionListener<SensorConfig> listener) {
+    private final DeleteActionListener<String> listener;
+    protected ExperimentCreateQuickCommentsViewHolder(View v, DeleteActionListener<String> listener) {
         super(v);
 
         this.titleTV = v.findViewById(R.id.titleTV);
@@ -25,8 +23,8 @@ public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<
 
 
     @Override
-    public void fillViewHolder(SensorConfig element) {
-        titleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
+    public void fillViewHolder(String element) {
+        titleTV.setText(element);
         deleteIV.setOnClickListener(v -> {if(listener != null){listener.delete(element, itemView.getContext());}});
     }
 }

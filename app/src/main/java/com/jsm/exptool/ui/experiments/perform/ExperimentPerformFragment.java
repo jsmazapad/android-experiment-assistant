@@ -7,17 +7,24 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
+import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
 import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
 import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
@@ -26,6 +33,7 @@ import com.jsm.exptool.model.Experiment;
 
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
+import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.List;
 
@@ -94,7 +102,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
 
     @Override
     protected BaseRecyclerAdapter createAdapter() {
-        return new ExperimentPerformAdapter(getContext(), viewModel, getViewLifecycleOwner(), ((BaseActivity)getActivity()).getNavController(), getListItemResourceId());
+        return new ExperimentPerformAdapter(getContext(), viewModel, viewModel.getElements(), ((BaseActivity)getActivity()).getNavController(), getListItemResourceId());
     }
 
     @Override
@@ -133,6 +141,14 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
                 recyclerView.getAdapter().notifyItemChanged(position);
             }
         });
+
+        //Seteo del recyclerView para los comentarios rápidos
+        binding.quickCommentsRV.setAdapter(new QuickCommentsAdapter(getContext(), (position, navController, c) -> viewModel.onQuickCommentSelected(position), viewModel.getQuickComments(), ((MainActivity)getActivity()).getNavController(), R.layout.quick_comment_list_item));
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        //layoutManager.setJustifyContent(JustifyContent.FLEX_END);
+        binding.quickCommentsRV.setLayoutManager(layoutManager);
     }
 
     @Override

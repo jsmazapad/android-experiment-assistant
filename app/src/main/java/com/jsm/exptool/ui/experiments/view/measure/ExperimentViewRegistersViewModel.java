@@ -10,7 +10,7 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
@@ -23,7 +23,7 @@ import com.jsm.exptool.repositories.SensorsRepository;
 
 import java.util.List;
 
-public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<ExperimentRegister, ExperimentRegister> {
+public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModelListener<ExperimentRegister, ExperimentRegister> {
     private long experimentId;
     private RepeatableElement measurableItem;
     private final MutableLiveData<String> title = new MutableLiveData<>();

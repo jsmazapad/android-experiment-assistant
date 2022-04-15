@@ -31,7 +31,7 @@ public class ImageRegisterGalleryFragment extends MediaRegisterGalleryFragment<E
 
     @Override
     protected ImageRegisterGalleryAdapter createAdapter() {
-        return new ImageRegisterGalleryAdapter(getContext(), viewModel, getViewLifecycleOwner(), ((BaseActivity)this.getActivity()).getNavController(),getListItemResourceId());
+        return new ImageRegisterGalleryAdapter(getContext(), viewModel, viewModel.getElements(), ((BaseActivity)this.getActivity()).getNavController(),getListItemResourceId());
     }
 
     @Override

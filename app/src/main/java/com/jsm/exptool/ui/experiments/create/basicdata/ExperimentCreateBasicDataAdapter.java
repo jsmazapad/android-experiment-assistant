@@ -4,24 +4,22 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
+import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
-public class ExperimentCreateBasicDataAdapter extends BaseRecyclerAdapter<RepeatableElement, ExperimentCreateBasicDataViewHolder, RepeatableElement> {
-    DeleteActionListener listener;
-    /**
-     * @param context
-     * @param viewModel        ViewModel asociado al fragment donde se incluye el recyclerView
-     * @param lifeCycleOwner   Propietario del ciclo de vida
-     * @param navController    Controlador de navegación (Android jetpack)
-     * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
-     */
-    public ExperimentCreateBasicDataAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource, DeleteActionListener listener) {
-        super(context, viewModel, lifeCycleOwner, navController, listItemResource);
+import java.util.List;
+
+public class ExperimentCreateBasicDataAdapter extends BaseRecyclerAdapter<SensorConfig, ExperimentCreateBasicDataViewHolder> {
+    DeleteActionListener<SensorConfig> listener;
+
+    public ExperimentCreateBasicDataAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<SensorConfig>> elements, NavController navController, int listItemResource, DeleteActionListener<SensorConfig> listener) {
+        super(context, onRecyclerItemSelectedListener, elements, navController, listItemResource);
         this.listener = listener;
     }
 

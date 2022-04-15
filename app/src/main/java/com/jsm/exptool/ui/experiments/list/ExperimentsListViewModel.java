@@ -2,7 +2,6 @@ package com.jsm.exptool.ui.experiments.list;
 
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.EXPORT_REGISTERS;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,7 +23,7 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.providers.ExperimentActionsInterface;
@@ -36,7 +35,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, Experiment> implements ExperimentActionsInterface {
+public class ExperimentsListViewModel extends BaseRecyclerViewModelListener<Experiment, Experiment> implements ExperimentActionsInterface {
 
     private List<String> stateFilterOptions;
     private List<String> syncFilterOptions;

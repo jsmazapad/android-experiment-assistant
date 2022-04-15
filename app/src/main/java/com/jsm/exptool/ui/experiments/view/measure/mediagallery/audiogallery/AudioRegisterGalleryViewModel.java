@@ -20,6 +20,7 @@ import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.model.register.MediaRegister;
 import com.jsm.exptool.providers.ImagesProvider;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewModel;
 
@@ -37,7 +38,7 @@ public class AudioRegisterGalleryViewModel extends MediaRegisterGalleryViewModel
     }
 
     @Override
-    public List<ExperimentRegister> transformResponse(ListResponse<ExperimentRegister> response) {
+    public List<MediaRegister> transformResponse(ListResponse<MediaRegister> response) {
         return response.getResultList();
     }
 

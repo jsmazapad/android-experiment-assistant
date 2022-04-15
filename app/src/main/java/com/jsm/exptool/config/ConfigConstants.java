@@ -19,6 +19,8 @@ public class ConfigConstants {
     public static final int IMAGE_THUMBNAIL_WIDTH = 120;
     public static final int IMAGE_THUMBNAIL_HEIGHT = 120;
 
+    public static final int MAX_QUICK_COMMENTS = 6;
+
 
 
 }

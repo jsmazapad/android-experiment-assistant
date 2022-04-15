@@ -2,21 +2,19 @@ package com.jsm.exptool.ui.experiments.view.measure.mediagallery;
 
 import android.app.Application;
 import android.content.Context;
-import android.widget.ImageView;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.model.register.MediaRegister;
 import com.jsm.exptool.providers.DateProvider;
-import com.jsm.exptool.providers.ImagesProvider;
 
 import java.util.List;
 
-public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModel<ExperimentRegister, ExperimentRegister> {
+public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModelListener<MediaRegister, MediaRegister> {
 
 
     private MutableLiveData<Boolean> viewerEnabled = new MutableLiveData<>(false);
@@ -42,13 +40,13 @@ public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModel<Experim
     }
 
     @Override
-    public List<ExperimentRegister> transformResponse(ListResponse<ExperimentRegister> response) {
+    public List<MediaRegister> transformResponse(ListResponse<MediaRegister> response) {
         return response.getResultList();
     }
 
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
-        MediaRegister register = (MediaRegister) elements.getValue().get(position);
+        MediaRegister register = elements.getValue().get(position);
         fileSelectedPath.setValue(register.getFullPath());
         fileSelectedName.setValue(DateProvider.dateToDisplayStringWithTime(register.getDate()));
         viewerEnabled.setValue(true);
@@ -57,7 +55,7 @@ public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModel<Experim
 
     @Override
     public void setConstructorParameters(Object... args) {
-        this.apiResponseRepositoryHolder.setValue(new ListResponse<>((List<ExperimentRegister>) args [0]));
+        this.apiResponseRepositoryHolder.setValue(new ListResponse<>((List<MediaRegister>) args [0]));
     }
 
     @Override

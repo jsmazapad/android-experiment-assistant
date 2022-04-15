@@ -1,18 +1,21 @@
 package com.jsm.exptool.core.ui.baserecycler;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jsm.exptool.BR;
 import com.jsm.exptool.R;
+import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 
 
@@ -21,7 +24,7 @@ import com.jsm.exptool.core.ui.base.BaseFragment;
  * @param <BT> Databinding asociado al fragment
  * @param <VM> ViewModel asociado al fragment
  */
-public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extends BaseRecyclerViewModel> extends BaseFragment<BT, VM> {
+public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extends BaseRecyclerViewModelListener> extends BaseFragment<BT, VM> {
 
 
     private BaseRecyclerAdapter mAdapter;
@@ -78,6 +81,19 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
         } else {
             mAdapter.notifyDataSetChanged();
         }
+
+        LifecycleOwner lifeCycleOwner = this.getViewLifecycleOwner();
+        Context context = this.getContext();
+        viewModel.getApiResponseMediator().observe(lifeCycleOwner, categoryApiListResponse -> Log.d("Activado", "Activado"));
+        viewModel.getElements().observe(lifeCycleOwner, categoriesResponse -> {
+
+            recyclerView.getAdapter().notifyDataSetChanged();
+                }
+
+        );
+        viewModel.getError().observe(lifeCycleOwner, error -> {
+            viewModel.handleError((BaseException) error, context);
+        });
     }
 
 }

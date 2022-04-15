@@ -1,5 +1,7 @@
 package com.jsm.exptool.ui.experiments.create.basicdata;
 
+import static com.jsm.exptool.config.ConfigConstants.MAX_QUICK_COMMENTS;
+
 import android.app.Application;
 import android.content.Context;
 
@@ -11,7 +13,7 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.base.BaseActivity;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.libs.MultiSpinner;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
@@ -25,10 +27,12 @@ import com.jsm.exptool.repositories.SensorsRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<SensorConfig, SensorConfig> implements MultiSpinner.MultiSpinnerListener, DeleteActionListener<SensorConfig> {
+public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModelListener<SensorConfig, SensorConfig> implements MultiSpinner.MultiSpinnerListener, DeleteActionListener<SensorConfig> {
 
     private String title = "";
     private String description = "";
+    private MutableLiveData<String> quickCommentValue = new MutableLiveData<>("");
+    private MutableLiveData<List<String>> quickComments = new MutableLiveData<>(new ArrayList<>());
     private MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> remoteSyncEnabled = new MutableLiveData<>(false);
     private boolean embeddingEnabled = false;
@@ -78,6 +82,18 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public MutableLiveData<String> getQuickCommentValue() {
+        return quickCommentValue;
+    }
+
+    public void setQuickCommentValue(MutableLiveData<String> quickCommentValue) {
+        this.quickCommentValue = quickCommentValue;
+    }
+
+    public MutableLiveData<List<String>> getQuickComments() {
+        return quickComments;
     }
 
     public MutableLiveData<Boolean> getCameraEnabled() {
@@ -165,6 +181,25 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         }
     }
 
+    public void addQuickComment(){
+
+        List<String> elementsValue= quickComments.getValue();
+        if(elementsValue != null && elementsValue.size()< MAX_QUICK_COMMENTS && !"".equals(quickCommentValue.getValue())) {
+            elementsValue.add(quickCommentValue.getValue());
+            quickComments.setValue(elementsValue);
+            quickCommentValue.setValue("");
+        }
+
+    }
+    public void deleteQuickComment(String element){
+        if(element != null) {
+            List<String> elementsValue= quickComments.getValue();
+            elementsValue.remove(element);
+            quickComments.setValue(elementsValue);
+        }
+
+    }
+
     public void completeStep(Context context){
         boolean validTitle = this.title != null && !this.title.isEmpty();
         boolean validAtLeastOneOption = audioEnabled || cameraEnabled.getValue() || (elements.getValue() != null && elements.getValue().size() > 0);
@@ -198,6 +233,9 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         List <SensorConfig> selectedSensors= this.elements.getValue();
         if(selectedSensors != null && selectedSensors.size() > 0) {
             configuration.setSensorConfig(new SensorsGlobalConfig(this.elements.getValue()));
+        }
+        if(quickComments.getValue() != null && quickComments.getValue().size() > 0) {
+            experiment.setQuickComments(this.quickComments.getValue());
         }
         return experiment;
     }

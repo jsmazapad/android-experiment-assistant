@@ -4,21 +4,22 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
+import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
+import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.model.register.MediaRegister;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewAdapter;
 
-public class ImageRegisterGalleryAdapter extends MediaRegisterGalleryViewAdapter<ImageRegisterGalleryViewHolder> {
-    /**
-     * @param context
-     * @param viewModel        ViewModel asociado al fragment donde se incluye el recyclerView
-     * @param lifeCycleOwner   Propietario del ciclo de vida
-     * @param navController    Controlador de navegación (Android jetpack)
-     * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
-     */
-    public ImageRegisterGalleryAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
-        super(context, viewModel, lifeCycleOwner, navController, listItemResource);
+import java.util.List;
+
+public class ImageRegisterGalleryAdapter extends MediaRegisterGalleryViewAdapter {
+
+    public ImageRegisterGalleryAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<MediaRegister>> elements, NavController navController, int listItemResource) {
+        super(context, onRecyclerItemSelectedListener, elements, navController, listItemResource);
     }
 
     @Override

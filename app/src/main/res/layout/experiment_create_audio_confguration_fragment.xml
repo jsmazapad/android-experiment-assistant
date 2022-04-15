@@ -52,8 +52,7 @@
                 android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedAudioOption(position)}"
                 android:selectedItemPosition="@{ viewModel.selectedAudioOptionPosition}"
                 tools:listitem="@layout/generic_title_description_spinner_list_item" />
-<!--                            app:selectedValue="@={viewModel.selectedAudioOption}"
--->
+
             <TextView
                 style="@style/BaseCardTitleTextView"
                 android:layout_width="wrap_content"

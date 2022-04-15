@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel" />
+            type="com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

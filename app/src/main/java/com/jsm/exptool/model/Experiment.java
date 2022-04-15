@@ -47,9 +47,10 @@ public class Experiment implements Parcelable {
     private int sdkDevice;
     private String device;
     private boolean syncPending, embeddingPending, exportedPending;
+    private List<String> quickComments = new ArrayList<>();
 
 
-    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending) {
+    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending, List<String> quickComments) {
         this.internalId = internalId;
         this.id = id;
         this.userId = userId;
@@ -68,9 +69,10 @@ public class Experiment implements Parcelable {
         this.syncPending = syncPending;
         this.embeddingPending = embeddingPending;
         this.exportedPending = exportedPending;
+        this.quickComments = quickComments;
     }
 
-    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending) {
+    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending, List<String> quickComments) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -88,6 +90,7 @@ public class Experiment implements Parcelable {
         this.syncPending = syncPending;
         this.embeddingPending = embeddingPending;
         this.exportedPending = exportedPending;
+        this.quickComments = quickComments;
     }
 
     public Experiment() {
@@ -237,7 +240,13 @@ public class Experiment implements Parcelable {
         this.exportedPending = exportedPending;
     }
 
+    public List<String> getQuickComments() {
+        return quickComments;
+    }
 
+    public void setQuickComments(List<String> quickComments) {
+        this.quickComments = quickComments;
+    }
 
     public enum ExperimentStatus{
         CREATED("CREATED"),
@@ -289,6 +298,7 @@ public class Experiment implements Parcelable {
         dest.writeByte(this.syncPending ? (byte) 1 : (byte) 0);
         dest.writeByte(this.embeddingPending ? (byte) 1 : (byte) 0);
         dest.writeByte(this.exportedPending ? (byte) 1 : (byte) 0);
+        dest.writeStringList(this.quickComments);
     }
 
     public void readFromParcel(Parcel source) {
@@ -313,30 +323,11 @@ public class Experiment implements Parcelable {
         this.syncPending = source.readByte() != 0;
         this.embeddingPending = source.readByte() != 0;
         this.exportedPending = source.readByte() != 0;
+        this.quickComments = source.createStringArrayList();
     }
 
     protected Experiment(Parcel in) {
-        this.internalId = in.readLong();
-        this.id = in.readInt();
-        this.userId = in.readInt();
-        this.title = in.readString();
-        this.description = in.readString();
-        long tmpInitDate = in.readLong();
-        this.initDate = tmpInitDate == -1 ? null : new Date(tmpInitDate);
-        long tmpEndDate = in.readLong();
-        this.endDate = tmpEndDate == -1 ? null : new Date(tmpEndDate);
-        int tmpStatus = in.readInt();
-        this.status = tmpStatus == -1 ? null : ExperimentStatus.values()[tmpStatus];
-        this.configuration = in.readParcelable(ExperimentConfiguration.class.getClassLoader());
-        this.sensors = in.createTypedArrayList(SensorRegister.CREATOR);
-        this.images = in.createTypedArrayList(ImageRegister.CREATOR);
-        this.sounds = in.createTypedArrayList(AudioRegister.CREATOR);
-        this.comments = in.createTypedArrayList(CommentRegister.CREATOR);
-        this.sdkDevice = in.readInt();
-        this.device = in.readString();
-        this.syncPending = in.readByte() != 0;
-        this.embeddingPending = in.readByte() != 0;
-        this.exportedPending = in.readByte() != 0;
+        this.readFromParcel(in);
     }
 
     public static final Creator<Experiment> CREATOR = new Creator<Experiment>() {

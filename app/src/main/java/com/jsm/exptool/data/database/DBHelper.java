@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
 import com.jsm.exptool.model.CommentSuggestion;
+import com.jsm.exptool.model.QuickCommentsCollection;
 import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.CommentRegister;
@@ -233,9 +234,27 @@ public class DBHelper {
         return appDatabase.commentSuggestionDao().resetSuggestionsCounter();
     }
 
+    /*
+  QUICK COMMENT COLLECTIONS
+   */
+    public static long insertQuickCommentsCollection(final QuickCommentsCollection commentRegister) {
+        return appDatabase.quickCommentsCollectionDao().insert(commentRegister);
+    }
+
+    public static List<QuickCommentsCollection> getQuickCommentsCollections() {
+
+            return appDatabase.quickCommentsCollectionDao().getQuickCommentsCollections();
 
 
+    }
 
 
+    public static int updateQuickCommentsCollection(QuickCommentsCollection register) {
+        return appDatabase.quickCommentsCollectionDao().update(register);
+    }
+
+    public static int deleteQuickCommentsCollectionById(QuickCommentsCollection register) {
+        return appDatabase.quickCommentsCollectionDao().deleteById(register.getInternalId());
+    }
 
 }

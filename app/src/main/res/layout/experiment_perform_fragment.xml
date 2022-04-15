@@ -111,6 +111,11 @@
                             android:background="@color/white"
                             android:orientation="vertical">
 
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/quickCommentsRV"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
                             <com.google.android.material.textfield.TextInputLayout
                                 style="@style/BaseTextInputLayout"
                                 android:layout_height="wrap_content"
@@ -118,9 +123,10 @@
 
                                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                     android:id="@+id/commentsAutoCompleteTV"
+                                    android:enabled="@{viewModel.experimentInitiated}"
                                     style="@style/BaseTextInputEditText"
                                     android:hint="@string/experiment_perform_comments_title"
-                                    android:text="@={viewModel.comment}"
+                                    android:text="@={viewModel.commentValue}"
                                     android:textColorHint="#616161" />
 
                             </com.google.android.material.textfield.TextInputLayout>
@@ -128,9 +134,17 @@
                             <Button
                                 android:id="@+id/saveSuggestionButton"
                                 style="@style/FullWidthButton"
+                                android:enabled="@{viewModel.experimentInitiated}"
                                 android:layout_height="wrap_content"
-                                android:onClick="@{() -> viewModel.saveComment(context)}"
+                                android:onClick="@{() -> viewModel.saveCommentValue(context)}"
                                 android:text="@string/experiment_perform_add_comment_button" />
+                            <Button
+                                android:id="@+id/saveAndAddtton"
+                                style="@style/FullWidthButton"
+                                android:enabled="@{viewModel.experimentInitiated}"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{() -> viewModel.saveCommentAndAddToSuggestions(context)}"
+                                android:text="@string/experiment_perform_add_and_save_comment_button" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"

@@ -8,8 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.core.utils.DateUtils;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
@@ -19,7 +18,7 @@ import com.jsm.exptool.providers.TimeDisplayStringProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableElement, RepeatableElement> {
+public class ExperimentViewViewModel extends BaseRecyclerViewModelListener<RepeatableElement, RepeatableElement> {
 
    private Experiment experiment;
 

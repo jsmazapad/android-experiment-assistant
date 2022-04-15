@@ -10,6 +10,7 @@ import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryPerformance;
 import com.jsm.exptool.core.utils.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
+import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.WorksOrchestratorProvider;
@@ -42,6 +43,8 @@ public class App extends Application {
 
             WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
             orchestratorProvider.init(this);
+
+            //MockExamples.createRandomCompletedExperiments(this);
 
 
 

@@ -88,6 +88,7 @@
     <string name="experiment_perform_num_embeddings">Nº de vectores de embedding</string>
     <string name="experiment_perform_comments_title">Comentario</string>
     <string name="experiment_perform_add_comment_button">Añadir comentario</string>
+    <string name="experiment_perform_add_and_save_comment_button">Añadir comentario y guardar en sugerencias</string>
     <string name="experiment_perform_num_comments">Nº comentarios</string>
     <string name="experiment_perform_audio_title">Audio</string>
     <string name="experiment_perform_num_audios">Nº de archivos de audio</string>
@@ -128,6 +129,7 @@ CONFIGURATION
     <string name="warning_delete_comment_suggestion_format">¿Está seguro de que sea eliminar el comentario \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
     <string name="error_suggestion_already_exists">El comentario que se desea registrar ya existe</string>
     <string name="reset_suggestion_counter_warning_text">Va a proceder a colocar todos los contadores de sugerencias de comentarios a 0. Estos contadores se utilizan para ayudar a saber que sugerencias de comentarios se utlizan mas y facilitar la introducción de comentarios duerante la realización de experimentos. Esta acción no se puede deshacer. ¿Desea proceder?</string>
+    <string name="warning_delete_quickcomment_cllection_format">¿Está seguro de que sea eliminar la colección de comentarios rápidos \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
 
 
     <!--
@@ -151,6 +153,7 @@ ABOUT
     <string name="experiment_filter_status_prompt">Seleccione estado</string>
     <string name="experiment_filter_sync_prompt">Seleccione filtros sincronización</string>
     <string name="num_registers_format">%d registros</string>
+    <string name="add_quick_comment_content_description">Añadir comentario rápido</string>
 
 
 </resources>

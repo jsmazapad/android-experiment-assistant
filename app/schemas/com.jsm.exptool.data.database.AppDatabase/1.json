@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "57a132538204a140e1a5f7baff22a99f",
+    "identityHash": "4312e28ab68e933a12961259766118aa",
     "entities": [
       {
         "tableName": "imageRegisters",
@@ -83,7 +83,7 @@
       },
       {
         "tableName": "experiments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `syncPending` INTEGER NOT NULL, `embeddingPending` INTEGER NOT NULL, `exportedPending` INTEGER NOT NULL, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_nameStringResource` INTEGER, `audio_config_recordingDuration` INTEGER, `audio_config_displayName` TEXT, `audio_config_descriptionTranslatableRes` INTEGER, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `global_config_interval` INTEGER, `global_config_intervalMin` INTEGER, `global_config_nameStringResource` INTEGER, `sensor_config_interval` INTEGER, `sensor_config_intervalMin` INTEGER, `sensor_config_nameStringResource` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `syncPending` INTEGER NOT NULL, `embeddingPending` INTEGER NOT NULL, `exportedPending` INTEGER NOT NULL, `quickComments` TEXT, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_nameStringResource` INTEGER, `audio_config_recordingDuration` INTEGER, `audio_config_displayName` TEXT, `audio_config_descriptionTranslatableRes` INTEGER, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `global_config_interval` INTEGER, `global_config_intervalMin` INTEGER, `global_config_nameStringResource` INTEGER, `sensor_config_interval` INTEGER, `sensor_config_intervalMin` INTEGER, `sensor_config_nameStringResource` INTEGER)",
         "fields": [
           {
             "fieldPath": "internalId",
@@ -162,6 +162,12 @@
             "columnName": "exportedPending",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "quickComments",
+            "columnName": "quickComments",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "configuration.cameraConfig.interval",
@@ -692,11 +698,52 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "commentRegisters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `quickComments` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "internalId",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "quickComments",
+            "columnName": "quickComments",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_commentRegisters__id",
+            "unique": false,
+            "columnNames": [
+              "_id"
+            ],
+            "createSql": "CREATE  INDEX `index_commentRegisters__id` ON `${TABLE_NAME}` (`_id`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"57a132538204a140e1a5f7baff22a99f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4312e28ab68e933a12961259766118aa\")"
     ]
   }
 }

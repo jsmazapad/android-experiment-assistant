@@ -17,7 +17,7 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.base.BaseActivity;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 import com.jsm.exptool.libs.SeekbarSelectorHelper;
@@ -40,7 +40,7 @@ import com.jsm.exptool.ui.main.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewModel<FrequencyConfigurationVO<SensorConfig>, SensorConfig> implements SelectFrequencyDialogProvider.OnFrequencySelectedListener, SeekbarSelectorHelper.FrequencySelectorListener {
+public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewModelListener<FrequencyConfigurationVO<SensorConfig>, SensorConfig> implements SelectFrequencyDialogProvider.OnFrequencySelectedListener, SeekbarSelectorHelper.FrequencySelectorListener {
 
     public static final String CONFIGURING_AUDIO_DURATION_TAG = "CONFIGURING_AUDIO_DURATION_TAG";
 

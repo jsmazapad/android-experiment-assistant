@@ -147,4 +147,9 @@ dependencies {
     CSV
      */
     implementation 'com.opencsv:opencsv:4.6'
+
+    /*
+    Recycler view con elementos tipo tag cloud (orientación horizontal con saltos de línea automáticos)
+     */
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }

@@ -44,7 +44,7 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
 
     @Override
     protected BaseRecyclerAdapter createAdapter() {
-        return new ExperimentCreateConfigureDataAdapter(getContext(), viewModel, this, ((BaseActivity) this.getActivity()).getNavController(), getListItemResourceId());
+        return new ExperimentCreateConfigureDataAdapter(getContext(), viewModel, viewModel.getElements(), ((BaseActivity) this.getActivity()).getNavController(), getListItemResourceId());
     }
 
     @Override

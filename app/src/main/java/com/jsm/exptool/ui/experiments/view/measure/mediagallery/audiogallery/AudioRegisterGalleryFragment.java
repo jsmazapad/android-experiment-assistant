@@ -34,7 +34,7 @@ public class AudioRegisterGalleryFragment extends MediaRegisterGalleryFragment<E
 
     @Override
     protected AudioRegisterGalleryAdapter createAdapter() {
-        return new AudioRegisterGalleryAdapter(getContext(), viewModel, getViewLifecycleOwner(), ((BaseActivity)this.getActivity()).getNavController(),getListItemResourceId());
+        return new AudioRegisterGalleryAdapter(getContext(), viewModel, viewModel.getElements(), ((BaseActivity)this.getActivity()).getNavController(),getListItemResourceId());
     }
 
     @Override

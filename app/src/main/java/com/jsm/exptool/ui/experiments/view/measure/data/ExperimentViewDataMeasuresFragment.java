@@ -33,7 +33,7 @@ public class ExperimentViewDataMeasuresFragment extends BaseRecyclerFragment<Exp
 
     @Override
     protected BaseRecyclerAdapter createAdapter() {
-        return new ExperimentViewDataMeasuresAdapter(getContext(), viewModel, getViewLifecycleOwner(), ((BaseActivity)this.getActivity()).getNavController(),getListItemResourceId());
+        return new ExperimentViewDataMeasuresAdapter(getContext(), viewModel, viewModel.getElements(), ((BaseActivity)this.getActivity()).getNavController(),getListItemResourceId());
     }
 
     @Override

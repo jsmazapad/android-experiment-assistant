@@ -10,6 +10,7 @@ import com.jsm.exptool.data.database.dao.CommentRegisterDao;
 import com.jsm.exptool.data.database.dao.CommentSuggestionDao;
 import com.jsm.exptool.data.database.dao.ImageRegisterDao;
 import com.jsm.exptool.data.database.dao.ExperimentDao;
+import com.jsm.exptool.data.database.dao.QuickCommentsCollectionDao;
 import com.jsm.exptool.data.database.dao.SensorRegisterDao;
 import com.jsm.exptool.data.database.typeconverters.CameraPositionsConverter;
 import com.jsm.exptool.data.database.typeconverters.DateConverter;
@@ -17,7 +18,9 @@ import com.jsm.exptool.data.database.typeconverters.DoubleListConverter;
 import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
 import com.jsm.exptool.data.database.typeconverters.FlashModesConverter;
 import com.jsm.exptool.data.database.typeconverters.IntegerListConverter;
+import com.jsm.exptool.data.database.typeconverters.StringListConverter;
 import com.jsm.exptool.model.CommentSuggestion;
+import com.jsm.exptool.model.QuickCommentsCollection;
 import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.CommentRegister;
@@ -30,8 +33,8 @@ import com.jsm.exptool.model.register.SensorRegister;
  * Clase que representa a la base de datos
  */
 
-@Database(entities = {ImageRegister.class, Experiment.class, AudioRegister.class, SensorConfig.class, SensorRegister.class, CommentRegister.class, CommentSuggestion.class}, version = 1)
-@TypeConverters({DoubleListConverter.class, IntegerListConverter.class, DateConverter.class, ExperimentStatusConverter.class, CameraPositionsConverter.class, FlashModesConverter.class})
+@Database(entities = {ImageRegister.class, Experiment.class, AudioRegister.class, SensorConfig.class, SensorRegister.class, CommentRegister.class, CommentSuggestion.class, QuickCommentsCollection.class}, version = 2)
+@TypeConverters({DoubleListConverter.class, IntegerListConverter.class, DateConverter.class, ExperimentStatusConverter.class, CameraPositionsConverter.class, FlashModesConverter.class, StringListConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     /**
      * Obtiene un DAO de la entidad ImageRegister para realizar operaciones con la BD
@@ -65,5 +68,11 @@ public abstract class AppDatabase extends RoomDatabase {
      * @return
      */
     public abstract CommentSuggestionDao commentSuggestionDao();
+
+    /**
+     * Obtiene un DAO de la entidad QuickCommentsCollection para realizar operaciones con la BD
+     * @return
+     */
+    public abstract QuickCommentsCollectionDao quickCommentsCollectionDao();
 
 }
