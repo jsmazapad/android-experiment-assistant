@@ -166,7 +166,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="false"
-                            tools:listitem="@layout/experiment_create_basic_data_list_item">
+                            tools:listitem="@layout/generic_cloud_tag_with_deletion_list_item">
 
                         </androidx.recyclerview.widget.RecyclerView>
 
@@ -197,21 +197,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Comentarios rápidos" />
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/quickCommentsSpinner"
+                            style="@style/BaseSpinner"
+                            android:prompt="@string/quick_comments_spinner_title"
+                            android:onItemSelected="@{(parent, view, position, id) -> viewModel.onQuickCommentsCollectionSelected(position)}"
+                            app:spinnerAdapter="@{ viewModel.getQuickCommentsCollectionsAdapter(context)}"
+                            tools:listitem="@layout/generic_title_description_spinner_list_item" />
 
-                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                style="@style/BaseTextInputEditText"
-                                android:hint="Insertar comentario"
-                                android:inputType="textShortMessage"
-                                android:text="@={viewModel.quickCommentValue}" />
-                        </com.google.android.material.textfield.TextInputLayout>
                         <Button
                             android:id="@+id/addQuickCommentButton"
                             style="@style/BaseButton"
                             android:layout_gravity="center"
-                            android:onClick="@{() -> viewModel.addQuickComment()}"
-                            android:text="Añadir comentario rápido" />
+                            android:onClick="@{() -> viewModel.addQuickCommentCollection(context)}"
+                            android:text="Añadir nueva colección de comentarios rápidos" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/quickCommentsRV"
@@ -219,7 +218,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="false"
-                            tools:listitem="@layout/experiment_create_basic_data_list_item">
+                            tools:listitem="@layout/generic_cloud_tag_with_deletion_list_item">
 
                         </androidx.recyclerview.widget.RecyclerView>
                     </LinearLayout>

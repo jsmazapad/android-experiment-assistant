@@ -1,8 +1,12 @@
 package com.jsm.exptool.ui.configuration.quickComments;
 
+import static com.jsm.exptool.config.ConfigConstants.CONFIG_SAVED_ARG;
+
 import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.SavedStateHandle;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
@@ -14,6 +18,7 @@ import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.model.QuickCommentsCollection;
 import com.jsm.exptool.repositories.QuickCommentsCollectionsRepository;
 import com.jsm.exptool.ui.configuration.ConfigurationFragmentDirections;
+import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.List;
 
@@ -51,11 +56,6 @@ public class ConfigurationQuickCommentsViewModel extends BaseRecyclerViewModel<Q
         navController.navigate(ConfigurationQuickCommentsFragmentDirections.actionNavQuickCommentsConfigurationToNavManageQuickCommentsConfiguration(null));
     }
 
-    public void addQuickCommentsCollection(QuickCommentsCollection element) {
-
-        QuickCommentsCollectionsRepository.registerQuickCommentsCollection(element);
-            callRepositoryForData();
-    }
 
     @Override
     public void delete(QuickCommentsCollection element, Context context) {
@@ -80,6 +80,19 @@ public class ConfigurationQuickCommentsViewModel extends BaseRecyclerViewModel<Q
         NavController navController = ((BaseActivity) context).getNavController();
         navController.navigate(ConfigurationQuickCommentsFragmentDirections.actionNavQuickCommentsConfigurationToNavManageQuickCommentsConfiguration(element));
 
+    }
+
+    protected void initBackStackEntryObserver(Context context, LifecycleOwner owner) {
+        SavedStateHandle savedStateHandle = ((MainActivity) context).getNavController().getCurrentBackStackEntry().getSavedStateHandle();
+        savedStateHandle.getLiveData(CONFIG_SAVED_ARG).observe(owner, configValue -> {
+            if (configValue != null) {
+                if((Boolean) configValue) {
+                    callRepositoryForData();
+                }
+                //Eliminamos para no leerlo dos veces
+                savedStateHandle.remove(CONFIG_SAVED_ARG);
+            }
+        });
     }
 
 }

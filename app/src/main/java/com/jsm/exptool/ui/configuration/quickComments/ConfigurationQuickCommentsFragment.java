@@ -15,6 +15,12 @@ import com.jsm.exptool.databinding.ConfigurationQuickCommentsFragmentBinding;
 
 public class ConfigurationQuickCommentsFragment extends BaseRecyclerFragment<ConfigurationQuickCommentsFragmentBinding, ConfigurationQuickCommentsViewModel> {
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Necesario inicializar aquí para que navCtrl esté cargado
+        viewModel.initBackStackEntryObserver(getContext(), getViewLifecycleOwner());
+    }
 
     @Override
     protected ConfigurationQuickCommentsFragmentBinding createDataBinding(@NonNull LayoutInflater inflater, ViewGroup container) {

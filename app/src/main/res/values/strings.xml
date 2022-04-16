@@ -34,6 +34,7 @@
     <string name="select_sensors">Seleccionar sensores</string>
     <string name="mandatory_name_field_error">El campo nombre es obligatorio\n</string>
     <string name="at_least_one_experiment_conf_option_error">Debe seleccionar al menos una función multimedia o un sensor</string>
+    <string name="quick_comments_spinner_title">Seleccione colección de comentarios rápidos</string>
     <!--
     CREATE EXPERIMENT: CAMERA CARD
     -->
@@ -135,7 +136,10 @@ CONFIGURATION
     <string name="error_suggestion_already_exists">El comentario que se desea registrar ya existe</string>
     <string name="reset_suggestion_counter_warning_text">Va a proceder a colocar todos los contadores de sugerencias de comentarios a 0. Estos contadores se utilizan para ayudar a saber que sugerencias de comentarios se utlizan mas y facilitar la introducción de comentarios duerante la realización de experimentos. Esta acción no se puede deshacer. ¿Desea proceder?</string>
     <string name="warning_delete_quick_comment_collection_format">¿Está seguro de que sea eliminar la colección de comentarios rápidos \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
-    <string name="configuration_quick_comment_collection_add_button">Añadir nueva colección</string>Z
+    <string name="configuration_quick_comment_collection_add_button">Añadir nueva colección</string>
+    <string name="add_quick_comment_content_description">Añadir comentario rápido</string>
+    <string name="configuration_quick_comments_new_collection_title">Nueva colección de comentarios rápidos</string>
+    <string name="configuration_quick_comments_edit_collection_title">Gestión de colección de comentarios rápidos</string>
 
     <!--
 ABOUT
@@ -147,6 +151,9 @@ ABOUT
 <p>Tutelada por</p>
 <p><strong>Gualberto Asencio Cort&eacute;s</strong></p>
 <p><strong>&copy; Joaqu&iacute;n Sainz de la Maza Padr&oacute; 2022</strong></p>]]></string>
+<!--
+Experiment list
+-->
 
     <string name="experiment_filter_name_all">Todos</string>
     <string name="experiment_filter_name_create">Creado</string>
@@ -158,7 +165,7 @@ ABOUT
     <string name="experiment_filter_status_prompt">Seleccione estado</string>
     <string name="experiment_filter_sync_prompt">Seleccione filtros sincronización</string>
     <string name="num_registers_format">%d registros</string>
-    <string name="add_quick_comment_content_description">Añadir comentario rápido</string>
+    <string name="experiment_create_no_quick_comments_option">Sin comentarios rápidos</string>
 
 
 </resources>

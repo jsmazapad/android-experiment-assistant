@@ -1,11 +1,14 @@
 package com.jsm.exptool.ui.experiments.create.basicdata;
 
+import static com.jsm.exptool.config.ConfigConstants.CONFIG_SAVED_ARG;
 import static com.jsm.exptool.config.ConfigConstants.MAX_QUICK_COMMENTS;
 
 import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
@@ -15,6 +18,7 @@ import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.libs.MultiSpinner;
+import com.jsm.exptool.model.QuickCommentsCollection;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
@@ -22,7 +26,10 @@ import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
+import com.jsm.exptool.repositories.QuickCommentsCollectionsRepository;
 import com.jsm.exptool.repositories.SensorsRepository;
+import com.jsm.exptool.ui.experiments.create.audioconfiguration.BitrateSpinnerAdapter;
+import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +38,8 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
 
     private String title = "";
     private String description = "";
-    private MutableLiveData<String> quickCommentValue = new MutableLiveData<>("");
-    private MutableLiveData<List<String>> quickComments = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<List<QuickCommentsCollection>> quickCommentsCollections = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<ListResponse<QuickCommentsCollection>> quickCommentsCollectionsApiResponse =  new MutableLiveData<>();;
     private MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> remoteSyncEnabled = new MutableLiveData<>(false);
     private boolean embeddingEnabled = false;
@@ -84,16 +91,8 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         this.description = description;
     }
 
-    public MutableLiveData<String> getQuickCommentValue() {
-        return quickCommentValue;
-    }
-
-    public void setQuickCommentValue(MutableLiveData<String> quickCommentValue) {
-        this.quickCommentValue = quickCommentValue;
-    }
-
-    public MutableLiveData<List<String>> getQuickComments() {
-        return quickComments;
+    public MutableLiveData<List<QuickCommentsCollection>> getQuickCommentsCollections() {
+        return quickCommentsCollections;
     }
 
     public MutableLiveData<Boolean> getCameraEnabled() {
@@ -147,6 +146,8 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
             sensorStrings.add(string);
         }
 
+        QuickCommentsCollectionsRepository.getQuickCommentsCollections(quickCommentsCollectionsApiResponse);
+
     }
 
     public void configureSpinner(MultiSpinner spinner){
@@ -181,24 +182,21 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         }
     }
 
-    public void addQuickComment(){
+    public QuickCommentsCollectionsSpinnerAdapter getQuickCommentsCollectionsAdapter(Context context) {
+        return new QuickCommentsCollectionsSpinnerAdapter(context, quickCommentsCollections.getValue(), R.layout.generic_title_description_spinner_list_item);
+    }
 
-        List<String> elementsValue= quickComments.getValue();
-        if(elementsValue != null && elementsValue.size()< MAX_QUICK_COMMENTS && !"".equals(quickCommentValue.getValue())) {
-            elementsValue.add(quickCommentValue.getValue());
-            quickComments.setValue(elementsValue);
-            quickCommentValue.setValue("");
-        }
+    public void onQuickCommentsCollectionSelected(int position){
 
     }
-    public void deleteQuickComment(String element){
-        if(element != null) {
-            List<String> elementsValue= quickComments.getValue();
-            elementsValue.remove(element);
-            quickComments.setValue(elementsValue);
-        }
+
+    public void addQuickCommentCollection(Context context){
+
+        NavController navController = ((BaseActivity)context).getNavController();
+        navController.navigate(ExperimentCreateBasicDataFragmentDirections.actionNavExperimentCreateToNavManageQuickCommentsConfiguration(null));
 
     }
+
 
     public void completeStep(Context context){
         boolean validTitle = this.title != null && !this.title.isEmpty();
@@ -234,9 +232,33 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         if(selectedSensors != null && selectedSensors.size() > 0) {
             configuration.setSensorConfig(new SensorsGlobalConfig(this.elements.getValue()));
         }
-        if(quickComments.getValue() != null && quickComments.getValue().size() > 0) {
-            experiment.setQuickComments(this.quickComments.getValue());
-        }
+        //TODO Añadir comentarios rápidos a configuración
         return experiment;
+    }
+
+    @Override
+    public void initObservers(LifecycleOwner owner) {
+        super.initObservers(owner);
+        quickCommentsCollectionsApiResponse.observe(owner, response-> {
+            if (response != null){
+                ArrayList<QuickCommentsCollection> comments = new ArrayList<>();
+                comments.add(new QuickCommentsCollection(getApplication().getString(R.string.experiment_create_no_quick_comments_option), new ArrayList<>()));
+                comments.addAll(response.getResultList());
+                quickCommentsCollections.setValue(comments);
+            }
+        });
+    }
+
+    protected void initBackStackEntryObserver(Context context, LifecycleOwner owner) {
+        SavedStateHandle savedStateHandle = ((MainActivity) context).getNavController().getCurrentBackStackEntry().getSavedStateHandle();
+        savedStateHandle.getLiveData(CONFIG_SAVED_ARG).observe(owner, configValue -> {
+            if (configValue != null) {
+                if((Boolean) configValue) {
+                    QuickCommentsCollectionsRepository.getQuickCommentsCollections(quickCommentsCollectionsApiResponse);
+                }
+                //Eliminamos para no leerlo dos veces
+                savedStateHandle.remove(CONFIG_SAVED_ARG);
+            }
+        });
     }
 }

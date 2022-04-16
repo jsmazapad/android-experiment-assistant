@@ -1,5 +1,6 @@
-package com.jsm.exptool.ui.configuration.quickComments.addquickcomments;
+package com.jsm.exptool.ui.configuration.quickComments.manage;
 
+import static com.jsm.exptool.config.ConfigConstants.CONFIG_SAVED_ARG;
 import static com.jsm.exptool.config.ConfigConstants.MAX_QUICK_COMMENTS;
 
 import android.app.Application;
@@ -7,8 +8,10 @@ import android.content.Context;
 
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.base.BaseActivity;
@@ -25,13 +28,15 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
 
     private MutableLiveData<String> quickCommentValue = new MutableLiveData<>("");
     private MutableLiveData<String> collectionNameValue = new MutableLiveData<>("");
-    private MutableLiveData<Boolean> addButtonEnabled = new MutableLiveData<>(true);
+    private MutableLiveData<String> title = new MutableLiveData<>("");
+    private final MutableLiveData<Boolean> addButtonEnabled = new MutableLiveData<>(true);
     private QuickCommentsCollection quickCommentsCollection;
 
 
     public ConfigurationAddQuickCommentsCollectionViewModel(Application application, QuickCommentsCollection quickCommentsCollection) {
         super(application);
         List<String> comments = new ArrayList<>();
+        String titleString = application.getString(R.string.configuration_quick_comments_new_collection_title);
         if (quickCommentsCollection != null) {
             this.quickCommentsCollection = quickCommentsCollection;
             collectionNameValue.setValue(quickCommentsCollection.getName());
@@ -39,9 +44,10 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
                 comments = quickCommentsCollection.getQuickComments();
             }
 
-        } else {
-            this.elements.setValue(new ArrayList<>());
+            titleString = application.getString(R.string.configuration_quick_comments_edit_collection_title);
+
         }
+        title.setValue(titleString);
         apiResponseRepositoryHolder.setValue(new ListResponse<>(comments));
 
 
@@ -61,6 +67,10 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
 
     public void setCollectionNameValue(MutableLiveData<String> collectionNameValue) {
         this.collectionNameValue = collectionNameValue;
+    }
+
+    public MutableLiveData<String> getTitle() {
+        return title;
     }
 
     public MutableLiveData<Boolean> getAddButtonEnabled() {
@@ -89,8 +99,8 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
 
     public void addQuickComment(Context context) {
 
-        List<String> elementsValue = elements.getValue();
-        if (elementsValue != null && elementsValue.size() < MAX_QUICK_COMMENTS && !"".equals(quickCommentValue.getValue())) {
+        if (elements.getValue() != null && elements.getValue().size() < MAX_QUICK_COMMENTS && !"".equals(quickCommentValue.getValue())) {
+            ArrayList<String> elementsValue = new ArrayList<>(elements.getValue());
             elementsValue.add(quickCommentValue.getValue());
             elements.setValue(elementsValue);
             quickCommentValue.setValue("");
@@ -102,8 +112,8 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
 
     public void delete(String element, Context context) {
         if (element != null) {
-            List<String> elementsValue = elements.getValue();
-            if(elementsValue != null) {
+            if(elements.getValue() != null) {
+                ArrayList<String> elementsValue = new ArrayList<>(elements.getValue());
                 elementsValue.remove(element);
                 elements.setValue(elementsValue);
                 textEmptyVisibility.setValue(elementsValue.size() > 0);
@@ -112,6 +122,8 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
         }
 
     }
+
+
 
     public void saveCollection(Context context) {
         String errorMessage = "";
@@ -136,6 +148,10 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
             }
 
             NavController navController = ((BaseActivity) context).getNavController();
+            NavBackStackEntry entry = navController.getPreviousBackStackEntry();
+            if (entry != null) {
+                entry.getSavedStateHandle().set(CONFIG_SAVED_ARG, true);
+            }
             navController.popBackStack();
 
         }else{

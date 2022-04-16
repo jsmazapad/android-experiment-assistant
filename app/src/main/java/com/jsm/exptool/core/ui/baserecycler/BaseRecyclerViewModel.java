@@ -21,7 +21,7 @@ import java.util.List;
  */
 public abstract class BaseRecyclerViewModel<T, ResponseType> extends LoadingViewModel implements OnRecyclerItemSelectedListener {
 
-    protected MutableLiveData<List<T>> elements = new MutableLiveData<>();
+    protected final MutableLiveData<List<T>> elements = new MutableLiveData<>();
     protected MutableLiveData<BaseException> error = new MutableLiveData<>();
     /**
      * Mediador LiveData, obtiene los datos del livedata, los procesa

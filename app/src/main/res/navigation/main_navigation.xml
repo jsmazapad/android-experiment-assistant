@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_quick_comments_configuration">
+    app:startDestination="@id/nav_experiment_create">
 
 
     <fragment
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_manage_quick_comments_configuration"
-        android:name="com.jsm.exptool.ui.configuration.quickComments.addquickcomments.ConfigurationAddQuickCommentsCollectionFragment"
+        android:name="com.jsm.exptool.ui.configuration.quickComments.manage.ConfigurationAddQuickCommentsCollectionFragment"
         android:label="@string/title_configuration_manage_quick_comments_collection_fragment"
         tools:layout="@layout/configuration_add_quick_comments_collection_fragment">
         <argument
@@ -104,6 +104,9 @@
         <action
             android:id="@+id/action_nav_experiment_create_to_nav_experiment_configure"
             app:destination="@id/nav_experiment_configure" />
+        <action
+            android:id="@+id/action_nav_experiment_create_to_nav_manage_quick_comments_configuration"
+            app:destination="@id/nav_manage_quick_comments_configuration" />
     </fragment>
     <fragment
         android:id="@+id/nav_experiment_configure"

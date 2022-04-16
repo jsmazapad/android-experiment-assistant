@@ -75,7 +75,7 @@ public class ConfigurationSuggestionsViewModel extends BaseRecyclerViewModel<Com
                         String.format(context.getString(R.string.warning_delete_comment_suggestion_format), element.getComment()),
                         null, (dialog, which) -> {
                             CommentSuggestionsRepository.deleteCommentSuggestion(elementsList.get(index));
-                            suggestion.setValue("");
+                            //suggestion.setValue("");
                             callRepositoryForData();
                         }, context.getString(R.string.default_modal_cancelButton), null);
 

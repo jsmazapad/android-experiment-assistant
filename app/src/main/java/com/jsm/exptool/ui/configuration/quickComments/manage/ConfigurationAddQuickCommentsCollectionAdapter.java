@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.configuration.quickComments.addquickcomments;
+package com.jsm.exptool.ui.configuration.quickComments.manage;
 
 import android.content.Context;
 import android.view.View;
@@ -9,9 +9,6 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
-import com.jsm.exptool.model.CommentSuggestion;
-import com.jsm.exptool.model.QuickCommentsCollection;
-import com.jsm.exptool.ui.configuration.suggestions.ConfigurationSuggestionViewHolder;
 
 import java.util.List;
 

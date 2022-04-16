@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     style="@style/BaseListItemRootElement"
+    android:layout_width="wrap_content"
     android:background="@drawable/bottom_border_background"
     android:orientation="horizontal"
     android:padding="5dp">
@@ -11,15 +12,15 @@
     <TextView
         android:id="@+id/titleTV"
         style="@style/BaseItemListTextView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:layout_weight="5"
-        tools:text="Titulo de prueba" />
+        tools:text="Titulo de prueba largo para comprobar desbordamiento" />
 
     <ImageView
         android:id="@+id/deleteIV"
         style="@style/DeleteIcon"
-        android:layout_weight="1" />
+         />
 
 
 </LinearLayout>

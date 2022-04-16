@@ -62,7 +62,24 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View rootView =  super.onCreateView(inflater, container, savedInstanceState);
+        LifecycleOwner lifeCycleOwner = this.getViewLifecycleOwner();
+        Context context = this.getContext();
+        viewModel.getApiResponseMediator().removeObservers(lifeCycleOwner);
+        viewModel.getElements().removeObservers(lifeCycleOwner);
+        viewModel.getError().removeObservers(lifeCycleOwner);
+        viewModel.getApiResponseMediator().observe(lifeCycleOwner, categoryApiListResponse -> Log.d("Activado", "Activado"));
+        viewModel.getElements().observe(lifeCycleOwner, categoriesResponse -> {
+
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                }
+
+        );
+        viewModel.getError().observe(lifeCycleOwner, error -> {
+            viewModel.handleError((BaseException) error, context);
+        });
+
+        return rootView;
     }
 
     /**
@@ -78,22 +95,12 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
             recyclerView.setAdapter(mAdapter);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setNestedScrollingEnabled(true);
+
         } else {
             mAdapter.notifyDataSetChanged();
         }
 
-        LifecycleOwner lifeCycleOwner = this.getViewLifecycleOwner();
-        Context context = this.getContext();
-        viewModel.getApiResponseMediator().observe(lifeCycleOwner, categoryApiListResponse -> Log.d("Activado", "Activado"));
-        viewModel.getElements().observe(lifeCycleOwner, categoriesResponse -> {
 
-            recyclerView.getAdapter().notifyDataSetChanged();
-                }
-
-        );
-        viewModel.getError().observe(lifeCycleOwner, error -> {
-            viewModel.handleError((BaseException) error, context);
-        });
     }
 
 }

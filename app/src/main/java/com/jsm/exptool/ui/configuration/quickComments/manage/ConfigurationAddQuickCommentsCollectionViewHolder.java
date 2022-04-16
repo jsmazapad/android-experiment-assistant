@@ -1,6 +1,5 @@
-package com.jsm.exptool.ui.configuration.quickComments.addquickcomments;
+package com.jsm.exptool.ui.configuration.quickComments.manage;
 
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,8 +7,6 @@ import android.widget.TextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.CommentSuggestion;
-import com.jsm.exptool.model.QuickCommentsCollection;
 
 public class ConfigurationAddQuickCommentsCollectionViewHolder extends BaseRecyclerViewHolder<String> {
     private final TextView titleTV;

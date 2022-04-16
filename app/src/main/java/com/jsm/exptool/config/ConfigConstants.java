@@ -10,6 +10,7 @@ public class ConfigConstants {
     //Argumentos de paso entre fragments
     public static final String CAMERA_CONFIG_ARG = "CAMERA_CONFIG_ARG";
     public static final String AUDIO_CONFIG_ARG = "AUDIO_CONFIG_ARG";
+    public static final String CONFIG_SAVED_ARG = "CONFIG_SAVED_ARG";
     public static final String SENSOR_ARG = "SENSOR_ARG";
     public static final String EXPERIMENT_REGISTERS_ARG = "EXPERIMENT_REGISTERS_ARG";
     //Gestión de permisos
