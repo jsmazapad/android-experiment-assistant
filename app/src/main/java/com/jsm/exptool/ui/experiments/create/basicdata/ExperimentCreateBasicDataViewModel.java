@@ -13,7 +13,7 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.base.BaseActivity;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.libs.MultiSpinner;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
@@ -27,7 +27,7 @@ import com.jsm.exptool.repositories.SensorsRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModelListener<SensorConfig, SensorConfig> implements MultiSpinner.MultiSpinnerListener, DeleteActionListener<SensorConfig> {
+public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<SensorConfig, SensorConfig> implements MultiSpinner.MultiSpinnerListener, DeleteActionListener<SensorConfig> {
 
     private String title = "";
     private String description = "";

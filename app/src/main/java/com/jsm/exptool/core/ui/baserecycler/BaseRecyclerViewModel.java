@@ -19,7 +19,7 @@ import java.util.List;
  * @param <T> Tipo de objeto del listado usado para alimentar los datos del recycler
  * @param <ResponseType> Tipo de datos que se obtiene del response del repositorio
  */
-public abstract class BaseRecyclerViewModelListener<T, ResponseType> extends LoadingViewModel implements OnRecyclerItemSelectedListener {
+public abstract class BaseRecyclerViewModel<T, ResponseType> extends LoadingViewModel implements OnRecyclerItemSelectedListener {
 
     protected MutableLiveData<List<T>> elements = new MutableLiveData<>();
     protected MutableLiveData<BaseException> error = new MutableLiveData<>();
@@ -44,7 +44,7 @@ public abstract class BaseRecyclerViewModelListener<T, ResponseType> extends Loa
 
 
 
-    public BaseRecyclerViewModelListener(Application app, Object... args) {
+    public BaseRecyclerViewModel(Application app, Object... args) {
         super(app);
         setConstructorParameters(args);
         getRepositoryData();
@@ -65,7 +65,7 @@ public abstract class BaseRecyclerViewModelListener<T, ResponseType> extends Loa
         apiResponseMediator.addSource(apiResponseRepositoryHolder, apiListResponse -> {
             isLoading.setValue(false);
             if (apiListResponse.getError() == null) {
-                BaseRecyclerViewModelListener.this.elements.setValue(transformResponse(apiListResponse));
+                BaseRecyclerViewModel.this.elements.setValue(transformResponse(apiListResponse));
                 textEmptyVisibility.postValue(apiListResponse.getResultList() == null || apiListResponse.getResultList().size() == 0);
                 recyclerVisibility.setValue(true);
             } else {
@@ -73,7 +73,7 @@ public abstract class BaseRecyclerViewModelListener<T, ResponseType> extends Loa
                     setShowingDialog(true);
                     recyclerVisibility.setValue(false);
                     textEmptyVisibility.setValue(true);
-                    BaseRecyclerViewModelListener.this.error.postValue(apiListResponse.getError());
+                    BaseRecyclerViewModel.this.error.postValue(apiListResponse.getError());
                 }
             }
         });

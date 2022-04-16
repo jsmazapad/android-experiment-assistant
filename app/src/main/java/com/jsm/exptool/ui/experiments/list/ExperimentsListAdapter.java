@@ -3,15 +3,12 @@ package com.jsm.exptool.ui.experiments.list;
 import android.content.Context;
 import android.view.View;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 
 import java.util.List;
 

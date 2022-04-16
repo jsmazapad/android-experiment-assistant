@@ -7,14 +7,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.model.register.MediaRegister;
 import com.jsm.exptool.providers.DateProvider;
 
 import java.util.List;
 
-public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModelListener<MediaRegister, MediaRegister> {
+public class MediaRegisterGalleryViewModel extends BaseRecyclerViewModel<MediaRegister, MediaRegister> {
 
 
     private MutableLiveData<Boolean> viewerEnabled = new MutableLiveData<>(false);

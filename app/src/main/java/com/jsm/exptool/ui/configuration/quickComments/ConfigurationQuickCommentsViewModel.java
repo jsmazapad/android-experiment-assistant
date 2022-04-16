@@ -3,20 +3,21 @@ package com.jsm.exptool.ui.configuration.quickComments;
 import android.app.Application;
 import android.content.Context;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
-import com.jsm.exptool.core.ui.DeleteActionListener;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
+import com.jsm.exptool.core.ui.ItemManagementActionsListener;
+import com.jsm.exptool.core.ui.base.BaseActivity;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.model.QuickCommentsCollection;
 import com.jsm.exptool.repositories.QuickCommentsCollectionsRepository;
+import com.jsm.exptool.ui.configuration.ConfigurationFragmentDirections;
 
 import java.util.List;
 
-public class ConfigurationQuickCommentsViewModel extends BaseRecyclerViewModelListener<QuickCommentsCollection, QuickCommentsCollection> implements DeleteActionListener<QuickCommentsCollection> {
+public class ConfigurationQuickCommentsViewModel extends BaseRecyclerViewModel<QuickCommentsCollection, QuickCommentsCollection> implements ItemManagementActionsListener<QuickCommentsCollection> {
 
 
 
@@ -45,7 +46,12 @@ public class ConfigurationQuickCommentsViewModel extends BaseRecyclerViewModelLi
         QuickCommentsCollectionsRepository.getQuickCommentsCollections(apiResponseRepositoryHolder);
     }
 
-    public void saveSuggestion(QuickCommentsCollection element) {
+    public void navigateToQuickCommentsCollectionManagement(Context context) {
+        NavController navController = ((BaseActivity) context).getNavController();
+        navController.navigate(ConfigurationQuickCommentsFragmentDirections.actionNavQuickCommentsConfigurationToNavManageQuickCommentsConfiguration(null));
+    }
+
+    public void addQuickCommentsCollection(QuickCommentsCollection element) {
 
         QuickCommentsCollectionsRepository.registerQuickCommentsCollection(element);
             callRepositoryForData();
@@ -58,7 +64,7 @@ public class ConfigurationQuickCommentsViewModel extends BaseRecyclerViewModelLi
             int index = elementsList.indexOf(element);
             if (index > -1){
                 ModalMessage.showModalMessage(context, context.getString(R.string.default_warning_title),
-                        String.format(context.getString(R.string.warning_delete_quickcomment_cllection_format), element.getName()),
+                        String.format(context.getString(R.string.warning_delete_quick_comment_collection_format), element.getName()),
                         null, (dialog, which) -> {
                             QuickCommentsCollectionsRepository.deleteQuickCommentsCollection(elementsList.get(index));
                             callRepositoryForData();
@@ -70,8 +76,10 @@ public class ConfigurationQuickCommentsViewModel extends BaseRecyclerViewModelLi
     }
 
     @Override
-    public void initObservers(LifecycleOwner owner) {
-        super.initObservers(owner);
+    public void edit(QuickCommentsCollection element, Context context) {
+        NavController navController = ((BaseActivity) context).getNavController();
+        navController.navigate(ConfigurationQuickCommentsFragmentDirections.actionNavQuickCommentsConfigurationToNavManageQuickCommentsConfiguration(element));
 
     }
+
 }

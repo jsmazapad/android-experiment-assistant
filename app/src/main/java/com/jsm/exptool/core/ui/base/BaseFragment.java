@@ -57,7 +57,7 @@ public abstract class BaseFragment<BT extends ViewDataBinding, VM extends BaseVi
             //Si da problemas, comentar, hacer un make project para que se genere el código y descomentar
             binding.setVariable(BR.viewModel, viewModel);
 
-            binding.setLifecycleOwner(this);
+            binding.setLifecycleOwner(getViewLifecycleOwner());
             executeExtraActionsInsideBindingInit();
             viewModel.initObservers(getViewLifecycleOwner());
         }

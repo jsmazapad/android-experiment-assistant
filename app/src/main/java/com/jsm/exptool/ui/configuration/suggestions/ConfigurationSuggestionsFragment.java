@@ -14,7 +14,6 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
-import com.jsm.exptool.databinding.ConfigurationFragmentBinding;
 import com.jsm.exptool.databinding.ConfigurationSuggestionsFragmentBinding;
 
 public class ConfigurationSuggestionsFragment extends BaseRecyclerFragment<ConfigurationSuggestionsFragmentBinding, ConfigurationSuggestionsViewModel> {
@@ -27,7 +26,7 @@ public class ConfigurationSuggestionsFragment extends BaseRecyclerFragment<Confi
 
     @Override
     protected BaseRecyclerAdapter createAdapter() {
-        return new ConfigurationSuggestionsAdapter(getContext(), viewModel, getViewLifecycleOwner(), ((BaseActivity)getActivity()).getNavController(), getListItemResourceId(), viewModel);
+        return new ConfigurationSuggestionsAdapter(getContext(), viewModel, viewModel.getElements(), ((BaseActivity)getActivity()).getNavController(), getListItemResourceId(), viewModel);
     }
 
     @Override

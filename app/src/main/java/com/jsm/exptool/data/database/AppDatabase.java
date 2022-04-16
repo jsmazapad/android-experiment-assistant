@@ -33,7 +33,7 @@ import com.jsm.exptool.model.register.SensorRegister;
  * Clase que representa a la base de datos
  */
 
-@Database(entities = {ImageRegister.class, Experiment.class, AudioRegister.class, SensorConfig.class, SensorRegister.class, CommentRegister.class, CommentSuggestion.class, QuickCommentsCollection.class}, version = 2)
+@Database(entities = {ImageRegister.class, Experiment.class, AudioRegister.class, SensorConfig.class, SensorRegister.class, CommentRegister.class, CommentSuggestion.class, QuickCommentsCollection.class}, version = 1)
 @TypeConverters({DoubleListConverter.class, IntegerListConverter.class, DateConverter.class, ExperimentStatusConverter.class, CameraPositionsConverter.class, FlashModesConverter.class, StringListConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     /**

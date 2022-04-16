@@ -24,7 +24,7 @@ import com.jsm.exptool.core.ui.base.BaseFragment;
  * @param <BT> Databinding asociado al fragment
  * @param <VM> ViewModel asociado al fragment
  */
-public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extends BaseRecyclerViewModelListener> extends BaseFragment<BT, VM> {
+public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extends BaseRecyclerViewModel> extends BaseFragment<BT, VM> {
 
 
     private BaseRecyclerAdapter mAdapter;

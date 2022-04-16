@@ -9,43 +9,63 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.exptool.ui.configuration.suggestions.ConfigurationSuggestionsViewModel" />
+            type="com.jsm.exptool.ui.configuration.quickComments.addquickcomments.ConfigurationAddQuickCommentsCollectionViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            style="@style/BaseCardView">
+        <androidx.cardview.widget.CardView style="@style/BaseCardView">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/instructions"
                     style="@style/BaseItemListSecondaryBoldTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Consulta e inserción de autosugerencias de comentarios"/>
+                    android:text="Gestión de colección de comentarios rápidos" />
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/BaseTextInputLayout"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/BaseTextInputLayout"
-            app:endIconMode="clear_text"
-            android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/BaseTextInputEditText"
+                        android:hint="@string/configuration_quick_comment_collection_name_input_hint"
+                        android:text="@={viewModel.collectionNameValue}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/BaseTextInputEditText"
-                android:hint="@string/configuration_suggestion_input_hint"
-                android:text="@={viewModel.suggestion}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/BaseTextInputLayout"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text">
 
-        <Button
-            android:id="@+id/saveSuggestionButton"
-            style="@style/FullWidthButton"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.saveSuggestion(context)}"
-            android:text="@string/configuration_suggestion_add_button" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/BaseTextInputEditText"
+                        android:hint="@string/configuration_quick_comment_input_hint"
+                        android:text="@={viewModel.quickCommentValue}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/addQuickCommentButton"
+                    style="@style/FullWidthButton"
+                    android:enabled="@{viewModel.addButtonEnabled}"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.addQuickComment(context)}"
+                    android:text="@string/configuration_quick_comment_add_button" />
+
+                <Button
+                    android:id="@+id/saveCollectionButton"
+                    style="@style/FullWidthButton"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.saveCollection(context)}"
+                    android:text="@string/default_button_save_title" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -73,7 +93,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:listitem="@layout/configuration_suggestions_list_element">
+                    tools:listitem="@layout/configuration_add_quick_comments_collection_list_item">
 
                 </androidx.recyclerview.widget.RecyclerView>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

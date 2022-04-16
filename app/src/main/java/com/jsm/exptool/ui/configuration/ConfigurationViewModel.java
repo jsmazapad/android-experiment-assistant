@@ -199,6 +199,12 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
 
     }
 
+    public void openQuickCommentsConfig(Context context){
+        NavController navController = ((BaseActivity) context).getNavController();
+        navController.navigate(ConfigurationFragmentDirections.actionNavConfigurationToNavQuickCommentsConfiguration());
+
+    }
+
     public void resetSuggestionsCounter(Context context){
         ModalMessage.showModalMessage(context, context.getString(R.string.default_warning_title),
                 context.getString(R.string.reset_suggestion_counter_warning_text),

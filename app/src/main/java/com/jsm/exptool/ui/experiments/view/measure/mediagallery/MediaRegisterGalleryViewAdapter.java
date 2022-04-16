@@ -2,14 +2,11 @@ package com.jsm.exptool.ui.experiments.view.measure.mediagallery;
 
 import android.content.Context;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
 import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
 import com.jsm.exptool.model.register.MediaRegister;
 
 import java.util.List;

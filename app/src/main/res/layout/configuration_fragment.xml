@@ -135,15 +135,10 @@
                     app:extra_info="Abrir para gestionar"
                     app:title="Comentarios rápidos">
                     <Button
-                        android:id="@+id/deleteQuickCommentsCollection"
+                        android:id="@+id/manageQuickComments"
                         style="@style/FullWidthButton"
-                        android:onClick="@{() -> viewModel.openSuggestionsConfig(context)}"
-                        android:text="Eliminar colección de comentarios rápidos" />
-                    <Button
-                        android:id="@+id/addQuickCommentsCollection"
-                        style="@style/FullWidthButton"
-                        android:onClick="@{() -> viewModel.resetSuggestionsCounter(context)}"
-                        android:text="Añadir colección de comentarios rápidos nueva" />
+                        android:onClick="@{() -> viewModel.openQuickCommentsConfig(context)}"
+                        android:text="Gestionar" />
                 </com.jsm.exptool.libs.ExpandableCard>
 
 

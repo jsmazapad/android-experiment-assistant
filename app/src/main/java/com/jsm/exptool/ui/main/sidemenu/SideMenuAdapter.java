@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.ui.main.MainActivity;
 import com.jsm.exptool.ui.main.MenuElement;
 
@@ -17,7 +17,7 @@ public class SideMenuAdapter extends BaseRecyclerAdapter<MenuElement, SideMenuEl
 
     private final Context context;
 
-    public SideMenuAdapter(Context context, BaseRecyclerViewModelListener viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
+    public SideMenuAdapter(Context context, BaseRecyclerViewModel viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource) {
         super(context, viewModel, viewModel.getElements(), navController, listItemResource);
         this.context = context;
     }

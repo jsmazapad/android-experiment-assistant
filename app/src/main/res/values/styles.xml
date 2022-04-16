@@ -156,8 +156,13 @@
     </style>
 
     <style name="DeleteIcon" parent="BaseIcon">
-        <item name="android:contentDescription">Delete</item>
+        <item name="android:contentDescription">@string/delete_content_description</item>
         <item name="android:src">@drawable/ic_baseline_delete_forever_24</item>
+    </style>
+
+    <style name="EditIcon" parent="BaseIcon">
+        <item name="android:contentDescription">@string/edit_content_description</item>
+        <item name="android:src">@drawable/ic_baseline_settings_24</item>
     </style>
 
     <style name="BorderBackground">

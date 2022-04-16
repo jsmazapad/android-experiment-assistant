@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    style="@style/BaseListItemRootElement"
+    android:background="@drawable/bottom_border_background"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/titleTV"
+            style="@style/BaseItemListTextView"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            tools:text="Titulo de prueba" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/deleteIV"
+        style="@style/DeleteIcon"
+        android:layout_weight="1" />
+
+
+</LinearLayout>

@@ -8,6 +8,8 @@
     <string name="title_experiments_configure_audio_fragment">Configurar Audio</string>
     <string name="title_configuration_fragment">Configuración global</string>
     <string name="title_configuration_suggestions_fragment">Configuración de sugerencias</string>
+    <string name="title_configuration_quick_comments_fragment">Configuración de comentarios rápidos</string>
+    <string name="title_configuration_manage_quick_comments_collection_fragment">Gestión de colección </string>
     <string name="title_info_fragment">Acerca de</string>
     <string name="title_perform_fragment">Realizar experimento</string>
     <string name="title_view_fragment">Visualizar experimento</string>

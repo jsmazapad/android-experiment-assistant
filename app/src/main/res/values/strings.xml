@@ -115,22 +115,27 @@ VIEW EXPERIMENT MEASURES
     <!--
 CONFIGURATION
 -->
-    <string name="expandable_card_expand_content_description">Expandir</string>
-    <string name="expandable_card_contract_content_description">Contraer</string>
+    <string name="expandable_card_expand_content_description">Expandir </string>
+    <string name="expandable_card_contract_content_description">Contraer </string>
+    <string name="edit_content_description">Editar</string>
+    <string name="delete_content_description">Eliminar</string>
     <string name="configuration_remote_server_card">Configuración de servidor remoto</string>
     <string name="configuration_remote_username">Usuario</string>
     <string name="configuration_remote_pass">Contraseña</string>
     <string name="configuration_remote_server_url">Url del servidor</string>
     <string name="configuration_remote_check_connectivity">Comprobar conectividad</string>
     <string name="configuration_remote_save_changes">Guardar cambios</string>
-    <string name="configuration_suggestion">Insertar sugerencia</string>
+    <string name="configuration_suggestion_input_hint">Insertar sugerencia</string>
     <string name="configuration_suggestion_add_button">Añadir sugerencia</string>
+    <string name="configuration_quick_comment_collection_name_input_hint">Nombre</string>
+    <string name="configuration_quick_comment_input_hint">Insertar comentario</string>
+    <string name="configuration_quick_comment_add_button">Añadir comentario</string>
     <string name="used_n_times_format_string">Usado %d veces</string>
     <string name="warning_delete_comment_suggestion_format">¿Está seguro de que sea eliminar el comentario \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
     <string name="error_suggestion_already_exists">El comentario que se desea registrar ya existe</string>
     <string name="reset_suggestion_counter_warning_text">Va a proceder a colocar todos los contadores de sugerencias de comentarios a 0. Estos contadores se utilizan para ayudar a saber que sugerencias de comentarios se utlizan mas y facilitar la introducción de comentarios duerante la realización de experimentos. Esta acción no se puede deshacer. ¿Desea proceder?</string>
-    <string name="warning_delete_quickcomment_cllection_format">¿Está seguro de que sea eliminar la colección de comentarios rápidos \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
-
+    <string name="warning_delete_quick_comment_collection_format">¿Está seguro de que sea eliminar la colección de comentarios rápidos \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
+    <string name="configuration_quick_comment_collection_add_button">Añadir nueva colección</string>Z
 
     <!--
 ABOUT

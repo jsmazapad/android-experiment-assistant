@@ -4,24 +4,22 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 
-import com.jsm.exptool.core.ui.DeleteActionListener;
+import com.jsm.exptool.core.ui.ItemManagementActionsListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
-import com.jsm.exptool.model.CommentSuggestion;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
+import com.jsm.exptool.model.QuickCommentsCollection;
 
-public class ConfigurationQuickCommentsAdapter extends BaseRecyclerAdapter<CommentSuggestion, ConfigurationQuickCommentsViewHolder> {
-    DeleteActionListener listener;
-    /**
-     * @param context
-     * @param viewModel        ViewModel asociado al fragment donde se incluye el recyclerView
-     * @param lifeCycleOwner   Propietario del ciclo de vida
-     * @param navController    Controlador de navegación (Android jetpack)
-     * @param listItemResource Recurso layout donde se incluye la vista de cada item del recycler
-     */
-    public ConfigurationQuickCommentsAdapter(Context context, BaseRecyclerViewModelListener viewModel, LifecycleOwner lifeCycleOwner, NavController navController, int listItemResource, DeleteActionListener listener) {
-        super(context, viewModel, viewModel.getElements(), navController, listItemResource);
+import java.util.List;
+
+public class ConfigurationQuickCommentsAdapter extends BaseRecyclerAdapter<QuickCommentsCollection, ConfigurationQuickCommentsViewHolder> {
+    ItemManagementActionsListener<QuickCommentsCollection> listener;
+
+    public ConfigurationQuickCommentsAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<QuickCommentsCollection>> elements, NavController navController, int listItemResource, ItemManagementActionsListener<QuickCommentsCollection> listener) {
+        super(context, onRecyclerItemSelectedListener, elements, navController, listItemResource);
         this.listener = listener;
     }
 

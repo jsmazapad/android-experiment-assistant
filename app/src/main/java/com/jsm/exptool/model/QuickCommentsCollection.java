@@ -1,5 +1,7 @@
 package com.jsm.exptool.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.BaseColumns;
 
 import androidx.room.ColumnInfo;
@@ -12,7 +14,7 @@ import com.jsm.exptool.model.register.CommentRegister;
 import java.util.List;
 
 @Entity(tableName = QuickCommentsCollection.TABLE_NAME)
-public class QuickCommentsCollection {
+public class QuickCommentsCollection implements Parcelable {
 
     /** The name of the table. */
     public static final String TABLE_NAME = "quickCommentsCollections";
@@ -62,4 +64,38 @@ public class QuickCommentsCollection {
     public void setQuickComments(List<String> quickComments) {
         this.quickComments = quickComments;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.internalId);
+        dest.writeString(this.name);
+        dest.writeStringList(this.quickComments);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.internalId = source.readLong();
+        this.name = source.readString();
+        this.quickComments = source.createStringArrayList();
+    }
+    @Ignore
+    protected QuickCommentsCollection(Parcel in) {
+        readFromParcel(in);
+    }
+
+    public static final Parcelable.Creator<QuickCommentsCollection> CREATOR = new Parcelable.Creator<QuickCommentsCollection>() {
+        @Override
+        public QuickCommentsCollection createFromParcel(Parcel source) {
+            return new QuickCommentsCollection(source);
+        }
+
+        @Override
+        public QuickCommentsCollection[] newArray(int size) {
+            return new QuickCommentsCollection[size];
+        }
+    };
 }

@@ -24,7 +24,7 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseFragment;
-import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModelListener;
+import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
 import com.jsm.exptool.model.CommentSuggestion;
@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ExperimentPerformViewModel extends BaseRecyclerViewModelListener<SensorConfig, SensorConfig> {
+public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConfig, SensorConfig> {
 
     private final Experiment experiment;
     private final WorksOrchestratorProvider orchestratorProvider;

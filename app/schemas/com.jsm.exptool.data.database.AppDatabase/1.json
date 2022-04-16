@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4312e28ab68e933a12961259766118aa",
+    "identityHash": "e7d929424d0e1fe0b12a6eb25ee011d4",
     "entities": [
       {
         "tableName": "imageRegisters",
@@ -700,7 +700,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "commentRegisters",
+        "tableName": "quickCommentsCollections",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `quickComments` TEXT)",
         "fields": [
           {
@@ -730,12 +730,12 @@
         },
         "indices": [
           {
-            "name": "index_commentRegisters__id",
+            "name": "index_quickCommentsCollections__id",
             "unique": false,
             "columnNames": [
               "_id"
             ],
-            "createSql": "CREATE  INDEX `index_commentRegisters__id` ON `${TABLE_NAME}` (`_id`)"
+            "createSql": "CREATE  INDEX `index_quickCommentsCollections__id` ON `${TABLE_NAME}` (`_id`)"
           }
         ],
         "foreignKeys": []
@@ -743,7 +743,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4312e28ab68e933a12961259766118aa\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e7d929424d0e1fe0b12a6eb25ee011d4\")"
     ]
   }
 }

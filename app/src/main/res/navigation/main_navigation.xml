@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_experiments">
+    app:startDestination="@id/nav_quick_comments_configuration">
 
 
     <fragment
@@ -29,12 +29,34 @@
         <action
             android:id="@+id/action_nav_configuration_to_nav_suggestion_configuration"
             app:destination="@id/nav_suggestion_configuration" />
+        <action
+            android:id="@+id/action_nav_configuration_to_nav_quick_comments_configuration"
+            app:destination="@id/nav_quick_comments_configuration" />
     </fragment>
     <fragment
         android:id="@+id/nav_suggestion_configuration"
         android:name="com.jsm.exptool.ui.configuration.suggestions.ConfigurationSuggestionsFragment"
         android:label="@string/title_configuration_suggestions_fragment"
         tools:layout="@layout/configuration_suggestions_fragment">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_quick_comments_configuration"
+        android:name="com.jsm.exptool.ui.configuration.quickComments.ConfigurationQuickCommentsFragment"
+        android:label="@string/title_configuration_quick_comments_fragment"
+        tools:layout="@layout/configuration_quick_comments_fragment">
+        <action
+            android:id="@+id/action_nav_quick_comments_configuration_to_nav_manage_quick_comments_configuration"
+            app:destination="@id/nav_manage_quick_comments_configuration" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_manage_quick_comments_configuration"
+        android:name="com.jsm.exptool.ui.configuration.quickComments.addquickcomments.ConfigurationAddQuickCommentsCollectionFragment"
+        android:label="@string/title_configuration_manage_quick_comments_collection_fragment"
+        tools:layout="@layout/configuration_add_quick_comments_collection_fragment">
+        <argument
+            android:name="quickCommentsCollection"
+            app:argType="com.jsm.exptool.model.QuickCommentsCollection"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/nav_about"
