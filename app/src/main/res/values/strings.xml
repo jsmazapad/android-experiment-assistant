@@ -87,7 +87,8 @@
     <string name="experiment_perform_images_title">Imágenes</string>
     <string name="experiment_perform_images_number">Nº de imágenes</string>
     <string name="experiment_perform_num_embeddings">Nº de vectores de embedding</string>
-    <string name="experiment_perform_comments_title">Comentario</string>
+    <string name="experiment_perform_comments_title">Introducir comentario</string>
+    <string name="experiment_perform_quick_comments_title">Comentarios rápidos</string>
     <string name="experiment_perform_add_comment_button">Añadir comentario</string>
     <string name="experiment_perform_add_and_save_comment_button">Añadir comentario y guardar en sugerencias</string>
     <string name="experiment_perform_num_comments">Nº comentarios</string>

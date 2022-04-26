@@ -84,8 +84,8 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
     protected ExperimentPerformViewModel createViewModel() {
         //TODO Código pruebas, comentar
 
-        //Experiment experiment = MockExamples.registerExperimentForPerformanceTest();
-        Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
+        Experiment experiment = MockExamples.registerExperimentForPerformanceTest();
+        //Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
 
         return new ViewModelProvider(this, new ExperimentPerformViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentPerformViewModel.class);
     }

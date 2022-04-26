@@ -26,6 +26,10 @@ public class CommentSuggestionsRepository {
         return DBHelper.insertCommentSuggestion(commentSuggestion);
     }
 
+    public static long registerOrUpdateCommentSuggestion(CommentSuggestion commentSuggestion){
+        return DBHelper.insertOrUpdateCommentSuggestion(commentSuggestion);
+    }
+
     public static long deleteCommentSuggestion(CommentSuggestion commentSuggestion){
         return DBHelper.deleteCommentSuggestionById(commentSuggestion);
     }
@@ -36,6 +40,13 @@ public class CommentSuggestionsRepository {
 
     public static List<CommentSuggestion> checkIfCommentSuggestionExists(String stringToSearch) {
         return DBHelper.checkIfCommentSuggestionExists(stringToSearch);
+    }
+
+    public static CommentSuggestion selectCommentSuggestionByComment(String comment) {
+        return DBHelper.selectCommentSuggestionByComment(comment);
+    }
+    public static int updateCommentSuggestion(CommentSuggestion commentSuggestion) {
+        return DBHelper.updateCommentSuggestion(commentSuggestion);
     }
 
 

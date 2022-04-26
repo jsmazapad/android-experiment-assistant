@@ -25,10 +25,12 @@ public class DBHelper {
     private static DBHelper sharedDBPool;
     private static String DB_NAME = "db_experiments";
     private static AppDatabase appDatabase;
-    private DBHelper() {}
+
+    private DBHelper() {
+    }
 
     public static void initialize(Context context) {
-        sharedDBPool= new DBHelper();
+        sharedDBPool = new DBHelper();
         appDatabase = Room.databaseBuilder(context, AppDatabase.class, DB_NAME).allowMainThreadQueries().build();
     }
 
@@ -41,7 +43,7 @@ public class DBHelper {
      */
 
     public static long insertExperiment(final Experiment experiment) {
-               return appDatabase.experimentDao().insert(experiment);
+        return appDatabase.experimentDao().insert(experiment);
     }
 
     public static List<Experiment> getExperiments(Experiment.ExperimentStatus statusFilter) {
@@ -74,7 +76,7 @@ public class DBHelper {
 
 
     public static long insertImageRegister(final ImageRegister imageRegister) {
-                  return appDatabase.imageDao().insert(imageRegister);
+        return appDatabase.imageDao().insert(imageRegister);
     }
 
     public static List<ImageRegister> getImages() {
@@ -89,7 +91,6 @@ public class DBHelper {
     public static List<ImageRegister> getImageRegistersWithoutEmbeddingByExperimentId(long experimentId) {
         return appDatabase.imageDao().getImageRegistersWithoutEmbeddingByExperimentId(experimentId);
     }
-
 
 
     public static ImageRegister getImageById(long imageId) {
@@ -201,20 +202,25 @@ public class DBHelper {
         return appDatabase.commentSuggestionDao().insert(commentRegister);
     }
 
+    public static long insertOrUpdateCommentSuggestion(final CommentSuggestion commentRegister) {
+        return appDatabase.commentSuggestionDao().insertOrUpdate(commentRegister);
+    }
+
     public static List<CommentSuggestion> getCommentSuggestions(String stringToSearch) {
-        if (stringToSearch == null || "".equals(stringToSearch.trim()))
-        {
+        if (stringToSearch == null || "".equals(stringToSearch.trim())) {
             return appDatabase.commentSuggestionDao().getCommentSuggestions();
-        }else{
-            return appDatabase.commentSuggestionDao().getCommentSuggestionsFilterByString("%"+stringToSearch+"%");
+        } else {
+            return appDatabase.commentSuggestionDao().getCommentSuggestionsFilterByString("%" + stringToSearch + "%");
         }
 
     }
 
     public static List<CommentSuggestion> checkIfCommentSuggestionExists(String stringToSearch) {
+        return appDatabase.commentSuggestionDao().getCommentSuggestionsFilterByString(stringToSearch);
+    }
 
-            return appDatabase.commentSuggestionDao().getCommentSuggestionsFilterByString(stringToSearch);
-
+    public static CommentSuggestion selectCommentSuggestionByComment(String stringToSearch) {
+        return appDatabase.commentSuggestionDao().selectByComment(stringToSearch);
     }
 
 
@@ -230,7 +236,7 @@ public class DBHelper {
         return appDatabase.commentSuggestionDao().deleteById(register.getInternalId());
     }
 
-    public static long resetSuggestionsCounter(){
+    public static long resetSuggestionsCounter() {
         return appDatabase.commentSuggestionDao().resetSuggestionsCounter();
     }
 
@@ -243,7 +249,7 @@ public class DBHelper {
 
     public static List<QuickCommentsCollection> getQuickCommentsCollections() {
 
-            return appDatabase.quickCommentsCollectionDao().getQuickCommentsCollections();
+        return appDatabase.quickCommentsCollectionDao().getQuickCommentsCollections();
 
 
     }

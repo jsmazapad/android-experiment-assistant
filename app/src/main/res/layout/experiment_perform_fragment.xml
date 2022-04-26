@@ -18,18 +18,10 @@
         tools:context=".ui.experiments.perform.ExperimentPerformFragment">
 
 
-        <androidx.core.widget.NestedScrollView
-            style="@style/BaseNestedLayoutInsideFrameLayout">
+        <androidx.core.widget.NestedScrollView style="@style/BaseNestedLayoutInsideFrameLayout">
 
             <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
 
-
-<!--                <ProgressBar-->
-<!--                    android:id="@+id/indeterminateBar"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -39,10 +31,10 @@
                     <com.jsm.exptool.libs.ExpandableCard
                         android:id="@+id/imageCard"
                         style="@style/BaseCardView"
-                        app:initial_expanded="true"
-                        app:title="@string/experiment_perform_images_title"
+                        android:visibility="@{viewModel.imageCardEnabled ? View.VISIBLE : View.GONE}"
                         app:extra_info="@{viewModel.imageCardExtraInfo}"
-                        android:visibility="@{viewModel.imageCardEnabled ? View.VISIBLE : View.GONE}">
+                        app:initial_expanded="true"
+                        app:title="@string/experiment_perform_images_title">
 
 
                         <androidx.camera.view.PreviewView
@@ -51,57 +43,57 @@
                             android:layout_height="200dp" />
 
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/BaseItemListSecondaryTextView"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/white"
-                                android:orientation="horizontal">
+                                android:paddingStart="5dp"
+                                android:paddingEnd="10dp"
+                                android:text="@string/experiment_perform_images_number" />
 
-                                <TextView
-                                    style="@style/BaseItemListSecondaryTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingStart="5dp"
-                                    android:paddingEnd="10dp"
-                                    android:text="@string/experiment_perform_images_number" />
-
-                                <TextView
-                                    style="@style/BaseItemListSecondaryBoldTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@{viewModel.numImages}" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <TextView
+                                style="@style/BaseItemListSecondaryBoldTextView"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@color/white"
-                                android:orientation="horizontal"
-                                android:visibility="@{viewModel.embeddedInfoEnabled ? View.VISIBLE : View.GONE}">
+                                android:text="@{viewModel.numImages}" />
+                        </LinearLayout>
 
-                                <TextView
-                                    style="@style/BaseItemListSecondaryTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingStart="5dp"
-                                    android:paddingEnd="10dp"
-                                    android:text="@string/experiment_perform_num_embeddings" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="horizontal"
+                            android:visibility="@{viewModel.embeddedInfoEnabled ? View.VISIBLE : View.GONE}">
 
-                                <TextView
-                                    style="@style/BaseItemListSecondaryBoldTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@{viewModel.numEmbeddings}" />
+                            <TextView
+                                style="@style/BaseItemListSecondaryTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="10dp"
+                                android:text="@string/experiment_perform_num_embeddings" />
 
-                            </LinearLayout>
+                            <TextView
+                                style="@style/BaseItemListSecondaryBoldTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewModel.numEmbeddings}" />
+
+                        </LinearLayout>
 
                     </com.jsm.exptool.libs.ExpandableCard>
 
                     <com.jsm.exptool.libs.ExpandableCard
                         android:id="@+id/commentsCard"
                         style="@style/BaseCardView"
-                        app:initial_expanded="true"
                         app:extra_info="@{viewModel.commentCardExtraInfo}"
+                        app:initial_expanded="true"
                         app:title="Comentarios">
 
 
@@ -111,10 +103,26 @@
                             android:background="@color/white"
                             android:orientation="vertical">
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/quickCommentsRV"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:visibility="@{viewModel.quickCommentsEnabled ? View.VISIBLE : View.GONE}"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/BaseItemListSecondaryBoldTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="10dp"
+                                    android:text="@string/experiment_perform_quick_comments_title" />
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/quickCommentsRV"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
+
 
                             <com.google.android.material.textfield.TextInputLayout
                                 style="@style/BaseTextInputLayout"
@@ -123,8 +131,8 @@
 
                                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                     android:id="@+id/commentsAutoCompleteTV"
-                                    android:enabled="@{viewModel.experimentInitiated}"
                                     style="@style/BaseTextInputEditText"
+                                    android:enabled="@{viewModel.experimentInitiated}"
                                     android:hint="@string/experiment_perform_comments_title"
                                     android:text="@={viewModel.commentValue}"
                                     android:textColorHint="#616161" />
@@ -134,16 +142,17 @@
                             <Button
                                 android:id="@+id/saveSuggestionButton"
                                 style="@style/FullWidthButton"
-                                android:enabled="@{viewModel.experimentInitiated}"
                                 android:layout_height="wrap_content"
-                                android:onClick="@{() -> viewModel.saveCommentValue(context)}"
+                                android:enabled="@{viewModel.experimentInitiated}"
+                                android:onClick="@{() -> viewModel.saveCommentValue(false)}"
                                 android:text="@string/experiment_perform_add_comment_button" />
+
                             <Button
                                 android:id="@+id/saveAndAddtton"
                                 style="@style/FullWidthButton"
-                                android:enabled="@{viewModel.experimentInitiated}"
                                 android:layout_height="wrap_content"
-                                android:onClick="@{() -> viewModel.saveCommentAndAddToSuggestions(context)}"
+                                android:enabled="@{viewModel.experimentInitiated}"
+                                android:onClick="@{() -> viewModel.saveCommentAndAddToSuggestions()}"
                                 android:text="@string/experiment_perform_add_and_save_comment_button" />
 
                             <LinearLayout
@@ -256,7 +265,7 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <include layout="@layout/view_loading_include"  android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
+        <!--        <include layout="@layout/view_loading_include"  android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>-->
 
 
         <Button

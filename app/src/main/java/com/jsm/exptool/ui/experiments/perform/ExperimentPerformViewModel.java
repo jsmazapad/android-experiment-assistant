@@ -65,6 +65,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     private final MutableLiveData<Integer> numEmbeddings = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> imageCardEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> embeddedInfoEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> quickCommentsEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<String> imageCardExtraInfo = new MutableLiveData<>();
 
 
@@ -99,6 +100,8 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         if (this.experiment.getConfiguration().isSensorEnabled()) {
             apiResponseRepositoryHolder.setValue(new ListResponse<>(experiment.getConfiguration().getSensorConfig().getSensors()));
         }
+
+        quickCommentsEnabled.setValue(experiment.getQuickComments() != null && experiment.getQuickComments().size() > 0);
     }
 
     public MutableLiveData<Integer> getNumImages() {
@@ -131,6 +134,10 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
     public MutableLiveData<Boolean> getSensorCardEnabled() {
         return sensorCardEnabled;
+    }
+
+    public MutableLiveData<Boolean> getQuickCommentsEnabled() {
+        return quickCommentsEnabled;
     }
 
     public MutableLiveData<String> getChangeStateText() {
@@ -206,7 +213,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             initImageCapture(context);
             initAudioRecording(context);
             initSensorRecording(context);
-            initCommentSuggestions(context);
+            initCommentSuggestions();
         } else {
             //TODO Mensaje de error con reintento
         }
@@ -457,30 +464,44 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         handleError(new BaseException("Error en permisos", false), fragment.getContext());
     }
 
-    public void saveCommentValue(String comment){
+    public void saveCommentValue(String comment, boolean fromRegisterComment){
         if (experimentInitiated.getValue() && CommentRepository.registerComment(new CommentRegister(experiment.getInternalId(), new Date(), false, comment)) > 0) {
             numComments.setValue(numComments.getValue() + 1);
             commentCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_comments) + " " + numComments.getValue());
+            CommentSuggestion relatedComment = CommentSuggestionsRepository.selectCommentSuggestionByComment(comment);
+            //Comprobamos que no venga de haber solicitado el registro del comentario para no sumarlo dos veces
+            //Si existe el comentario se añade uno a la cuenta del número de veces empleado
+            if(!fromRegisterComment && relatedComment != null){
+                relatedComment.setUsedTimesCounter(relatedComment.getUsedTimesCounter()+1);
+                CommentSuggestionsRepository.updateCommentSuggestion(relatedComment);
+            }
+
 
         }
     }
 
-    public void saveCommentValue(Context context) {
+    public void saveCommentValue(boolean fromRegisterComment) {
 
-        saveCommentValue(commentValue.getValue());
-        commentValue.setValue("");
-
-    }
-
-    public void saveCommentAndAddToSuggestions(Context context) {
-
-        saveCommentValue(context);
-        CommentSuggestionsRepository.registerCommentSuggestion(new CommentSuggestion(0, commentValue.getValue()));
-
+        String comment = commentValue.getValue();
+        if(comment != null && !"".equals(comment)) {
+            saveCommentValue(commentValue.getValue(), fromRegisterComment);
+            commentValue.setValue("");
+        }
 
     }
 
-    public void initCommentSuggestions(Context context) {
+    public void saveCommentAndAddToSuggestions() {
+        String comment = commentValue.getValue();
+        if(comment != null && !"".equals(comment)) {
+            saveCommentValue(true);
+            CommentSuggestionsRepository.registerOrUpdateCommentSuggestion(new CommentSuggestion(1, comment));
+            initCommentSuggestions();
+        }
+
+
+    }
+
+    public void initCommentSuggestions() {
         CommentSuggestionsRepository.getCommentSuggestions(suggestionsResponse, null);
     }
 
@@ -497,7 +518,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
     public void onQuickCommentSelected(int position) {
         if( quickComments.getValue() != null && quickComments.getValue().size() > position)
-        saveCommentValue(quickComments.getValue().get(position));
+        saveCommentValue(quickComments.getValue().get(position), false);
     }
 
     @Override

@@ -39,7 +39,8 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
     private String title = "";
     private String description = "";
     private MutableLiveData<List<QuickCommentsCollection>> quickCommentsCollections = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<ListResponse<QuickCommentsCollection>> quickCommentsCollectionsApiResponse =  new MutableLiveData<>();;
+    private QuickCommentsCollection quickCommentsCollectionSelected;
+    private MutableLiveData<ListResponse<QuickCommentsCollection>> quickCommentsCollectionsApiResponse =  new MutableLiveData<>();
     private MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> remoteSyncEnabled = new MutableLiveData<>(false);
     private boolean embeddingEnabled = false;
@@ -187,6 +188,11 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
     }
 
     public void onQuickCommentsCollectionSelected(int position){
+        if(position == 0){
+            quickCommentsCollectionSelected = null;
+        }else{
+            quickCommentsCollectionSelected = quickCommentsCollections.getValue().get(position);
+        }
 
     }
 
@@ -233,6 +239,9 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
             configuration.setSensorConfig(new SensorsGlobalConfig(this.elements.getValue()));
         }
         //TODO Añadir comentarios rápidos a configuración
+        if (quickCommentsCollectionSelected != null){
+            experiment.setQuickComments(quickCommentsCollectionSelected.getQuickComments());
+        }
         return experiment;
     }
 
@@ -255,6 +264,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
             if (configValue != null) {
                 if((Boolean) configValue) {
                     QuickCommentsCollectionsRepository.getQuickCommentsCollections(quickCommentsCollectionsApiResponse);
+                    quickCommentsCollectionSelected = null;
                 }
                 //Eliminamos para no leerlo dos veces
                 savedStateHandle.remove(CONFIG_SAVED_ARG);
