@@ -22,32 +22,28 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                style="@style/BaseCardTitleItem"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/cameraCardTitleTV"
-                    style="@style/BaseCardTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/LinearNoWidthLeftItem"
                     android:text="@string/camera" />
 
                 <TextView
                     android:id="@+id/cameraFrequencyTV"
-                    style="@style/BaseCardTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/LinearWrapContentRightItem"
                     android:text="@{viewModel.cameraFreqValueText}"
-                    android:textAlignment="textEnd"
                     tools:text="0ms" />
+                <ImageButton
+                    style="@style/FrequencyButton"
+                    android:layout_width="wrap_content"
+                    android:contentDescription="@string/camera_frequency_configuration_content_description"
+                    android:onClick="@{() -> viewModel.onCameraSelectFrequency(context)}" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                style="@style/BaseCardContentItem"
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
@@ -77,12 +73,6 @@
                     android:orientation="horizontal">
 
                     <ImageButton
-                        style="@style/FrequencyButton"
-                        android:layout_width="wrap_content"
-                        android:contentDescription="@string/camera_frequency_configuration_content_description"
-                        android:onClick="@{() -> viewModel.onCameraSelectFrequency(context)}" />
-
-                    <ImageButton
                         style="@style/SettingsButton"
                         android:layout_width="wrap_content"
                         android:contentDescription="@string/camera_settings_configuration_content_description"
@@ -92,8 +82,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/BaseCardContentItem"
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
                 android:visibility="@{viewModel.imageEmbeddingEnabled ? View.VISIBLE : View.GONE}">

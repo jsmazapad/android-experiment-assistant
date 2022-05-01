@@ -3,6 +3,8 @@ package com.jsm.exptool.model.experimentconfig;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.Expose;
 
 public class RepeatableElementConfig implements Parcelable {
@@ -19,7 +21,7 @@ public class RepeatableElementConfig implements Parcelable {
         this.nameStringResource = nameStringResource;
     }
 
-    public RepeatableElementConfig(){
+    @Ignore public RepeatableElementConfig(){
 
     }
 
@@ -74,17 +76,5 @@ public class RepeatableElementConfig implements Parcelable {
     protected RepeatableElementConfig(Parcel in) {
        readFromParcel(in);
     }
-
-    public static final Creator<RepeatableElementConfig> CREATOR = new Creator<RepeatableElementConfig>() {
-        @Override
-        public RepeatableElementConfig createFromParcel(Parcel source) {
-            return new RepeatableElementConfig(source);
-        }
-
-        @Override
-        public RepeatableElementConfig[] newArray(int size) {
-            return new RepeatableElementConfig[size];
-        }
-    };
 
 }

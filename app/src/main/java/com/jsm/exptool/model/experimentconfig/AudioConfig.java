@@ -15,7 +15,7 @@ public class AudioConfig extends MultimediaConfig {
     private AudioRecordingOption recordingOption;
     int recordingDuration;
 
-    public AudioConfig(int nameStringResource, int interval, int intervalMin, int intervalMax,  AudioRecordingOption recordingOption, int recordingDuration) {
+    public AudioConfig(int interval, int intervalMin, int intervalMax, int nameStringResource,  AudioRecordingOption recordingOption, int recordingDuration) {
         super(interval, intervalMin,intervalMax, nameStringResource);
         this.recordingOption = recordingOption;
         this.recordingDuration = recordingDuration;

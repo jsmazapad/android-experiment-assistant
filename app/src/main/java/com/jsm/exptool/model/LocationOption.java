@@ -16,6 +16,7 @@ public class LocationOption implements Parcelable {
         this.titleTranslatableRes = titleTranslatableRes;
         this.descriptionTranslatableRes = descriptionTranslatableRes;
         this.locationMode = locationMode;
+        this.locationReferenceName = locationReferenceName;
     }
 
     public int getTitleTranslatableRes() {

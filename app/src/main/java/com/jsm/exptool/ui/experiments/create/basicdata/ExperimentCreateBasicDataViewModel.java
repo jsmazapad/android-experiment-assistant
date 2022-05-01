@@ -11,6 +11,7 @@ import androidx.lifecycle.SavedStateHandle;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.DeleteActionListener;
@@ -269,11 +270,11 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         }
         //TODO Añadir comentarios rápidos a configuración
         if (quickCommentsCollectionSelected != null){
-            experiment.setQuickComments(quickCommentsCollectionSelected.getQuickComments());
+            configuration.setQuickComments(quickCommentsCollectionSelected.getQuickComments());
         }
 
         if(this.remoteSyncEnabled){
-            configuration.setRemoteSyncConfig(new RepeatableElementConfig());
+            configuration.setRemoteSyncConfig(new RepeatableElementConfig(FrequencyConstants.DEFAULT_REMOTE_SYNC_FREQ,FrequencyConstants.MIN_REMOTE_SYNC_INTERVAL_MILLIS, FrequencyConstants. MAX_REMOTE_SYNC_INTERVAL_MILLIS, R.string.remote_sync));
         }
 
         experiment.setConfiguration(configuration);

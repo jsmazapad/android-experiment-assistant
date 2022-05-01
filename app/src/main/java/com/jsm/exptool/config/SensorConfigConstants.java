@@ -56,7 +56,6 @@ public class SensorConfigConstants {
         put(TYPE_ORIENTATION, R.string.orientation);
         put(TYPE_MAGNETIC_FIELD, R.string.magnetic_field);
         put(TYPE_ACCELEROMETER, R.string.accelerometer);
-        put(TYPE_GPS, R.string.gps);
     }};
 
 }

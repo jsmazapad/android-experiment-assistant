@@ -55,7 +55,6 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
     @Override
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
-        viewModel.initGlobalFrequencySelector(binding.frequencySelectorIncluded);
     }
 
     @Override

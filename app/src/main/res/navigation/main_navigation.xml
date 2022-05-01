@@ -156,7 +156,7 @@
             app:argType="long" />
         <argument
             android:name="element"
-            app:argType="com.jsm.exptool.model.experimentconfig.RepeatableElement" />
+            app:argType="com.jsm.exptool.model.experimentconfig.RepeatableElementConfig" />
     </fragment>
 
 </navigation>

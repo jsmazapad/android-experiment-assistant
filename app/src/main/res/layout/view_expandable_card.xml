@@ -9,44 +9,47 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/titleTV"
-            style="@style/BaseCardTitleTextView"
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:layout_height="wrap_content"
-            tools:text="Card Title" />
 
-        <ImageButton
-            android:id="@+id/collapseButton"
-            style="@style/AccesibilityMinSize"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@color/white"
-            android:contentDescription="@string/expandable_card_expand_content_description"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_baseline_arrow_drop_down_24" />
+        <LinearLayout
+            style="@style/BaseCardTitleItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/titleTV"
+                style="@style/LinearNoWidthLeftItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                tools:text="Card Title" />
+
+            <ImageButton
+                android:id="@+id/collapseButton"
+                style="@style/ExpandableCardIcon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/expandable_card_expand_content_description"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_baseline_arrow_drop_down_24" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/extraInfoTV"
-            style="@style/BaseItemListSecondaryTextView"
+            style="@style/ExpandableCardExtraInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Additional card info" />
 
-    <LinearLayout
-        android:id="@+id/innerContentLayout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/innerContentLayout"
+            style="@style/BaseCardContentItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
     </LinearLayout>
     </androidx.cardview.widget.CardView>
 

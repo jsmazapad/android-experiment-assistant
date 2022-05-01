@@ -45,10 +45,11 @@ public abstract class BaseSpinnerAdapter<T, VH extends BaseRecyclerViewHolder<T>
         if (rowView == null) {
             LayoutInflater inflater =  LayoutInflater.from(context);
             rowView = inflater.inflate(listItemResource, parent, false);
-            holder = instanceViewHolder(rowView);
-            holder.fillViewHolder(element);
-            rowView.setTag(holder);
+
         }
+        holder = instanceViewHolder(rowView);
+        holder.fillViewHolder(element);
+        rowView.setTag(holder);
 
 
 

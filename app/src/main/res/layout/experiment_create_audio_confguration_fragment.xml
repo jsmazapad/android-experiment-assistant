@@ -12,16 +12,12 @@
             type="com.jsm.exptool.ui.experiments.create.audioconfiguration.ExperimentAudioConfigurationViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
             <TextView
@@ -82,5 +78,5 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

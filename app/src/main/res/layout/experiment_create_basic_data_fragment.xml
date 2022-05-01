@@ -12,10 +12,6 @@
             type="com.jsm.exptool.ui.experiments.create.basicdata.ExperimentCreateBasicDataViewModel" />
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <androidx.core.widget.NestedScrollView style="@style/BaseNestedLayoutInsideFrameLayout">
 
             <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
@@ -25,14 +21,13 @@
                     style="@style/BaseCardView">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout2"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/experimentDataTitleTV"
-                            style="@style/BaseCardTitleTextView"
+                            style="@style/BaseCardTitleTextView.TitleItem"
                             android:text="@string/experiment_data_card_title" />
 
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
@@ -60,20 +55,16 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/remoteSyncCard"
-                    style="@style/BaseCardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:contentPadding="10dp">
+                    style="@style/BaseCardView">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/remoteSyncTitleTV"
-                            style="@style/BaseCardTitleTextView"
-                            android:layout_width="wrap_content"
+                            style="@style/BaseCardTitleTextView.TitleItem"
                             android:layout_height="wrap_content"
                             android:text="@string/remote_sync_card_title" />
 
@@ -91,15 +82,13 @@
                     style="@style/BaseCardView">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout3"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/experimentMultimediaTitleTV"
-                            style="@style/BaseCardTitleTextView"
-                            android:layout_width="wrap_content"
+                            style="@style/BaseCardTitleTextView.TitleItem"
                             android:layout_height="wrap_content"
                             android:text="@string/multimedia_card_title" />
 
@@ -129,13 +118,12 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/experimentLocationTitleTV"
-                            style="@style/BaseCardTitleTextView"
-                            android:layout_width="wrap_content"
+                            style="@style/BaseCardTitleTextView.TitleItem"
                             android:layout_height="wrap_content"
                             android:text="@string/location_card_title" />
 
@@ -154,23 +142,22 @@
                     style="@style/BaseCardView">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/experimentSensorsTitleTV"
-                            style="@style/BaseCardTitleTextView"
-                            android:layout_width="wrap_content"
+                            style="@style/BaseCardTitleTextView.TitleItem"
                             android:layout_height="wrap_content"
                             android:text="@string/sensors_card_title" />
 
 
                         <Button
                             android:id="@+id/selectSensorsButton"
-                            style="@style/BaseButton"
+                            style="@style/FullWidthButton"
                             android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
                             android:onClick="@{() -> viewModel.selectSensorsButtonClicked(sensorSpinner)}"
                             android:text="@string/select_sensors_button_title" />
 
@@ -212,15 +199,13 @@
                     style="@style/BaseCardView">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/quickCommentsTitleTV"
-                            style="@style/BaseCardTitleTextView"
-                            android:layout_width="wrap_content"
+                            style="@style/BaseCardTitleTextView.TitleItem"
                             android:layout_height="wrap_content"
                             android:text="@string/quick_comments_card_title" />
                         <androidx.appcompat.widget.AppCompatSpinner
@@ -233,7 +218,7 @@
 
                         <Button
                             android:id="@+id/addQuickCommentButton"
-                            style="@style/BaseButton"
+                            style="@style/FullWidthButton"
                             android:layout_gravity="center"
                             android:onClick="@{() -> viewModel.addQuickCommentCollection(context)}"
                             android:text="@string/add_new_quick_comments_button_text" />
@@ -249,17 +234,15 @@
                         </androidx.recyclerview.widget.RecyclerView>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.button.MaterialButton
+                    style="@style/FullWidthButton"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:onClick="@{() -> viewModel.completeStep(context)}"
+                    android:text="@string/button_continue">
+
+                </com.google.android.material.button.MaterialButton>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/FullWidthButton"
-            android:layout_gravity="bottom|center_horizontal"
-            android:onClick="@{() -> viewModel.completeStep(context)}"
-            android:text="@string/button_continue">
-
-        </com.google.android.material.button.MaterialButton>
-    </FrameLayout>
 
 </layout>

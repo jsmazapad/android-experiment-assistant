@@ -20,9 +20,13 @@ import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+
+//TODO crear clase hija llamada SensorReader con dos subhijas TriggeredSensorReader y EventSensorReader
 @Entity(tableName = SensorConfig.TABLE_NAME)
 public class SensorConfig extends RepeatableElementConfig implements Cloneable, SensorEventListener {
     /** The name of the table. */
@@ -35,6 +39,7 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable, 
     @ColumnInfo(index = true, name = COLUMN_ID)
     @Expose private long internalId;
     @Expose private long experimentId;
+    private boolean defaultConfigurationEnabled;
     @Expose protected int sensorType;
     @Expose protected int accuracy;
     @Ignore protected Sensor sensor;
@@ -54,45 +59,48 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable, 
     public SensorConfig(int sensorType, int rName){
         this.sensorType = sensorType;
         this.nameStringResource = rName;
+        this.defaultConfigurationEnabled = true;
         initSensor();
     }
 
 
 
-    public SensorConfig(int interval, int intervalMin, int intervalMax, int nameStringResource, long internalId, long experimentId, int sensorType) {
-        super(interval, intervalMin, intervalMax, nameStringResource);
+    public SensorConfig(int interval, int intervalMin, int intervalMax, int nameStringResource, long internalId, long experimentId, int sensorType, boolean defaultConfigurationEnabled) {
+        this(sensorType, intervalMin, intervalMax, interval, nameStringResource);
         this.internalId = internalId;
         this.experimentId = experimentId;
         this.sensorType = sensorType;
+        this.defaultConfigurationEnabled = defaultConfigurationEnabled;
         initSensor();
     }
 
     @Ignore
-    public SensorConfig(int sensorType, int nameStringResource, int intervalMin, int interval) {
+    public SensorConfig(int sensorType, int intervalMin,int intervalMax, int interval,  int nameStringResource) {
+        super(interval, intervalMin, intervalMax, nameStringResource);
         this.sensorType = sensorType;
         this.nameStringResource = nameStringResource;
         this.intervalMin = intervalMin;
         this.interval = interval;
+        this.defaultConfigurationEnabled = true;
         initSensor();
     }
 
+    //TODO Separar Reader de Config
     @Ignore
     public SensorConfig(int sensorType, int nameStringResource, int intervalMin, SensorEventInterface sensorEventInterface, SortedMap<String, Float> measure) {
-        this.sensorType = sensorType;
-        this.nameStringResource = nameStringResource;
-        this.intervalMin = intervalMin;
-        this.interval = intervalMin;
+        //TODO Setear intervalMax
+        this(sensorType, intervalMin, intervalMin, intervalMin, nameStringResource);
         this.sensorEventInterface = sensorEventInterface;
         this.measure = measure;
+        this.defaultConfigurationEnabled = true;
         initSensor();
     }
 
+    //TODO Separar Reader de Config
     @Ignore
     public SensorConfig(int sensorType, int nameStringResource, int intervalMin, TriggerEventInterface triggerEventInterface, SortedMap<String, Float> measure, boolean restartInitialMeasureAfterRead) {
-        this.sensorType = sensorType;
-        this.nameStringResource = nameStringResource;
-        this.intervalMin = intervalMin;
-        this.interval = intervalMin;
+        //TODO Setear intervalMax
+        this(sensorType, intervalMin, intervalMin, intervalMin, nameStringResource);
         this.measure = measure;
         this.triggerEventInterface = triggerEventInterface;
         this.restartInitialMeasureAfterRead = restartInitialMeasureAfterRead;
@@ -108,7 +116,6 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable, 
         }
         if (sensor.getMaxDelay() / 1000 < FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS) {
             this.intervalMax = sensor.getMaxDelay() / 1000;
-
         }
     }
 
@@ -132,6 +139,22 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable, 
     }
 
     public final int getSensorType(){return  this.sensorType;}
+
+    /**
+     * Devuelve el mínimo delay que puede soportar el sensor en ms, dado por el sistema
+     * @return
+     */
+    public final int getSensorSystemMinDelay(){
+        return SensorHandler.getInstance().getSensorManager().getDefaultSensor(sensorType).getMinDelay() / 1000;
+    }
+
+    public boolean isDefaultConfigurationEnabled() {
+        return defaultConfigurationEnabled;
+    }
+
+    public void setDefaultConfigurationEnabled(boolean defaultConfigurationEnabled) {
+        this.defaultConfigurationEnabled = defaultConfigurationEnabled;
+    }
 
     public int getAccuracy() {
         return accuracy;
@@ -177,39 +200,6 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable, 
         this.restartInitialMeasureAfterRead = restartInitialMeasureAfterRead;
     }
 
-    protected SensorConfig(Parcel in) {
-        sensorType = in.readInt();
-        nameStringResource = in.readInt();
-        interval = in.readInt();
-        intervalMin = in.readInt();
-
-    }
-
-    public static final Creator<SensorConfig> CREATOR = new Creator<SensorConfig>() {
-        @Override
-        public SensorConfig createFromParcel(Parcel in) {
-            return new SensorConfig(in);
-        }
-
-        @Override
-        public SensorConfig[] newArray(int size) {
-            return new SensorConfig[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(sensorType);
-        dest.writeInt(nameStringResource);
-        dest.writeInt(interval);
-        dest.writeInt(intervalMin);
-    }
-
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -241,7 +231,6 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable, 
     }
 
     public void initListener(){
-
         if (this.triggerEventInterface != null){
             SensorHandler.getInstance().getSensorManager().requestTriggerSensor(triggerEventListener, sensor);
         }else{
@@ -258,4 +247,77 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable, 
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeLong(this.internalId);
+        dest.writeLong(this.experimentId);
+        dest.writeByte(this.defaultConfigurationEnabled ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.sensorType);
+        dest.writeInt(this.accuracy);
+        //dest.writeParcelable(this.sensor, flags);
+        dest.writeInt(this.measure.size());
+        for (Map.Entry<String, Float> entry : this.measure.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeValue(entry.getValue());
+        }
+        dest.writeInt(this.initialMeasure.size());
+        for (Map.Entry<String, Float> entry : this.initialMeasure.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeValue(entry.getValue());
+        }
+//        dest.writeParcelable(this.sensorEventInterface, flags);
+//        dest.writeParcelable(this.triggerEventInterface, flags);
+//        dest.writeParcelable(this.triggerEventListener, flags);
+        dest.writeByte(this.restartInitialMeasureAfterRead ? (byte) 1 : (byte) 0);
+    }
+
+    public void readFromParcel(Parcel source) {
+        super.readFromParcel(source);
+        this.internalId = source.readLong();
+        this.experimentId = source.readLong();
+        this.defaultConfigurationEnabled = source.readByte() != 0;
+        this.sensorType = source.readInt();
+        this.accuracy = source.readInt();
+        //this.sensor = source.readParcelable(Sensor.class.getClassLoader());
+        int measureSize = source.readInt();
+        this.measure = new TreeMap<>();
+        for (int i = 0; i < measureSize; i++) {
+            String key = source.readString();
+            Float value = (Float) source.readValue(Float.class.getClassLoader());
+            this.measure.put(key, value);
+        }
+        int initialMeasureSize = source.readInt();
+        this.initialMeasure = new TreeMap<>();
+        for (int i = 0; i < initialMeasureSize; i++) {
+            String key = source.readString();
+            Float value = (Float) source.readValue(Float.class.getClassLoader());
+            this.initialMeasure.put(key, value);
+        }
+//        this.sensorEventInterface = source.readParcelable(SensorEventInterface.class.getClassLoader());
+//        this.triggerEventInterface = source.readParcelable(TriggerEventInterface.class.getClassLoader());
+//        this.triggerEventListener = source.readParcelable(TriggerEventListener.class.getClassLoader());
+        this.restartInitialMeasureAfterRead = source.readByte() != 0;
+    }
+
+    protected SensorConfig(Parcel in) {
+        readFromParcel(in);
+    }
+
+    public static final Creator<SensorConfig> CREATOR = new Creator<SensorConfig>() {
+        @Override
+        public SensorConfig createFromParcel(Parcel source) {
+            return new SensorConfig(source);
+        }
+
+        @Override
+        public SensorConfig[] newArray(int size) {
+            return new SensorConfig[size];
+        }
+    };
 }

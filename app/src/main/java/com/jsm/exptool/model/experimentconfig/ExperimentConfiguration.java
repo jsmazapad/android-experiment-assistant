@@ -6,23 +6,28 @@ import android.os.Parcelable;
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExperimentConfiguration implements Parcelable {
 
     //TODO Eliminar este parámetro y hacer que extienda de RepeatableElement
     //private int defaultFrequency;
     @Embedded(prefix = "camera_config_") private CameraConfig cameraConfig;
     @Embedded(prefix = "audio_config_") private AudioConfig audioConfig;
-    @Embedded(prefix = "location_config_") private LocationConfig locationConfig = new LocationConfig();
+    @Embedded(prefix = "location_config_") private LocationConfig locationConfig;
     @Embedded(prefix = "sensor_config_") private SensorsGlobalConfig sensorConfig;
     @Embedded(prefix = "remote_sync_config_") private RepeatableElementConfig remoteSyncConfig;
+    private List<String> quickComments = new ArrayList<>();
 
 
-    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, LocationConfig locationConfig, SensorsGlobalConfig sensorConfig, RepeatableElementConfig remoteSyncConfig) {
+    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, LocationConfig locationConfig, SensorsGlobalConfig sensorConfig, RepeatableElementConfig remoteSyncConfig, List<String> quickComments) {
         this.cameraConfig = cameraConfig;
         this.audioConfig = audioConfig;
         this.locationConfig = locationConfig != null ? locationConfig : this.locationConfig;
         this.sensorConfig = sensorConfig;
         this.remoteSyncConfig = remoteSyncConfig;
+        this.quickComments = quickComments;
     }
     @Ignore
     public ExperimentConfiguration() {
@@ -69,6 +74,14 @@ public class ExperimentConfiguration implements Parcelable {
         this.remoteSyncConfig = remoteSyncConfig;
     }
 
+    public List<String> getQuickComments() {
+        return quickComments;
+    }
+
+    public void setQuickComments(List<String> quickComments) {
+        this.quickComments = quickComments;
+    }
+
     /**
      * Método auxiliar para saber si la configuración del experimento tiene cámara asociada
      * @return
@@ -101,7 +114,15 @@ public class ExperimentConfiguration implements Parcelable {
     }
 
     /**
-     * Método auxiliar para saber si la configuración del experimento tiene cámara asociada
+     * Método auxiliar para saber si la configuración del experimento tiene ubicación asociada
+     * @return
+     */
+    public boolean isLocationEnabled() {
+        return locationConfig != null;
+    }
+
+    /**
+     * Método auxiliar para saber si la configuración del experimento tiene sincronización remota asociada
      * @return
      */
     public boolean isRemoteSyncEnabled() {
@@ -121,6 +142,7 @@ public class ExperimentConfiguration implements Parcelable {
         dest.writeParcelable(this.locationConfig, flags);
         dest.writeParcelable(this.sensorConfig, flags);
         dest.writeParcelable(this.remoteSyncConfig, flags);
+        dest.writeStringList(this.quickComments);
     }
 
     public void readFromParcel(Parcel source) {
@@ -129,6 +151,7 @@ public class ExperimentConfiguration implements Parcelable {
         this.locationConfig = source.readParcelable(LocationConfig.class.getClassLoader());
         this.sensorConfig = source.readParcelable(SensorsGlobalConfig.class.getClassLoader());
         this.remoteSyncConfig = source.readParcelable(RepeatableElementConfig.class.getClassLoader());
+        this.quickComments = source.createStringArrayList();
     }
 
     protected ExperimentConfiguration(Parcel in) {

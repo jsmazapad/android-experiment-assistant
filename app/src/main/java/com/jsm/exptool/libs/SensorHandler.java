@@ -85,10 +85,7 @@ public class SensorHandler {
      * Mas info en @linktourl https://developer.android.com/reference/android/hardware/SensorEvent#values
      */
     private void createAvailableSensorsList(){
-        //TODO, que hacer con GPS
-//        sensors.add(new GPS());
 
-        //sensors.add(new GPSConfig());
 
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ACCELEROMETER) != null
                 && sensorManager.getSensorList(SensorConfigConstants.TYPE_ACCELEROMETER).size() > 0) {

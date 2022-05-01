@@ -20,6 +20,10 @@
             <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.embeddingAlgName}"/>
                 <include
                     layout="@layout/experiment_configure_camera_card_include"
                     android:visibility="@{viewModel.cameraSettingsEnabled ? View.VISIBLE : View.GONE}"
@@ -31,46 +35,132 @@
                     app:viewModel="@{viewModel}" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/remoteSyncCard"
+                    style="@style/BaseCardView"
+                    android:visibility="@{viewModel.remoteSyncSettingsEnabled ? View.VISIBLE : View.GONE}">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            style="@style/BaseCardTitleItem"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/experimentRemoteSyncTitleTV"
+                                style="@style/LinearNoWidthLeftItem"
+                                android:text="@string/remote_sync_card_title" />
+
+                            <TextView
+                                android:id="@+id/remoteSyncFrequencyTV"
+                                style="@style/LinearWrapContentRightItem"
+                                android:text="@{viewModel.remoteSyncFreqValueText}"
+                                tools:text="0ms" />
+
+                            <ImageButton
+                                style="@style/DurationButton"
+                                android:contentDescription="@string/remote_sync_frequency_configuration_content_description"
+                                android:onClick="@{() -> viewModel.onRemoteSyncSelectFrequency(context)}" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/locationCard"
+                    style="@style/BaseCardView"
+                    android:visibility="@{viewModel.locationSettingsEnabled ? View.VISIBLE : View.GONE}">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            style="@style/BaseCardTitleItem"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/experimentLocationTitleTV"
+                                style="@style/LinearNoWidthLeftItem"
+                                android:text="@string/location_card_title" />
+                            <TextView
+                                android:id="@+id/locationFrequencyTV"
+                                style="@style/LinearWrapContentRightItem"
+                                android:text="@{viewModel.locationFreqValueText}"
+                                tools:text="0ms" />
+                            <ImageButton
+                                style="@style/DurationButton"
+                                android:layout_width="wrap_content"
+                                android:contentDescription="@string/location_frequency_configuration_content_description"
+                                android:onClick="@{() -> viewModel.onLocationSelectFrequency(context)}" />
+                        </LinearLayout>
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/locationOptionsSpinner"
+                            style="@style/BaseSpinner"
+                            android:visibility="@{viewModel.locationSettingsEnabled ? View.VISIBLE : View.GONE}"
+                            android:prompt="@string/embedding_alg_spinner_title"
+                            android:entries="@{viewModel.locationMethods}"
+                            app:spinnerAdapter="@{ viewModel.getLocationOptionsAdapter(context)}"
+                            app:selectedValue="@={viewModel.selectedLocationMethod}"
+                            tools:listitem="@layout/generic_title_description_spinner_list_item" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/sensorsCard"
                     style="@style/BaseCardView"
                     android:visibility="@{viewModel.sensorSettingsEnabled ? View.VISIBLE : View.GONE}">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+
+                        <!--                        <com.google.android.material.card.MaterialCardView-->
+<!--                            android:id="@+id/globalFrequencyCard"-->
+<!--                            style="@style/BaseCardView">-->
+
+
                         <TextView
                             android:id="@+id/experimentSensorsTitleTV"
-                            style="@style/BaseCardTitleTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/BaseCardTitleTextView.TitleItem"
                             android:text="@string/sensors" />
 
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/globalFrequencyCard"
-                            style="@style/BaseCardView">
+                        <LinearLayout
+                            style="@style/BaseCardTitleItem"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/all_border_background"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/globalFreqCardTitleTV"
+                                style="@style/LinearNoWidthLeftItem"
+                                android:text="@string/global_frequency_text"
+                                android:textColor="@color/black"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:id="@+id/globalFrequencyTV"
+                                style="@style/LinearWrapContentRightItem"
+                                android:text="@{viewModel.sensorGlobalFreqValueText}"
+                                android:textColor="@color/black"
+                                tools:text="0ms" />
+
+                            <ImageButton
+                                style="@style/DurationButton"
+                                android:layout_width="wrap_content"
+                                android:contentDescription="@string/global_frequency_configuration_content_description"
+                                android:onClick="@{() -> viewModel.onSensorGlobalSelectFrequency(context)}" />
 
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/globalFreqCardTitleTV"
-                                    style="@style/BaseItemListSecondaryBoldTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/select_global_frequency_text" />
-
-
-                                <include
-                                    android:id="@+id/frequencySelectorIncluded"
-                                    layout="@layout/view_layout_frequency_selector" />
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
+                            <!--                                <include-->
+                            <!--                                    android:id="@+id/frequencySelectorIncluded"-->
+                            <!--                                    layout="@layout/view_layout_frequency_selector" />-->
+                        </LinearLayout>
+<!--                        </com.google.android.material.card.MaterialCardView>-->
 
 
                         <androidx.recyclerview.widget.RecyclerView

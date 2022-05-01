@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
@@ -55,15 +56,28 @@ public abstract class BaseFragment<BT extends ViewDataBinding, VM extends BaseVi
             //Equivalente a binding.setViewModel(viewModel) genérico (viewModel es generado como variable)
             //Para que funcione, hay que tener en el proyecto al menos un layout con una variable viewModel y que se haya generado el código
             //Si da problemas, comentar, hacer un make project para que se genere el código y descomentar
-            binding.setVariable(BR.viewModel, viewModel);
-
-            binding.setLifecycleOwner(getViewLifecycleOwner());
+            //TODO Comprobar que el funcionamiento es correcto en todos los casos sin estas dos líneas (movidas a onViewCreated para que al ir hacía adelante y despues volver no pierda el databinding)
+//            binding.setVariable(BR.viewModel, viewModel);
+//
+//            binding.setLifecycleOwner(getViewLifecycleOwner());
             executeExtraActionsInsideBindingInit();
 
         }
 
         viewModel.initObservers(getViewLifecycleOwner());
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //Equivalente a binding.setViewModel(viewModel) genérico (viewModel es generado como variable)
+        //Para que funcione, hay que tener en el proyecto al menos un layout con una variable viewModel y que se haya generado el código
+        //Si da problemas, comentar, hacer un make project para que se genere el código y descomentar
+        //Es necesario que estas dos líneas estén en onViewCreated para que al ir hacía adelante y despues volver no pierda el databinding)
+        binding.setVariable(BR.viewModel, viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+
     }
 
     /**

@@ -22,7 +22,7 @@ public class SpinnerBindings {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        if (newSelectedValue != null) {
+        if (newSelectedValue != null && !spinner.getSelectedItem().equals(newSelectedValue)) {
             int pos = ((ArrayAdapter<Object>) spinner.getAdapter()).getPosition(newSelectedValue);
             spinner.setSelection(pos, true);
         }

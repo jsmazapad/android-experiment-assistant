@@ -4,6 +4,7 @@ import android.os.Parcel;
 
 import androidx.room.Ignore;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.model.SensorConfig;
 
 
@@ -21,9 +22,11 @@ public class SensorsGlobalConfig extends RepeatableElementConfig {
     }
     @Ignore
     public SensorsGlobalConfig() {
+        this.nameStringResource = R.string.global_frequency_text;
     }
     @Ignore
     public SensorsGlobalConfig(List<SensorConfig> sensors) {
+        this.nameStringResource = R.string.global_frequency_text;
         this.sensors = sensors;
     }
 

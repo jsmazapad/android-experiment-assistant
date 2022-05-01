@@ -22,8 +22,9 @@
     <string name="stationary_detect">Detección estacionaria</string>
     <string name="motion_detect">Detección de movimiento</string>
     <string name="heart_beat">Latido del corazón</string>
-    <string name="gps">GPS</string>
+<!--    <string name="gps">GPS</string>-->
     <string name="camera">Cámara</string>
+    <string name="location">Ubicación</string>
     <string name="audio">Audio</string>
     <string name="sensors">Sensores</string>
 

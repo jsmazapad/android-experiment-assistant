@@ -9,13 +9,13 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
 import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
+
 
 import java.util.List;
 
-public class ExperimentCreateConfigureDataAdapter extends BaseRecyclerAdapter<FrequencyConfigurationVO<SensorConfig>, ExperimentCreateConfigureDataViewHolder> {
+public class ExperimentCreateConfigureDataAdapter extends BaseRecyclerAdapter<SensorConfig, ExperimentCreateConfigureDataViewHolder> {
 
-    public ExperimentCreateConfigureDataAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<FrequencyConfigurationVO<SensorConfig>>> elements, NavController navController, int listItemResource) {
+    public ExperimentCreateConfigureDataAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<SensorConfig>> elements, NavController navController, int listItemResource) {
         super(context, onRecyclerItemSelectedListener, elements, navController, listItemResource);
     }
 

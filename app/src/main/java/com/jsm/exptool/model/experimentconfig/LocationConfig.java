@@ -3,6 +3,7 @@ package com.jsm.exptool.model.experimentconfig;
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.model.LocationOption;
 
 public class LocationConfig extends RepeatableElementConfig {
@@ -21,7 +22,7 @@ public class LocationConfig extends RepeatableElementConfig {
 
     @Ignore
     public LocationConfig(){
-
+        this.nameStringResource = R.string.location;
     }
 
 

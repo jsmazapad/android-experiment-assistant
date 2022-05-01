@@ -91,7 +91,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     public ExperimentPerformViewModel(@NonNull Application application, Experiment experiment) {
         super(application);
         this.experiment = experiment;
-        this.quickComments.setValue(experiment.getQuickComments());
+        this.quickComments.setValue(experiment.getConfiguration() != null ? experiment.getConfiguration().getQuickComments() : null);
         orchestratorProvider = WorksOrchestratorProvider.getInstance();
         initImageComponents();
         initAudioComponents();
@@ -101,7 +101,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             apiResponseRepositoryHolder.setValue(new ListResponse<>(experiment.getConfiguration().getSensorConfig().getSensors()));
         }
 
-        quickCommentsEnabled.setValue(experiment.getQuickComments() != null && experiment.getQuickComments().size() > 0);
+        quickCommentsEnabled.setValue(this.quickComments.getValue() != null && this.quickComments.getValue().size() > 0);
     }
 
     public MutableLiveData<Integer> getNumImages() {
