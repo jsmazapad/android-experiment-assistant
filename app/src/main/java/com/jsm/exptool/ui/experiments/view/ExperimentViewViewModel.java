@@ -11,14 +11,14 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.providers.DateProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableElement, RepeatableElement> {
+public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableElementConfig, RepeatableElementConfig> {
 
    private Experiment experiment;
 
@@ -44,7 +44,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
 
     public void initExperimentComponents(){
         ExperimentConfiguration experimentConfiguration = this.experiment.getConfiguration();
-        ArrayList<RepeatableElement> experimentElements = new ArrayList<>();
+        ArrayList<RepeatableElementConfig> experimentElements = new ArrayList<>();
         if(experimentConfiguration.isCameraEnabled()) {
             experimentElements.add(experimentConfiguration.getCameraConfig());
             cameraEnabled.setValue(true);
@@ -120,7 +120,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
     }
 
     @Override
-    public List<RepeatableElement> transformResponse(ListResponse<RepeatableElement> response) {
+    public List<RepeatableElementConfig> transformResponse(ListResponse<RepeatableElementConfig> response) {
         return response.getResultList();
     }
 

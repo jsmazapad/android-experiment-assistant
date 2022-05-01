@@ -12,7 +12,7 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentViewDataMeasuresFragmentBinding;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;
 
@@ -39,7 +39,7 @@ public class ExperimentViewDataMeasuresFragment extends BaseRecyclerFragment<Exp
     @Override
     protected ExperimentViewDataMeasuresViewModel createViewModel() {
 
-        RepeatableElement sensor = ((ExperimentViewRegistersFragment)getParentFragment()).getViewModel().getMeasurableItem();
+        RepeatableElementConfig sensor = ((ExperimentViewRegistersFragment)getParentFragment()).getViewModel().getMeasurableItem();
 
         List<ExperimentRegister> registers =((ExperimentViewRegistersFragment)getParentFragment()).getViewModel().getElements().getValue();
 

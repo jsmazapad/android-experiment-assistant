@@ -1,7 +1,7 @@
 package com.jsm.exptool.model.experimentconfig;
 
 
-public class FrequencyConfigurationVO<T extends RepeatableElement> {
+public class FrequencyConfigurationVO<T extends RepeatableElementConfig> {
     private T repeatableElement;
     private boolean defaultConfigurationEnabled = true;
 

@@ -23,7 +23,7 @@ public class SensorConfigConstants {
     public static final int TYPE_LINEAR_ACCELERATION = Sensor.TYPE_LINEAR_ACCELERATION;
     public static final int TYPE_GRAVITY = Sensor.TYPE_GRAVITY;
     public static final int TYPE_PROXIMITY = Sensor.TYPE_PROXIMITY;
-    public static final int TYPE_TEMPERATURE = Sensor.TYPE_TEMPERATURE;
+    public static final int TYPE_TEMPERATURE = Sensor.TYPE_AMBIENT_TEMPERATURE;
     public static final int TYPE_PRESSURE = Sensor.TYPE_PRESSURE;
     public static final int TYPE_LIGHT = Sensor.TYPE_LIGHT;
     public static final int TYPE_GYROSCOPE = Sensor.TYPE_GYROSCOPE;

@@ -5,17 +5,17 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 
 
 public class ExperimentViewRegistersViewModelFactory implements ViewModelProvider.Factory {
 
     private Application app;
     long experimentId;
-    RepeatableElement measurableItem;
+    RepeatableElementConfig measurableItem;
 
 
-    public ExperimentViewRegistersViewModelFactory(Application app, long experimentId, RepeatableElement measurableItem) {
+    public ExperimentViewRegistersViewModelFactory(Application app, long experimentId, RepeatableElementConfig measurableItem) {
         this.app = app;
         this.experimentId = experimentId;
         this.measurableItem = measurableItem;

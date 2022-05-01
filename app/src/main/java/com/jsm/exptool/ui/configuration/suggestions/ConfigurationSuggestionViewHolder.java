@@ -8,10 +8,6 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
 import com.jsm.exptool.model.CommentSuggestion;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
-import com.jsm.exptool.providers.DateProvider;
-import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class ConfigurationSuggestionViewHolder extends BaseRecyclerViewHolder<CommentSuggestion> {
     private final TextView titleTV, numUsedTimesTV;

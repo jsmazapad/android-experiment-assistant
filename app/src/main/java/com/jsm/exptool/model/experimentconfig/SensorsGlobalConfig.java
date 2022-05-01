@@ -10,13 +10,13 @@ import com.jsm.exptool.model.SensorConfig;
 import java.util.List;
 
 
-public class SensorsGlobalConfig extends RepeatableElement {
+public class SensorsGlobalConfig extends RepeatableElementConfig {
 
     //TODO meter en base de datos listado
     @Ignore  List<SensorConfig> sensors;
 
-    public SensorsGlobalConfig(int interval, int intervalMin, int nameStringResource /*, List<SensorConfig> sensors*/) {
-        super(interval, intervalMin, nameStringResource);
+    public SensorsGlobalConfig(int interval, int intervalMin, int intervalMax, int nameStringResource /*, List<SensorConfig> sensors*/) {
+        super(interval, intervalMin, intervalMax, nameStringResource);
 //        this.sensors = sensors;
     }
     @Ignore

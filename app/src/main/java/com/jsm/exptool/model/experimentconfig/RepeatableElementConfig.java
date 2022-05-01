@@ -5,19 +5,21 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 
-public class RepeatableElement implements Parcelable {
+public class RepeatableElementConfig implements Parcelable {
     // Interval in milliseconds
     @Expose protected int interval;
     @Expose protected int intervalMin;
+    @Expose protected int intervalMax;
     @Expose protected int nameStringResource;
 
-    public RepeatableElement(int interval, int intervalMin, int nameStringResource) {
+    public RepeatableElementConfig(int interval, int intervalMin, int intervalMax, int nameStringResource) {
         this.interval = interval;
         this.intervalMin = intervalMin;
+        this.intervalMax = intervalMax;
         this.nameStringResource = nameStringResource;
     }
 
-    public RepeatableElement(){
+    public RepeatableElementConfig(){
 
     }
 
@@ -41,7 +43,13 @@ public class RepeatableElement implements Parcelable {
         this.intervalMin = interval;
     }
 
+    public int getIntervalMax() {
+        return intervalMax;
+    }
 
+    public void setIntervalMax(int intervalMax) {
+        this.intervalMax = intervalMax;
+    }
 
     @Override
     public int describeContents() {
@@ -52,28 +60,30 @@ public class RepeatableElement implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.interval);
         dest.writeInt(this.intervalMin);
+        dest.writeInt(this.intervalMax);
         dest.writeInt(this.nameStringResource);
     }
 
     public void readFromParcel(Parcel source) {
         this.interval = source.readInt();
         this.intervalMin = source.readInt();
+        this.intervalMax = source.readInt();
         this.nameStringResource = source.readInt();
     }
 
-    protected RepeatableElement(Parcel in) {
+    protected RepeatableElementConfig(Parcel in) {
        readFromParcel(in);
     }
 
-    public static final Creator<RepeatableElement> CREATOR = new Creator<RepeatableElement>() {
+    public static final Creator<RepeatableElementConfig> CREATOR = new Creator<RepeatableElementConfig>() {
         @Override
-        public RepeatableElement createFromParcel(Parcel source) {
-            return new RepeatableElement(source);
+        public RepeatableElementConfig createFromParcel(Parcel source) {
+            return new RepeatableElementConfig(source);
         }
 
         @Override
-        public RepeatableElement[] newArray(int size) {
-            return new RepeatableElement[size];
+        public RepeatableElementConfig[] newArray(int size) {
+            return new RepeatableElementConfig[size];
         }
     };
 

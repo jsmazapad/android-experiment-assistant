@@ -12,16 +12,17 @@ public class ExperimentConfiguration implements Parcelable {
     //private int defaultFrequency;
     @Embedded(prefix = "camera_config_") private CameraConfig cameraConfig;
     @Embedded(prefix = "audio_config_") private AudioConfig audioConfig;
-    @Embedded(prefix = "global_config_") private GlobalConfig globalConfig = new GlobalConfig();
+    @Embedded(prefix = "location_config_") private LocationConfig locationConfig = new LocationConfig();
     @Embedded(prefix = "sensor_config_") private SensorsGlobalConfig sensorConfig;
+    @Embedded(prefix = "remote_sync_config_") private RepeatableElementConfig remoteSyncConfig;
 
 
-
-    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, GlobalConfig globalConfig, SensorsGlobalConfig sensorConfig) {
+    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, LocationConfig locationConfig, SensorsGlobalConfig sensorConfig, RepeatableElementConfig remoteSyncConfig) {
         this.cameraConfig = cameraConfig;
         this.audioConfig = audioConfig;
-        this.globalConfig = globalConfig != null ? globalConfig : this.globalConfig;
+        this.locationConfig = locationConfig != null ? locationConfig : this.locationConfig;
         this.sensorConfig = sensorConfig;
+        this.remoteSyncConfig = remoteSyncConfig;
     }
     @Ignore
     public ExperimentConfiguration() {
@@ -44,12 +45,12 @@ public class ExperimentConfiguration implements Parcelable {
         this.audioConfig = audioConfig;
     }
 
-    public GlobalConfig getGlobalConfig() {
-        return globalConfig;
+    public LocationConfig getLocationConfig() {
+        return locationConfig;
     }
 
-    public void setGlobalConfig(GlobalConfig globalConfig) {
-        this.globalConfig = globalConfig;
+    public void setLocationConfig(LocationConfig locationConfig) {
+        this.locationConfig = locationConfig;
     }
 
     public SensorsGlobalConfig getSensorConfig() {
@@ -58,6 +59,14 @@ public class ExperimentConfiguration implements Parcelable {
 
     public void setSensorConfig(SensorsGlobalConfig sensorConfig) {
         this.sensorConfig = sensorConfig;
+    }
+
+    public RepeatableElementConfig getRemoteSyncConfig() {
+        return remoteSyncConfig;
+    }
+
+    public void setRemoteSyncConfig(RepeatableElementConfig remoteSyncConfig) {
+        this.remoteSyncConfig = remoteSyncConfig;
     }
 
     /**
@@ -91,6 +100,14 @@ public class ExperimentConfiguration implements Parcelable {
         return sensorConfig != null && sensorConfig.getSensors() != null && sensorConfig.getSensors().size() > 0;
     }
 
+    /**
+     * Método auxiliar para saber si la configuración del experimento tiene cámara asociada
+     * @return
+     */
+    public boolean isRemoteSyncEnabled() {
+        return remoteSyncConfig != null;
+    }
+
 
     @Override
     public int describeContents() {
@@ -101,15 +118,17 @@ public class ExperimentConfiguration implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.cameraConfig, flags);
         dest.writeParcelable(this.audioConfig, flags);
-        dest.writeParcelable(this.globalConfig, flags);
+        dest.writeParcelable(this.locationConfig, flags);
         dest.writeParcelable(this.sensorConfig, flags);
+        dest.writeParcelable(this.remoteSyncConfig, flags);
     }
 
     public void readFromParcel(Parcel source) {
         this.cameraConfig = source.readParcelable(CameraConfig.class.getClassLoader());
         this.audioConfig = source.readParcelable(AudioConfig.class.getClassLoader());
-        this.globalConfig = source.readParcelable(GlobalConfig.class.getClassLoader());
+        this.locationConfig = source.readParcelable(LocationConfig.class.getClassLoader());
         this.sensorConfig = source.readParcelable(SensorsGlobalConfig.class.getClassLoader());
+        this.remoteSyncConfig = source.readParcelable(RepeatableElementConfig.class.getClassLoader());
     }
 
     protected ExperimentConfiguration(Parcel in) {

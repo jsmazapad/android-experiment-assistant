@@ -14,7 +14,7 @@ import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.SensorEventInterface;
 import com.jsm.exptool.model.TriggerEventInterface;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class SensorHandler {
     private SensorManager sensorManager;
     private LocationManager locationManager;
     private List<SensorConfig> sensors = new ArrayList();
-    private ArrayList<RepeatableElement> selectedSensors = new ArrayList();
+    private ArrayList<RepeatableElementConfig> selectedSensors = new ArrayList();
     private static SensorHandler instance;
 
     public static SensorHandler getInstance(){
@@ -64,7 +64,7 @@ public class SensorHandler {
         }
     }
 
-    public ArrayList<RepeatableElement> getSelectedSensors() {
+    public ArrayList<RepeatableElementConfig> getSelectedSensors() {
         return this.selectedSensors;
     }
 
@@ -87,6 +87,8 @@ public class SensorHandler {
     private void createAvailableSensorsList(){
         //TODO, que hacer con GPS
 //        sensors.add(new GPS());
+
+        //sensors.add(new GPSConfig());
 
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_ACCELEROMETER) != null
                 && sensorManager.getSensorList(SensorConfigConstants.TYPE_ACCELEROMETER).size() > 0) {

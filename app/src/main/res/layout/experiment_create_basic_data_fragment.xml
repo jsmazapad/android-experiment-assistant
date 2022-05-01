@@ -33,22 +33,23 @@
                         <TextView
                             android:id="@+id/experimentDataTitleTV"
                             style="@style/BaseCardTitleTextView"
-                            android:text="Datos del experimento" />
+                            android:text="@string/experiment_data_card_title" />
 
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
-                                android:hint="Nombre"
+                                android:hint="@string/input_name_hint"
                                 android:inputType="textShortMessage"
-                                android:text="@={viewModel.title}" />
+                                android:text="@={viewModel.title}"
+                                 />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
-                                android:hint="Descripción"
+                                android:hint="@string/input_description_hint"
                                 android:inputType="textMultiLine"
                                 android:text="@={viewModel.description}" />
 
@@ -74,13 +75,13 @@
                             style="@style/BaseCardTitleTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sincronización Remota" />
+                            android:text="@string/remote_sync_card_title" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switchSync"
                             style="@style/BaseSwitch"
                             android:checked="@={viewModel.remoteSyncEnabled}"
-                            android:text="Sincronización remota durante el experimento" />
+                            android:text="@string/remote_sync_switch_text" />
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -100,26 +101,51 @@
                             style="@style/BaseCardTitleTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Multimedia" />
+                            android:text="@string/multimedia_card_title" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switchCamera"
                             style="@style/BaseSwitch"
                             android:checked="@={viewModel.cameraEnabled}"
-                            android:text="Cámara" />
+                            android:text="@string/camera_switch_text" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switchEmbedding"
                             style="@style/SecondarySwitch"
                             android:checked="@={viewModel.embeddingEnabled}"
-                            android:text="Obtener Embedding durante el experimento"
+                            android:text="@string/embedding_switch_text"
                             android:visibility="@{viewModel.cameraEnabled ? View.VISIBLE : View.GONE}" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switchAudio"
                             style="@style/BaseSwitch"
                             android:checked="@={viewModel.audioEnabled}"
-                            android:text="Audio" />
+                            android:text="@string/audio_switch_text" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/locationCard"
+                    style="@style/BaseCardView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/experimentLocationTitleTV"
+                            style="@style/BaseCardTitleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/location_card_title" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchLocation"
+                            style="@style/BaseSwitch"
+                            android:checked="@={viewModel.locationEnabled}"
+                            android:text="@string/location_switch_text" />
+
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -138,7 +164,7 @@
                             style="@style/BaseCardTitleTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sensores" />
+                            android:text="@string/sensors_card_title" />
 
 
                         <Button
@@ -146,7 +172,7 @@
                             style="@style/BaseButton"
                             android:layout_gravity="center"
                             android:onClick="@{() -> viewModel.selectSensorsButtonClicked(sensorSpinner)}"
-                            android:text="Seleccionar sensores" />
+                            android:text="@string/select_sensors_button_title" />
 
                         <com.jsm.exptool.libs.MultiSpinner
                             android:id="@+id/sensorSpinner"
@@ -196,7 +222,7 @@
                             style="@style/BaseCardTitleTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Comentarios rápidos" />
+                            android:text="@string/quick_comments_card_title" />
                         <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/quickCommentsSpinner"
                             style="@style/BaseSpinner"
@@ -210,7 +236,7 @@
                             style="@style/BaseButton"
                             android:layout_gravity="center"
                             android:onClick="@{() -> viewModel.addQuickCommentCollection(context)}"
-                            android:text="Añadir nueva colección de comentarios rápidos" />
+                            android:text="@string/add_new_quick_comments_button_text" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/quickCommentsRV"

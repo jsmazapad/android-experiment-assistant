@@ -12,20 +12,28 @@ import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class ExperimentCreateConfigureDataViewHolder extends BaseRecyclerViewHolder<FrequencyConfigurationVO<SensorConfig>> {
 
-    private final TextView titleTV;
-    private final TextView frequencyTV;
+    private final TextView titleTV, frequencyTV, minFreqTV;
 
     protected ExperimentCreateConfigureDataViewHolder(View v) {
         super(v);
 
         this.titleTV = v.findViewById(R.id.sensorTitleTV);
         this.frequencyTV = v.findViewById(R.id.frequencyTV);
+        this.minFreqTV = v.findViewById(R.id.minFreqTV);
+
     }
 
 
     @Override
     public void fillViewHolder(FrequencyConfigurationVO<SensorConfig> element) {
         titleTV.setText(itemView.getContext().getString(element.getRepeatableElement().getNameStringResource()));
-        frequencyTV.setText(element.isDefaultConfigurationEnabled()? itemView.getContext().getString(R.string.global_frequency_literal): TimeDisplayStringProvider.millisecondsToStringBestDisplay( element.getRepeatableElement().getInterval()));
+        minFreqTV.setText(String.format(itemView.getContext().getString(R.string.min_freq_placeholder),TimeDisplayStringProvider.millisecondsToStringBestDisplay( element.getRepeatableElement().getIntervalMin())));
+        String frequencyValue = "";
+        if(element.isDefaultConfigurationEnabled()){
+            frequencyValue = itemView.getContext().getString(R.string.global_frequency_literal);
+        }else{
+            frequencyValue =  TimeDisplayStringProvider.millisecondsToStringBestDisplay( element.getRepeatableElement().getInterval());
+        }
+        frequencyTV.setText(frequencyValue);
     }
 }

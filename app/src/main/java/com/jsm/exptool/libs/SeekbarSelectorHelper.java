@@ -8,18 +8,18 @@ import android.widget.TextView;
 
 
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class SeekbarSelectorHelper {
 
     private static final String DEFAULT_TAG= "DEFAULT_TAG";
 
-    public static <T extends RepeatableElement> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue) {
+    public static <T extends RepeatableElementConfig> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue) {
         initFrequencySelector(includedSelectorBinding,listener, minValue, maxValue, initialValue, DEFAULT_TAG);
     }
 
-        public static <T extends RepeatableElement> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue, String tag) {
+        public static <T extends RepeatableElementConfig> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue, String tag) {
 
         final TextView minDelayTV = includedSelectorBinding.minDelayTV;
         final TextView maxDelayTV = includedSelectorBinding.maxDelayTV;

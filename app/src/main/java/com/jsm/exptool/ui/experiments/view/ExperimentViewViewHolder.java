@@ -5,9 +5,9 @@ import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 
-public class ExperimentViewViewHolder extends BaseRecyclerViewHolder<RepeatableElement> {
+public class ExperimentViewViewHolder extends BaseRecyclerViewHolder<RepeatableElementConfig> {
 
     private final TextView measuredItemTitleTV;
     protected ExperimentViewViewHolder(View v) {
@@ -19,7 +19,7 @@ public class ExperimentViewViewHolder extends BaseRecyclerViewHolder<RepeatableE
 
 
     @Override
-    public void fillViewHolder(RepeatableElement element) {
+    public void fillViewHolder(RepeatableElementConfig element) {
         measuredItemTitleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
     }
 }

@@ -35,6 +35,9 @@
     <string name="mandatory_name_field_error">El campo nombre es obligatorio\n</string>
     <string name="at_least_one_experiment_conf_option_error">Debe seleccionar al menos una función multimedia o un sensor</string>
     <string name="quick_comments_spinner_title">Seleccione colección de comentarios rápidos</string>
+    <string name="experiment_create_no_quick_comments_option">Sin comentarios rápidos</string>
+    <string name="min_freq_placeholder">Min: %s</string>
+    <string name="select_sensors_prompt">Seleccione sensores</string>
     <!--
     CREATE EXPERIMENT: CAMERA CARD
     -->
@@ -166,7 +169,27 @@ Experiment list
     <string name="experiment_filter_status_prompt">Seleccione estado</string>
     <string name="experiment_filter_sync_prompt">Seleccione filtros sincronización</string>
     <string name="num_registers_format">%d registros</string>
-    <string name="experiment_create_no_quick_comments_option">Sin comentarios rápidos</string>
+    <string name="experiment_data_card_title">Datos del experimento</string>
+    <string name="input_name_hint">Nombre</string>
+    <string name="input_description_hint">Descripción</string>
+    <string name="remote_sync_card_title">Sincronización Remota</string>
+    <string name="remote_sync_switch_text">Sincronización remota durante el experimento</string>
+    <string name="multimedia_card_title">Multimedia</string>
+    <string name="camera_switch_text">Cámara</string>
+    <string name="embedding_switch_text">Obtener Embedding durante el experimento</string>
+    <string name="audio_switch_text">Audio</string>
+    <string name="location_card_title">Ubicación</string>
+    <string name="location_switch_text">Obtener ubicación</string>
+    <string name="sensors_card_title">Sensores</string>
+    <string name="select_sensors_button_title">Seleccionar sensores</string>
+    <string name="quick_comments_card_title">Comentarios rápidos</string>
+    <string name="add_new_quick_comments_button_text">Añadir nueva colección de comentarios rápidos</string>
+
+    <!--
+    Varios
+    -->
+
+
 
 
 </resources>

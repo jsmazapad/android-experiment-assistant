@@ -15,15 +15,15 @@ public class CameraConfig extends MultimediaConfig{
     CameraProvider.FlashModes flashMode = CameraProvider.FlashModes.OFF;
     CameraProvider.CameraPositions cameraPosition = CameraProvider.CameraPositions.REAR;
     @Embedded EmbeddingAlgorithm embeddingAlgorithm;
-    public CameraConfig(int nameStringResource, int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
-        super(interval, intervalMin, nameStringResource);
+    public CameraConfig(int nameStringResource, int interval, int intervalMin, int intervalMax, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
+        super(interval, intervalMin, intervalMax, nameStringResource);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
         this.embeddingAlgorithm = embeddingAlgorithm;
     }
     @Ignore
-    public CameraConfig( int interval, int intervalMin, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
-        super(interval, intervalMin, R.string.audio);
+    public CameraConfig( int interval, int intervalMin, int intervalMax, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
+        super(interval, intervalMin, intervalMax, R.string.audio);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
         this.embeddingAlgorithm = embeddingAlgorithm;

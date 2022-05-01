@@ -15,7 +15,7 @@ import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.MultimediaConfig;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.ImagesRepository;
@@ -25,12 +25,12 @@ import java.util.List;
 
 public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<ExperimentRegister, ExperimentRegister> {
     private long experimentId;
-    private RepeatableElement measurableItem;
+    private RepeatableElementConfig measurableItem;
     private final MutableLiveData<String> title = new MutableLiveData<>();
     private  @StringRes int secondTabTitle = -1;
 
 
-    public ExperimentViewRegistersViewModel(Application application, long experimentId, RepeatableElement measurableItem) {
+    public ExperimentViewRegistersViewModel(Application application, long experimentId, RepeatableElementConfig measurableItem) {
         super(application, experimentId, measurableItem);
        initViewStrings();
 
@@ -60,7 +60,7 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
         this.experimentId = experimentId;
     }
 
-    public RepeatableElement getMeasurableItem() {
+    public RepeatableElementConfig getMeasurableItem() {
         return measurableItem;
     }
 
@@ -87,7 +87,7 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
     @Override
     public void setConstructorParameters(Object... args) {
         experimentId = (long)args[0];
-        measurableItem = (RepeatableElement) args[1];
+        measurableItem = (RepeatableElementConfig) args[1];
     }
 
     @Override

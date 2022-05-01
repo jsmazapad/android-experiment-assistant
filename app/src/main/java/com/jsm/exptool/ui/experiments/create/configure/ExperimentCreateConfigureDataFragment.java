@@ -38,8 +38,6 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
         ExperimentCreateConfigureDataFragmentBinding binding =  DataBindingUtil.inflate(inflater, R.layout.experiment_create_configure_data_fragment, container, false);
         //Inicializamos los controles de la vista de selección de frecuencia global
         return binding;
-
-
     }
 
     @Override
@@ -49,11 +47,9 @@ public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<
 
     @Override
     protected ExperimentCreateConfigureDataViewModel createViewModel() {
-
         Experiment experiment;
         experiment = ExperimentCreateConfigureDataFragmentArgs.fromBundle(getArguments()).getExperiment();
         return new ViewModelProvider(this, new ExperimentCreateConfigureDataViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentCreateConfigureDataViewModel.class);
-
     }
 
     @Override

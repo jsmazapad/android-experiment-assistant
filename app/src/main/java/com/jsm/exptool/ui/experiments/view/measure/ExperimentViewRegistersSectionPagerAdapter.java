@@ -10,7 +10,7 @@ import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.data.ExperimentViewDataMeasuresFragment;
 import com.jsm.exptool.ui.experiments.view.measure.graph.ExperimentViewSensorGraphFragment;
@@ -23,10 +23,10 @@ public class ExperimentViewRegistersSectionPagerAdapter extends FragmentStateAda
 
 
     private final ArrayList<ExperimentRegister> registerList;
-    private final RepeatableElement measurableItem;
+    private final RepeatableElementConfig measurableItem;
     private final static int NUM_PAGES = 2;
 
-    public ExperimentViewRegistersSectionPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, ArrayList<ExperimentRegister> registerList, RepeatableElement measurableItem) {
+    public ExperimentViewRegistersSectionPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, ArrayList<ExperimentRegister> registerList, RepeatableElementConfig measurableItem) {
         super(fragmentManager, lifecycle);
         this.registerList = registerList;
         this.measurableItem = measurableItem;

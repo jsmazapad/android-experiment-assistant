@@ -15,13 +15,13 @@ import com.jsm.exptool.databinding.DialogSelectFrequencyBinding;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.libs.SeekbarSelectorHelper;
 
 
 public class SelectFrequencyDialogProvider {
     //TODO Refactorizar interface comun entre cámara, imagen y sensores
-    public static <T extends RepeatableElement> void  createDialog(Context context, FrequencyConfigurationVO<T> frequencyConfiguration, OnFrequencySelectedListener listener, final int minValue, final int maxValue, final int initialValue, boolean showGlobal, @Nullable String selectedAttributeTag, @Nullable String alternativeTitle) {
+    public static <T extends RepeatableElementConfig> void  createDialog(Context context, FrequencyConfigurationVO<T> frequencyConfiguration, OnFrequencySelectedListener listener, final int minValue, final int maxValue, final int initialValue, boolean showGlobal, @Nullable String selectedAttributeTag, @Nullable String alternativeTitle) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         DialogSelectFrequencyBinding binding = DialogSelectFrequencyBinding.inflate(layoutInflater);
@@ -67,6 +67,6 @@ public class SelectFrequencyDialogProvider {
 
 
     public interface OnFrequencySelectedListener{
-        <T extends RepeatableElement> void onFrequencySelected(FrequencyConfigurationVO<T> sensorConfiguration, String selectedAttributeTag);
+        <T extends RepeatableElementConfig> void onFrequencySelected(FrequencyConfigurationVO<T> sensorConfiguration, String selectedAttributeTag);
     }
 }

@@ -30,7 +30,7 @@ import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.FrequencyConfigurationVO;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.SelectFrequencyDialogProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
@@ -248,7 +248,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
 
     @Override
     public void onFrequencySelected(FrequencyConfigurationVO sensorConfiguration, String selectedAttributeTag) {
-        RepeatableElement element = sensorConfiguration.getRepeatableElement();
+        RepeatableElementConfig element = sensorConfiguration.getRepeatableElement();
         //Reseteamos el elemento que corresponda para que se actualice el valor en la vista
         //Databinding con LiveData no tiene manera de saber si el elemento ha cambiado sólo una propiedad
         if (element instanceof SensorConfig) {

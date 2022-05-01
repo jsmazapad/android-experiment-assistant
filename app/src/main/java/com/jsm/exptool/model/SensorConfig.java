@@ -18,13 +18,13 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.libs.SensorHandler;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 @Entity(tableName = SensorConfig.TABLE_NAME)
-public class SensorConfig extends RepeatableElement implements Cloneable, SensorEventListener {
+public class SensorConfig extends RepeatableElementConfig implements Cloneable, SensorEventListener {
     /** The name of the table. */
     public static final String TABLE_NAME = "experiment_sensors";
 
@@ -38,6 +38,7 @@ public class SensorConfig extends RepeatableElement implements Cloneable, Sensor
     @Expose protected int sensorType;
     @Expose protected int accuracy;
     @Ignore protected Sensor sensor;
+    //TODO Separar configuración de medicion
     @Expose @Ignore  protected SortedMap<String, Float> measure = new TreeMap<>();
     @Ignore  protected SortedMap<String, Float> initialMeasure = new TreeMap<>();
     @Ignore  protected SensorEventInterface sensorEventInterface;
@@ -48,6 +49,7 @@ public class SensorConfig extends RepeatableElement implements Cloneable, Sensor
             SensorConfig.this.onTrigger(event);
         }
     };
+    private boolean restartInitialMeasureAfterRead = false;
     @Ignore
     public SensorConfig(int sensorType, int rName){
         this.sensorType = sensorType;
@@ -55,10 +57,10 @@ public class SensorConfig extends RepeatableElement implements Cloneable, Sensor
         initSensor();
     }
 
-    private boolean restartInitialMeasureAfterRead = false;
 
-    public SensorConfig(int interval, int intervalMin, int nameStringResource, long internalId, long experimentId, int sensorType) {
-        super(interval, intervalMin, nameStringResource);
+
+    public SensorConfig(int interval, int intervalMin, int intervalMax, int nameStringResource, long internalId, long experimentId, int sensorType) {
+        super(interval, intervalMin, intervalMax, nameStringResource);
         this.internalId = internalId;
         this.experimentId = experimentId;
         this.sensorType = sensorType;
@@ -104,7 +106,10 @@ public class SensorConfig extends RepeatableElement implements Cloneable, Sensor
             this.intervalMin = sensor.getMinDelay() / 1000;
             this.interval = sensor.getMinDelay() / 1000;
         }
+        if (sensor.getMaxDelay() / 1000 < FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS) {
+            this.intervalMax = sensor.getMaxDelay() / 1000;
 
+        }
     }
 
 
@@ -154,6 +159,14 @@ public class SensorConfig extends RepeatableElement implements Cloneable, Sensor
 
     public void setSensorEventInterface(SensorEventInterface sensorEventInterface) {
         this.sensorEventInterface = sensorEventInterface;
+    }
+
+    public TriggerEventInterface getTriggerEventInterface() {
+        return triggerEventInterface;
+    }
+
+    public void setTriggerEventInterface(TriggerEventInterface triggerEventInterface) {
+        this.triggerEventInterface = triggerEventInterface;
     }
 
     public boolean isRestartInitialMeasureAfterRead() {

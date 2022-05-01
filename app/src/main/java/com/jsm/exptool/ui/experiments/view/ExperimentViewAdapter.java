@@ -8,13 +8,13 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 
 import java.util.List;
 
-public class ExperimentViewAdapter extends BaseRecyclerAdapter<RepeatableElement, ExperimentViewViewHolder> {
+public class ExperimentViewAdapter extends BaseRecyclerAdapter<RepeatableElementConfig, ExperimentViewViewHolder> {
 
-    public ExperimentViewAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<RepeatableElement>> elements, NavController navController, int listItemResource) {
+    public ExperimentViewAdapter(Context context, OnRecyclerItemSelectedListener onRecyclerItemSelectedListener, LiveData<List<RepeatableElementConfig>> elements, NavController navController, int listItemResource) {
         super(context, onRecyclerItemSelectedListener, elements, navController, listItemResource);
 
     }

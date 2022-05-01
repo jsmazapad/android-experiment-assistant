@@ -7,16 +7,16 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 
 import java.util.List;
 
 public class ExperimentViewDataMeasuresViewModel extends BaseRecyclerViewModel<ExperimentRegister, ExperimentRegister> {
 
-    RepeatableElement measurableItem;
+    RepeatableElementConfig measurableItem;
 
-    public ExperimentViewDataMeasuresViewModel(Application app, RepeatableElement measurableItem, List<ExperimentRegister> measures) {
+    public ExperimentViewDataMeasuresViewModel(Application app, RepeatableElementConfig measurableItem, List<ExperimentRegister> measures) {
         super(app, measurableItem,  measures);
     }
 
@@ -32,7 +32,7 @@ public class ExperimentViewDataMeasuresViewModel extends BaseRecyclerViewModel<E
 
     @Override
     public void setConstructorParameters(Object... args) {
-        this.measurableItem = (RepeatableElement) args[0];
+        this.measurableItem = (RepeatableElementConfig) args[0];
         this.apiResponseRepositoryHolder.setValue(new ListResponse<>((List<ExperimentRegister>) args [1]));
 
     }

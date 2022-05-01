@@ -17,7 +17,7 @@ import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentViewRegistersFragmentBinding;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.experimentconfig.RepeatableElement;
+import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
         //AudioConfig measurableItem = experiment.getConfiguration().getAudioConfig();
         //CameraConfig measurableItem = experiment.getConfiguration().getCameraConfig();
 
-        RepeatableElement measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getElement();
+        RepeatableElementConfig measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getElement();
 
         return new ViewModelProvider(this, new ExperimentViewRegistersViewModelFactory(getActivity().getApplication(), experimentId, measurableItem)).get(ExperimentViewRegistersViewModel.class);
     }
