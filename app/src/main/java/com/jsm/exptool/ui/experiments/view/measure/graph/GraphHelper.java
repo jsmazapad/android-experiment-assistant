@@ -55,10 +55,10 @@ public class GraphHelper {
             for (int i=0; i < measures.size(); i++){
                 SensorRegister measure = (SensorRegister) measures.get(i);
                 xAxis_labels.add(DateProvider.dateToDisplayStringWithTime(measure.getDate()));
-                valuesX.add(new Entry(i, measure.getValue1()));
+                valuesX.add(new Entry(i, Double.valueOf(measure.getValue1()).floatValue()));
                 if(!isUniqueAxis){
-                    valuesY.add(new Entry(i, measure.getValue2()));
-                    valuesZ.add(new Entry(i, measure.getValue3()));
+                    valuesY.add(new Entry(i, Double.valueOf(measure.getValue2()).floatValue()));
+                    valuesZ.add(new Entry(i, Double.valueOf(measure.getValue3()).floatValue()));
                 }
             }
 

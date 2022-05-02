@@ -9,10 +9,12 @@ import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
+import com.jsm.exptool.model.experimentconfig.LocationConfig;
 import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.providers.FilePathsProvider;
+import com.jsm.exptool.providers.LocationProvider;
 import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.repositories.ImagesRepository;
@@ -55,6 +57,24 @@ public class MockExamples {
         });
 
         return experiment;
+    }
+
+    public static Experiment registerExperimentForLocationTest() {
+        Experiment experiment = new Experiment();
+
+        experiment.setStatus(Experiment.ExperimentStatus.CREATED);
+        experiment.setTitle("Experimento ubica " + new Date().getTime());
+        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
+        ExperimentConfiguration configuration = new ExperimentConfiguration();
+        LocationConfig locationConfig = new LocationConfig();
+        locationConfig.setInterval(500);
+        locationConfig.setLocationOption(LocationProvider.getLocationOptions().get(0));
+        configuration.setLocationConfig(locationConfig);
+        experiment.setConfiguration(configuration);
+        long id = ExperimentsRepository.registerExperiment(experiment);
+        experiment.setInternalId(id);
+        return experiment;
+
     }
 
     public static Experiment registerExperimentForPerformanceTest() {
@@ -132,8 +152,8 @@ public class MockExamples {
         for (SensorConfig sensor : configuration.getSensorConfig().getSensors()) {
             for (int i = 0; i <= 40; i++) {
                 cal.add(Calendar.HOUR, 1);
-                for (String key : sensor.getMeasure().keySet()) {
-                    sensor.getMeasure().put(key, new Random().nextFloat());
+                for (String key : sensor.getSensorReader().getMeasure().keySet()) {
+                    sensor.getSensorReader().getMeasure().put(key, new Random().nextFloat());
                 }
 
 

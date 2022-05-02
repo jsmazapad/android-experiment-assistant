@@ -16,20 +16,20 @@ public class SensorRegister extends ExperimentRegister {
      */
     public static final String TABLE_NAME = "sensorRegisters";
 
-    private float value1;
+    private double value1;
     private String value1String;
-    private float value2;
+    private double value2;
     private String value2String;
-    private float value3;
+    private double value3;
     private String value3String;
     private String sensorName;
     private int sensorType;
     private @StringRes int sensorNameResource;
-    private int accuracy;
+    private float accuracy;
 
-    public SensorRegister(long internalId, long experimentId, Date date, boolean dataRemoteSynced, float value1, String value1String,
-                          float value2, String value2String, float value3, String value3String, String sensorName,
-                          int sensorType, @StringRes int sensorNameResource, int accuracy) {
+    public SensorRegister(long internalId, long experimentId, Date date, boolean dataRemoteSynced, double value1, String value1String,
+                          double value2, String value2String, double value3, String value3String, String sensorName,
+                          int sensorType, @StringRes int sensorNameResource, float accuracy) {
         super(internalId, experimentId, date, dataRemoteSynced);
         this.value1 = value1;
         this.value1String = value1String;
@@ -43,9 +43,9 @@ public class SensorRegister extends ExperimentRegister {
         this.accuracy = accuracy;
     }
     @Ignore
-    public SensorRegister(long experimentId, Date date, boolean dataRemoteSynced, float value1, String value1String,
-                          float value2, String value2String, float value3, String value3String, String sensorName,
-                          int sensorType, @StringRes int sensorNameResource, int accuracy) {
+    public SensorRegister(long experimentId, Date date, boolean dataRemoteSynced, double value1, String value1String,
+                          double value2, String value2String, double value3, String value3String, String sensorName,
+                          int sensorType, @StringRes int sensorNameResource, float accuracy) {
         super(experimentId, date, dataRemoteSynced);
         this.value1 = value1;
         this.value1String = value1String;
@@ -60,11 +60,11 @@ public class SensorRegister extends ExperimentRegister {
     }
 
 
-    public float getValue1() {
+    public double getValue1() {
         return value1;
     }
 
-    public void setValue1(float value1) {
+    public void setValue1(double value1) {
         this.value1 = value1;
     }
 
@@ -76,11 +76,11 @@ public class SensorRegister extends ExperimentRegister {
         this.value1String = value1String;
     }
 
-    public float getValue2() {
+    public double getValue2() {
         return value2;
     }
 
-    public void setValue2(float value2) {
+    public void setValue2(double value2) {
         this.value2 = value2;
     }
 
@@ -92,11 +92,11 @@ public class SensorRegister extends ExperimentRegister {
         this.value2String = value2String;
     }
 
-    public float getValue3() {
+    public double getValue3() {
         return value3;
     }
 
-    public void setValue3(float value3) {
+    public void setValue3(double value3) {
         this.value3 = value3;
     }
 
@@ -132,11 +132,11 @@ public class SensorRegister extends ExperimentRegister {
         this.sensorNameResource = sensorNameResource;
     }
 
-    public int getAccuracy() {
+    public float getAccuracy() {
         return accuracy;
     }
 
-    public void setAccuracy(int accuracy) {
+    public void setAccuracy(float accuracy) {
         this.accuracy = accuracy;
     }
 
@@ -166,30 +166,30 @@ public class SensorRegister extends ExperimentRegister {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeFloat(this.value1);
+        dest.writeDouble(this.value1);
         dest.writeString(this.value1String);
-        dest.writeFloat(this.value2);
+        dest.writeDouble(this.value2);
         dest.writeString(this.value2String);
-        dest.writeFloat(this.value3);
+        dest.writeDouble(this.value3);
         dest.writeString(this.value3String);
         dest.writeString(this.sensorName);
         dest.writeInt(this.sensorType);
         dest.writeInt(this.sensorNameResource);
-        dest.writeInt(this.accuracy);
+        dest.writeFloat(this.accuracy);
     }
 
     public void readFromParcel(Parcel source) {
         super.readFromParcel(source);
-        this.value1 = source.readFloat();
+        this.value1 = source.readDouble();
         this.value1String = source.readString();
-        this.value2 = source.readFloat();
+        this.value2 = source.readDouble();
         this.value2String = source.readString();
-        this.value3 = source.readFloat();
+        this.value3 = source.readDouble();
         this.value3String = source.readString();
         this.sensorName = source.readString();
         this.sensorType = source.readInt();
         this.sensorNameResource = source.readInt();
-        this.accuracy = source.readInt();
+        this.accuracy = source.readFloat();
     }
 
     protected SensorRegister(Parcel in) {

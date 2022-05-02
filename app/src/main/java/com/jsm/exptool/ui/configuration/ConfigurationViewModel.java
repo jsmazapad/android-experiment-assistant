@@ -15,7 +15,6 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.generated.callback.OnClickListener;
 import com.jsm.exptool.libs.SeekbarSelectorHelper;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;

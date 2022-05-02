@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ddbf63c045eafdb72b1e1fa8fb14cd41",
+    "identityHash": "356b6f50b1660885ddcb9380c105c6a7",
     "entities": [
       {
         "tableName": "imageRegisters",
@@ -501,7 +501,7 @@
       },
       {
         "tableName": "experiment_sensors",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interval` INTEGER NOT NULL, `intervalMin` INTEGER NOT NULL, `intervalMax` INTEGER NOT NULL, `nameStringResource` INTEGER NOT NULL, `_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `defaultConfigurationEnabled` INTEGER NOT NULL, `sensorType` INTEGER NOT NULL, `accuracy` INTEGER NOT NULL, `restartInitialMeasureAfterRead` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interval` INTEGER NOT NULL, `intervalMin` INTEGER NOT NULL, `intervalMax` INTEGER NOT NULL, `nameStringResource` INTEGER NOT NULL, `_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `defaultConfigurationEnabled` INTEGER NOT NULL, `sensorType` INTEGER, `measure` TEXT, `restartInitialMeasureAfterRead` INTEGER)",
         "fields": [
           {
             "fieldPath": "interval",
@@ -546,22 +546,22 @@
             "notNull": true
           },
           {
-            "fieldPath": "sensorType",
+            "fieldPath": "sensorReader.sensorType",
             "columnName": "sensorType",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "accuracy",
-            "columnName": "accuracy",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "sensorReader.measure",
+            "columnName": "measure",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
-            "fieldPath": "restartInitialMeasureAfterRead",
+            "fieldPath": "sensorReader.restartInitialMeasureAfterRead",
             "columnName": "restartInitialMeasureAfterRead",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -584,7 +584,7 @@
       },
       {
         "tableName": "sensorRegisters",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `value1` REAL NOT NULL, `value1String` TEXT, `value2` REAL NOT NULL, `value2String` TEXT, `value3` REAL NOT NULL, `value3String` TEXT, `sensorName` TEXT, `sensorType` INTEGER NOT NULL, `sensorNameResource` INTEGER NOT NULL, `accuracy` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `value1` REAL NOT NULL, `value1String` TEXT, `value2` REAL NOT NULL, `value2String` TEXT, `value3` REAL NOT NULL, `value3String` TEXT, `sensorName` TEXT, `sensorType` INTEGER NOT NULL, `sensorNameResource` INTEGER NOT NULL, `accuracy` REAL NOT NULL)",
         "fields": [
           {
             "fieldPath": "internalId",
@@ -667,7 +667,7 @@
           {
             "fieldPath": "accuracy",
             "columnName": "accuracy",
-            "affinity": "INTEGER",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -827,7 +827,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ddbf63c045eafdb72b1e1fa8fb14cd41\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"356b6f50b1660885ddcb9380c105c6a7\")"
     ]
   }
 }

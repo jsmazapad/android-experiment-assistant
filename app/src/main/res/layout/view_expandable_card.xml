@@ -14,22 +14,18 @@
             style="@style/BaseCardTitleItem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp">
 
             <TextView
                 android:id="@+id/titleTV"
                 style="@style/LinearNoWidthLeftItem"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
                 tools:text="Card Title" />
 
             <ImageButton
                 android:id="@+id/collapseButton"
                 style="@style/ExpandableCardIcon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/expandable_card_expand_content_description"
                 android:scaleType="fitCenter"

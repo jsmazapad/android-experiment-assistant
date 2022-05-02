@@ -2,10 +2,14 @@ package com.jsm.exptool.providers;
 
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY;
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY_UNIT;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.ACCURACY;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.ALTITUDE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMBEDDING_ALG;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LATITUDE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LONGITUDE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_HEIGHT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_WIDTH;
@@ -17,6 +21,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.PROCESS_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_LOCATION;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
@@ -24,6 +29,7 @@ import static com.jsm.exptool.providers.ExportDataProvider.ELEMENTS_TO_EXPORT;
 
 import android.app.Application;
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -45,6 +51,7 @@ import com.jsm.exptool.workers.export.ZipExportedExperimentWorker;
 import com.jsm.exptool.workers.image.ObtainEmbeddingWorker;
 import com.jsm.exptool.workers.image.ProcessImageWorker;
 import com.jsm.exptool.workers.image.RegisterImageWorker;
+import com.jsm.exptool.workers.location.RegisterLocationWorker;
 import com.jsm.exptool.workers.sensor.RegisterSensorWorker;
 
 import java.io.File;
@@ -98,6 +105,24 @@ public class WorksOrchestratorProvider {
         OneTimeWorkRequest registerSensorRequest = new OneTimeWorkRequest.Builder(RegisterSensorWorker.class)
                 .setInputData(registerSensorData).addTag(REGISTER_SENSOR).build();
         mWorkManager.enqueue(registerSensorRequest);
+    }
+
+    public void executeLocationChain(Context context, Location location, Date date, Experiment experiment) {
+
+
+        Map<String, Object> registerLocationValues = new HashMap<String, Object>() {{
+            put(LATITUDE, location.getLatitude());
+            put(LONGITUDE,location.getLongitude());
+            put(ALTITUDE,location.getAltitude());
+            put(ACCURACY,location.getAccuracy());
+            put(EXPERIMENT_ID, experiment.getInternalId());
+            put(DATE_TIMESTAMP, date.getTime());
+        }};
+
+        Data registerSensorData = createInputData(registerLocationValues);
+        OneTimeWorkRequest registerLocationRequest = new OneTimeWorkRequest.Builder(RegisterLocationWorker.class)
+                .setInputData(registerSensorData).addTag(REGISTER_LOCATION).build();
+        mWorkManager.enqueue(registerLocationRequest);
     }
 
     public void executeAudioChain(Context context, File mFile, Date date, Experiment experiment){
@@ -195,6 +220,10 @@ public class WorksOrchestratorProvider {
                     builder.putString(entry.getKey(), (String) entry.getValue());
                 } else if (entry.getValue() instanceof Integer) {
                     builder.putInt(entry.getKey(), (Integer) entry.getValue());
+                } else if (entry.getValue() instanceof Double) {
+                    builder.putDouble(entry.getKey(), (Double) entry.getValue());
+                } else if (entry.getValue() instanceof Float) {
+                    builder.putFloat(entry.getKey(), (Float) entry.getValue());
                 } else if (entry.getValue() instanceof Long) {
                     builder.putLong(entry.getKey(), (Long) entry.getValue());
                 } else if (entry.getValue() instanceof Float[]){

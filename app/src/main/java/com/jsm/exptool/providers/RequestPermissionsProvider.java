@@ -22,12 +22,28 @@ public class RequestPermissionsProvider {
             Manifest.permission.RECORD_AUDIO
     };
 
+    private static final String[] LOCATION_FINE_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
+    private static final String[] LOCATION_COARSE_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
     public static ActivityResultLauncher<String[]> registerForCameraPermissions(Fragment fragment, PermissionsResultCallBack callback){
         return RequestPermissionsHandler.registerToRequestPermissions(fragment, CAMERA_PERMISSIONS, callback);
     }
 
     public static ActivityResultLauncher<String[]> registerForAudioPermissions(Fragment fragment, PermissionsResultCallBack callback){
         return RequestPermissionsHandler.registerToRequestPermissions(fragment, RECORDING_AUDIO_PERMISSIONS, callback);
+    }
+
+    public static ActivityResultLauncher<String[]> registerForLocationFinePermissions(Fragment fragment, PermissionsResultCallBack callback){
+        return RequestPermissionsHandler.registerToRequestPermissions(fragment, LOCATION_FINE_PERMISSIONS, callback);
+    }
+
+    public static ActivityResultLauncher<String[]> registerForLocationCoarsePermissions(Fragment fragment, PermissionsResultCallBack callback){
+        return RequestPermissionsHandler.registerToRequestPermissions(fragment, LOCATION_COARSE_PERMISSIONS, callback);
     }
 
     public static void requestPermissionsForCamera(ActivityResultLauncher<String[]> mPermissionResultHandler) {
@@ -45,6 +61,24 @@ public class RequestPermissionsProvider {
 
     public static boolean handleCheckPermissionsForAudio(Context context, RequestPermissionsInterface requestPermissions) {
         return RequestPermissionsHandler.handleCheckPermissionsForElement(context, requestPermissions, RECORDING_AUDIO_PERMISSIONS);
+
+    }
+
+    public static void requestPermissionsForLocationFine(ActivityResultLauncher<String[]> mPermissionResultHandler) {
+        RequestPermissionsHandler.requestPermissions(mPermissionResultHandler, LOCATION_FINE_PERMISSIONS);
+    }
+
+    public static boolean handleCheckPermissionsForLocationFine(Context context, RequestPermissionsInterface requestPermissions) {
+        return RequestPermissionsHandler.handleCheckPermissionsForElement(context, requestPermissions, LOCATION_FINE_PERMISSIONS);
+
+    }
+
+    public static void requestPermissionsForLocationCoarse(ActivityResultLauncher<String[]> mPermissionResultHandler) {
+        RequestPermissionsHandler.requestPermissions(mPermissionResultHandler, LOCATION_COARSE_PERMISSIONS);
+    }
+
+    public static boolean handleCheckPermissionsForLocationCoarse(Context context, RequestPermissionsInterface requestPermissions) {
+        return RequestPermissionsHandler.handleCheckPermissionsForElement(context, requestPermissions, LOCATION_COARSE_PERMISSIONS);
 
     }
 

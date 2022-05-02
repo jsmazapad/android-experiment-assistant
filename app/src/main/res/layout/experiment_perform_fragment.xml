@@ -21,6 +21,13 @@
         <androidx.core.widget.NestedScrollView style="@style/BaseNestedLayoutInsideFrameLayout">
 
             <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
+                <Button
+                    style="@style/FullWidthButton"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:enabled="@{viewModel.enableHandleExperimentButton}"
+                    android:onClick="@{()-> viewModel.handleExperimentState(context)}"
+                    android:text="@{viewModel.changeStateText}"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
 
                 <LinearLayout
@@ -142,7 +149,6 @@
                             <Button
                                 android:id="@+id/saveSuggestionButton"
                                 style="@style/FullWidthButton"
-                                android:layout_height="wrap_content"
                                 android:enabled="@{viewModel.experimentInitiated}"
                                 android:onClick="@{() -> viewModel.saveCommentValue(false)}"
                                 android:text="@string/experiment_perform_add_comment_button" />
@@ -150,7 +156,6 @@
                             <Button
                                 android:id="@+id/saveAndAddtton"
                                 style="@style/FullWidthButton"
-                                android:layout_height="wrap_content"
                                 android:enabled="@{viewModel.experimentInitiated}"
                                 android:onClick="@{() -> viewModel.saveCommentAndAddToSuggestions()}"
                                 android:text="@string/experiment_perform_add_and_save_comment_button" />
@@ -181,11 +186,41 @@
                     </com.jsm.exptool.libs.ExpandableCard>
 
                     <com.jsm.exptool.libs.ExpandableCard
-                        android:id="@+id/audioCard"
+                    android:id="@+id/audioCard"
+                    style="@style/BaseCardView"
+                    android:visibility="@{viewModel.audioCardEnabled ? View.VISIBLE : View.GONE}"
+                    app:extra_info="@{viewModel.audioCardExtraInfo}"
+                    app:title="@string/experiment_perform_audio_title">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/BaseItemListSecondaryTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="10dp"
+                            android:text="@string/experiment_perform_num_audios" />
+
+                        <TextView
+                            style="@style/BaseItemListSecondaryBoldTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.numAudios}" />
+                    </LinearLayout>
+
+                </com.jsm.exptool.libs.ExpandableCard>
+
+                    <com.jsm.exptool.libs.ExpandableCard
+                        android:id="@+id/locationCard"
                         style="@style/BaseCardView"
-                        android:visibility="@{viewModel.audioCardEnabled ? View.VISIBLE : View.GONE}"
-                        app:extra_info="@{viewModel.audioCardExtraInfo}"
-                        app:title="@string/experiment_perform_audio_title">
+                        android:visibility="@{viewModel.locationCardEnabled ? View.VISIBLE : View.GONE}"
+                        app:extra_info="@{viewModel.locationCardExtraInfo}"
+                        app:title="@string/experiment_perform_location_title">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -199,14 +234,21 @@
                                 android:layout_height="wrap_content"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="10dp"
-                                android:text="@string/experiment_perform_num_audios" />
+                                android:text="@string/experiment_perform_num_locations" />
 
                             <TextView
                                 style="@style/BaseItemListSecondaryBoldTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@{viewModel.numAudios}" />
+                                android:text="@{viewModel.numLocations}" />
+
                         </LinearLayout>
+                        <TextView
+                            style="@style/BaseCardTitleTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.locationValueString}"
+                            tools:text="x:23.2323, Y: 12.2333, Z:12.34344, precisión: 12.00" />
 
                     </com.jsm.exptool.libs.ExpandableCard>
 
@@ -265,16 +307,10 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <!--        <include layout="@layout/view_loading_include"  android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>-->
+                <include layout="@layout/view_loading_include"  android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
 
 
-        <Button
-            style="@style/FullWidthButton"
-            android:layout_gravity="bottom|center_horizontal"
-            android:enabled="@{viewModel.enableHandleExperimentButton}"
-            android:onClick="@{()-> viewModel.handleExperimentState(context)}"
-            android:text="@{viewModel.changeStateText}"
-            tools:ignore="SpeakableTextPresentCheck" />
+
 
 
     </FrameLayout>

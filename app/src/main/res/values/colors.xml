@@ -13,4 +13,13 @@
     <color name="card_header">#FF3F51B5</color>
     <color name="card_header_text">#FFFFFFFF</color>
 
+    <color name="primaryColor">#37474f</color>
+    <color name="primaryLightColor">#62727b</color>
+    <color name="primaryDarkColor">#102027</color>
+    <color name="secondaryColor">#d84315</color>
+    <color name="secondaryLightColor">#ff7543</color>
+    <color name="secondaryDarkColor">#9f0000</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+
 </resources>

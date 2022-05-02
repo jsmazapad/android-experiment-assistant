@@ -67,42 +67,35 @@ public class GPSUtils {
         } else {
             mSettingsClient
                     .checkLocationSettings(mLocationSettingsRequest)
-                    .addOnSuccessListener((AppCompatActivity) context, new OnSuccessListener<LocationSettingsResponse>() {
-                        @SuppressLint("MissingPermission")
-                        @Override
-                        public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                    .addOnSuccessListener((AppCompatActivity) context, locationSettingsResponse -> {
 
-                            //  GPS is already enable, callback GPS status through listener
-                            if (onGpsListener != null) {
-                                onGpsListener.gpsStatus(true);
-                            }
+                        //  GPS is already enable, callback GPS status through listener
+                        if (onGpsListener != null) {
+                            onGpsListener.gpsStatus(true);
                         }
                     })
-                    .addOnFailureListener((AppCompatActivity) context, new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            if (onGpsListener != null) {
-                                onGpsListener.gpsStatus(false);
-                            }
-                            int statusCode = ((ApiException) e).getStatusCode();
-                            switch (statusCode) {
-                                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                    .addOnFailureListener((AppCompatActivity) context, e -> {
+                        if (onGpsListener != null) {
+                            onGpsListener.gpsStatus(false);
+                        }
+                        int statusCode = ((ApiException) e).getStatusCode();
+                        switch (statusCode) {
+                            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
 
-                                    try {
-                                        // Show the dialog by calling startResolutionForResult(), and check the
-                                        // result in onActivityResult().
-                                        ResolvableApiException rae = (ResolvableApiException) e;
-                                        rae.startResolutionForResult((AppCompatActivity) context, ConfigConstants.REQUEST_LOCATION_PERMISSION);
-                                    } catch (IntentSender.SendIntentException sie) {
-                                        Log.i(TAG, "PendingIntent unable to execute request.");
-                                    }
-                                    break;
-                                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                                    String errorMessage = "No es posible activar su ubicación. Pòr favor, hágalo de manera manual y vuelva a intentarlo";
-                                    Log.e(TAG, errorMessage);
+                                try {
+                                    // Show the dialog by calling startResolutionForResult(), and check the
+                                    // result in onActivityResult().
+                                    ResolvableApiException rae = (ResolvableApiException) e;
+                                    rae.startResolutionForResult((AppCompatActivity) context, ConfigConstants.REQUEST_GPS_PERMISSION);
+                                } catch (IntentSender.SendIntentException sie) {
+                                    Log.i(TAG, "PendingIntent unable to execute request.");
+                                }
+                                break;
+                            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                                String errorMessage = "No es posible activar su ubicación. Pòr favor, hágalo de manera manual y vuelva a intentarlo";
+                                Log.e(TAG, errorMessage);
 
-                                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
-                            }
+                                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
                         }
                     });
         }

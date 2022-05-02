@@ -32,6 +32,8 @@ public class SensorConfigConstants {
     public static final int TYPE_ACCELEROMETER = Sensor.TYPE_ACCELEROMETER;
     public static final int TYPE_GPS = 0;
 
+    public static final String TYPE_GPS_SENSOR_NAME = "Ubicación";
+
 
     public static final Map<Integer, Integer> TYPE_SENSORS = new HashMap<Integer, Integer>() {{
         put(TYPE_STATIONARY_DETECT, R.string.stationary_detect);

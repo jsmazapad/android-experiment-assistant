@@ -41,6 +41,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
 
     ActivityResultLauncher<String[]> cameraRequestPermissions;
     ActivityResultLauncher<String[]> audioRequestPermissions;
+    ActivityResultLauncher<String[]> locationRequestPermissions;
     MaterialAutoCompleteTextView autoCompleteTextView;
     PreviewView previewView;
 
@@ -69,6 +70,18 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         }
     };
 
+    PermissionResultCallbackForViewModel locationPermissionsResultCallback = new PermissionResultCallbackForViewModel() {
+        @Override
+        public void onPermissionsAccepted() {
+            viewModel.onLocationPermissionsAccepted(ExperimentPerformFragment.this);
+        }
+
+        @Override
+        public void onPermissionsError(List<String> rejectedPermissions) {
+            viewModel.onPermissionsError(rejectedPermissions, ExperimentPerformFragment.this);
+        }
+    };
+
 
 
     @Override
@@ -77,14 +90,14 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         //Inicializamos los requestPermissions
         cameraRequestPermissions = RequestPermissionsProvider.registerForCameraPermissions(this, cameraPermissionsResultCallback);
         audioRequestPermissions = RequestPermissionsProvider.registerForAudioPermissions(this, audioPermissionsResultCallback);
-
+        locationRequestPermissions = RequestPermissionsProvider.registerForLocationFinePermissions(this, locationPermissionsResultCallback);
     }
 
     @Override
     protected ExperimentPerformViewModel createViewModel() {
         //TODO Código pruebas, comentar
-        //Experiment experiment = MockExamples.registerExperimentForPerformanceTest();
-        Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
+        Experiment experiment = MockExamples.registerExperimentForLocationTest();
+        //Experiment experiment = ExperimentPerformFragmentArgs.fromBundle(getArguments()).getExperiment();
 
         return new ViewModelProvider(this, new ExperimentPerformViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentPerformViewModel.class);
     }
@@ -113,6 +126,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         cameraPermissionsResultCallback.setViewModel(viewModel);
         viewModel.initCameraProvider(getContext(), getViewLifecycleOwner(), this, binding.getRoot().findViewById(R.id.cameraPreview));
         viewModel.initAudioProvider(getContext(), getViewLifecycleOwner(), this);
+        viewModel.initLocationProvider(getContext(), getViewLifecycleOwner(), this);
         viewModel.initWorkInfoObservers(getViewLifecycleOwner());
         viewModel.getSuggestions().observe(getViewLifecycleOwner(), elements ->{
             if (elements != null){

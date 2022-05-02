@@ -40,7 +40,7 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
         title.setValue(getApplication().getString(measurableItem.getNameStringResource()));
 
         if(measurableItem instanceof SensorConfig){
-            if(((SensorConfig) measurableItem).getSensorType() == SensorConfigConstants.TYPE_GPS){
+            if(((SensorConfig) measurableItem).getSensorReader().getSensorType() == SensorConfigConstants.TYPE_GPS){
                 secondTabTitle = R.string.map_tab_title;
             }else{
                 secondTabTitle =R.string.graph_tab_title;
@@ -93,7 +93,7 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
     @Override
     public void callRepositoryForData() {
         if(measurableItem instanceof SensorConfig) {
-            SensorsRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(((SensorConfig)measurableItem).getSensorType(), experimentId, apiResponseRepositoryHolder);
+            SensorsRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(((SensorConfig)measurableItem).getSensorReader().getSensorType(), experimentId, apiResponseRepositoryHolder);
         }else if(measurableItem instanceof CameraConfig){
             ImagesRepository.getRegistersByExperimentIdAsExperimentRegister(experimentId, apiResponseRepositoryHolder);
         }else if(measurableItem instanceof AudioConfig){

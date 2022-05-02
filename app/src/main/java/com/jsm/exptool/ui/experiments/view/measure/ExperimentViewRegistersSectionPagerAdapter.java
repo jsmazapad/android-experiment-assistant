@@ -45,7 +45,7 @@ public class ExperimentViewRegistersSectionPagerAdapter extends FragmentStateAda
             // GRAPH
             case 1:
                 if(measurableItem instanceof SensorConfig) {
-                    if (((SensorConfig)measurableItem).getSensorType() != SensorConfigConstants.TYPE_GPS) {
+                    if (((SensorConfig)measurableItem).getSensorReader().getSensorType() != SensorConfigConstants.TYPE_GPS) {
                         return new ExperimentViewSensorGraphFragment();
                     } else {
 //                        MeasuresMapFragment measuresMapFragment = new MeasuresMapFragment();

@@ -35,6 +35,8 @@ import com.jsm.exptool.ui.main.MainViewModel;
 import com.jsm.exptool.ui.main.sidemenu.SideMenuAdapter;
 import com.jsm.exptool.ui.main.sidemenu.SideMenuViewModel;
 
+import java.util.Objects;
+
 public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -90,6 +92,8 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
 
         ViewCompat.setLayoutDirection(toolbar, ViewCompat.LAYOUT_DIRECTION_RTL);
         toolbar.setNavigationIcon(R.drawable.hamburger_icon_white);
+        Objects.requireNonNull(toolbar.getNavigationIcon()).setTint(getResources().getColor(R.color.primaryTextColor));
+
 
         toolbar.setNavigationOnClickListener(v -> {
             manageDrawer();
@@ -171,6 +175,7 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
             inflater.inflate(R.menu.main, menu);
         }
         toolbar.setNavigationIcon(R.drawable.hamburger_icon_white);
+        Objects.requireNonNull(toolbar.getNavigationIcon()).setTint(getResources().getColor(R.color.primaryTextColor));
 
         // return true so that the menu pop up is opened
         return true;

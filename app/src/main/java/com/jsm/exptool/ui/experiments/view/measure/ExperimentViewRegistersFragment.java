@@ -85,14 +85,15 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
     protected ExperimentViewRegistersViewModel createViewModel() {
 
         //SensorConfig measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getSensor();
-        //long experimentId = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getExperimentId();
 
-        Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest(getContext());
-        long experimentId = experiment.getInternalId();
+
+        //TODO Código prueba, borrar
+        //Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest(getContext());
+        //long experimentId = experiment.getInternalId();
         //SensorConfig measurableItem = experiment.getConfiguration().getSensorConfig().getSensors().get(0);
         //AudioConfig measurableItem = experiment.getConfiguration().getAudioConfig();
         //CameraConfig measurableItem = experiment.getConfiguration().getCameraConfig();
-
+        long experimentId = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getExperimentId();
         RepeatableElementConfig measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getElement();
 
         return new ViewModelProvider(this, new ExperimentViewRegistersViewModelFactory(getActivity().getApplication(), experimentId, measurableItem)).get(ExperimentViewRegistersViewModel.class);

@@ -18,6 +18,7 @@ import com.jsm.exptool.data.database.typeconverters.DoubleListConverter;
 import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
 import com.jsm.exptool.data.database.typeconverters.FlashModesConverter;
 import com.jsm.exptool.data.database.typeconverters.IntegerListConverter;
+import com.jsm.exptool.data.database.typeconverters.StringFloatSortedMapConverter;
 import com.jsm.exptool.data.database.typeconverters.StringListConverter;
 import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.QuickCommentsCollection;
@@ -34,7 +35,7 @@ import com.jsm.exptool.model.register.SensorRegister;
  */
 
 @Database(entities = {ImageRegister.class, Experiment.class, AudioRegister.class, SensorConfig.class, SensorRegister.class, CommentRegister.class, CommentSuggestion.class, QuickCommentsCollection.class}, version = 1)
-@TypeConverters({DoubleListConverter.class, IntegerListConverter.class, DateConverter.class, ExperimentStatusConverter.class, CameraPositionsConverter.class, FlashModesConverter.class, StringListConverter.class})
+@TypeConverters({DoubleListConverter.class, IntegerListConverter.class, DateConverter.class, ExperimentStatusConverter.class, CameraPositionsConverter.class, FlashModesConverter.class, StringListConverter.class, StringFloatSortedMapConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     /**
      * Obtiene un DAO de la entidad ImageRegister para realizar operaciones con la BD

@@ -23,8 +23,8 @@ public class SensorsRepository {
         String [] keysToInsert = new String[]{"","",""};
         float [] valuesToInsert = new float[]{0f,0f,0f};
 
-        String [] keys = sensor.getMeasure().keySet().toArray(new String[0]);
-        Float [] values = sensor.getMeasure().values().toArray(new Float[0]);
+        String [] keys = sensor.getSensorReader().getMeasure().keySet().toArray(new String[0]);
+        Float [] values = sensor.getSensorReader().getMeasure().values().toArray(new Float[0]);
 
 
         for(int i=0; i<keys.length; i++)
@@ -34,7 +34,11 @@ public class SensorsRepository {
         }
 
         SensorRegister sensorRegister = new SensorRegister(experimentId, date, false, valuesToInsert[0], keysToInsert[0], valuesToInsert[1],
-                keysToInsert[1], valuesToInsert[2], keysToInsert[2], sensorName, sensor.getSensorType(), sensor.getNameStringResource(), sensor.getAccuracy());
+                keysToInsert[1], valuesToInsert[2], keysToInsert[2], sensorName, sensor.getSensorReader().getSensorType(), sensor.getNameStringResource(), sensor.getSensorReader().getAccuracy());
+        return DBHelper.insertSensorRegister(sensorRegister);
+    }
+
+    public static long registerSensorCapture(SensorRegister sensorRegister){
         return DBHelper.insertSensorRegister(sensorRegister);
     }
 

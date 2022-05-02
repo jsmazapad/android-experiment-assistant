@@ -3,10 +3,12 @@ package com.jsm.exptool.ui.experiments.perform;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_LOCATION;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
 
 import android.app.Application;
 import android.content.Context;
+import android.location.Location;
 import android.text.Html;
 import android.util.Log;
 
@@ -30,6 +32,7 @@ import com.jsm.exptool.libs.DeviceUtils;
 import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
+import com.jsm.exptool.model.experimentconfig.LocationConfig;
 import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.providers.AudioProvider;
@@ -38,6 +41,7 @@ import com.jsm.exptool.libs.camera.ImageReceivedCallback;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.providers.FilePathsProvider;
+import com.jsm.exptool.providers.LocationProvider;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.providers.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.CommentRepository;
@@ -61,6 +65,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     private final MutableLiveData<Boolean> enableHandleExperimentButton = new MutableLiveData<>(true);
     private final MutableLiveData<String> changeStateText = new MutableLiveData<>("");
 
+    //IMAGEN
     private final MutableLiveData<Integer> numImages = new MutableLiveData<>(0);
     private final MutableLiveData<Integer> numEmbeddings = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> imageCardEnabled = new MutableLiveData<>(false);
@@ -68,11 +73,16 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     private final MutableLiveData<Boolean> quickCommentsEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<String> imageCardExtraInfo = new MutableLiveData<>();
 
-
+    //AUDIO
     private final MutableLiveData<Integer> numAudios = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> audioCardEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<String> audioCardExtraInfo = new MutableLiveData<>();
-
+    //UBICACIÓN
+    private final MutableLiveData<Integer> numLocations = new MutableLiveData<>(0);
+    private final MutableLiveData<Boolean> locationCardEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<String> locationCardExtraInfo = new MutableLiveData<>();
+    private final MutableLiveData<String> locationValueString = new MutableLiveData<>();
+    //COMENTARIOS
     private MutableLiveData<String> commentValue = new MutableLiveData<>("");
     private MutableLiveData<List<String>> quickComments = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<String> commentCardExtraInfo = new MutableLiveData<>();
@@ -80,7 +90,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     private final MutableLiveData<List<CommentSuggestion>> suggestions = new MutableLiveData<>();
     private final MutableLiveData<ListResponse<CommentSuggestion>> suggestionsResponse = new MutableLiveData<>();
 
-
+    //SENSORES
     private final MutableLiveData<Integer> numSensors = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> sensorCardEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<String> sensorCardExtraInfo = new MutableLiveData<>();
@@ -93,9 +103,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         this.experiment = experiment;
         this.quickComments.setValue(experiment.getConfiguration() != null ? experiment.getConfiguration().getQuickComments() : null);
         orchestratorProvider = WorksOrchestratorProvider.getInstance();
-        initImageComponents();
-        initAudioComponents();
-        initSensorComponents();
+        initComponentsVisibility();
         changeStateText.setValue(application.getString(R.string.perform_experiment_init_text));
         if (this.experiment.getConfiguration().isSensorEnabled()) {
             apiResponseRepositoryHolder.setValue(new ListResponse<>(experiment.getConfiguration().getSensorConfig().getSensors()));
@@ -106,6 +114,22 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
     public MutableLiveData<Integer> getNumImages() {
         return numImages;
+    }
+
+    public MutableLiveData<Integer> getNumLocations() {
+        return numLocations;
+    }
+
+    public MutableLiveData<Boolean> getLocationCardEnabled() {
+        return locationCardEnabled;
+    }
+
+    public MutableLiveData<String> getLocationCardExtraInfo() {
+        return locationCardExtraInfo;
+    }
+
+    public MutableLiveData<String> getLocationValueString() {
+        return locationValueString;
     }
 
     public MutableLiveData<Integer> getNumEmbeddings() {
@@ -213,6 +237,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             initImageCapture(context);
             initAudioRecording(context);
             initSensorRecording(context);
+            initLocationRecording(context);
             initCommentSuggestions();
         } else {
             //TODO Mensaje de error con reintento
@@ -231,8 +256,11 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         //Paramos escucha de sensores
         if (experiment.getConfiguration().isSensorEnabled())
             for (SensorConfig sensor : elements.getValue()) {
-                sensor.cancelListener();
+                sensor.getSensorReader().cancelListener();
             }
+        //Paramos ubicación
+        if (experiment.getConfiguration().isLocationEnabled())
+            LocationProvider.getInstance().stopLocation();
         //TODO Extraer comportamiento a provider
         this.experiment.setEndDate(new Date());
         this.experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
@@ -274,6 +302,15 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         if (experiment.getConfiguration().isAudioEnabled()) {
             if (RequestPermissionsProvider.handleCheckPermissionsForAudio(context, audioPermission))
                 return;
+        }
+    }
+
+    public void initLocationProvider(Context context, LifecycleOwner owner, RequestPermissionsInterface locationPermission) {
+        if (experiment.getConfiguration().isLocationEnabled()) {
+            if (RequestPermissionsProvider.handleCheckPermissionsForLocationFine(context, locationPermission))
+                return;
+
+            LocationProvider.getInstance().initLocation(context, experiment.getConfiguration().getLocationConfig().getLocationOption());
         }
     }
 
@@ -335,6 +372,28 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         }
     }
 
+    private void initLocationRecording(Context context) {
+        if (experiment.getConfiguration().isLocationEnabled() && experiment.getConfiguration().getLocationConfig() != null) {
+            LocationConfig locationConfig = experiment.getConfiguration().getLocationConfig();
+            Timer locationTimer = new Timer();
+            timers.add(locationTimer);
+            final String formatString = getApplication().getString(R.string.experiment_perform_location_format);
+
+            locationTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+
+                    Log.d("WORKER", "Location requested");
+                    Date date = new Date();
+                    Location location = LocationProvider.getInstance().getCurrentLocation();
+                    locationValueString.postValue(String.format(formatString, location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy()));
+                    orchestratorProvider.executeLocationChain(getApplication(), location, date, experiment);
+
+                }
+            }, 0, locationConfig.getInterval());
+        }
+    }
+
     private void initSensorRecording(Context context) {
         //TODO Quitar listeners de sensores al finalizar experimento
         if (experiment.getConfiguration().isSensorEnabled() && experiment.getConfiguration().getSensorConfig() != null
@@ -346,7 +405,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             for (int i = 0; i < sensorConfig.getSensors().size(); i++) {
                 final int position = i;
                 SensorConfig sensor = sensorConfig.getSensors().get(position);
-                sensor.initListener();
+                sensor.getSensorReader().initListener();
                 sensorTimer.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
@@ -361,24 +420,19 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         }
     }
 
-    private void initImageComponents() {
+    private void initComponentsVisibility() {
         CameraConfig cameraConfig = experiment.getConfiguration().getCameraConfig();
         imageCardEnabled.setValue(experiment.getConfiguration().isCameraEnabled());
         embeddedInfoEnabled.setValue(experiment.getConfiguration().isCameraEnabled() && cameraConfig.getEmbeddingAlgorithm() != null);
 
-    }
-
-    private void initAudioComponents() {
-
         audioCardEnabled.setValue(experiment.getConfiguration().isAudioEnabled());
 
-    }
-
-    private void initSensorComponents() {
-
         sensorCardEnabled.setValue(experiment.getConfiguration().isSensorEnabled());
+        locationCardEnabled.setValue(experiment.getConfiguration().isLocationEnabled());
 
     }
+
+
 
     public void initWorkInfoObservers(LifecycleOwner owner) {
         //Image
@@ -409,6 +463,12 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
         });
 
+        LiveData<List<WorkInfo>> registerLocationWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_LOCATION);
+        registerLocationWorkInfo.observe(owner, workInfoList -> {
+            numLocations.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+            locationCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_locations) + " " + numSensors.getValue());
+        });
+
     }
 
     private void generateImageExtraInfo() {
@@ -430,8 +490,13 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         if (experiment.getConfiguration().isAudioEnabled())
             builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_audios), numAudios.getValue())));
 
-        if (experiment.getConfiguration().isSensorEnabled())
+        if (experiment.getConfiguration().isLocationEnabled())
             builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_sensors), numSensors.getValue())));
+
+        if (experiment.getConfiguration().isSensorEnabled())
+            builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_locations), numLocations.getValue())));
+
+        builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_comments), numComments.getValue())));
 
         ModalMessage.showModalMessage(context, "Resumen del experimento", builder.toString(), null, (dialog, which) -> {
             ((BaseActivity) context).getNavController().navigate(ExperimentPerformFragmentDirections.actionNavPerformExperimentToNavExperiments());
@@ -443,7 +508,9 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         if (experiment.getConfiguration().isCameraEnabled())
             RequestPermissionsProvider.requestPermissionsForCamera(((ExperimentPerformFragment) fragment).cameraRequestPermissions);
         if (experiment.getConfiguration().isAudioEnabled())
-            RequestPermissionsProvider.requestPermissionsForAudioRecording(((ExperimentPerformFragment) fragment).cameraRequestPermissions);
+            RequestPermissionsProvider.requestPermissionsForAudioRecording(((ExperimentPerformFragment) fragment).audioRequestPermissions);
+        if (experiment.getConfiguration().isLocationEnabled())
+            RequestPermissionsProvider.requestPermissionsForLocationFine(((ExperimentPerformFragment) fragment).locationRequestPermissions);
 
     }
 
@@ -457,6 +524,12 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
         if (experiment.getConfiguration().isAudioEnabled())
             initAudioProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment);
+    }
+
+    public void onLocationPermissionsAccepted(Fragment fragment) {
+
+        if (experiment.getConfiguration().isLocationEnabled())
+            initLocationProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment);
     }
 
     public void onPermissionsError(List<String> rejectedPermissions, Fragment fragment) {

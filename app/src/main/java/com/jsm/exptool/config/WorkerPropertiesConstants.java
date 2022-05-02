@@ -15,6 +15,10 @@ public class WorkerPropertiesConstants {
         public static final String MEASURE_ACCURACY= "MEASURE_ACCURACY";
         public static final String SENSOR_NAME= "SENSOR_NAME";
         public static final String SENSOR= "SENSOR";
+        public static final String LATITUDE= "LATITUDE";
+        public static final String LONGITUDE= "LONGITUDE";
+        public static final String ALTITUDE= "ALTITUDE";
+        public static final String ACCURACY= "ACCURACY";
         public static final String FILE_NAMES = "FILE_NAMES";
         public static final String TABLE_NAME = "TABLE_NAME";
     }
@@ -28,6 +32,8 @@ public class WorkerPropertiesConstants {
         public static final String REGISTER_AUDIO = "REGISTER_AUDIO";
         //SENSOR
         public static final String REGISTER_SENSOR = "REGISTER_SENSOR";
+        //LOCATION
+        public static final String REGISTER_LOCATION = "REGISTER_SENSOR";
 
         //EXPORTACIÓN
         public static final String EXPORT_REGISTERS = "EXPORT_REGISTERS";
