@@ -31,9 +31,6 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v =  super.onCreateView(inflater, container, savedInstanceState);
-
-
-
         return v;
     }
 
@@ -45,6 +42,8 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
         viewModel.getElements().observe(getViewLifecycleOwner(), response->{
             mSectionsPagerAdapter = new ExperimentViewRegistersSectionPagerAdapter(getChildFragmentManager(), getLifecycle(), new ArrayList<ExperimentRegister>(){{addAll(response);}}, viewModel.getMeasurableItem());
             mViewPager = binding.viewPagerContainer;
+            //Eliminamos swipe para que sólo se pueda mover tocando las pestañas
+            mViewPager.setUserInputEnabled(false);
             mViewPager.setAdapter(mSectionsPagerAdapter);
             mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
                 @Override
@@ -74,6 +73,11 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
 
         tabLayout.getTabAt(1).setText(viewModel.getSecondTabTitle());
 
+        //Si son comentarios sólo muestra un tab
+        if(viewModel.getMeasurableItem().getNameStringResource() == R.string.comments) {
+            tabLayout.removeTab(tabLayout.getTabAt(1));
+        }
+
     }
 
     public ExperimentViewRegistersViewModel getViewModel(){
@@ -84,15 +88,6 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
     @Override
     protected ExperimentViewRegistersViewModel createViewModel() {
 
-        //SensorConfig measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getSensor();
-
-
-        //TODO Código prueba, borrar
-        //Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest(getContext());
-        //long experimentId = experiment.getInternalId();
-        //SensorConfig measurableItem = experiment.getConfiguration().getSensorConfig().getSensors().get(0);
-        //AudioConfig measurableItem = experiment.getConfiguration().getAudioConfig();
-        //CameraConfig measurableItem = experiment.getConfiguration().getCameraConfig();
         long experimentId = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getExperimentId();
         RepeatableElementConfig measurableItem = ExperimentViewRegistersFragmentArgs.fromBundle(getArguments()).getElement();
 

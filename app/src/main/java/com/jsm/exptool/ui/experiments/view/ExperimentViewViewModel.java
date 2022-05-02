@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import androidx.navigation.NavController;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.model.Experiment;
@@ -64,6 +65,8 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
             experimentElements.addAll(experimentConfiguration.getSensorConfig().getSensors());
             sensorEnabled.setValue(true);
         }
+
+        experimentElements.add(new RepeatableElementConfig(0,0,0, R.string.comments));
 
 
 

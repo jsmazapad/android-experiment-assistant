@@ -19,6 +19,7 @@ import com.jsm.exptool.model.experimentconfig.MultimediaConfig;
 import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.repositories.AudioRepository;
+import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.repositories.SensorsRepository;
 
@@ -46,6 +47,9 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
             secondTabTitle = R.string.gallery_tab_title;
         }else if (measurableItem instanceof LocationConfig){
             secondTabTitle = R.string.map_tab_title;
+        }else{
+            //Comentarios
+            secondTabTitle = R.string.graph_tab_title;
         }
 
     }
@@ -98,6 +102,9 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
             AudioRepository.getRegistersByExperimentIdAsExperimentRegister(experimentId, apiResponseRepositoryHolder);
         }else if(measurableItem instanceof LocationConfig){
             SensorsRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(SensorConfigConstants.TYPE_GPS, experimentId, apiResponseRepositoryHolder);
+        }else{
+            //Comentarios
+            CommentRepository.getRegistersByExperimentIdAsExperimentRegister(experimentId, apiResponseRepositoryHolder);
         }
     }
 }

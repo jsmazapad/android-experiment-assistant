@@ -21,9 +21,7 @@ import com.jsm.exptool.config.ConfigConstants;
 import com.jsm.exptool.config.LocationConfigConstants;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.libs.GPSUtils;
-import com.jsm.exptool.libs.camera.CameraXHandler;
 import com.jsm.exptool.model.LocationOption;
-import com.jsm.exptool.model.externaleventsreader.LocationReader;
 
 import java.util.ArrayList;
 

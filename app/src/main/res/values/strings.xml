@@ -146,6 +146,7 @@ VIEW EXPERIMENT MEASURES
     <string name="graph_tab_title">Gráfica</string>
     <string name="map_tab_title">Mapa</string>
     <string name="gallery_tab_title">Galería</string>
+    <string name="comments">Comentarios</string>
 
 
     <!--

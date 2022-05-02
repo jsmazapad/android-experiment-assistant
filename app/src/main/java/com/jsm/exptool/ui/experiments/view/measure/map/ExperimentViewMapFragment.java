@@ -11,9 +11,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
+import com.google.android.gms.maps.model.SquareCap;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentViewMapFragmentBinding;
@@ -70,13 +74,18 @@ public class ExperimentViewMapFragment extends BaseFragment<ExperimentViewMapFra
 
             ArrayList<LatLng> coordinateList = new ArrayList<LatLng>();
 
+
             //Polyline polyline1 = mMap.addPolyline(new PolylineOptions());
             for (ExperimentRegister register: viewModel.getRegisters()){
                 SensorRegister position = (SensorRegister) register;
                 if (position.getValue1() != 0.0f && position.getValue2() != 0.0f){
                     LatLng latLng = new LatLng(position.getValue1() , position.getValue2());
-                            coordinateList.add(latLng);
-                    mMap.addMarker(new MarkerOptions().position(latLng).title(DateProvider.dateToDisplayStringWithTime(position.getDate())));
+                    //TODO Agregar fechas sobre marcadores en misma ubicación
+                    MarkerOptions marker = new MarkerOptions().position(latLng).title(DateProvider.dateToDisplayStringWithTime(position.getDate()));
+                    mMap.addMarker(marker);
+                    coordinateList.add(latLng);
+
+
                 }
             }
 
@@ -90,7 +99,14 @@ public class ExperimentViewMapFragment extends BaseFragment<ExperimentViewMapFra
                 polylineOptions.addAll(coordinateList);
                 polylineOptions.width(10).color(Color.RED);
 
-                mMap.addPolyline(polylineOptions);
+                /*
+                 * https://developers.google.com/maps/documentation/android-sdk/shapes?hl=es-419#customizing_appearances
+                 */
+                Polyline polyline = mMap.addPolyline(polylineOptions);
+                polyline.setStartCap(new RoundCap());
+                polyline.setEndCap(new SquareCap());
+                polyline.setJointType(JointType.ROUND);
+                //TODO Añadir bounds
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinateList.get(0), 16));
             }
         });

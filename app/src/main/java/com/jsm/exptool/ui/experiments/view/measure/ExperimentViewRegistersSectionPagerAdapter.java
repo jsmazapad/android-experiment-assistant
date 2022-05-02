@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
@@ -26,6 +27,7 @@ public class ExperimentViewRegistersSectionPagerAdapter extends FragmentStateAda
     //TODO Quitar registerList, no se usa, viene del fragment padre
     private final ArrayList<ExperimentRegister> registerList;
     private final RepeatableElementConfig measurableItem;
+    //TODO Automatizar número de páginas para que sea 1 en comentarios
     private final static int NUM_PAGES = 2;
 
     public ExperimentViewRegistersSectionPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, ArrayList<ExperimentRegister> registerList, RepeatableElementConfig measurableItem) {
@@ -61,6 +63,10 @@ public class ExperimentViewRegistersSectionPagerAdapter extends FragmentStateAda
 
     @Override
     public int getItemCount() {
-        return NUM_PAGES;
+        int itemCount = NUM_PAGES;
+//        if(measurableItem.getNameStringResource() == R.string.comments){
+//            itemCount = 1;
+//        }
+        return itemCount;
     }
 }

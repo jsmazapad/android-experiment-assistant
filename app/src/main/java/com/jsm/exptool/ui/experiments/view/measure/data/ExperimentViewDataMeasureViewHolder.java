@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
 import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.model.register.SensorRegister;
@@ -39,6 +40,10 @@ public class ExperimentViewDataMeasureViewHolder extends BaseRecyclerViewHolder<
             embeddingCheckBox.setChecked(imageElement.getEmbedding() != null && !imageElement.getEmbedding().isEmpty());
         }else if (element instanceof AudioRegister){
             sensorValueTV.setText("");
+            embeddingCheckBox.setVisibility(View.GONE);
+        }else if (element instanceof CommentRegister){
+            //Comentarios
+            sensorValueTV.setText(((CommentRegister)element).getComment());
             embeddingCheckBox.setVisibility(View.GONE);
         }
 
