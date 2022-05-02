@@ -110,6 +110,13 @@
                         app:srcCompat="@drawable/ic_baseline_cloud_24" />
 
                     <ImageView
+                        android:id="@+id/locationIV"
+                        style="@style/BaseIcon"
+                        android:visibility="@{viewModel.locationEnabled ? View.VISIBLE : View.GONE}"
+                        android:contentDescription="Tiene ubicación"
+                        app:srcCompat="@drawable/ic_baseline_location_24" />
+
+                    <ImageView
                         android:id="@+id/sensorsIV"
                         style="@style/BaseIcon"
                         android:visibility="@{viewModel.sensorEnabled ? View.VISIBLE : View.GONE}"

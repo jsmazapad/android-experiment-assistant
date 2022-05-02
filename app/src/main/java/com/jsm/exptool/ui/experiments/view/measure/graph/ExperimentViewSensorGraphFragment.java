@@ -26,13 +26,6 @@ public class ExperimentViewSensorGraphFragment extends BaseFragment<ExperimentVi
 
 
 
-    private boolean isLoaded = false;
-
-    private ImageView imageView;
-    //private Animatable animatable;
-    private FrameLayout loading;
-
-    private static final String TAG = "MeasuresGraph";
     @Override
     protected ExperimentViewSensorGraphViewModel createViewModel() {
         return new ViewModelProvider(this).get(ExperimentViewSensorGraphViewModel.class);

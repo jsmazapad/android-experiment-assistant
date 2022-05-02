@@ -10,10 +10,12 @@ import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.AudioConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
+import com.jsm.exptool.model.experimentconfig.LocationConfig;
 import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.data.ExperimentViewDataMeasuresFragment;
 import com.jsm.exptool.ui.experiments.view.measure.graph.ExperimentViewSensorGraphFragment;
+import com.jsm.exptool.ui.experiments.view.measure.map.ExperimentViewMapFragment;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.audiogallery.AudioRegisterGalleryFragment;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.imagegallery.ImageRegisterGalleryFragment;
 
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 
 public class ExperimentViewRegistersSectionPagerAdapter extends FragmentStateAdapter {
 
-
+    //TODO Quitar registerList, no se usa, viene del fragment padre
     private final ArrayList<ExperimentRegister> registerList;
     private final RepeatableElementConfig measurableItem;
     private final static int NUM_PAGES = 2;
@@ -44,17 +46,14 @@ public class ExperimentViewRegistersSectionPagerAdapter extends FragmentStateAda
                 return viewRegistersFragment;
             // GRAPH
             case 1:
-                if(measurableItem instanceof SensorConfig) {
-                    if (((SensorConfig)measurableItem).getSensorReader().getSensorType() != SensorConfigConstants.TYPE_GPS) {
-                        return new ExperimentViewSensorGraphFragment();
-                    } else {
-//                        MeasuresMapFragment measuresMapFragment = new MeasuresMapFragment();
-//                        return measuresMapFragment;
-                    }
-                }else if (measurableItem instanceof CameraConfig) {
+                if (measurableItem instanceof SensorConfig) {
+                    return new ExperimentViewSensorGraphFragment();
+                } else if (measurableItem instanceof CameraConfig) {
                     return new ImageRegisterGalleryFragment();
-                }else if (measurableItem instanceof AudioConfig) {
+                } else if (measurableItem instanceof AudioConfig) {
                     return new AudioRegisterGalleryFragment();
+                } else if (measurableItem instanceof LocationConfig) {
+                    return new ExperimentViewMapFragment();
                 }
         }
         return null;

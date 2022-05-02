@@ -200,6 +200,8 @@ Experiment list
     <string name="experiment_filter_status_prompt">Seleccione estado</string>
     <string name="experiment_filter_sync_prompt">Seleccione filtros sincronización</string>
     <string name="num_registers_format">%d registros</string>
+    <string name="map_path_init">Inicio</string>
+    <string name="map_path_end">Fin</string>
 
     <!--
     Varios

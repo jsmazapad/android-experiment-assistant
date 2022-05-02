@@ -32,6 +32,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
    private final MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
    private final MutableLiveData<Boolean> embeddingEnabled = new MutableLiveData<>(false);
    private final MutableLiveData<Boolean> audioEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> locationEnabled = new MutableLiveData<>(false);
    private final MutableLiveData<Boolean> syncEnabled = new MutableLiveData<>(false);
 
     public ExperimentViewViewModel(Application app, Experiment experiment) {
@@ -55,10 +56,16 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
             experimentElements.add(experimentConfiguration.getAudioConfig());
             audioEnabled.setValue(true);
         }
+        if(experimentConfiguration.isLocationEnabled()) {
+            experimentElements.add(experimentConfiguration.getLocationConfig());
+            locationEnabled.setValue(true);
+        }
         if(experimentConfiguration.isSensorEnabled()) {
             experimentElements.addAll(experimentConfiguration.getSensorConfig().getSensors());
             sensorEnabled.setValue(true);
         }
+
+
 
         description.setValue(experiment.getDescription());
         title.setValue(experiment.getTitle());
@@ -117,6 +124,10 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
 
     public MutableLiveData<Boolean> getSyncEnabled() {
         return syncEnabled;
+    }
+
+    public MutableLiveData<Boolean> getLocationEnabled() {
+        return locationEnabled;
     }
 
     @Override

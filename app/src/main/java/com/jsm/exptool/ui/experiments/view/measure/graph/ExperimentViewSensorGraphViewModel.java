@@ -20,6 +20,7 @@ public class ExperimentViewSensorGraphViewModel extends BaseViewModel {
         super(application);
     }
 
+    //TODO Usar viewmodel para mantener estado de listado en fragment
     public ExperimentViewSensorGraphViewModel(Application app, SensorConfig sensor, List<SensorRegister> registers) {
         super(app);
         this.sensor = sensor;
