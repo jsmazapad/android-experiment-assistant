@@ -19,5 +19,7 @@ public class QuickCommentsViewHolder extends BaseRecyclerViewHolder<String> {
     public void fillViewHolder(String element) {
         addCommentButton.setText(element);
         addCommentButton.setContentDescription(addCommentButton.getContentDescription() + " " + element);
+        //Necesario para trasladar click a vista padre (está definido en vista padre)
+        addCommentButton.setOnClickListener(v -> itemView.performClick());
     }
 }
