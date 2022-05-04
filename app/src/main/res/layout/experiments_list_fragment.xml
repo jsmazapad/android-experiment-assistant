@@ -35,7 +35,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BaseItemListTextView"
-                        android:text="Estado"/>
+                        tools:text="Estado"/>
                 <androidx.appcompat.widget.AppCompatSpinner
                     style="@style/BaseSpinner"
                     android:prompt="@string/experiment_filter_status_prompt"

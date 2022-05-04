@@ -19,7 +19,7 @@
     <string name="default_info_title">Información</string>
     <string name="default_modal_cancelButton">Cancelar</string>
     <string name="default_modal_closeButton">Cerrar</string>
-    <string name="default_recyclerview_emptyMessage">No results found</string>
+    <string name="default_recyclerview_emptyMessage">No hay resultados</string>
     <string name="default_button_save_title">Guardar</string>
     <string name="yes_configured">Si</string>
     <string name="no_configured">No</string>

@@ -52,8 +52,8 @@
     <style name="BaseTextInputLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="boxStrokeColor">?colorSecondaryVariant</item>
-        <item name="hintTextColor">?colorSecondaryVariant</item>
+        <item name="boxStrokeColor">?colorSecondary</item>
+        <item name="hintTextColor">?colorSecondary</item>
     </style>
 
     <style name="BaseTextInputEditText" parent="AccesibilityMinSize">
@@ -98,7 +98,7 @@
         <item name="android:layout_height">48dp</item>
         <item name="android:padding">5dp</item>
         <item name="android:adjustViewBounds">true</item>
-        <item name="tint">?colorSecondaryVariant</item>
+        <item name="tint">?colorSecondary</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
 
@@ -152,7 +152,7 @@
     <style name="BaseSubtitleTextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/secondaryDarkColor</item>
+        <item name="android:background">?colorSecondary</item>
         <item name="android:textColor">@color/subtitle_text</item>
         <item name="android:padding">10dp</item>
         <item name="android:textSize">18sp</item>
@@ -160,7 +160,7 @@
     </style>
     <style name="BaseSubtitleNegativeTextView" parent="BaseSubtitleTextView">
         <item name="android:background">@color/subtitle_text</item>
-        <item name="android:textColor">@color/secondaryDarkColor</item>
+        <item name="android:textColor">?colorSecondary</item>
     </style>
 
     <style name="BaseSpinner" parent="AccesibilityMinSize">
