@@ -47,10 +47,12 @@ public class Experiment implements Parcelable {
     private int sdkDevice;
     private String device;
     private boolean syncPending, embeddingPending, exportedPending;
+    private String size;
+    private long duration = 0;
 
 
 
-    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending) {
+    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending, String size, long duration) {
         this.internalId = internalId;
         this.id = id;
         this.userId = userId;
@@ -69,10 +71,12 @@ public class Experiment implements Parcelable {
         this.syncPending = syncPending;
         this.embeddingPending = embeddingPending;
         this.exportedPending = exportedPending;
+        this.size = size;
+        this.duration = duration;
 
     }
 
-    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending) {
+    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending, String size, long duration) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -90,6 +94,8 @@ public class Experiment implements Parcelable {
         this.syncPending = syncPending;
         this.embeddingPending = embeddingPending;
         this.exportedPending = exportedPending;
+        this.size = size;
+        this.duration = duration;
 
     }
 
@@ -240,6 +246,22 @@ public class Experiment implements Parcelable {
         this.exportedPending = exportedPending;
     }
 
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
     public enum ExperimentStatus{
         CREATED("CREATED"),
         INITIATED("INITIATED"),
@@ -290,6 +312,8 @@ public class Experiment implements Parcelable {
         dest.writeByte(this.syncPending ? (byte) 1 : (byte) 0);
         dest.writeByte(this.embeddingPending ? (byte) 1 : (byte) 0);
         dest.writeByte(this.exportedPending ? (byte) 1 : (byte) 0);
+        dest.writeString(this.size);
+        dest.writeLong(this.duration);
 
     }
 
@@ -315,6 +339,8 @@ public class Experiment implements Parcelable {
         this.syncPending = source.readByte() != 0;
         this.embeddingPending = source.readByte() != 0;
         this.exportedPending = source.readByte() != 0;
+        this.size = source.readString();
+        this.duration = source.readLong();
 
     }
 

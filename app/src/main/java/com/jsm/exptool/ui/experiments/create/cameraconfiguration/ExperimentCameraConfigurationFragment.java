@@ -14,11 +14,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentCreateCameraConfgurationFragmentBinding;
-import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
+import com.jsm.exptool.libs.requestpermissions.PermissionResultCallbackForViewModel;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
-import com.jsm.exptool.ui.experiments.perform.ExperimentPerformFragment;
 
 import java.util.List;
 

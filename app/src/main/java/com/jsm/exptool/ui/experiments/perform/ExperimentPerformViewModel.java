@@ -1,10 +1,12 @@
 package com.jsm.exptool.ui.experiments.perform;
 
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.PERFORM_EXPERIMENT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_LOCATION;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 
 import android.app.Application;
 import android.content.Context;
@@ -27,6 +29,7 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.core.utils.MemoryUtils;
 import com.jsm.exptool.core.utils.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
 import com.jsm.exptool.model.CommentSuggestion;
@@ -64,6 +67,12 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     private MutableLiveData<Boolean> experimentInitiated = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> enableHandleExperimentButton = new MutableLiveData<>(true);
     private final MutableLiveData<String> changeStateText = new MutableLiveData<>("");
+    //Temporalización de experimento
+    private long startTimeStamp = 0;
+
+    //Gestión de espera a que terminen los trabajos en background para finalización de experimento
+    private boolean waitToFinishJobs = false;
+    private final MutableLiveData<Boolean> waitEndedToCompleteExperiment = new MutableLiveData<>(false);
 
     //IMAGEN
     private final MutableLiveData<Integer> numImages = new MutableLiveData<>(0);
@@ -216,6 +225,10 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         return experimentInitiated;
     }
 
+    public MutableLiveData<Boolean> getWaitEndedToCompleteExperiment() {
+        return waitEndedToCompleteExperiment;
+    }
+
     public void handleExperimentState(Context context) {
         if (!experimentInitiated.getValue()) {
             experimentInitiated.setValue(true);
@@ -231,6 +244,8 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         this.experiment.setSdkDevice(DeviceUtils.getDeviceSDK());
         this.experiment.setDevice(DeviceUtils.getDeviceModel());
         this.experiment.setStatus(Experiment.ExperimentStatus.INITIATED);
+
+        this.startTimeStamp = System.currentTimeMillis();
         changeStateText.setValue(getApplication().getString(R.string.perform_experiment_finish_text));
 
         if (saveExperiment(context)) {
@@ -264,9 +279,72 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         //TODO Extraer comportamiento a provider
         this.experiment.setEndDate(new Date());
         this.experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
+
+        long elapsedTime = System.currentTimeMillis() - startTimeStamp;
+        this.experiment.setDuration(this.experiment.getDuration() + elapsedTime);
+
+        //Si quedan experimentos pendientes mostramos mensaje
+        if(orchestratorProvider.getWorkInfoByTag(PERFORM_EXPERIMENT).getValue() != null && orchestratorProvider.countPendingWorks(orchestratorProvider.getWorkInfoByTag(PERFORM_EXPERIMENT).getValue()) > 0){
+            ModalMessage.showModalMessageWithThreeButtons(context, context.getString(R.string.pending_jobs_dialog_title), context.getString(R.string.pending_jobs_dialog_text),
+                    context.getString(R.string.pending_jobs_dialog_option_wait), (dialog, which)->{
+                waitPendingJobsAndFinish(context, false);
+            }, context.getString(R.string.pending_jobs_dialog_option_end), (dialog, which)->{
+                //Finalizamos trabajos y salvamos el experimento
+                orchestratorProvider.finishPendingJobs();
+                completeExperimentFinishing(context);
+            }, context.getString(R.string.pending_jobs_dialog_option_wait_only_local), ((dialog, which) -> {
+                //Volvemos a comprobar (los trabajos pueden haber finalizado mientras el usuario se decide)
+                if (orchestratorProvider.getWorkInfoByTag(PERFORM_EXPERIMENT).getValue() != null && orchestratorProvider.countPendingWorks(orchestratorProvider.getWorkInfoByTag(PERFORM_EXPERIMENT).getValue()) > 0) {
+                   waitPendingJobsAndFinish(context, true);
+                }else{
+                    completeExperimentFinishing(context);
+                }
+            }));
+        }else{
+            orchestratorProvider.finishPendingJobs();
+            completeExperimentFinishing(context);
+        }
+    }
+
+    /**
+     * Espera a que terminen los trabajos pendientes
+     * @param context
+     * @param finishRemote Espera sólo a los trabajos locales, elimina los que dependan de servidores remotos
+     */
+    private void waitPendingJobsAndFinish(Context context, boolean finishRemote){
+        //Volvemos a comprobar (los trabajos pueden haber finalizado antes de llegar aquí)
+        if (orchestratorProvider.getWorkInfoByTag(PERFORM_EXPERIMENT).getValue() != null && orchestratorProvider.countPendingWorks(orchestratorProvider.getWorkInfoByTag(PERFORM_EXPERIMENT).getValue()) > 0) {
+            //Colocamos el flag para esperar a que los trabajos finalicen
+            ExperimentPerformViewModel.this.waitToFinishJobs = true;
+            if(finishRemote){
+                //Finalizamos los trabajos que dependen de servidor remoto
+                orchestratorProvider.finishJobsByTag(REMOTE_WORK);
+            }
+        }else{
+            completeExperimentFinishing(context);
+        }
+    }
+
+    protected void completeExperimentFinishing(Context context){
+        if(waitToFinishJobs){
+            waitEndedToCompleteExperiment.setValue(false);
+        }
+        String size = MemoryUtils.getFormattedFileSize(FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()));
+        this.experiment.setSize(size);
         if (saveExperiment(context)) {
             showResumeDialog(context);
         }
+    }
+
+    /**
+     * Función que se ejecuta cuando el contador de trabajos pendientes llega a 0
+     */
+    private void onFinishedBackgroundJobs(){
+        //Si tiene el flag de espera activado, actualizamos el LiveData para finalizar los trabajos
+        if(waitToFinishJobs){
+            waitEndedToCompleteExperiment.setValue(true);
+        }
+
     }
 
     private boolean saveExperiment(Context context) {
@@ -325,7 +403,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
                 public void run() {
                     Log.d("WORKER", "Pic requested");
                     Date date = new Date();
-                    File mFile = new File(FilePathsProvider.getImagesFilePath(context), date + "pic.jpg");
+                    File mFile = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.IMAGES), date + "pic.jpg");
                     CameraProvider.getInstance().takePicture(mFile, new ImageReceivedCallback() {
                         @Override
                         public void onImageReceived(File imageFile) {
@@ -355,7 +433,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
                     Log.d("WORKER", "Audio requested");
                     Date date = new Date();
-                    File mFile = new File(FilePathsProvider.getAudiosFilePath(context), date + "audio." + audioConfig.getRecordingOption().getFileExtension());
+                    File mFile = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO), date + "audio." + audioConfig.getRecordingOption().getFileExtension());
                     AudioProvider.getInstance().record(mFile, audioConfig.getRecordingOption());
                     //Tras un delay = duracion de la grabación, se ejecuta el timer para la grbación
                     audioTimer.schedule(new TimerTask() {
@@ -386,8 +464,12 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
                     Log.d("WORKER", "Location requested");
                     Date date = new Date();
                     Location location = LocationProvider.getInstance().getCurrentLocation();
-                    locationValueString.postValue(String.format(formatString, location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy()));
-                    orchestratorProvider.executeLocationChain(getApplication(), location, date, experiment);
+                    if(location != null) {
+                        locationValueString.postValue(String.format(formatString, location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy()));
+                        orchestratorProvider.executeLocationChain(getApplication(), location, date, experiment);
+                    }else{
+                        Log.e("Experiment perform", "Error al obtener ubicación");
+                    }
 
                 }
             }, 0, locationConfig.getInterval());
@@ -435,6 +517,15 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
 
     public void initWorkInfoObservers(LifecycleOwner owner) {
+        //Pendientes
+        LiveData<List<WorkInfo>> pendingWorkInfo = orchestratorProvider.getWorkInfoByTag(PERFORM_EXPERIMENT);
+        pendingWorkInfo.observe(owner, workInfoList -> {
+
+            if(orchestratorProvider.countPendingWorks(workInfoList) == 0 || (experiment.getStatus().equals(Experiment.ExperimentStatus.FINISHED) && workInfoList == null)){
+                ExperimentPerformViewModel.this.onFinishedBackgroundJobs();
+            }
+
+        });
         //Image
         LiveData<List<WorkInfo>> registerImageWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_IMAGE);
         LiveData<List<WorkInfo>> embeddingImageWorkInfo = orchestratorProvider.getWorkInfoByTag(OBTAIN_EMBEDDED_IMAGE);

@@ -98,7 +98,9 @@ public class LocationProvider {
     }
 
     public void stopLocation(){
-        mFusedLocationClient.removeLocationUpdates(locationCallback);
+        if (mFusedLocationClient != null) {
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
+        }
     }
 
 

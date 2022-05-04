@@ -36,7 +36,7 @@ public class ExportDataProvider {
             keyToCompare = Experiment.COLUMN_ID;
         }
         String where = " WHERE "+keyToCompare+" = "+ experiment.getInternalId();
-        File file = new File(FilePathsProvider.getFilesFilePath(context), experiment.getTitle().replace(" ", "_") + "_" + tableName+ DateProvider.dateToDisplayStringWithTime(experiment.getEndDate()).replace("/", "_")+".csv");
+        File file = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.EXPORTED_FILES), experiment.getTitle().replace(" ", "_") + "_" + tableName+ DateProvider.dateToDisplayStringWithTime(experiment.getEndDate()).replace("/", "_")+".csv");
         try {
             file.createNewFile();
         } catch (IOException e) {

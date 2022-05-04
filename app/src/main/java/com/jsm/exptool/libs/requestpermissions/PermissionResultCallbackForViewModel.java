@@ -1,4 +1,4 @@
-package com.jsm.exptool.libs;
+package com.jsm.exptool.libs.requestpermissions;
 
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;

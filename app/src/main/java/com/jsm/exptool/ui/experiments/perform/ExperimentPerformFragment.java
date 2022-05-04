@@ -7,9 +7,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -18,16 +16,13 @@ import android.widget.ArrayAdapter;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
-import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
-import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
-import com.jsm.exptool.libs.PermissionResultCallbackForViewModel;
+import com.jsm.exptool.libs.requestpermissions.PermissionResultCallbackForViewModel;
 import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.Experiment;
 
@@ -128,6 +123,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         viewModel.initAudioProvider(getContext(), getViewLifecycleOwner(), this);
         viewModel.initLocationProvider(getContext(), getViewLifecycleOwner(), this);
         viewModel.initWorkInfoObservers(getViewLifecycleOwner());
+        viewModel.getSuggestions().removeObservers(getViewLifecycleOwner());
         viewModel.getSuggestions().observe(getViewLifecycleOwner(), elements ->{
             if (elements != null){
                 ArrayAdapter<CommentSuggestion> adapter = new ArrayAdapter<>(getContext(),
@@ -138,17 +134,28 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
 
         //En caso de que el experimento tenga imágenes se observa el estado del elemento previewView para saber cuando ha terminado de cargar
         if(viewModel.getImageCardEnabled().getValue()) {
+            previewView.getPreviewStreamState().removeObservers(getViewLifecycleOwner());
             previewView.getPreviewStreamState().observe(getViewLifecycleOwner(), streamState -> {
 
                 viewModel.setIsLoading(!PreviewView.StreamState.STREAMING.equals(streamState));
             });
         }
 
+        //Observamos la finalización del completado del experimento,
+        //se dispara si es necesario esperar porque no se cancelen las tareas en background
+        viewModel.getWaitEndedToCompleteExperiment().removeObservers(getViewLifecycleOwner());
+        viewModel.getWaitEndedToCompleteExperiment().observe(getViewLifecycleOwner(), waitFinished ->{
+            if(waitFinished != null && waitFinished == true) {
+                viewModel.completeExperimentFinishing(getContext());
+            }
+        });
+
     }
 
     @Override
     protected void setupRecyclerView() {
         super.setupRecyclerView();
+        viewModel.getUpdateElementInRecycler().removeObservers(getViewLifecycleOwner());
         viewModel.getUpdateElementInRecycler().observe(getViewLifecycleOwner(), position ->{
             if (position != null){
                 recyclerView.getAdapter().notifyItemChanged(position);

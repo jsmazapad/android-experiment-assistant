@@ -124,12 +124,16 @@
     <string name="experiment_perform_num_comments">Nº comentarios</string>
     <string name="experiment_perform_audio_title">Audio</string>
     <string name="experiment_perform_num_audios">Nº de archivos de audio</string>
-
     <string name="experiment_perform_sensors_title">Sensores</string>
     <string name="experiment_perform_num_sensors">Nº de mediciones de sensor registradas</string>
     <string name="experiment_perform_location_title">Ubicación</string>
     <string name="experiment_perform_num_locations">Nº de ubicaciones obtenidas</string>
     <string name="experiment_perform_location_format"><![CDATA[Latitud:<b>%f</b>, Longitud:<b>%f</b>, Altitud:<b>%f</b>, Precisión: <b>%f</b>  ]]></string>
+    <string name="pending_jobs_dialog_title">Trabajos pendientes</string>
+    <string name="pending_jobs_dialog_text">Hay trabajos pendientes en segundo plano, ¿Que desea hacer con ellos?</string>
+    <string name="pending_jobs_dialog_option_end">Finalizarlos y salvar el experimento</string>
+    <string name="pending_jobs_dialog_option_wait">Esperar hasta terminarlos</string>
+    <string name="pending_jobs_dialog_option_wait_only_local">Finalizar trabajos pendientes que requieren de servidor y esperar al resto</string>
     <!--
   AUDIO CONFIGURATION
   -->
@@ -147,6 +151,8 @@ VIEW EXPERIMENT MEASURES
     <string name="map_tab_title">Mapa</string>
     <string name="gallery_tab_title">Galería</string>
     <string name="comments">Comentarios</string>
+    <string name="map_path_init">Inicio</string>
+    <string name="map_path_end">Fin</string>
 
 
     <!--
@@ -201,8 +207,8 @@ Experiment list
     <string name="experiment_filter_status_prompt">Seleccione estado</string>
     <string name="experiment_filter_sync_prompt">Seleccione filtros sincronización</string>
     <string name="num_registers_format">%d registros</string>
-    <string name="map_path_init">Inicio</string>
-    <string name="map_path_end">Fin</string>
+
+
 
     <!--
     Varios

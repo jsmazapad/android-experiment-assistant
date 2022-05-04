@@ -163,7 +163,7 @@ public class MockExamples {
         }
 
 
-        File f = new File(FilePathsProvider.getImagesFilePath(context), "GAtos.jpg");
+        File f = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.IMAGES), "GAtos.jpg");
 
         try {
             if (!f.exists())
@@ -187,7 +187,7 @@ public class MockExamples {
             ImagesRepository.registerImageCapture(f, id, cal.getTime());
         }
 
-        File f2 = new File(FilePathsProvider.getAudiosFilePath(context), "cat_sound.mp3");
+        File f2 = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO), "cat_sound.mp3");
 
         try {
             if (!f2.exists())

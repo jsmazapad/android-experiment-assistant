@@ -18,6 +18,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SEN
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.TABLE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.EXPORT_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.OBTAIN_EMBEDDED_IMAGE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.PERFORM_EXPERIMENT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.PROCESS_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_AUDIO;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
@@ -68,13 +69,8 @@ public class WorksOrchestratorProvider {
 
     private static WorksOrchestratorProvider INSTANCE = null;
 
-    // other instance variables can be here
-
     private WorksOrchestratorProvider() {
-
     }
-
-    ;
 
     public static synchronized WorksOrchestratorProvider getInstance() {
         if (INSTANCE == null) {
@@ -85,7 +81,16 @@ public class WorksOrchestratorProvider {
 
     public void init(Application application) {
         mWorkManager = WorkManager.getInstance(application);
+        finishPendingJobs();
+    }
+
+    public void finishPendingJobs() {
         mWorkManager.cancelAllWork();
+        mWorkManager.pruneWork();
+    }
+
+    public void finishJobsByTag(String tag) {
+        mWorkManager.cancelAllWorkByTag(tag);
         mWorkManager.pruneWork();
     }
 
@@ -103,7 +108,7 @@ public class WorksOrchestratorProvider {
 
         Data registerSensorData = createInputData(registerSensorValues);
         OneTimeWorkRequest registerSensorRequest = new OneTimeWorkRequest.Builder(RegisterSensorWorker.class)
-                .setInputData(registerSensorData).addTag(REGISTER_SENSOR).build();
+                .setInputData(registerSensorData).addTag(PERFORM_EXPERIMENT).addTag(REGISTER_SENSOR).build();
         mWorkManager.enqueue(registerSensorRequest);
     }
 
@@ -112,20 +117,20 @@ public class WorksOrchestratorProvider {
 
         Map<String, Object> registerLocationValues = new HashMap<String, Object>() {{
             put(LATITUDE, location.getLatitude());
-            put(LONGITUDE,location.getLongitude());
-            put(ALTITUDE,location.getAltitude());
-            put(ACCURACY,location.getAccuracy());
+            put(LONGITUDE, location.getLongitude());
+            put(ALTITUDE, location.getAltitude());
+            put(ACCURACY, location.getAccuracy());
             put(EXPERIMENT_ID, experiment.getInternalId());
             put(DATE_TIMESTAMP, date.getTime());
         }};
 
         Data registerSensorData = createInputData(registerLocationValues);
         OneTimeWorkRequest registerLocationRequest = new OneTimeWorkRequest.Builder(RegisterLocationWorker.class)
-                .setInputData(registerSensorData).addTag(REGISTER_LOCATION).build();
+                .setInputData(registerSensorData).addTag(PERFORM_EXPERIMENT).addTag(REGISTER_LOCATION).build();
         mWorkManager.enqueue(registerLocationRequest);
     }
 
-    public void executeAudioChain(Context context, File mFile, Date date, Experiment experiment){
+    public void executeAudioChain(Context context, File mFile, Date date, Experiment experiment) {
         Map<String, Object> registerImageValues = new HashMap<String, Object>() {{
             put(FILE_NAME, mFile.getPath());
             put(EXPERIMENT_ID, experiment.getInternalId());
@@ -134,7 +139,7 @@ public class WorksOrchestratorProvider {
         //Register image
         Data registerImageData = createInputData(registerImageValues);
         OneTimeWorkRequest registerAudioRequest = new OneTimeWorkRequest.Builder(RegisterAudioWorker.class)
-                .setInputData(registerImageData).addTag(REGISTER_AUDIO).build();
+                .setInputData(registerImageData).addTag(PERFORM_EXPERIMENT).addTag(REGISTER_AUDIO).build();
         mWorkManager.enqueue(registerAudioRequest);
     }
 
@@ -151,7 +156,7 @@ public class WorksOrchestratorProvider {
         //Register image
         Data registerImageData = createInputData(registerImageValues);
         OneTimeWorkRequest registerImageRequest = new OneTimeWorkRequest.Builder(RegisterImageWorker.class)
-                .setInputData(registerImageData).addTag(REGISTER_IMAGE).build();
+                .setInputData(registerImageData).addTag(PERFORM_EXPERIMENT).addTag(REGISTER_IMAGE).build();
         WorkContinuation continuation = mWorkManager.beginWith(registerImageRequest);
 
 
@@ -171,12 +176,12 @@ public class WorksOrchestratorProvider {
             //Procesado de imagen
             Data processImageData = createInputData(processImageValuesMap);
             OneTimeWorkRequest processImageRequest = new OneTimeWorkRequest.Builder(ProcessImageWorker.class)
-                    .setInputData(processImageData).addTag(PROCESS_IMAGE).build();
+                    .setInputData(processImageData).addTag(PERFORM_EXPERIMENT).addTag(PROCESS_IMAGE).build();
             continuation = continuation.then(processImageRequest);
             //Obtención de vector embebido
             Data embeddingAdditionalData = createInputData(embeddingAdditionalValuesMap);
             OneTimeWorkRequest obtainEmbeddingRequest = new OneTimeWorkRequest.Builder(ObtainEmbeddingWorker.class)
-                    .setInputData(embeddingAdditionalData).addTag(OBTAIN_EMBEDDED_IMAGE).addTag(REMOTE_WORK).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
+                    .setInputData(embeddingAdditionalData).addTag(PERFORM_EXPERIMENT).addTag(OBTAIN_EMBEDDED_IMAGE).addTag(REMOTE_WORK).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
             continuation = continuation.then(obtainEmbeddingRequest);
 
         }
@@ -185,10 +190,10 @@ public class WorksOrchestratorProvider {
     }
 
 
-    public void executeExportToCSV(Experiment experiment){
+    public void executeExportToCSV(Experiment experiment) {
         List<OneTimeWorkRequest> exportRegistersRequests = new ArrayList<>();
         //Creamos listado de exportadores que se ejecutaran en paralelo
-        for (String element: ELEMENTS_TO_EXPORT) {
+        for (String element : ELEMENTS_TO_EXPORT) {
             Map<String, Object> inputDataValues = new HashMap<String, Object>() {{
                 put(EXPERIMENT_ID, experiment.getInternalId());
                 put(TABLE_NAME, element);
@@ -211,7 +216,6 @@ public class WorksOrchestratorProvider {
     }
 
 
-
     private Data createInputData(Map<String, Object> valuesMap) {
         Data.Builder builder = new Data.Builder();
         for (Map.Entry<String, Object> entry : valuesMap.entrySet()) {
@@ -226,9 +230,9 @@ public class WorksOrchestratorProvider {
                     builder.putFloat(entry.getKey(), (Float) entry.getValue());
                 } else if (entry.getValue() instanceof Long) {
                     builder.putLong(entry.getKey(), (Long) entry.getValue());
-                } else if (entry.getValue() instanceof Float[]){
+                } else if (entry.getValue() instanceof Float[]) {
                     builder.putFloatArray(entry.getKey(), (float[]) entry.getValue());
-                }else if (entry.getValue() instanceof String[]){
+                } else if (entry.getValue() instanceof String[]) {
                     builder.putStringArray(entry.getKey(), (String[]) entry.getValue());
                 }
             }
@@ -240,24 +244,33 @@ public class WorksOrchestratorProvider {
         return mWorkManager.getWorkInfosByTagLiveData(tag);
     }
 
-
-    public int countWorksByState(List<WorkInfo> workInfos, WorkInfo.State state){
+    public int countPendingWorks(List<WorkInfo> workInfoList) {
         int counter = 0;
-        for (WorkInfo info : workInfos){
-            if(info.getState().isFinished() && info.getState() == state)
-            {
+        for (WorkInfo info : workInfoList) {
+            if (!info.getState().isFinished()) {
                 counter++;
             }
         }
         return counter;
     }
 
-    public int countSuccessWorks(List<WorkInfo> workInfos){
-        return countWorksByState(workInfos, WorkInfo.State.SUCCEEDED);
+
+    public int countWorksByState(List<WorkInfo> workInfoList, WorkInfo.State state) {
+        int counter = 0;
+        for (WorkInfo info : workInfoList) {
+            if (info.getState().isFinished() && info.getState() == state) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
-    public int countFailureWorks(List<WorkInfo> workInfos){
-        return countWorksByState(workInfos, WorkInfo.State.FAILED);
+    public int countSuccessWorks(List<WorkInfo> workInfoList) {
+        return countWorksByState(workInfoList, WorkInfo.State.SUCCEEDED);
+    }
+
+    public int countFailureWorks(List<WorkInfo> workInfoList) {
+        return countWorksByState(workInfoList, WorkInfo.State.FAILED);
     }
 
 

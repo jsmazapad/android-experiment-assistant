@@ -23,6 +23,8 @@ public class WorkerPropertiesConstants {
         public static final String TABLE_NAME = "TABLE_NAME";
     }
     public class WorkTagsConstants {
+        //EXPERIMENT PERFORM
+        public static final String PERFORM_EXPERIMENT = "PERFORM_EXPERIMENT";
         //IMAGES
         public static final String REMOTE_WORK = "REMOTE_WORK";
         public static final String REGISTER_IMAGE = "REGISTER_IMAGE";
