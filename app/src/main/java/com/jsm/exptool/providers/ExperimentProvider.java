@@ -1,6 +1,7 @@
 package com.jsm.exptool.providers;
 
 import android.content.Context;
+import android.os.FileUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.core.utils.MemoryUtils;
 import com.jsm.exptool.databinding.ExperimentsListDialogMenuActionsBinding;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
@@ -84,27 +86,15 @@ public class ExperimentProvider {
 
         }
         if (experimentActions != null) {
-            binding.initExperimentButton.setOnClickListener(v -> {
-                experimentActions.initExperiment(context, experiment, alertDialog);
-            });
-            binding.seeDataButton.setOnClickListener(v -> {
-                experimentActions.viewExperimentData(context, experiment, alertDialog);
-            });
-            binding.exportDataButton.setOnClickListener(v -> {
-                experimentActions.exportExperiment(context, experiment, alertDialog);
-            });
-            binding.syncButton.setOnClickListener(v -> {
-                experimentActions.syncExperiment(context, experiment, alertDialog);
-            });
-            binding.endExperimentButton.setOnClickListener(v -> {
-                experimentActions.endExperiment(context,experiment,  alertDialog);
-            });
-            binding.continueExperimentButton.setOnClickListener(v -> {
-                experimentActions.continueExperiment(context, experiment, alertDialog);
-            });
-            binding.deleteExperimentButton.setOnClickListener(v -> {
-                experimentActions.deleteExperiment(context, experiment, alertDialog);
-            });
+            binding.initExperimentButton.setOnClickListener(v -> experimentActions.initExperiment(context, experiment, alertDialog));
+            binding.seeDataButton.setOnClickListener(v -> experimentActions.viewExperimentData(context, experiment, alertDialog));
+            binding.exportDataButton.setOnClickListener(v -> experimentActions.exportExperiment(context, experiment, alertDialog));
+            binding.syncButton.setOnClickListener(v -> experimentActions.syncExperiment(context, experiment, alertDialog));
+            binding.endExperimentButton.setOnClickListener(v -> experimentActions.endExperiment(context,experiment,  alertDialog));
+            binding.continueExperimentButton.setOnClickListener(v -> experimentActions.continueExperiment(context, experiment, alertDialog));
+            binding.deleteExperimentButton.setOnClickListener(v -> experimentActions.deleteExperiment(context, experiment, alertDialog));
+
+            binding.copyExperimentButton.setOnClickListener(v -> experimentActions.createExperimentByCopyingExperimentConfig(context, experiment, alertDialog));
 
             switch (experiment.getStatus()) {
                 case CREATED:
@@ -136,8 +126,41 @@ public class ExperimentProvider {
 
             }
 
-
             alertDialog.show();
         }
     }
+
+    public static String deleteExperiment(Context context, Experiment experiment){
+        String error = "";
+        //Eliminar archivos
+        if (MemoryUtils.deleteDirectory(FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()))){
+            //Eliminar registros de base datos
+            ExperimentsRepository.deleteExperiment(experiment);
+        }else{
+            error = "Error en la eliminación de los archivos del experimento";
+        }
+
+
+        return error;
+
+    }
+
+    public static Experiment createExperimentByCopyingExperimentConfiguration(Experiment experiment)  {
+        Experiment clonedExperiment = null;
+        try {
+             clonedExperiment = (Experiment) experiment.clone();
+            //Eliminamos referencia a iden base de datos para que no se interprete como el mismo
+            //Al colocar 0 como id room sabe que tiene que colocarle un id autogenerado
+            clonedExperiment.setInternalId(0);
+            clonedExperiment.setTitle("");
+            clonedExperiment.setDescription("");
+            clonedExperiment.setSize("");
+            clonedExperiment.setDuration(0);
+            clonedExperiment.setStatus(Experiment.ExperimentStatus.CREATED);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return clonedExperiment;
+    }
+
 }

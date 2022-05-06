@@ -14,16 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexWrap;
-import com.google.android.flexbox.FlexboxLayoutManager;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentCreateBasicDataFragmentBinding;
 import com.jsm.exptool.libs.MultiSpinner;
-import com.jsm.exptool.ui.main.MainActivity;
+import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.ui.experiments.perform.ExperimentPerformViewModelFactory;
 
 
 public class ExperimentCreateBasicDataFragment extends BaseRecyclerFragment<ExperimentCreateBasicDataFragmentBinding, ExperimentCreateBasicDataViewModel> {
@@ -67,7 +65,8 @@ public class ExperimentCreateBasicDataFragment extends BaseRecyclerFragment<Expe
 
     @Override
     protected ExperimentCreateBasicDataViewModel createViewModel() {
-        return new ViewModelProvider(this).get(ExperimentCreateBasicDataViewModel.class);
+        Experiment experiment = ExperimentCreateBasicDataFragmentArgs.fromBundle(getArguments()).getExperiment();
+        return new ViewModelProvider(this, new ExperimentCreateBasicDataViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentCreateBasicDataViewModel.class);
 
     }
 

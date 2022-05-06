@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.register.CommentRegister;
 
 import java.util.List;
@@ -59,4 +60,12 @@ public interface CommentRegisterDao {
      */
     @Query("DELETE FROM " + CommentRegister.TABLE_NAME + " WHERE _id = :id")
     int deleteById(long id);
+
+    /**
+     * Elimina los registros asociado a un experimentId
+     * @param id
+     * @return  número de registros eliminados
+     */
+    @Query("DELETE FROM " + CommentRegister.TABLE_NAME + " WHERE experimentId = :id")
+    int deleteByExperimentId(long id);
 }

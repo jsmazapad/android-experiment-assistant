@@ -30,6 +30,7 @@ import com.jsm.exptool.providers.ExperimentActionsInterface;
 import com.jsm.exptool.providers.ExperimentProvider;
 import com.jsm.exptool.providers.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
+import com.jsm.exptool.ui.main.MainActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
+        //TODO Llamar a métodos de db en segundo plano para no sobrecargar el hilo principal
         ExperimentProvider.createActionsDialog(c, elements.getValue().get(position), this);
     }
 
@@ -219,22 +221,40 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
     @Override
     public void continueExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
+        ((MainActivity)context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavPerformExperiment(experiment));
+        alertDialog.cancel();
 
     }
+
 
     @Override
     public void deleteExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
-
+        ModalMessage.showModalMessage(context, "Advertencia", String.format("Se va a eliminar el experimento \"%s\" junto con todos los datos asociados a este.¿Está seguro de que desea continuar?", experiment.getTitle()),
+                null, (dialog, which)->{
+            //TODO REalizar el borrado en segundo plano
+                    String error = ExperimentProvider.deleteExperiment(getApplication(), experiment);
+                    if("".equals(error)){
+                        ModalMessage.showError(context, error, null, null, null, null);
+                    }else{
+                        alertDialog.cancel();
+                    }
+                },
+                null, ((dialog, which) -> {}));
     }
 
     @Override
-    public void copyExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
+    public void createExperimentByCopyingExperimentConfig(Context context, Experiment experiment, AlertDialog alertDialog) {
+        Experiment experimentCopy = ExperimentProvider.createExperimentByCopyingExperimentConfiguration(experiment);
+        ((MainActivity)context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavExperimentCreate(experimentCopy));
+        alertDialog.cancel();
 
     }
 
     public void shareZipped(Context context, String fileName) {
+        //TODO refactorizar authority
         Uri path = FileProvider.getUriForFile(context, "com.jsm.exptool.fileprovider", new File(fileName));
         ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(context).setStream(path).setChooserTitle("Almacenar en").setType("*/*");
         intentBuilder.startChooser();
     }
+
 }

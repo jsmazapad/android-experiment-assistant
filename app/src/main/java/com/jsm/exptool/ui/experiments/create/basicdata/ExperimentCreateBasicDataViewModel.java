@@ -5,6 +5,7 @@ import static com.jsm.exptool.config.ConfigConstants.CONFIG_SAVED_ARG;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
@@ -45,18 +46,24 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
     private QuickCommentsCollection quickCommentsCollectionSelected;
     private MutableLiveData<ListResponse<QuickCommentsCollection>> quickCommentsCollectionsApiResponse =  new MutableLiveData<>();
     private MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
-    private boolean remoteSyncEnabled =false;
-    private boolean embeddingEnabled = false;
-    private boolean audioEnabled = false;
-    private boolean locationEnabled = false;
+    private MutableLiveData<Boolean> remoteSyncEnabled =new MutableLiveData<>(false);
+    private MutableLiveData<Boolean> embeddingEnabled = new MutableLiveData<>(false);
+    private MutableLiveData<Boolean> audioEnabled = new MutableLiveData<>(false);
+    private MutableLiveData<Boolean> locationEnabled = new MutableLiveData<>(false);
     private List<SensorConfig> sensors;
     private List<String> sensorStrings;
     private boolean [] selectedSensorPositions;
+    private Experiment experiment = null;
+    private boolean initialConfigured = false;
 
 
-    public ExperimentCreateBasicDataViewModel(Application app){
+    public ExperimentCreateBasicDataViewModel(Application app, Experiment experiment){
         super(app);
+        this.experiment = experiment;
+        initialConfigured = experiment != null;
+
         initSpinnerData();
+        initEnabledElements();
     }
 
     @Override
@@ -108,35 +115,35 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         this.cameraEnabled = cameraEnabled;
     }
 
-    public boolean isRemoteSyncEnabled() {
+    public MutableLiveData<Boolean> isRemoteSyncEnabled() {
         return remoteSyncEnabled;
     }
 
-    public void setRemoteSyncEnabled(boolean remoteSyncEnabled) {
+    public void setRemoteSyncEnabled(MutableLiveData<Boolean> remoteSyncEnabled) {
         this.remoteSyncEnabled = remoteSyncEnabled;
     }
 
-    public boolean isAudioEnabled() {
+    public MutableLiveData<Boolean> isAudioEnabled() {
         return audioEnabled;
     }
 
-    public void setAudioEnabled(boolean audioEnabled) {
+    public void setAudioEnabled(MutableLiveData<Boolean> audioEnabled) {
         this.audioEnabled = audioEnabled;
     }
 
-    public boolean isEmbeddingEnabled() {
+    public MutableLiveData<Boolean> isEmbeddingEnabled() {
         return embeddingEnabled;
     }
 
-    public void setEmbeddingEnabled(boolean embeddingEnabled) {
+    public void setEmbeddingEnabled(MutableLiveData<Boolean> embeddingEnabled) {
         this.embeddingEnabled = embeddingEnabled;
     }
 
-    public boolean isLocationEnabled() {
+    public MutableLiveData<Boolean> isLocationEnabled() {
         return locationEnabled;
     }
 
-    public void setLocationEnabled(boolean locationEnabled) {
+    public void setLocationEnabled(MutableLiveData<Boolean> locationEnabled) {
         this.locationEnabled = locationEnabled;
     }
 
@@ -148,13 +155,40 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         this.sensors = sensors;
     }
 
+    private void initEnabledElements(){
+        if(initialConfigured && experiment.getConfiguration() != null){
+            remoteSyncEnabled.setValue(experiment.getConfiguration().isRemoteSyncEnabled());
+            cameraEnabled.setValue(experiment.getConfiguration().isCameraEnabled());
+            embeddingEnabled.setValue(experiment.getConfiguration().isEmbeddingEnabled());
+            audioEnabled.setValue(experiment.getConfiguration().isAudioEnabled());
+            locationEnabled.setValue(experiment.getConfiguration().isLocationEnabled());
+            //TODO Setear comentarios de configuración usada (Hay que almacenar índice de colección de comentarios usada)
+
+        }
+    }
+
     private void initSpinnerData(){
         sensors = SensorsRepository.getSensors();
         sensorStrings = new ArrayList<>();
         selectedSensorPositions = new boolean[sensors.size()];
+        boolean requiresSensorInitialConfig = initialConfigured && experiment.getConfiguration() != null && experiment.getConfiguration().isSensorEnabled() && experiment.getConfiguration().getSensorConfig().getSensors() != null;
+        List<SensorConfig> initialSensorsList = new ArrayList<>();
         for (int i = 0; i< sensors.size(); i++) {
-            RepeatableElementConfig sensor = sensors.get(i);
-            selectedSensorPositions[i] = false;
+            SensorConfig sensor = sensors.get(i);
+            boolean selected = false;
+            //Si tiene configuración inicial comprobamos que exista para colocarlo inicialmente como seleccionado
+            if(requiresSensorInitialConfig ){
+                for (SensorConfig sensorConfigFromExistingExperiment:experiment.getConfiguration().getSensorConfig().getSensors()) {
+                    if(sensorConfigFromExistingExperiment.getNameStringResource() == sensor.getNameStringResource()){
+                        selected = true;
+                        initialSensorsList.add(sensor);
+                        break;
+                    }
+
+                }
+                elements.setValue(initialSensorsList);
+            }
+            selectedSensorPositions[i] = selected;
             String string = getApplication().getString(sensor.getNameStringResource());
             sensorStrings.add(string);
         }
@@ -218,10 +252,10 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
 
     public void completeStep(Context context){
         boolean validTitle = this.title != null && !this.title.isEmpty();
-        boolean validAtLeastOneOption = audioEnabled || cameraEnabled.getValue() || (elements.getValue() != null && elements.getValue().size() > 0);
+        boolean validAtLeastOneOption = (audioEnabled.getValue() != null && audioEnabled.getValue()) || (cameraEnabled.getValue() != null && cameraEnabled.getValue()) || (elements.getValue() != null && elements.getValue().size() > 0);
         if (validTitle && validAtLeastOneOption){
             Experiment experiment = initializeExperiment();
-            NavController navController = ((BaseActivity)context).getNavController();
+            NavController navController = ((MainActivity)context).getNavController();
             navController.navigate(ExperimentCreateBasicDataFragmentDirections.actionNavExperimentCreateToNavExperimentConfigure(experiment));
         }else{
             String error = "";
@@ -242,7 +276,9 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         experiment.setTitle(this.title);
         experiment.setDescription(this.description);
 
-        if(this.audioEnabled){
+        //TODO Añadir caso de uso de creación de experimento haciendo uso de la configuración del experimento copiado
+
+        if(this.audioEnabled.getValue() != null && this.audioEnabled.getValue()){
             AudioConfig audioConfig = new AudioConfig();
             audioConfig.setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
             configuration.setAudioConfig(audioConfig);
@@ -251,13 +287,13 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         CameraConfig cameraConfig = null;
         if(this.cameraEnabled.getValue() != null && this.cameraEnabled.getValue()) {
             cameraConfig = new CameraConfig();
-            if (this.embeddingEnabled){
+            if (this.embeddingEnabled.getValue()){
                 cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
             }
         }
         configuration.setCameraConfig(cameraConfig);
 
-        if(this.locationEnabled){
+        if(this.locationEnabled.getValue() != null && this.locationEnabled.getValue()){
             LocationConfig locationConfig = new LocationConfig();
             locationConfig.setLocationOption(LocationProvider.getLocationOptions().get(0));
             configuration.setLocationConfig(locationConfig);
@@ -266,6 +302,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         //Los elementos almacenados en recycler son los sensores seleccionados finalmente
         List <SensorConfig> selectedSensors= this.elements.getValue();
         if(selectedSensors != null && selectedSensors.size() > 0) {
+            //TODO ¿Añadir configuración de sensores?
             configuration.setSensorConfig(new SensorsGlobalConfig(this.elements.getValue()));
         }
         //TODO Añadir comentarios rápidos a configuración
@@ -273,7 +310,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
             configuration.setQuickComments(quickCommentsCollectionSelected.getQuickComments());
         }
 
-        if(this.remoteSyncEnabled){
+        if(this.remoteSyncEnabled.getValue() != null && this.remoteSyncEnabled.getValue()){
             configuration.setRemoteSyncConfig(new RepeatableElementConfig(FrequencyConstants.DEFAULT_REMOTE_SYNC_FREQ,FrequencyConstants.MIN_REMOTE_SYNC_INTERVAL_MILLIS, FrequencyConstants. MAX_REMOTE_SYNC_INTERVAL_MILLIS, R.string.remote_sync));
         }
 

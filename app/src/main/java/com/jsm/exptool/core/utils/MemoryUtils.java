@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -95,7 +97,7 @@ public class MemoryUtils {
         return resultBuffer.toString();
     }
 
-    public static long getRamSize(Context context){
+    public static long getRamSize(Context context) {
         ActivityManager actManager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
         actManager.getMemoryInfo(memInfo);
@@ -129,12 +131,23 @@ public class MemoryUtils {
 
     /**
      * Calcula el tamaño de un fichero o directorio (incluyendo sus subdirectorios)
+     *
      * @param path Fichero o directorio del que se desea obtener el tamaño
      * @return
      */
-    public static String getFormattedFileSize(File path){
+    public static String getFormattedFileSize(File path) {
         return formatSize(getFileSize(path));
     }
+
+    public static boolean deleteDirectory(File path) {
+        try {
+            FileUtils.deleteDirectory(path);
+            return true;
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+    //
 
 //    /**
 //     * Query the media store for a directory size

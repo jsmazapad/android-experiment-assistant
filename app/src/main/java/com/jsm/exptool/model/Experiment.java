@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -17,11 +18,12 @@ import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = Experiment.TABLE_NAME)
-public class Experiment implements Parcelable {
+public class Experiment implements Parcelable, Cloneable{
 
     /** The name of the table. */
     public static final String TABLE_NAME = "experiments";
@@ -359,4 +361,21 @@ public class Experiment implements Parcelable {
             return new Experiment[size];
         }
     };
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Experiment experiment = (Experiment) super.clone();
+
+        if(this.getConfiguration() != null && this.getConfiguration().isSensorEnabled() && this.getConfiguration().getSensorConfig().getSensors() != null) {
+            ArrayList<SensorConfig> sensorList = new ArrayList<>();
+            for (SensorConfig sensorConfig:this.getConfiguration().getSensorConfig().getSensors()) {
+                sensorConfig.setInternalId(0);
+                sensorList.add(sensorConfig);
+            }
+
+            experiment.getConfiguration().getSensorConfig().setSensors(sensorList);
+        }
+        return experiment;
+    }
 }

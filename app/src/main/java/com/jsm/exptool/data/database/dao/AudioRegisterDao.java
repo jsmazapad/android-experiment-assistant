@@ -65,4 +65,12 @@ public interface AudioRegisterDao {
      */
     @Query("DELETE FROM " + AudioRegister.TABLE_NAME + " WHERE _id = :id")
     int deleteById(long id);
+
+    /**
+     * Elimina los registros asociado a un experimentId
+     * @param id
+     * @return  número de registros eliminados
+     */
+    @Query("DELETE FROM " + AudioRegister.TABLE_NAME + " WHERE experimentId = :id")
+    int deleteByExperimentId(long id);
 }

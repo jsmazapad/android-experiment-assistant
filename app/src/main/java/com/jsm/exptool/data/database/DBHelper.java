@@ -62,8 +62,18 @@ public class DBHelper {
         return appDatabase.experimentDao().selectById(experimentId);
     }
 
-    public static int deleteImagesById(Experiment register) {
-        return appDatabase.experimentDao().deleteById(register.getInternalId());
+    /**
+     * Elimina un experimento y todos los registros de las tablas asociadas (Configuración de sensores, audio, imagen, sensores)
+     * @param register
+     * @return
+     */
+    public static int deleteExperimentById(Experiment register) {
+        long id = register.getInternalId();
+        appDatabase.audioDao().deleteByExperimentId(id);
+        appDatabase.commentDao().deleteByExperimentId(id);
+        appDatabase.imageDao().deleteByExperimentId(id);
+        appDatabase.sensorDao().deleteByExperimentId(id);
+        return appDatabase.experimentDao().deleteById(id);
     }
 
     public static int updateExperiment(Experiment register) {

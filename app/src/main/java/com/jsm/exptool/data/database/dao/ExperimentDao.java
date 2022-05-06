@@ -11,6 +11,7 @@ import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
+import com.jsm.exptool.model.register.AudioRegister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,12 +101,30 @@ public abstract class ExperimentDao {
     public abstract int update(Experiment register);
 
     /**
+     * Elimina un registro y su configuración de sensores asociada usando su id (externo)
+     * @param id
+     * @return  número de registros eliminados
+     */
+    public int deleteById(long id){
+        _deleteSensorConfigByExperimentId(id);
+        return _deleteById(id);
+    }
+
+    /**
      * Elimina un registro usando su id (externo)
      * @param id
      * @return  número de registros eliminados
      */
     @Query("DELETE FROM " + Experiment.TABLE_NAME + " WHERE _id = :id")
-    public abstract int deleteById(long id);
+    public abstract int _deleteById(long id);
+
+    /**
+     * Elimina los registros asociado a un experimentId
+     * @param id
+     * @return  número de registros eliminados
+     */
+    @Query("DELETE FROM " + SensorConfig.TABLE_NAME + " WHERE experimentId = :id")
+    public abstract int _deleteSensorConfigByExperimentId(long id);
 
 
     @Insert

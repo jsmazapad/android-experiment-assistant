@@ -31,6 +31,10 @@ public class ExperimentsRepository {
         return DBHelper.getExperimentById(experimentId);
     }
 
+    public static int deleteExperiment(Experiment experiment){
+        return DBHelper.deleteExperimentById(experiment);
+    }
+
 
 
 
