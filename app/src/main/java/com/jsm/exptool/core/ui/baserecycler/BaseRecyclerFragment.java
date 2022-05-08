@@ -67,7 +67,7 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
         Context context = this.getContext();
         viewModel.getApiResponseMediator().removeObservers(lifeCycleOwner);
         viewModel.getElements().removeObservers(lifeCycleOwner);
-        viewModel.getError().removeObservers(lifeCycleOwner);
+//        viewModel.getError().removeObservers(lifeCycleOwner);
         viewModel.getApiResponseMediator().observe(lifeCycleOwner, categoryApiListResponse -> Log.d("Activado", "Activado"));
         viewModel.getElements().observe(lifeCycleOwner, categoriesResponse -> {
 
@@ -75,9 +75,9 @@ public abstract class BaseRecyclerFragment<BT extends ViewDataBinding, VM extend
                 }
 
         );
-        viewModel.getError().observe(lifeCycleOwner, error -> {
-            viewModel.handleError((BaseException) error, context);
-        });
+//        viewModel.getError().observe(lifeCycleOwner, error -> {
+//            viewModel.handleError((BaseException) error, context);
+//        });
 
         return rootView;
     }

@@ -9,23 +9,31 @@ import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.model.register.ExperimentRegister;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CommentRepository {
 
-    public static void getCommentRegisters(MutableLiveData<ListResponse<CommentRegister>> responseLiveData, long experimentId){
-        responseLiveData.setValue(new ListResponse<>(DBHelper.getCommentRegistersByExperimentId(experimentId)));
+    public static void getCommentRegisters(MutableLiveData<ListResponse<CommentRegister>> responseLiveData, long experimentId) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> responseLiveData.postValue(new ListResponse<>(DBHelper.getCommentRegistersByExperimentId(experimentId))));
     }
 
-    public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){
-        responseLiveData.setValue(new ListResponse<>(new ArrayList<ExperimentRegister>(){{addAll(DBHelper.getCommentRegistersByExperimentId(experimentId));}}));
+    public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> responseLiveData.setValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
+            addAll(DBHelper.getCommentRegistersByExperimentId(experimentId));
+        }})));
     }
 
-    public static long registerComment(CommentRegister comment){
+    public static long registerComment(CommentRegister comment) {
         return DBHelper.insertCommentRegister(comment);
     }
 
-    public static int countRegistersByExperimentId(long experimentId){
-        return DBHelper.getCommentRegistersByExperimentId(experimentId).size();
+    public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> countResponse.postValue(DBHelper.getCommentRegistersByExperimentId(experimentId).size()));
+
     }
 
 }

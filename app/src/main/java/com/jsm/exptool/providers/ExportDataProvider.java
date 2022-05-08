@@ -2,8 +2,9 @@ package com.jsm.exptool.providers;
 
 import android.content.Context;
 
+import com.jsm.exptool.config.exporttocsv.ExportToCSVConfigOptions;
 import com.jsm.exptool.data.database.DBHelper;
-import com.jsm.exptool.libs.TableToCSVExporter;
+import com.jsm.exptool.libs.tabletocsv.TableToCSVExporter;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.register.CommentRegister;
@@ -14,21 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ExportDataProvider {
-
-
-
-    public static final List<String> ELEMENTS_TO_EXPORT = new ArrayList<String>(){{
-        add(Experiment.TABLE_NAME);
-        add(AudioRegister.TABLE_NAME);
-        add(ImageRegister.TABLE_NAME);
-        add(SensorRegister.TABLE_NAME);
-        add(CommentRegister.TABLE_NAME);
-    }};
-
-
-
 
     public static File exportRegisters(Experiment experiment, String tableName, Context context ){
         String keyToCompare = "experimentId";
@@ -42,7 +31,7 @@ public class ExportDataProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return TableToCSVExporter.exportToCsvFromTable(file, tableName, where, DBHelper.getAppDatabase());
+        return TableToCSVExporter.exportToCsvFromTable(file, Objects.requireNonNull(ExportToCSVConfigOptions.EXPORT_TO_CSV_OPTIONS.get(tableName)), where, DBHelper.getAppDatabase());
     }
 
 

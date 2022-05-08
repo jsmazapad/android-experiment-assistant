@@ -89,7 +89,10 @@ public abstract class BaseFragment<BT extends ViewDataBinding, VM extends BaseVi
         viewModel.getError().observe(getViewLifecycleOwner(), error ->{
             if(error != null)
             {
-                ModalMessage.showError(getContext(), error.getMessage(), null, null, null, null );
+                if(!viewModel.isShowingDialog()) {
+                    viewModel.setShowingDialog(true);
+                    ModalMessage.showError(getContext(), error.getMessage(), null, ((dialog, which) -> viewModel.setShowDialogFalse()), null, null);
+                }
             }
         });
     }

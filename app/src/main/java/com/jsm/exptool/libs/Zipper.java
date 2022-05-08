@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
@@ -23,17 +24,21 @@ public class Zipper {
 
             for (int i = 0; i < _files.length; i++) {
                 Log.v("Compress", "Adding: " + _files[i]);
-                FileInputStream fi = new FileInputStream(_files[i]);
-                origin = new BufferedInputStream(fi, BUFFER_SIZE);
+
+
 
                 ZipEntry entry = new ZipEntry(_files[i].substring(_files[i].lastIndexOf("/") + 1));
                 out.putNextEntry(entry);
-                int count;
+                if(!(new File(_files[i])).isDirectory()) {
+                    int count;
+                    FileInputStream fi = new FileInputStream(_files[i]);
+                    origin = new BufferedInputStream(fi, BUFFER_SIZE);
 
-                while ((count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
-                    out.write(data, 0, count);
+                    while ((count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
+                        out.write(data, 0, count);
+                    }
+                    origin.close();
                 }
-                origin.close();
             }
 
             out.close();

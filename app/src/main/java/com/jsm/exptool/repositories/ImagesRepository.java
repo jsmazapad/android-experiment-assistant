@@ -27,6 +27,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -43,7 +45,7 @@ public class ImagesRepository {
      * @param image            Fichero que contiene una imagen
      */
     public static void getEmbedding(MutableLiveData<ElementResponse<ImageEmbeddingVector>> responseLiveData, File image, String algorithm) {
-
+        //TODO Eliminar al final si no se usa
         InputStream in;
         try {
             in = new FileInputStream(image);
@@ -66,6 +68,7 @@ public class ImagesRepository {
     }
 
     public static ImageRegister getImageRegisterById(long imageId){
+        //TODO Pasar a asincrono
         return DBHelper.getImageById(imageId);
     }
 
@@ -109,19 +112,27 @@ public class ImagesRepository {
     }
 
     public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){
-        responseLiveData.setValue(new ListResponse<>(new ArrayList<ExperimentRegister>(){{addAll(DBHelper.getImageRegistersByExperimentId(experimentId));}}));
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
+            addAll(DBHelper.getImageRegistersByExperimentId(experimentId));
+        }})));
     }
 
     public static void getRegistersByExperimentId(long experimentId, MutableLiveData<ListResponse<ImageRegister>> responseLiveData){
-        responseLiveData.setValue(new ListResponse<>(DBHelper.getImageRegistersByExperimentId(experimentId)));
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(DBHelper.getImageRegistersByExperimentId(experimentId))));
 
     }
 
-    public static int countRegistersByExperimentId(long experimentId){
-        return DBHelper.getImageRegistersByExperimentId(experimentId).size();
+    public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse){
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> countResponse.postValue(DBHelper.getImageRegistersByExperimentId(experimentId).size()));
     }
 
-    public static int countImagesWithoutEmbeddingsByExperimentId(long experimentId){
-        return DBHelper.getImageRegistersWithoutEmbeddingByExperimentId(experimentId).size();
+    public static void countImagesWithEmbeddingsByExperimentId(long experimentId, MutableLiveData<Integer> countResponse){
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> countResponse.postValue(DBHelper.getImageRegistersWithEmbeddingByExperimentId(experimentId).size()));
+
     }
 }

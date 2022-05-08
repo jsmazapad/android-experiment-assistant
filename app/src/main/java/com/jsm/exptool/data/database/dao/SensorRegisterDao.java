@@ -44,7 +44,7 @@ public interface SensorRegisterDao {
      * con otras fuentes de datos y lo ordenamos mediante programación
      * @return
      */
-    @Query("SELECT * FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId LIMIT 1")
+    @Query("SELECT * FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId")
     List<SensorRegister> getSensorsByExperimentId(long experimentId);
 
     /**

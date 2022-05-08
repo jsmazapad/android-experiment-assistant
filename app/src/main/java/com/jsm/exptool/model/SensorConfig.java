@@ -58,10 +58,9 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable {
      * @param defaultConfigurationEnabled
      */
     public SensorConfig(int interval, int intervalMin, int intervalMax, int nameStringResource, long internalId, long experimentId, SensorReader sensorReader, boolean defaultConfigurationEnabled) {
-        this(sensorReader, intervalMin, intervalMax, interval, nameStringResource);
+        this(sensorReader, intervalMin, intervalMax, interval, nameStringResource, defaultConfigurationEnabled);
         this.internalId = internalId;
         this.experimentId = experimentId;
-        this.defaultConfigurationEnabled = defaultConfigurationEnabled;
         //Obtenemos una instancia completa del reader en base al tipo de sensor
         //Necesario para rescatar sensor de base de datos
         this.sensorReader = SensorHandler.getInstance().getSensorReader(sensorReader.getSensorType());
@@ -69,17 +68,18 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable {
     }
 
     @Ignore
-    public SensorConfig(SensorReader sensorReader, int intervalMin,int intervalMax, int interval,  int nameStringResource) {
+    public SensorConfig(SensorReader sensorReader, int intervalMin,int intervalMax, int interval,  int nameStringResource, boolean defaultConfigurationEnabled) {
         super(interval, intervalMin, intervalMax, nameStringResource);
+        this.defaultConfigurationEnabled = defaultConfigurationEnabled;
         this.sensorReader = sensorReader;
         initSensorLimits();
     }
 
 
     @Ignore
-    public SensorConfig(SensorReader sensorReader, int nameStringResource, int intervalMin, int intervalMax) {
+    public SensorConfig(SensorReader sensorReader, int nameStringResource, int intervalMin, int intervalMax, int interval) {
         //TODO Estudiar cuando aplicar intervalMx e intervalMin de sensor
-        this(sensorReader, intervalMin, intervalMax, intervalMin, nameStringResource);
+        this(sensorReader, intervalMin, intervalMax, interval, nameStringResource, true);
         this.defaultConfigurationEnabled = true;
 
     }

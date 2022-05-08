@@ -98,8 +98,8 @@ public class DBHelper {
         return appDatabase.imageDao().getImageRegistersByExperimentId(experimentId);
     }
 
-    public static List<ImageRegister> getImageRegistersWithoutEmbeddingByExperimentId(long experimentId) {
-        return appDatabase.imageDao().getImageRegistersWithoutEmbeddingByExperimentId(experimentId);
+    public static List<ImageRegister> getImageRegistersWithEmbeddingByExperimentId(long experimentId) {
+        return appDatabase.imageDao().getImageRegistersWithEmbeddingByExperimentId(experimentId);
     }
 
 

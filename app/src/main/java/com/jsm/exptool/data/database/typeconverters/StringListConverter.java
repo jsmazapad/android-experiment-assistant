@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class StringListConverter {
-    private final static String DELIMITER = "@###@";
+    public final static String DELIMITER = "@###@";
 
 
     @TypeConverter

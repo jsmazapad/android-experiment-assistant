@@ -53,6 +53,7 @@ public class RepeatableElementConfig implements Parcelable {
         this.intervalMax = intervalMax;
     }
 
+
     @Override
     public int describeContents() {
         return 0;

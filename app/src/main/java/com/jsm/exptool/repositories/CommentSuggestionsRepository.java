@@ -9,6 +9,8 @@ import com.jsm.exptool.model.CommentSuggestion;
 import com.jsm.exptool.model.Experiment;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CommentSuggestionsRepository {
 
@@ -18,7 +20,8 @@ public class CommentSuggestionsRepository {
      * @param stringToSearch Usar null para que devuelva todas
      */
     public static void getCommentSuggestions(MutableLiveData<ListResponse<CommentSuggestion>> responseLiveData, @Nullable String stringToSearch){
-        responseLiveData.setValue(new ListResponse<>(DBHelper.getCommentSuggestions(stringToSearch)));
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(DBHelper.getCommentSuggestions(stringToSearch))));
     }
 
 

@@ -110,7 +110,8 @@
         <argument
             android:name="experiment"
             app:argType="com.jsm.exptool.model.Experiment"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/nav_experiment_configure"

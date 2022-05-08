@@ -214,6 +214,7 @@
                             android:prompt="@string/quick_comments_spinner_title"
                             android:onItemSelected="@{(parent, view, position, id) -> viewModel.onQuickCommentsCollectionSelected(position)}"
                             app:spinnerAdapter="@{ viewModel.getQuickCommentsCollectionsAdapter(context)}"
+                            app:selectedValue="@={viewModel.quickCommentsCollectionSelected}"
                             tools:listitem="@layout/generic_title_description_spinner_list_item" />
 
                         <Button

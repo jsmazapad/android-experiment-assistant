@@ -29,9 +29,14 @@ public class AudioConfig extends MultimediaConfig {
     }
 
     @Ignore
-    public AudioConfig() {
-        this.nameStringResource = R.string.audio;
+    public AudioConfig(int interval, int intervalMin, int intervalMax){
+        super(interval, intervalMin,intervalMax, R.string.audio);
     }
+
+//    @Ignore
+//    public AudioConfig() {
+//        this.nameStringResource = R.string.audio;
+//    }
 
     public AudioRecordingOption getRecordingOption() {
         return recordingOption;

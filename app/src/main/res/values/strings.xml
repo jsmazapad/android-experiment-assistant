@@ -207,7 +207,36 @@ Experiment list
     <string name="experiment_filter_status_prompt">Seleccione estado</string>
     <string name="experiment_filter_sync_prompt">Seleccione filtros sincronización</string>
     <string name="num_registers_format">%d registros</string>
-
+    <string name="warning_title">Advertencia</string>
+    <string name="warning_delete_experiment_format">Se va a eliminar el experimento \"%s\" junto con todos los datos asociados a este.¿Está seguro de que desea continuar?</string>
+    <string name="export_experiment_share_chooser_title">Almacenar en</string>
+    <string name="export_error_text">Ha habido un error con la exportación de datos</string>
+    <string name="experiment_resume_card_extra_info_text">Expandir para ver resumen del experimento</string>
+    <string name="experiment_resume_card_sensors_title">Sensores</string>
+    <string name="experiment_resume_card_comments_title">Comentarios</string>
+    <string name="experiment_resume_card_images_title">Imágenes</string>
+    <string name="experiment_resume_card_embedding_title">Embedding</string>
+    <string name="experiment_resume_card_title">Resumen del experimento</string>
+    <string name="experiment_resume_card_audio_title">Audio</string>
+    <string name="experiment_actions_init_text">Iniciar experimento</string>
+    <string name="experiment_actions_view_text">Ver datos</string>
+    <string name="experiment_actions_export_text">Exportar datos</string>
+    <string name="experiment_actions_pending_sync_info_text">¿Parece que faltan elementos por sincronizar, desea sincronizar los datos con el servidor?</string>
+    <string name="experiment_actions_sync_text">Sincronizar datos</string>
+    <string name="experiment_actions_not_finished_info_text">Parece que el experimento no finalizó correctamente, ¿desea finalizarlo?, si por el contrario desea continuar pulse sobre el botón ampliar experimento</string>
+    <string name="experiment_actions_finish_text">Dar por finalizado</string>
+    <string name="experiment_actions_continue_text">Ampliar experimento</string>
+    <string name="experiment_actions_delete_text">Eliminar experimento</string>
+    <string name="experiment_actions_create_from_config_text">Crear experimento nuevo con la misma configuración</string>
+    <string name="data_loading_text">Cargando datos...</string>
+    <string name="experiment_actions_frequency_prepend_text">Frecuencia:</string>
+    <string name="experiment_actions_duration_prepend_text">Duración:</string>
+    <string name="experiment_actions_camera_selected_prepend_text">Cámara:</string>
+    <string name="experiment_actions_flash_mode_prepend_text">Flash:</string>
+    <string name="experiment_actions_algorithm_prepend_text">Algoritmo:</string>
+    <string name="experiment_actions_encoder_prepend_text">Encoder:</string>
+    <string name="experiment_actions_bitrate_append_text">bps</string>
+    <string name="experiment_actions_quick_comments_format_text">Comentarios rápidos: %s</string>
 
 
     <!--

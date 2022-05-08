@@ -11,23 +11,23 @@ import java.util.List;
 
 public class ExperimentConfiguration implements Parcelable {
 
-    //TODO Eliminar este parámetro y hacer que extienda de RepeatableElement
-    //private int defaultFrequency;
     @Embedded(prefix = "camera_config_") private CameraConfig cameraConfig;
     @Embedded(prefix = "audio_config_") private AudioConfig audioConfig;
     @Embedded(prefix = "location_config_") private LocationConfig locationConfig;
     @Embedded(prefix = "sensor_config_") private SensorsGlobalConfig sensorConfig;
     @Embedded(prefix = "remote_sync_config_") private RepeatableElementConfig remoteSyncConfig;
     private List<String> quickComments = new ArrayList<>();
+    private long quickCommentsCollectionUsedId;
 
 
-    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, LocationConfig locationConfig, SensorsGlobalConfig sensorConfig, RepeatableElementConfig remoteSyncConfig, List<String> quickComments) {
+    public ExperimentConfiguration(CameraConfig cameraConfig, AudioConfig audioConfig, LocationConfig locationConfig, SensorsGlobalConfig sensorConfig, RepeatableElementConfig remoteSyncConfig, List<String> quickComments, long quickCommentsCollectionUsedId) {
         this.cameraConfig = cameraConfig;
         this.audioConfig = audioConfig;
         this.locationConfig = locationConfig != null ? locationConfig : this.locationConfig;
         this.sensorConfig = sensorConfig;
         this.remoteSyncConfig = remoteSyncConfig;
         this.quickComments = quickComments;
+        this.quickCommentsCollectionUsedId = quickCommentsCollectionUsedId;
     }
     @Ignore
     public ExperimentConfiguration() {
@@ -76,6 +76,14 @@ public class ExperimentConfiguration implements Parcelable {
 
     public List<String> getQuickComments() {
         return quickComments;
+    }
+
+    public long getQuickCommentsCollectionUsedId() {
+        return quickCommentsCollectionUsedId;
+    }
+
+    public void setQuickCommentsCollectionUsedId(long quickCommentsCollectionUsedId) {
+        this.quickCommentsCollectionUsedId = quickCommentsCollectionUsedId;
     }
 
     public void setQuickComments(List<String> quickComments) {
@@ -143,6 +151,7 @@ public class ExperimentConfiguration implements Parcelable {
         dest.writeParcelable(this.sensorConfig, flags);
         dest.writeParcelable(this.remoteSyncConfig, flags);
         dest.writeStringList(this.quickComments);
+        dest.writeLong(this.quickCommentsCollectionUsedId);
     }
 
     public void readFromParcel(Parcel source) {
@@ -152,6 +161,7 @@ public class ExperimentConfiguration implements Parcelable {
         this.sensorConfig = source.readParcelable(SensorsGlobalConfig.class.getClassLoader());
         this.remoteSyncConfig = source.readParcelable(RepeatableElementConfig.class.getClassLoader());
         this.quickComments = source.createStringArrayList();
+        this.quickCommentsCollectionUsedId = source.readLong();
     }
 
     protected ExperimentConfiguration(Parcel in) {

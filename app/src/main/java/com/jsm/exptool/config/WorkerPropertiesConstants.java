@@ -1,27 +1,29 @@
 package com.jsm.exptool.config;
 
 public class WorkerPropertiesConstants {
-    public class DataConstants{
+    public class DataConstants {
         public static final String FILE_NAME = "FILE_NAME";
         public static final String DATE_TIMESTAMP = "IMAGE_DATE";
-        public static final String EXPERIMENT_ID= "EXPERIMENT_ID";
-        public static final String IMAGE_REGISTER_ID= "IMAGE_REGISTER_ID";
+        public static final String EXPERIMENT_ID = "EXPERIMENT_ID";
+        public static final String IMAGE_REGISTER_ID = "IMAGE_REGISTER_ID";
         public static final String PROCESSED_IMAGE_FILE_NAME = "PROCESSED_IMAGE_FILE_MANE";
         public static final String PROCESSED_IMAGE_HEIGHT = "PROCESSED_IMAGE_HEIGHT";
-        public static final String PROCESSED_IMAGE_WIDTH= "PROCESSED_IMAGE_WIDTH";
-        public static final String EMBEDDING_ALG= "EMBEDDING_ALG";
-        public static final String MEASURE_KEYS= "MEASURE_KEYS";
-        public static final String MEASURE_VALUES= "MEASURE_VALUES";
-        public static final String MEASURE_ACCURACY= "MEASURE_ACCURACY";
-        public static final String SENSOR_NAME= "SENSOR_NAME";
-        public static final String SENSOR= "SENSOR";
-        public static final String LATITUDE= "LATITUDE";
-        public static final String LONGITUDE= "LONGITUDE";
-        public static final String ALTITUDE= "ALTITUDE";
-        public static final String ACCURACY= "ACCURACY";
+        public static final String PROCESSED_IMAGE_WIDTH = "PROCESSED_IMAGE_WIDTH";
+        public static final String EMBEDDING_ALG = "EMBEDDING_ALG";
+        public static final String MEASURE_KEYS = "MEASURE_KEYS";
+        public static final String MEASURE_VALUES = "MEASURE_VALUES";
+        public static final String MEASURE_ACCURACY = "MEASURE_ACCURACY";
+        public static final String SENSOR_NAME = "SENSOR_NAME";
+        public static final String SENSOR = "SENSOR";
+        public static final String LATITUDE = "LATITUDE";
+        public static final String LONGITUDE = "LONGITUDE";
+        public static final String ALTITUDE = "ALTITUDE";
+        public static final String ACCURACY = "ACCURACY";
         public static final String FILE_NAMES = "FILE_NAMES";
         public static final String TABLE_NAME = "TABLE_NAME";
+        public static final String EXPERIMENT_PATH = "EXPERIMENT_PATH";
     }
+
     public class WorkTagsConstants {
         //EXPERIMENT PERFORM
         public static final String PERFORM_EXPERIMENT = "PERFORM_EXPERIMENT";

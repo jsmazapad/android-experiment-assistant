@@ -1,6 +1,7 @@
 package com.jsm.exptool.workers.export;
 
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_PATH;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.TABLE_NAME;
 
@@ -11,9 +12,11 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.jsm.exptool.config.exporttocsv.ExportToCSVConfigOptions;
 import com.jsm.exptool.libs.Zipper;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.providers.ExportDataProvider;
+import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 
 import java.io.File;
@@ -29,19 +32,22 @@ public class ZipExportedExperimentWorker extends Worker {
     @Override
     public Result doWork() {
         Long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
+        String experimentFilesPath = getInputData().getString(EXPERIMENT_PATH);
+
+        if(experimentId < 0 || experimentFilesPath == null){
+            return Result.failure();
+        }
 
         ArrayList<String> filenames = new ArrayList<>();
-        for (String tableName:ExportDataProvider.ELEMENTS_TO_EXPORT) {
+        for (String tableName: ExportToCSVConfigOptions.EXPORT_TO_CSV_OPTIONS.keySet()) {
             String fileName = getInputData().getString(FILE_NAME+"_"+tableName);
             if(fileName == null)
                 return Result.failure();
             filenames.add(fileName);
         }
 
+        filenames.add(experimentFilesPath);
 
-        if(experimentId < 0){
-            return Result.failure();
-        }
 
         Experiment experiment = ExperimentsRepository.getExperimentById(experimentId);
 

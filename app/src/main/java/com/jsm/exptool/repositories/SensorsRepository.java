@@ -2,6 +2,7 @@ package com.jsm.exptool.repositories;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.common.util.concurrent.HandlerExecutor;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.SensorHandler;
@@ -12,6 +13,8 @@ import com.jsm.exptool.model.register.SensorRegister;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class SensorsRepository {
 
@@ -43,16 +46,20 @@ public class SensorsRepository {
     }
 
     public static void getRegistersByTypeAndExperimentIdAsExperimentRegister(int type, long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){
-        responseLiveData.setValue(new ListResponse<>(new ArrayList<ExperimentRegister>(){{addAll(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId));}}));
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>(){{addAll(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId));}})));
     }
 
     public static void getRegistersByTypeAndExperimentId(int type, long experimentId, MutableLiveData<ListResponse<SensorRegister>> responseLiveData){
-        responseLiveData.setValue(new ListResponse<>(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId)));
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId))));
 
     }
 
-    public static int countRegistersByExperimentId(long experimentId){
-        return DBHelper.getSensorRegistersByExperimentId(experimentId).size();
+    public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse){
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> countResponse.postValue(DBHelper.getSensorRegistersByExperimentId(experimentId).size()));
+
     }
 
 

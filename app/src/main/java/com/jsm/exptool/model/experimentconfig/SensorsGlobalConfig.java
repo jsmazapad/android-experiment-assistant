@@ -20,10 +20,13 @@ public class SensorsGlobalConfig extends RepeatableElementConfig {
         super(interval, intervalMin, intervalMax, nameStringResource);
 //        this.sensors = sensors;
     }
+
     @Ignore
-    public SensorsGlobalConfig() {
-        this.nameStringResource = R.string.global_frequency_text;
+    public SensorsGlobalConfig(int interval, int intervalMin, int intervalMax) {
+        super(interval, intervalMin, intervalMax, R.string.global_frequency_text);
+//        this.sensors = sensors;
     }
+
     @Ignore
     public SensorsGlobalConfig(List<SensorConfig> sensors) {
         this.nameStringResource = R.string.global_frequency_text;

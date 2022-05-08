@@ -17,6 +17,8 @@ public class PreferencesProvider {
     private final static String SENSOR_DEFAULT_FREQ = "SENSOR_DEFAULT_FREQ";
     private final static String CAMERA_DEFAULT_FREQ = "CAMERA_DEFAULT_FREQ";
     private final static String AUDIO_DEFAULT_FREQ = "AUDIO_DEFAULT_FREQ";
+    private final static String LOCATION_DEFAULT_FREQ = "LOCATION_DEFAULT_FREQ";
+    private final static String REMOTE_DEFAULT_FREQ = "REMOTE_DEFAULT_FREQ";
     private final static String ANALYTICS_KEY = "ANALYTICS_KEY";
 
 
@@ -134,6 +136,40 @@ public class PreferencesProvider {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
             editor.putInt(AUDIO_DEFAULT_FREQ, value);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getLocationDefaultFreq() {
+        int data = PreferenceManager.getSharedPreferences().getInt(LOCATION_DEFAULT_FREQ, FrequencyConstants.DEFAULT_LOCATION_FREQ);
+        return data;
+
+    }
+
+    public static void setLocationDefaultFreq(int value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putInt(LOCATION_DEFAULT_FREQ, value);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int getRemoteSyncDefaultFreq() {
+        int data = PreferenceManager.getSharedPreferences().getInt(REMOTE_DEFAULT_FREQ, FrequencyConstants.DEFAULT_REMOTE_SYNC_FREQ);
+        return data;
+
+    }
+
+    public static void setRemoteSyncDefaultFreq(int value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putInt(REMOTE_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
             e.printStackTrace();

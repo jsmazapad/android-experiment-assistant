@@ -79,8 +79,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     private final int AUDIO_DEFAULT_FREQ = PreferencesProvider.getAudioDefaultFreq();
     private final int LOCATION_MAX_FREQ = FrequencyConstants.MAX_LOCATION_INTERVAL_MILLIS;
     private final int LOCATION_MIN_FREQ = FrequencyConstants.MIN_LOCATION_INTERVAL_MILLIS;
-    //TODO Preferencias ubicación
-    private final int LOCATION_DEFAULT_FREQ = FrequencyConstants.DEFAULT_LOCATION_FREQ;
+    private final int LOCATION_DEFAULT_FREQ = PreferencesProvider.getLocationDefaultFreq();
     private final int REMOTE_SYNC_MAX_FREQ = FrequencyConstants.MAX_REMOTE_SYNC_INTERVAL_MILLIS;
     private final int REMOTE_SYNC_MIN_FREQ = FrequencyConstants.MIN_REMOTE_SYNC_INTERVAL_MILLIS;
     private final int REMOTE_SYNC_DEFAULT_FREQ = FrequencyConstants.DEFAULT_REMOTE_SYNC_FREQ;
@@ -106,30 +105,30 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
 
         //TODO Ajustar frecuencias mínimas con respecto a las del sensor y quitarlo del dialog
         if (this.cameraSettingsEnabled.getValue()!= null && this.cameraSettingsEnabled.getValue()) {
-            configuration.getCameraConfig().setInterval(CAMERA_DEFAULT_FREQ);
-            this.cameraFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(CAMERA_DEFAULT_FREQ));
+//            configuration.getCameraConfig().setInterval(CAMERA_DEFAULT_FREQ);
+            this.cameraFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(configuration.getCameraConfig().getInterval()));
             initCameraSettingsData();
         }
         if (this.audioSettingsEnabled.getValue()!= null && this.audioSettingsEnabled.getValue()) {
-            configuration.getAudioConfig().setInterval(AUDIO_DEFAULT_FREQ);
-            configuration.getAudioConfig().setRecordingDuration(AUDIO_DEFAULT_FREQ);
-            this.audioFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(AUDIO_DEFAULT_FREQ));
-            this.audioDurationValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(AUDIO_DEFAULT_FREQ));
+//            configuration.getAudioConfig().setInterval(AUDIO_DEFAULT_FREQ);
+//            configuration.getAudioConfig().setRecordingDuration(AUDIO_DEFAULT_FREQ);
+            this.audioFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(configuration.getAudioConfig().getInterval()));
+            this.audioDurationValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(configuration.getAudioConfig().getRecordingDuration()));
             initAudioSettingsData();
         }
         if (this.locationSettingsEnabled.getValue()!= null && this.locationSettingsEnabled.getValue()) {
-            configuration.getLocationConfig().setInterval(LOCATION_DEFAULT_FREQ);
-            this.locationFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(LOCATION_DEFAULT_FREQ));
+            //configuration.getLocationConfig().setInterval(LOCATION_DEFAULT_FREQ);
+            this.locationFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(configuration.getLocationConfig().getInterval()));
             this.selectedLocationMethod.setValue(configuration.getLocationConfig().getLocationOption());
             initCameraSettingsData();
         }
         if (this.remoteSyncSettingsEnabled.getValue()!= null && this.remoteSyncSettingsEnabled.getValue()) {
-            configuration.getRemoteSyncConfig().setInterval(REMOTE_SYNC_DEFAULT_FREQ);
-            this.remoteSyncFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(REMOTE_SYNC_DEFAULT_FREQ));
+            //configuration.getRemoteSyncConfig().setInterval(REMOTE_SYNC_DEFAULT_FREQ);
+            this.remoteSyncFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(configuration.getRemoteSyncConfig().getInterval()));
         }
         if (this.sensorSettingsEnabled.getValue()!= null && this.sensorSettingsEnabled.getValue()) {
-            configuration.getSensorConfig().setInterval(SENSOR_DEFAULT_FREQ);
-            this.sensorGlobalFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(SENSOR_DEFAULT_FREQ));
+            //configuration.getSensorConfig().setInterval(SENSOR_DEFAULT_FREQ);
+            this.sensorGlobalFreqValueText.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(configuration.getSensorConfig().getInterval()));
         }
 
     }

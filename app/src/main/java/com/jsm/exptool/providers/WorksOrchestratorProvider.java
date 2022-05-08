@@ -7,6 +7,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.ALT
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMBEDDING_ALG;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_PATH;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LATITUDE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LONGITUDE;
@@ -26,7 +27,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
-import static com.jsm.exptool.providers.ExportDataProvider.ELEMENTS_TO_EXPORT;
+
 
 import android.app.Application;
 import android.content.Context;
@@ -43,6 +44,7 @@ import androidx.work.WorkManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jsm.exptool.config.exporttocsv.ExportToCSVConfigOptions;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
@@ -190,10 +192,10 @@ public class WorksOrchestratorProvider {
     }
 
 
-    public void executeExportToCSV(Experiment experiment) {
+    public void executeExportToCSV(Context context, Experiment experiment) {
         List<OneTimeWorkRequest> exportRegistersRequests = new ArrayList<>();
         //Creamos listado de exportadores que se ejecutaran en paralelo
-        for (String element : ELEMENTS_TO_EXPORT) {
+        for (String element : ExportToCSVConfigOptions.EXPORT_TO_CSV_OPTIONS.keySet()) {
             Map<String, Object> inputDataValues = new HashMap<String, Object>() {{
                 put(EXPERIMENT_ID, experiment.getInternalId());
                 put(TABLE_NAME, element);
@@ -208,8 +210,13 @@ public class WorksOrchestratorProvider {
             //mWorkManager.enqueue();
 
         }
+        Map<String, Object> zipInputDataValues = new HashMap<String, Object>() {{
+            put(EXPERIMENT_PATH, FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()).getPath());
+
+        }};
+        Data zipInputData = createInputData(zipInputDataValues);
         OneTimeWorkRequest zipRequest = new OneTimeWorkRequest.Builder(ZipExportedExperimentWorker.class)
-                .addTag(ZIP_EXPORTED).build();
+                .setInputData(zipInputData).addTag(ZIP_EXPORTED).build();
 
         mWorkManager.beginWith(exportRegistersRequests).then(zipRequest).enqueue();
 

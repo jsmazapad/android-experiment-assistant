@@ -8,8 +8,8 @@ public class MultimediaConfig extends RepeatableElementConfig {
         super(interval, intervalMin, intervalMax, nameStringResource);
     }
 
-    public MultimediaConfig() {
-    }
+//    public MultimediaConfig() {
+//    }
 
     public MultimediaConfig(Parcel in) {
         super(in);

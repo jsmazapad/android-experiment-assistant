@@ -1,7 +1,6 @@
 package com.jsm.exptool.providers;
 
 import android.content.Context;
-import android.os.FileUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -17,7 +16,8 @@ import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.repositories.ImagesRepository;
-import com.jsm.exptool.repositories.SensorsRepository;
+
+import java.util.ArrayList;
 
 public class ExperimentProvider {
 
@@ -42,100 +42,14 @@ public class ExperimentProvider {
         return ExperimentsRepository.updateExperiment(experiment);
     }
 
-    public static void createActionsDialog(Context context, Experiment experiment, ExperimentActionsInterface experimentActions) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ExperimentsListDialogMenuActionsBinding binding = ExperimentsListDialogMenuActionsBinding.inflate(layoutInflater);
-
-        View mView = binding.getRoot();
-        AlertDialog alertDialog;
-
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
-        mBuilder.setView(mView);
-        mBuilder.setNegativeButton(R.string.default_modal_closeButton, (dialog, which) -> {
-        });
-        alertDialog = mBuilder.create();
-
-
-        binding.titleTV.setText(experiment.getTitle());
-        binding.descriptionTV.setText(experiment.getDescription());
-        ExperimentConfiguration configuration = experiment.getConfiguration();
-        if (configuration != null) {
-            binding.hasAudio.setText(context.getString(experiment.getConfiguration().isAudioEnabled() ? R.string.yes_configured : R.string.no_configured));
-            if (configuration.isAudioEnabled()) {
-                binding.numAudio.setText(String.format(context.getString(R.string.num_registers_format), AudioRepository.countRegistersByExperimentId(experiment.getInternalId())));
-            }
-
-            int numImages = 0;
-            binding.hasImages.setText(context.getString(experiment.getConfiguration().isCameraEnabled() ? R.string.yes_configured : R.string.no_configured));
-            if (configuration.isCameraEnabled()) {
-                numImages = ImagesRepository.countRegistersByExperimentId(experiment.getInternalId());
-                binding.numImages.setText(String.format(context.getString(R.string.num_registers_format), numImages));
-            }
-
-            binding.hasEmbedding.setText(context.getString(experiment.getConfiguration().isEmbeddingEnabled() ? R.string.yes_configured : R.string.no_configured));
-            if (configuration.isEmbeddingEnabled()) {
-                binding.numEmbedding.setText(String.format(context.getString(R.string.num_registers_format), numImages - ImagesRepository.countImagesWithoutEmbeddingsByExperimentId(experiment.getInternalId())));
-            }
-
-            binding.hasSensors.setText(context.getString(experiment.getConfiguration().isSensorEnabled() ? R.string.yes_configured : R.string.no_configured));
-            if (configuration.isSensorEnabled()) {
-                binding.numSensors.setText(String.format(context.getString(R.string.num_registers_format), SensorsRepository.countRegistersByExperimentId(experiment.getInternalId())));
-            }
-            binding.hasComments.setText(context.getString(R.string.yes_configured));
-            binding.numComments.setText(String.format(context.getString(R.string.num_registers_format), CommentRepository.countRegistersByExperimentId(experiment.getInternalId())));
-
-        }
-        if (experimentActions != null) {
-            binding.initExperimentButton.setOnClickListener(v -> experimentActions.initExperiment(context, experiment, alertDialog));
-            binding.seeDataButton.setOnClickListener(v -> experimentActions.viewExperimentData(context, experiment, alertDialog));
-            binding.exportDataButton.setOnClickListener(v -> experimentActions.exportExperiment(context, experiment, alertDialog));
-            binding.syncButton.setOnClickListener(v -> experimentActions.syncExperiment(context, experiment, alertDialog));
-            binding.endExperimentButton.setOnClickListener(v -> experimentActions.endExperiment(context,experiment,  alertDialog));
-            binding.continueExperimentButton.setOnClickListener(v -> experimentActions.continueExperiment(context, experiment, alertDialog));
-            binding.deleteExperimentButton.setOnClickListener(v -> experimentActions.deleteExperiment(context, experiment, alertDialog));
-
-            binding.copyExperimentButton.setOnClickListener(v -> experimentActions.createExperimentByCopyingExperimentConfig(context, experiment, alertDialog));
-
-            switch (experiment.getStatus()) {
-                case CREATED:
-                    binding.initExperimentButton.setVisibility(View.VISIBLE);
-                    binding.seeDataButton.setVisibility(View.GONE);
-                    binding.exportDataButton.setVisibility(View.GONE);
-                    binding.syncLL.setVisibility(View.GONE);
-                    binding.endLL.setVisibility(View.GONE);
-                    binding.continueExperimentButton.setVisibility(View.GONE);
-                    binding.deleteExperimentButton.setVisibility(View.VISIBLE);
-                    break;
-                case INITIATED:
-                    binding.initExperimentButton.setVisibility(View.GONE);
-                    binding.seeDataButton.setVisibility(View.VISIBLE);
-                    binding.exportDataButton.setVisibility(View.GONE);
-                    binding.syncLL.setVisibility(View.GONE);
-                    binding.endLL.setVisibility(View.VISIBLE);
-                    binding.continueExperimentButton.setVisibility(View.VISIBLE);
-                    binding.deleteExperimentButton.setVisibility(View.VISIBLE);
-                    break;
-                case FINISHED:
-                    binding.initExperimentButton.setVisibility(View.GONE);
-                    binding.seeDataButton.setVisibility(View.VISIBLE);
-                    binding.exportDataButton.setVisibility(View.VISIBLE);
-                    binding.syncLL.setVisibility(experiment.isSyncPending() || experiment.isEmbeddingPending() ? View.VISIBLE : View.GONE);
-                    binding.endLL.setVisibility(View.GONE);
-                    binding.continueExperimentButton.setVisibility(View.VISIBLE);
-                    binding.deleteExperimentButton.setVisibility(View.VISIBLE);
-
-            }
-
-            alertDialog.show();
-        }
-    }
-
     public static String deleteExperiment(Context context, Experiment experiment){
         String error = "";
         //Eliminar archivos
         if (MemoryUtils.deleteDirectory(FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()))){
             //Eliminar registros de base datos
-            ExperimentsRepository.deleteExperiment(experiment);
+            if (ExperimentsRepository.deleteExperiment(experiment) < 1){
+                error = "No se ha podido eliminar el experimento de la base de datos. Salga de esta pantalla y vuelva a intentarlo";
+            }
         }else{
             error = "Error en la eliminación de los archivos del experimento";
         }
@@ -157,6 +71,7 @@ public class ExperimentProvider {
             clonedExperiment.setSize("");
             clonedExperiment.setDuration(0);
             clonedExperiment.setStatus(Experiment.ExperimentStatus.CREATED);
+            clonedExperiment.getConfiguration().setQuickComments(new ArrayList<>());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

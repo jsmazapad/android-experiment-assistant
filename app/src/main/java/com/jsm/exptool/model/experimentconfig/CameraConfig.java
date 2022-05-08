@@ -23,15 +23,19 @@ public class CameraConfig extends MultimediaConfig{
     }
     @Ignore
     public CameraConfig( int interval, int intervalMin, int intervalMax, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
-        super(interval, intervalMin, intervalMax, R.string.audio);
+        super(interval, intervalMin, intervalMax, R.string.camera);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
         this.embeddingAlgorithm = embeddingAlgorithm;
     }
     @Ignore
-    public CameraConfig(){
-        this.nameStringResource = R.string.camera;
+    public CameraConfig( int interval, int intervalMin, int intervalMax){
+        super(interval, intervalMin, intervalMax, R.string.camera);
     }
+//    @Ignore
+//    public CameraConfig(){
+//        this.nameStringResource = R.string.camera;
+//    }
 
 
 
@@ -71,18 +75,14 @@ public class CameraConfig extends MultimediaConfig{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.nameStringResource);
-        dest.writeInt(this.interval);
-        dest.writeInt(this.intervalMin);
+        super.writeToParcel(dest, flags);
         dest.writeInt(this.flashMode == null ? -1 : this.flashMode.ordinal());
         dest.writeInt(this.cameraPosition == null ? -1 : this.cameraPosition.ordinal());
         dest.writeParcelable(this.embeddingAlgorithm, flags);
     }
 
     public void readFromParcel(Parcel source) {
-        this.nameStringResource = source.readInt();
-        this.interval = source.readInt();
-        this.intervalMin = source.readInt();
+        super.readFromParcel(source);
         int tmpFlashMode = source.readInt();
         this.flashMode = tmpFlashMode == -1 ? null : CameraProvider.FlashModes.values()[tmpFlashMode];
         int tmpCameraPosition = source.readInt();
@@ -91,7 +91,8 @@ public class CameraConfig extends MultimediaConfig{
     }
 
     protected CameraConfig(Parcel in) {
-       readFromParcel(in);
+        super(in);
+        readFromParcel(in);
     }
 
     public static final Creator<CameraConfig> CREATOR = new Creator<CameraConfig>() {

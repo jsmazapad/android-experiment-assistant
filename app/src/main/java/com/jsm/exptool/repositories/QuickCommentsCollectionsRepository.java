@@ -6,6 +6,9 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.model.QuickCommentsCollection;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 public class QuickCommentsCollectionsRepository {
 
     /**
@@ -13,7 +16,8 @@ public class QuickCommentsCollectionsRepository {
      * @param responseLiveData
      */
     public static void getQuickCommentsCollections(MutableLiveData<ListResponse<QuickCommentsCollection>> responseLiveData){
-        responseLiveData.setValue(new ListResponse<>(DBHelper.getQuickCommentsCollections()));
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(DBHelper.getQuickCommentsCollections())));
     }
 
 

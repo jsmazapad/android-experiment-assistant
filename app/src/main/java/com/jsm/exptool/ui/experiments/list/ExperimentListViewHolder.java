@@ -43,7 +43,11 @@ public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment>
         }else{
             descriptionTV.setVisibility(View.VISIBLE);
         }
-        dateTV.setText(DateProvider.dateToDisplayStringWithTime(element.getInitDate()));
+        String dateText ="";
+        if(element.getInitDate()!= null){
+            dateText = DateProvider.dateToDisplayStringWithTime(element.getInitDate());
+        }
+        dateTV.setText(dateText);
         if("".equals(dateTV.getText())){
             dateTV.setVisibility(View.GONE);
         }else{

@@ -3,6 +3,8 @@ package com.jsm.exptool.providers;
 import android.content.Context;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.model.Experiment;
 
@@ -47,6 +49,13 @@ public interface ExperimentActionsInterface {
      * @param alertDialog
      */
     void endExperiment(Context context, Experiment experiment, AlertDialog alertDialog);
+
+    /**
+     * Continua un experimento existente
+     * @param context
+     * @param experiment
+     * @param alertDialog
+     */
     void continueExperiment(Context context, Experiment experiment, AlertDialog alertDialog);
     /**
      * Elimina un experimento, incluyendo todos los ficheros y registros de base de datos asociados a este
@@ -63,5 +72,28 @@ public interface ExperimentActionsInterface {
      * @param alertDialog
      */
     void createExperimentByCopyingExperimentConfig(Context context, Experiment experiment, AlertDialog alertDialog);
+
+    MutableLiveData<String> getSensorCountValue();
+    MutableLiveData<String> getImageCountValue();
+    MutableLiveData<String> getEmbeddingCountValue();
+    MutableLiveData<String> getAudioCountValue();
+    MutableLiveData<String> getCommentsCountValue();
+
+    String getSensorsEnabledText();
+
+    String getImagesEnabledText();
+
+    String getEmbeddingEnabledText();
+
+    String getAudioEnabledText();
+
+    String getCommentsEnabledText();
+    String getSensorsListText();
+
+    String getImagesConfigText();
+    String getEmbeddingConfigText();
+    String getAudioConfigText();
+    String getQuickCommentsText();
+
 
 }
