@@ -403,7 +403,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
                 public void run() {
                     Log.d("WORKER", "Pic requested");
                     Date date = new Date();
-                    File mFile = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.IMAGES), date + "pic.jpg");
+                    File mFile = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.IMAGES), FilePathsProvider.formatFileName(date + "pic.jpg"));
                     CameraProvider.getInstance().takePicture(mFile, new ImageReceivedCallback() {
                         @Override
                         public void onImageReceived(File imageFile) {
@@ -433,7 +433,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
                     Log.d("WORKER", "Audio requested");
                     Date date = new Date();
-                    File mFile = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO), date + "audio." + audioConfig.getRecordingOption().getFileExtension());
+                    File mFile = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO), FilePathsProvider.formatFileName(date + "." + audioConfig.getRecordingOption().getFileExtension()));
                     AudioProvider.getInstance().record(mFile, audioConfig.getRecordingOption());
                     //Tras un delay = duracion de la grabación, se ejecuta el timer para la grbación
                     audioTimer.schedule(new TimerTask() {

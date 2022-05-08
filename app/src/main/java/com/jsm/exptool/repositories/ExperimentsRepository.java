@@ -7,6 +7,7 @@ import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,8 +16,8 @@ import java.util.TreeMap;
 
 public class ExperimentsRepository {
 
-    public static void getExperiments(MutableLiveData<ListResponse<Experiment>> responseLiveData, Experiment.ExperimentStatus statusFilter){
-        responseLiveData.setValue(new ListResponse<>(DBHelper.getExperiments(statusFilter)));
+    public static void getExperiments(MutableLiveData<ListResponse<Experiment>> responseLiveData, Experiment.ExperimentStatus statusFilter, ExperimentListFiltersProvider.ConditionFilterOptions conditionFilter, boolean conditionValue){
+        responseLiveData.setValue(new ListResponse<>(DBHelper.getExperiments(statusFilter, conditionFilter, conditionValue)));
     }
 
     public static long registerExperiment(Experiment experiment){

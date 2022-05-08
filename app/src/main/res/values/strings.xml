@@ -197,15 +197,25 @@ ABOUT
 Experiment list
 -->
 
-    <string name="experiment_filter_name_all">Todos</string>
+    <string name="experiment_filter_name_all">Ninguno</string>
     <string name="experiment_filter_name_create">Creado</string>
     <string name="experiment_filter_name_init">Iniciado</string>
     <string name="experiment_filter_name_finished">Finalizado</string>
     <string name="experiment_filter_name_pending_sync">Sincronización pendiente</string>
+    <string name="experiment_filter_name_complete_sync">Sincronización completa</string>
     <string name="experiment_filter_name_pending_embedding">Pendiente obtención datos embedding</string>
+    <string name="experiment_filter_name_complete_embedding">datos embedding completos</string>
     <string name="experiment_filter_name_pending_exported">Pendiente exportar</string>
+    <string name="experiment_filter_name_exported">Exportado</string>
+    <string name="experiment_filter_order_status_asc">Estado (mayor a menor)</string>
+    <string name="experiment_filter_order_status_desc">Estado (menor a mayor)</string>
+    <string name="experiment_filter_order_size_asc">Tamaño (mayor a menor)</string>
+    <string name="experiment_filter_order_size_desc">Tamaño (menor a mayor)</string>
+
+
     <string name="experiment_filter_status_prompt">Seleccione estado</string>
-    <string name="experiment_filter_sync_prompt">Seleccione filtros sincronización</string>
+    <string name="experiment_filter_other_prompt">Seleccione filtros sincronización</string>
+    <string name="experiment_filter_order_prompt">Seleccione orden</string>
     <string name="num_registers_format">%d registros</string>
     <string name="warning_title">Advertencia</string>
     <string name="warning_delete_experiment_format">Se va a eliminar el experimento \"%s\" junto con todos los datos asociados a este.¿Está seguro de que desea continuar?</string>
@@ -237,6 +247,11 @@ Experiment list
     <string name="experiment_actions_encoder_prepend_text">Encoder:</string>
     <string name="experiment_actions_bitrate_append_text">bps</string>
     <string name="experiment_actions_quick_comments_format_text">Comentarios rápidos: %s</string>
+    <string name="loading_content_description">Cargando</string>
+    <string name="loading_text">Cargando vista...</string>
+    <string name="status_filter_text">Estado</string>
+    <string name="condition_filter_text">Condición</string>
+    <string name="no_filters">No hay filtros aplicados</string>
 
 
     <!--

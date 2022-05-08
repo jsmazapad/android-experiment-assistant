@@ -53,7 +53,7 @@
                 android:id="@+id/imagesIV"
                 style="@style/BaseIcon"
                 android:contentDescription="Tiene imágenes"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
+                app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
 
             <ImageView
                 android:id="@+id/soundsIV"

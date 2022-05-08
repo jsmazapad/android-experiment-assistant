@@ -95,5 +95,7 @@ public interface ExperimentActionsInterface {
     String getAudioConfigText();
     String getQuickCommentsText();
 
+    LiveData<Boolean> getIsLoading();
+
 
 }

@@ -20,7 +20,9 @@
             <com.jsm.exptool.libs.ExpandableCard
                 android:id="@+id/filterCard"
                 style="@style/BaseCardView"
+                app:initial_expanded="true"
                 app:title="Filtros"
+                app:extra_info="@{viewModel.filterResume}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -30,29 +32,57 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:orientation="horizontal">
+
                     <TextView
-                        android:layout_width="wrap_content"
+                        style="@style/BaseItemListSecondaryBoldTextView"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/BaseItemListTextView"
-                        tools:text="Estado"/>
-                <androidx.appcompat.widget.AppCompatSpinner
-                    style="@style/BaseSpinner"
-                    android:prompt="@string/experiment_filter_status_prompt"
-                    android:entries="@{viewModel.stateFilterOptions}"
-                    android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedStateFilter(position)}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </androidx.appcompat.widget.AppCompatSpinner>
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.4"
+                        android:text="@string/status_filter_text" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        style="@style/BaseSpinner"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:contentDescription="@string/experiment_filter_status_prompt"
+                        android:entries="@{viewModel.stateFilterOptions}"
+                        app:spinnerAdapter="@{ viewModel.getStatusFilterAdapter(context)}"
+                        android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedStateFilter(position)}"
+                        android:prompt="@string/experiment_filter_status_prompt" />
                 </LinearLayout>
-                <androidx.appcompat.widget.AppCompatSpinner
-                    style="@style/BaseSpinner"
-                    android:prompt="@string/experiment_filter_sync_prompt"
-                    android:entries="@{viewModel.syncFilterOptions}"
-                    android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedSyncFilter(position)}"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </androidx.appcompat.widget.AppCompatSpinner>
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/BaseItemListSecondaryBoldTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.4"
+                        android:text="@string/condition_filter_text" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        style="@style/BaseSpinner"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:prompt="@string/experiment_filter_other_prompt"
+                        android:contentDescription="@string/experiment_filter_other_prompt"
+                        android:entries="@{viewModel.conditionFilterOptions}"
+                        app:spinnerAdapter="@{ viewModel.getConditionsFilterAdapter(context)}"
+                        android:onItemSelected="@{(parent, view, position, id) -> viewModel.onSelectedConditionFilter(position)}" />
+                </LinearLayout>
             </com.jsm.exptool.libs.ExpandableCard>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

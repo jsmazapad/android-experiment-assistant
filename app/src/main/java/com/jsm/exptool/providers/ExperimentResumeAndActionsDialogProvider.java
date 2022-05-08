@@ -9,13 +9,14 @@ import androidx.appcompat.app.AlertDialog;
 import com.jsm.exptool.R;
 import com.jsm.exptool.databinding.ExperimentsListDialogMenuActionsBinding;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.ui.experiments.list.ExperimentsListViewModel;
 
 public class ExperimentResumeAndActionsDialogProvider {
 
-    public static void createActionsDialog(Context context, Experiment experiment, ExperimentActionsInterface experimentActions) {
+    public static void createActionsDialog(Context context, Experiment experiment, ExperimentsListViewModel viewModel) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ExperimentsListDialogMenuActionsBinding binding = ExperimentsListDialogMenuActionsBinding.inflate(layoutInflater);
-        binding.setActionsInterface(experimentActions);
+        binding.setViewModel(viewModel);
         View mView = binding.getRoot();
         AlertDialog alertDialog;
 
@@ -29,16 +30,16 @@ public class ExperimentResumeAndActionsDialogProvider {
         binding.titleTV.setText(experiment.getTitle());
         binding.descriptionTV.setText(experiment.getDescription());
 
-        if (experimentActions != null) {
-            binding.initExperimentButton.setOnClickListener(v -> experimentActions.initExperiment(context, experiment, alertDialog));
-            binding.seeDataButton.setOnClickListener(v -> experimentActions.viewExperimentData(context, experiment, alertDialog));
-            binding.exportDataButton.setOnClickListener(v -> experimentActions.exportExperiment(context, experiment, alertDialog));
-            binding.syncButton.setOnClickListener(v -> experimentActions.syncExperiment(context, experiment, alertDialog));
-            binding.endExperimentButton.setOnClickListener(v -> experimentActions.endExperiment(context,experiment,  alertDialog));
-            binding.continueExperimentButton.setOnClickListener(v -> experimentActions.continueExperiment(context, experiment, alertDialog));
-            binding.deleteExperimentButton.setOnClickListener(v -> experimentActions.deleteExperiment(context, experiment, alertDialog));
+        if (viewModel != null) {
+            binding.initExperimentButton.setOnClickListener(v -> viewModel.initExperiment(context, experiment, alertDialog));
+            binding.seeDataButton.setOnClickListener(v -> viewModel.viewExperimentData(context, experiment, alertDialog));
+            binding.exportDataButton.setOnClickListener(v -> viewModel.exportExperiment(context, experiment, alertDialog));
+            binding.syncButton.setOnClickListener(v -> viewModel.syncExperiment(context, experiment, alertDialog));
+            binding.endExperimentButton.setOnClickListener(v -> viewModel.endExperiment(context,experiment,  alertDialog));
+            binding.continueExperimentButton.setOnClickListener(v -> viewModel.continueExperiment(context, experiment, alertDialog));
+            binding.deleteExperimentButton.setOnClickListener(v -> viewModel.deleteExperiment(context, experiment, alertDialog));
 
-            binding.copyExperimentButton.setOnClickListener(v -> experimentActions.createExperimentByCopyingExperimentConfig(context, experiment, alertDialog));
+            binding.copyExperimentButton.setOnClickListener(v -> viewModel.createExperimentByCopyingExperimentConfig(context, experiment, alertDialog));
 
             switch (experiment.getStatus()) {
                 case CREATED:

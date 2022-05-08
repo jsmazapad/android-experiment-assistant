@@ -1,9 +1,7 @@
-package com.jsm.exptool.config.exporttocsv;
+package com.jsm.exptool.csv;
 
-import com.jsm.exptool.data.database.dao.ExperimentDao_Impl;
 import com.jsm.exptool.data.database.typeconverters.StringListConverter;
 import com.jsm.exptool.libs.tabletocsv.TableToCSVConverterFunctionInterface;
-import com.jsm.exptool.libs.tabletocsv.TableToCSVExportConfiguration;
 import com.jsm.exptool.model.Experiment;
 
 import java.util.ArrayList;
@@ -12,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ExperimentExportConfiguration extends TableToCSVExportConfiguration {
-    public ExperimentExportConfiguration() {
+public class ExperimentExportCSVExportMethod extends ExperimentsDatabaseTableToCSVExportMethod {
+    public ExperimentExportCSVExportMethod() {
         super( Experiment.TABLE_NAME);
     }
 
@@ -33,5 +31,10 @@ public class ExperimentExportConfiguration extends TableToCSVExportConfiguration
             put("quickComments", field -> field.replace(StringListConverter.DELIMITER, ","));
 
         }};
+    }
+
+    @Override
+    protected String getFilterVar() {
+        return Experiment.COLUMN_ID;
     }
 }

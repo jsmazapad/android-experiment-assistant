@@ -17,10 +17,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.experiments.perform.ExperimentPerformFragment">
 
-
         <androidx.core.widget.NestedScrollView style="@style/BaseNestedLayoutInsideFrameLayout">
 
             <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
+
                 <Button
                     style="@style/FullWidthButton"
                     android:layout_gravity="bottom|center_horizontal"
@@ -113,8 +113,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:visibility="@{viewModel.quickCommentsEnabled ? View.VISIBLE : View.GONE}"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:visibility="@{viewModel.quickCommentsEnabled ? View.VISIBLE : View.GONE}">
 
                                 <TextView
                                     style="@style/BaseItemListSecondaryBoldTextView"
@@ -123,12 +123,12 @@
                                     android:paddingStart="5dp"
                                     android:paddingEnd="10dp"
                                     android:text="@string/experiment_perform_quick_comments_title" />
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/quickCommentsRV"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
                             </LinearLayout>
-
 
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -186,34 +186,34 @@
                     </com.jsm.exptool.libs.ExpandableCard>
 
                     <com.jsm.exptool.libs.ExpandableCard
-                    android:id="@+id/audioCard"
-                    style="@style/BaseCardView"
-                    android:visibility="@{viewModel.audioCardEnabled ? View.VISIBLE : View.GONE}"
-                    app:extra_info="@{viewModel.audioCardExtraInfo}"
-                    app:title="@string/experiment_perform_audio_title">
+                        android:id="@+id/audioCard"
+                        style="@style/BaseCardView"
+                        android:visibility="@{viewModel.audioCardEnabled ? View.VISIBLE : View.GONE}"
+                        app:extra_info="@{viewModel.audioCardExtraInfo}"
+                        app:title="@string/experiment_perform_audio_title">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/BaseItemListSecondaryTextView"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingStart="5dp"
-                            android:paddingEnd="10dp"
-                            android:text="@string/experiment_perform_num_audios" />
+                            android:background="@color/white"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            style="@style/BaseItemListSecondaryBoldTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewModel.numAudios}" />
-                    </LinearLayout>
+                            <TextView
+                                style="@style/BaseItemListSecondaryTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="10dp"
+                                android:text="@string/experiment_perform_num_audios" />
 
-                </com.jsm.exptool.libs.ExpandableCard>
+                            <TextView
+                                style="@style/BaseItemListSecondaryBoldTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewModel.numAudios}" />
+                        </LinearLayout>
+
+                    </com.jsm.exptool.libs.ExpandableCard>
 
                     <com.jsm.exptool.libs.ExpandableCard
                         android:id="@+id/locationCard"
@@ -243,6 +243,7 @@
                                 android:text="@{viewModel.numLocations}" />
 
                         </LinearLayout>
+
                         <TextView
                             style="@style/BaseCardTitleTextView"
                             android:layout_width="match_parent"
@@ -307,11 +308,9 @@
 
         </androidx.core.widget.NestedScrollView>
 
-                <include layout="@layout/view_loading_include"  android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"/>
-
-
-
-
+        <include
+            layout="@layout/view_loading_include"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
     </FrameLayout>
 </layout>

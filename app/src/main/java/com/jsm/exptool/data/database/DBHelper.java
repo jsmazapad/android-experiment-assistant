@@ -12,6 +12,7 @@ import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 
 import java.util.List;
 
@@ -46,8 +47,8 @@ public class DBHelper {
         return appDatabase.experimentDao().insert(experiment);
     }
 
-    public static List<Experiment> getExperiments(Experiment.ExperimentStatus statusFilter) {
-        return appDatabase.experimentDao().getExperimentsWithSensors(statusFilter);
+    public static List<Experiment> getExperiments(Experiment.ExperimentStatus statusFilter, ExperimentListFiltersProvider.ConditionFilterOptions conditionFilterOptions, boolean conditionValue) {
+        return appDatabase.experimentDao().getExperimentsWithSensors(statusFilter, conditionFilterOptions, conditionValue);
 
 //        if(statusFilter == null) {
 //            return appDatabase.experimentDao().getExperiments();

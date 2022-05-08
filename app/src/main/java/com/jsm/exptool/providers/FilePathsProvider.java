@@ -45,5 +45,9 @@ public class FilePathsProvider {
         return context.getExternalFilesDir(String.valueOf(experimentId));
     }
 
+    public static String formatFileName(String s){
+        return s.replace(" ", "_").replace("/", "_").replace(":", "_");
+    }
+
 
 }

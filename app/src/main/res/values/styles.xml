@@ -106,6 +106,15 @@
         <item name="android:scaleType">fitCenter</item>
     </style>
 
+    <style name="BaseWhiteIcon" parent="BaseIcon">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="tint">@color/white</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
     <style name="BaseItemListTextView">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
@@ -169,6 +178,7 @@
 
     <style name="BaseSpinner" parent="AccesibilityMinSize">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/spinner_background</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:spinnerMode">dialog</item>
 

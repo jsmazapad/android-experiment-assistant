@@ -8,11 +8,16 @@
         <import type="android.view.View" />
 
         <variable
-            name="actionsInterface"
-            type="com.jsm.exptool.providers.ExperimentActionsInterface" />
+            name="viewModel"
+            type="com.jsm.exptool.ui.experiments.list.ExperimentsListViewModel" />
     </data>
 
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ScrollView
+        style="BaseNestedLayoutInsideFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -49,13 +54,13 @@
                     <TextView
                         android:id="@+id/hasSensors"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.sensorsEnabledText}"
+                        android:text="@{viewModel.sensorsEnabledText}"
                         tools:text="Si" />
 
                     <TextView
                         android:id="@+id/numSensors"
                         style="@style/LinearGravityWrapContentRightTextView"
-                        android:text="@{actionsInterface.sensorCountValue}"
+                        android:text="@{viewModel.sensorCountValue}"
                         tools:text="16 registros" />
                 </LinearLayout>
 
@@ -63,7 +68,7 @@
                     <TextView
                         android:id="@+id/sensorList"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.sensorsListText}"
+                        android:text="@{viewModel.sensorsListText}"
                         tools:text="Ubicación, Gravedad, acelerómetro" />
                 </LinearLayout>
 
@@ -80,20 +85,20 @@
                     <TextView
                         android:id="@+id/hasImages"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.imagesEnabledText}"
+                        android:text="@{viewModel.imagesEnabledText}"
                         tools:text="Si" />
 
                     <TextView
                         android:id="@+id/numImages"
                         style="@style/LinearGravityWrapContentRightTextView"
-                        android:text="@{actionsInterface.imageCountValue}"
+                        android:text="@{viewModel.imageCountValue}"
                         tools:text="16 registros" />
                 </LinearLayout>
                 <LinearLayout style="@style/PaddedBorderBackground">
                     <TextView
                         android:id="@+id/imagesConfig"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.imagesConfigText}"
+                        android:text="@{viewModel.imagesConfigText}"
                         tools:text="Ubicación, Gravedad, acelerómetro" />
                 </LinearLayout>
 
@@ -110,20 +115,20 @@
                     <TextView
                         android:id="@+id/hasEmbedding"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.embeddingEnabledText}"
+                        android:text="@{viewModel.embeddingEnabledText}"
                         tools:text="Si" />
 
                     <TextView
                         android:id="@+id/numEmbedding"
                         style="@style/LinearGravityWrapContentRightTextView"
-                        android:text="@{actionsInterface.embeddingCountValue}"
+                        android:text="@{viewModel.embeddingCountValue}"
                         tools:text="16 registros" />
                 </LinearLayout>
                 <LinearLayout style="@style/PaddedBorderBackground">
                     <TextView
                         android:id="@+id/embeddingConfig"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.embeddingConfigText}"
+                        android:text="@{viewModel.embeddingConfigText}"
                         tools:text="Ubicación, Gravedad, acelerómetro" />
                 </LinearLayout>
 
@@ -140,20 +145,20 @@
                     <TextView
                         android:id="@+id/hasAudio"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.audioEnabledText}"
+                        android:text="@{viewModel.audioEnabledText}"
                         tools:text="Si" />
 
                     <TextView
                         android:id="@+id/numAudio"
                         style="@style/LinearGravityWrapContentRightTextView"
-                        android:text="@{actionsInterface.audioCountValue}"
+                        android:text="@{viewModel.audioCountValue}"
                         tools:text="16 registros" />
                 </LinearLayout>
                 <LinearLayout style="@style/PaddedBorderBackground">
                     <TextView
                         android:id="@+id/audioConfig"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.audioConfigText}"
+                        android:text="@{viewModel.audioConfigText}"
                         tools:text="Ubicación, Gravedad, acelerómetro" />
                 </LinearLayout>
 
@@ -170,20 +175,20 @@
                     <TextView
                         android:id="@+id/hasComments"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.commentsEnabledText}"
+                        android:text="@{viewModel.commentsEnabledText}"
                         tools:text="Si" />
 
                     <TextView
                         android:id="@+id/numComments"
                         style="@style/LinearGravityWrapContentRightTextView"
-                        android:text="@{actionsInterface.commentsCountValue}"
+                        android:text="@{viewModel.commentsCountValue}"
                         tools:text="16 registros" />
                 </LinearLayout>
                 <LinearLayout style="@style/PaddedBorderBackground">
                     <TextView
                         android:id="@+id/quickCommentsConfig"
                         style="@style/LinearGravityNoWidthLeftTextView"
-                        android:text="@{actionsInterface.quickCommentsText}"
+                        android:text="@{viewModel.quickCommentsText}"
                         tools:text="Ubicación, Gravedad, acelerómetro" />
                 </LinearLayout>
             </com.jsm.exptool.libs.ExpandableCard>
@@ -251,4 +256,10 @@
                 android:text="@string/experiment_actions_create_from_config_text" />
         </LinearLayout>
     </ScrollView>
+    <include
+        layout="@layout/view_loading_include"
+        android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+    </FrameLayout>
+
+
 </layout>

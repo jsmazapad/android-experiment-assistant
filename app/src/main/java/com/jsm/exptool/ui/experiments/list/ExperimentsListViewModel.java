@@ -25,11 +25,12 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
-import com.jsm.exptool.data.database.typeconverters.StringListConverter;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
+import com.jsm.exptool.model.filters.FilterOption;
 import com.jsm.exptool.providers.ExperimentActionsInterface;
+import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 import com.jsm.exptool.providers.ExperimentProvider;
 import com.jsm.exptool.providers.ExperimentResumeAndActionsDialogProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
@@ -39,36 +40,49 @@ import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.repositories.SensorsRepository;
+import com.jsm.exptool.ui.experiments.create.audioconfiguration.BitrateSpinnerAdapter;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 //TODO Añadir total de Mb ocupado y restante a vista
 public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, Experiment> implements ExperimentActionsInterface {
 
-    private List<String> stateFilterOptions;
-    private List<String> syncFilterOptions;
-    private Experiment.ExperimentStatus statusFilter;
-    private Boolean syncPending;
-    private Boolean embeddingPending;
-    private Boolean exportPending;
+
+    private List<FilterOption<Experiment.ExperimentStatus, Boolean>> stateFilterOptions;
+    private List<FilterOption<ExperimentListFiltersProvider.ConditionFilterOptions, Boolean>> conditionFilterOptions;
+    private final MutableLiveData<String> filterResume = new MutableLiveData<>();
+    private Experiment.ExperimentStatus statusFilterSelected;
+    private FilterOption<ExperimentListFiltersProvider.ConditionFilterOptions, Boolean> conditionFilterSelected;
     private WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
     private final MutableLiveData<String> zippedFilePath = new MutableLiveData<>();
 
 
     public ExperimentsListViewModel(Application app) {
         super(app);
+        compoundFilterResumeText();
     }
 
-    public List<String> getStateFilterOptions() {
+    public List<FilterOption<Experiment.ExperimentStatus, Boolean>> getStateFilterOptions() {
         return stateFilterOptions;
     }
 
-    public List<String> getSyncFilterOptions() {
-        return syncFilterOptions;
+    public List<FilterOption<ExperimentListFiltersProvider.ConditionFilterOptions, Boolean>> getConditionFilterOptions() {
+        return conditionFilterOptions;
     }
+
+    public MutableLiveData<String> getFilterResume() {
+        return filterResume;
+    }
+
+    public ExperimentListFiltersSpinnerAdapter<Experiment.ExperimentStatus, Boolean> getStatusFilterAdapter(Context context) {
+        return new ExperimentListFiltersSpinnerAdapter<>(context, stateFilterOptions, android.R.layout.simple_spinner_dropdown_item);
+    }
+    public ExperimentListFiltersSpinnerAdapter<ExperimentListFiltersProvider.ConditionFilterOptions, Boolean> getConditionsFilterAdapter(Context context) {
+        return new ExperimentListFiltersSpinnerAdapter<>(context, conditionFilterOptions, android.R.layout.simple_spinner_dropdown_item);
+    }
+
 
     public MutableLiveData<String> getZippedFilePath() {
         return zippedFilePath;
@@ -95,87 +109,63 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
     @Override
     public void setConstructorParameters(Object... args) {
 
-        stateFilterOptions = getExperimentFilterStates();
-        syncFilterOptions = getSyncFilterStates();
+        stateFilterOptions = ExperimentListFiltersProvider.getExperimentFilterStates();
+        conditionFilterOptions = ExperimentListFiltersProvider.getSyncFilterStates();
+
+
     }
 
     @Override
     public void callRepositoryForData() {
-        ExperimentsRepository.getExperiments(apiResponseRepositoryHolder, statusFilter);
+        ExperimentListFiltersProvider.ConditionFilterOptions conditionFilterSelectedVar = conditionFilterSelected != null ? conditionFilterSelected.getFilterVar() : null;
+        boolean conditionFilterSelectedValue = conditionFilterSelected != null ? conditionFilterSelected.getFilterValue() : false;
+        ExperimentsRepository.getExperiments(apiResponseRepositoryHolder, statusFilterSelected, conditionFilterSelectedVar , conditionFilterSelectedValue);
     }
 
     public void onSelectedStateFilter(int position) {
-        Context context = getApplication();
         if (stateFilterOptions.size() < position)
             return;
-        String filter = stateFilterOptions.get(position);
-
-        if (filter.equals(context.getString(R.string.experiment_filter_name_create))) {
-            statusFilter = Experiment.ExperimentStatus.CREATED;
-        } else if (filter.equals(context.getString(R.string.experiment_filter_name_init))) {
-            statusFilter = Experiment.ExperimentStatus.INITIATED;
-        } else if (filter.equals(context.getString(R.string.experiment_filter_name_finished))) {
-            statusFilter = Experiment.ExperimentStatus.FINISHED;
-        } else if (filter.equals(context.getString(R.string.experiment_filter_name_all))) {
-            statusFilter = null;
-        }
-
+        statusFilterSelected = stateFilterOptions.get(position).getFilterVar();
+        compoundFilterResumeText();
         callRepositoryForData();
 
     }
 
-    public void onSelectedSyncFilter(int position) {
-        Context context = getApplication();
-        if (syncFilterOptions.size() < position)
+    public void onSelectedConditionFilter(int position) {
+        if (conditionFilterOptions.size() < position)
             return;
-        String filter = syncFilterOptions.get(position);
-
-        if (filter.equals(context.getString(R.string.experiment_filter_name_all))) {
-            syncPending = null;
-            embeddingPending = null;
-            exportPending = null;
-        } else if (filter.equals(context.getString(R.string.experiment_filter_name_pending_embedding))) {
-            syncPending = null;
-            embeddingPending = true;
-            exportPending = null;
-        } else if (filter.equals(context.getString(R.string.experiment_filter_name_pending_exported))) {
-            syncPending = null;
-            embeddingPending = null;
-            exportPending = true;
-        } else if (filter.equals(context.getString(R.string.experiment_filter_name_pending_sync))) {
-            syncPending = true;
-            embeddingPending = null;
-            exportPending = null;
-        }
-
+        conditionFilterSelected = conditionFilterOptions.get(position);
+        compoundFilterResumeText();
         callRepositoryForData();
 
     }
 
+    public void compoundFilterResumeText(){
+        StringBuilder resumeBuilder = new StringBuilder();
+        if(statusFilterSelected != null){
+            resumeBuilder.append(getApplication().getString(R.string.status_filter_text)).append(": ");
+            resumeBuilder.append(ExperimentProvider.getTranslatableStringFromExperimentStatus(statusFilterSelected, getApplication()));
+        }
 
-    List<String> getExperimentFilterStates() {
-        Context context = getApplication();
-        return new ArrayList<String>() {
-            {
-                add(context.getString(R.string.experiment_filter_name_all));
-                add(context.getString(R.string.experiment_filter_name_create));
-                add(context.getString(R.string.experiment_filter_name_init));
-                add(context.getString(R.string.experiment_filter_name_finished));
-            }
-        };
+        if(statusFilterSelected != null && conditionFilterSelected.getFilterVar() != null)
+        {
+            resumeBuilder.append(", ");
+        }
+
+        if(conditionFilterSelected != null && conditionFilterSelected.getFilterVar() != null){
+            resumeBuilder.append(getApplication().getString(R.string.condition_filter_text)).append(": ");
+            resumeBuilder.append(getApplication().getString(conditionFilterSelected.getTitleTranslatableRes()));
+        }
+
+        if("".equals( resumeBuilder.toString())){
+            resumeBuilder.append(getApplication().getString(R.string.no_filters));
+        }
+
+        filterResume.setValue(resumeBuilder.toString());
     }
 
-    List<String> getSyncFilterStates() {
-        Context context = getApplication();
-        return new ArrayList<String>() {
-            {
-                add(context.getString(R.string.experiment_filter_name_all));
-                add(context.getString(R.string.experiment_filter_name_pending_sync));
-                add(context.getString(R.string.experiment_filter_name_pending_embedding));
-                add(context.getString(R.string.experiment_filter_name_pending_exported));
-            }
-        };
-    }
+
+
 
     @Override
     public void initObservers(LifecycleOwner owner) {
@@ -184,6 +174,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
         LiveData<List<WorkInfo>> exportsWorkInfo = orchestratorProvider.getWorkInfoByTag(EXPORT_REGISTERS);
         exportsWorkInfo.observe(owner, workInfoList -> {
             if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
+                isLoading.setValue(false);
                 orchestratorProvider.finishJobsByTag(EXPORT_REGISTERS);
                     error.setValue(new BaseException(getApplication().getString(R.string.export_error_text), false));
             }
@@ -192,10 +183,12 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
         LiveData<List<WorkInfo>> zipWorkInfo = orchestratorProvider.getWorkInfoByTag(ZIP_EXPORTED);
         zipWorkInfo.observe(owner, workInfoList -> {
             if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
+                isLoading.setValue(false);
                 if (!isShowingDialog()) {
                     error.setValue(new BaseException(getApplication().getString(R.string.export_error_text), false));
                 }
             } else if (orchestratorProvider.countSuccessWorks(workInfoList) > 0) {
+                isLoading.setValue(false);
                 Data outputData = workInfoList.get(0).getOutputData();
                 String filename = outputData.getString(FILE_NAME);
                 zippedFilePath.setValue(filename);
@@ -219,6 +212,8 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
     @Override
     public void exportExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
+        //TODO, ver porque no muestra pantalla de carga
+        isLoading.setValue(true);
         orchestratorProvider.executeExportToCSV(context, experiment);
     }
 
@@ -378,6 +373,11 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
         return quickCommentsText;
     }
 
+    @Override
+    public LiveData<Boolean> getIsLoading() {
+        return super.getIsLoading();
+    }
+
     private void initExperimentActionsDialogObservers(LifecycleOwner lifecycleOwner) {
         sensorCount.observe(lifecycleOwner, countValue -> {
             if (countValue != null) {
@@ -415,6 +415,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
     //TODO Extraer código a delegado
     private void openActionsDialog(Context context, Experiment experiment) {
+        //TODO, ver porque no carga los registros de images y embedding
         ExperimentConfiguration configuration = experiment.getConfiguration();
         if (configuration != null) {
 

@@ -1,8 +1,6 @@
-package com.jsm.exptool.config.exporttocsv;
+package com.jsm.exptool.csv;
 
 import com.jsm.exptool.libs.tabletocsv.TableToCSVConverterFunctionInterface;
-import com.jsm.exptool.libs.tabletocsv.TableToCSVExportConfiguration;
-import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.CommentRegister;
 
 import java.util.ArrayList;
@@ -11,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CommentRegistersExportConfiguration extends TableToCSVExportConfiguration {
-    public CommentRegistersExportConfiguration() {
+public class CommentRegistersCSVExportMethod extends ExperimentsDatabaseTableToCSVExportMethod {
+    public CommentRegistersCSVExportMethod() {
         super(CommentRegister.TABLE_NAME);
     }
 

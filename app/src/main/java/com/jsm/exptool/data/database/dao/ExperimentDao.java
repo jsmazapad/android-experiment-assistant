@@ -13,6 +13,7 @@ import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +40,43 @@ public abstract class ExperimentDao {
     @Query("SELECT * FROM " + Experiment.TABLE_NAME + " WHERE status = :status ORDER BY initDate")
     public abstract List<Experiment> getExperimentsFilteredByState(int status);
 
-    public List<Experiment> getExperimentsWithSensors(Experiment.ExperimentStatus statusFilter) {
+    public List<Experiment> getExperimentsWithSensors(Experiment.ExperimentStatus statusFilter, ExperimentListFiltersProvider.ConditionFilterOptions conditionFilter, boolean conditionValue) {
         List<ExperimentWithSensors> experimentsWithSensors;
         if (statusFilter == null) {
-            experimentsWithSensors = loadExperimentsWithSensors();
+            if(conditionFilter == null) {
+                experimentsWithSensors = loadExperimentsWithSensors();
+            }else{
+                switch (conditionFilter){
+                    case SYNC:
+                        experimentsWithSensors = loadExperimentsWithSensorsFilteredBySync(conditionValue);
+                        break;
+                    case EMBEDDING:
+                        experimentsWithSensors = loadExperimentsWithSensorsFilteredByEmbedding(conditionValue);
+                        break;
+                    case EXPORTED:
+                    default: //EXPORTED
+                        experimentsWithSensors = loadExperimentsWithSensorsFilteredByExported(conditionValue);
+                        break;
+                }
+            }
         } else {
-            experimentsWithSensors = loadExperimentsWithSensorsFilteredByState(ExperimentStatusConverter.fromEnum(statusFilter));
+            int statusFilterValue = ExperimentStatusConverter.fromEnum(statusFilter);
+            if(conditionFilter == null) {
+                experimentsWithSensors = loadExperimentsWithSensorsFilteredByState(statusFilterValue);
+            }else{
+                switch (conditionFilter){
+                    case SYNC:
+                        experimentsWithSensors = loadExperimentsWithSensorsFilteredByStatusAndSync(statusFilterValue, conditionValue);
+                        break;
+                    case EMBEDDING:
+                        experimentsWithSensors = loadExperimentsWithSensorsFilteredByStatusAndEmbedding(statusFilterValue, conditionValue);
+                        break;
+                    case EXPORTED:
+                    default: //EXPORTED
+                        experimentsWithSensors = loadExperimentsWithSensorsFilteredByStatusAndExported(statusFilterValue, conditionValue);
+                        break;
+                }
+            }
         }
 
         List<Experiment> experiments = new ArrayList<>(experimentsWithSensors.size());
@@ -65,6 +97,30 @@ public abstract class ExperimentDao {
     @Transaction
     @Query("SELECT * FROM " + Experiment.TABLE_NAME + " WHERE status = :status ORDER BY initDate")
     public abstract List<ExperimentWithSensors> loadExperimentsWithSensorsFilteredByState(int status);
+
+    @Transaction
+    @Query("SELECT * FROM " + Experiment.TABLE_NAME + " WHERE syncPending = :syncPending ORDER BY initDate")
+    public abstract List<ExperimentWithSensors> loadExperimentsWithSensorsFilteredBySync(boolean syncPending);
+
+    @Transaction
+    @Query("SELECT * FROM " + Experiment.TABLE_NAME + " WHERE  status = :status AND syncPending = :syncPending ORDER BY initDate")
+    public abstract List<ExperimentWithSensors> loadExperimentsWithSensorsFilteredByStatusAndSync(int status, boolean syncPending);
+
+    @Transaction
+    @Query("SELECT * FROM " + Experiment.TABLE_NAME + " WHERE embeddingPending = :embeddingPending ORDER BY initDate")
+    public abstract List<ExperimentWithSensors> loadExperimentsWithSensorsFilteredByEmbedding(boolean embeddingPending);
+
+    @Transaction
+    @Query("SELECT * FROM " + Experiment.TABLE_NAME + " WHERE  status = :status AND embeddingPending = :embeddingPending ORDER BY initDate")
+    public abstract List<ExperimentWithSensors> loadExperimentsWithSensorsFilteredByStatusAndEmbedding(int status, boolean embeddingPending);
+
+    @Transaction
+    @Query("SELECT * FROM " + Experiment.TABLE_NAME + " WHERE exportedPending = :exportedPending ORDER BY initDate")
+    public abstract List<ExperimentWithSensors> loadExperimentsWithSensorsFilteredByExported(boolean exportedPending);
+
+    @Transaction
+    @Query("SELECT * FROM " + Experiment.TABLE_NAME + " WHERE  status = :status AND exportedPending = :exportedPending ORDER BY initDate")
+    public abstract List<ExperimentWithSensors> loadExperimentsWithSensorsFilteredByStatusAndExported(int status, boolean exportedPending);
 
     /**
      * Selecciona un registro mediante su id (externo)

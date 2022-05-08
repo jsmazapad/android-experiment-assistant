@@ -30,7 +30,7 @@
                 android:layout_height="142dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:contentDescription="Cargando"
+                android:contentDescription="@string/loading_content_description"
                 android:rotationX="4"
                 app:srcCompat="@drawable/ic_baseline_settings_24" />
 
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Cargando vista..."
+                android:text="@string/loading_text"
                 android:textAlignment="center" />
 
         </LinearLayout>

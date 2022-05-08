@@ -7,7 +7,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.ALT
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMBEDDING_ALG;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_PATH;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_MULTIMEDIA_PATHS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LATITUDE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LONGITUDE;
@@ -44,7 +44,7 @@ import androidx.work.WorkManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jsm.exptool.config.exporttocsv.ExportToCSVConfigOptions;
+import com.jsm.exptool.config.ExportToCSVConfigOptions;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
@@ -211,7 +211,11 @@ public class WorksOrchestratorProvider {
 
         }
         Map<String, Object> zipInputDataValues = new HashMap<String, Object>() {{
-            put(EXPERIMENT_PATH, FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()).getPath());
+            put(EXPERIMENT_MULTIMEDIA_PATHS, new String[]{
+                    FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.IMAGES).getPath(),
+                    FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO).getPath()
+            });
+
 
         }};
         Data zipInputData = createInputData(zipInputDataValues);
@@ -265,7 +269,7 @@ public class WorksOrchestratorProvider {
     public int countWorksByState(List<WorkInfo> workInfoList, WorkInfo.State state) {
         int counter = 0;
         for (WorkInfo info : workInfoList) {
-            if (info.getState().isFinished() && info.getState() == state) {
+            if (info.getState().isFinished() && info.getState().equals(state)) {
                 counter++;
             }
         }

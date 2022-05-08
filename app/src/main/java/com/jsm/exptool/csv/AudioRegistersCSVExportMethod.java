@@ -1,8 +1,6 @@
-package com.jsm.exptool.config.exporttocsv;
+package com.jsm.exptool.csv;
 
 import com.jsm.exptool.libs.tabletocsv.TableToCSVConverterFunctionInterface;
-import com.jsm.exptool.libs.tabletocsv.TableToCSVExportConfiguration;
-import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.AudioRegister;
 
 import java.util.ArrayList;
@@ -11,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class AudioRegistersExportConfiguration extends TableToCSVExportConfiguration {
-    public AudioRegistersExportConfiguration() {
+public class AudioRegistersCSVExportMethod extends ExperimentsDatabaseTableToCSVExportMethod {
+    public AudioRegistersCSVExportMethod() {
         super(AudioRegister.TABLE_NAME);
     }
 

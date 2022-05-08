@@ -21,7 +21,7 @@ public class WorkerPropertiesConstants {
         public static final String ACCURACY = "ACCURACY";
         public static final String FILE_NAMES = "FILE_NAMES";
         public static final String TABLE_NAME = "TABLE_NAME";
-        public static final String EXPERIMENT_PATH = "EXPERIMENT_PATH";
+        public static final String EXPERIMENT_MULTIMEDIA_PATHS = "EXPERIMENT_MULTIMEDIA_PATHS";
     }
 
     public class WorkTagsConstants {
