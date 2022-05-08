@@ -280,6 +280,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         this.experiment.setEndDate(new Date());
         this.experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
 
+
         long elapsedTime = System.currentTimeMillis() - startTimeStamp;
         this.experiment.setDuration(this.experiment.getDuration() + elapsedTime);
 
@@ -331,6 +332,12 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         }
         String size = MemoryUtils.getFormattedFileSize(FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()));
         this.experiment.setSize(size);
+        experiment.setExportedPending(true);
+        if(experiment.getConfiguration().isEmbeddingEnabled()){
+            if (numImages.getValue() > numEmbeddings.getValue()){
+                experiment.setEmbeddingPending(true);
+            }
+        }
         if (saveExperiment(context)) {
             showResumeDialog(context);
         }

@@ -286,6 +286,10 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         ExperimentConfiguration configuration = new ExperimentConfiguration();
         experiment.setTitle(this.title);
         experiment.setDescription(this.description);
+        experiment.setSyncPending(false);
+        experiment.setExportedPending(true);
+        experiment.setEmbeddingPending(false);
+
 
 
         if (this.audioEnabled.getValue() != null && this.audioEnabled.getValue()) {
@@ -311,6 +315,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
                 cameraConfig = experimentTemplate.getConfiguration().getCameraConfig();
             }
             if (this.embeddingEnabled.getValue() != null && this.embeddingEnabled.getValue()) {
+
                 if (cameraConfig.getEmbeddingAlgorithm() == null) {
                     cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
                 }
