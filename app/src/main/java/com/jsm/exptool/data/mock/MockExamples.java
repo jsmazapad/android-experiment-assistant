@@ -13,6 +13,7 @@ import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.LocationConfig;
 import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.providers.AudioProvider;
+import com.jsm.exptool.providers.DateProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.providers.LocationProvider;
@@ -32,9 +33,10 @@ import java.util.Random;
 
 public class MockExamples {
 
-    public static Experiment getFullExperiment() {
+    public static Experiment registerFullExperiment() {
         //TODO Código desarrollo
         Experiment experiment = new Experiment();
+        experiment.setTitle("Experimento generado"+ DateProvider.dateToDisplayStringWithTime(new Date()));
 
         experiment.setConfiguration(new ExperimentConfiguration());
         experiment.getConfiguration().setQuickComments(new ArrayList<String>(){{
@@ -48,6 +50,8 @@ public class MockExamples {
         experiment.getConfiguration().setCameraConfig(new CameraConfig(FrequencyConstants.DEFAULT_CAMERA_FREQ, FrequencyConstants.MIN_CAMERA_INTERVAL_MILLIS, FrequencyConstants.MAX_CAMERA_INTERVAL_MILLIS ));
         experiment.getConfiguration().getCameraConfig().setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         experiment.getConfiguration().setAudioConfig(new AudioConfig(FrequencyConstants.DEFAULT_AUDIO_FREQ, FrequencyConstants.MIN_AUDIO_INTERVAL_MILLIS, FrequencyConstants.MAX_AUDIO_INTERVAL_MILLIS));
+        experiment.getConfiguration().setLocationConfig(new LocationConfig(FrequencyConstants.DEFAULT_LOCATION_FREQ, FrequencyConstants.MIN_LOCATION_INTERVAL_MILLIS, FrequencyConstants.MAX_LOCATION_INTERVAL_MILLIS));
+        experiment.getConfiguration().getLocationConfig().setLocationOption(LocationProvider.getLocationOptions().get(0));
         experiment.getConfiguration().setSensorConfig(new SensorsGlobalConfig(FrequencyConstants.DEFAULT_SENSOR_FREQ, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS));
         experiment.getConfiguration().getAudioConfig().setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
         experiment.getConfiguration().getSensorConfig().setSensors(new ArrayList<SensorConfig>() {
@@ -56,6 +60,9 @@ public class MockExamples {
 
             }
         });
+
+        long id = ExperimentsRepository.registerExperiment(experiment);
+        experiment.setInternalId(id);
 
         return experiment;
     }

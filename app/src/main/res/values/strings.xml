@@ -204,7 +204,7 @@ Experiment list
     <string name="experiment_filter_name_pending_sync">Sincronización pendiente</string>
     <string name="experiment_filter_name_complete_sync">Sincronización completa</string>
     <string name="experiment_filter_name_pending_embedding">Pendiente obtención datos embedding</string>
-    <string name="experiment_filter_name_complete_embedding">datos embedding completos</string>
+    <string name="experiment_filter_name_complete_embedding">Datos embedding completos</string>
     <string name="experiment_filter_name_pending_exported">Pendiente exportar</string>
     <string name="experiment_filter_name_exported">Exportado</string>
     <string name="experiment_filter_order_status_asc">Estado (mayor a menor)</string>
@@ -254,6 +254,14 @@ Experiment list
     <string name="no_filters">No hay filtros aplicados</string>
 
 
+    <!--
+Permissions
+    -->
+    <string name="camera_permission_rejected">No ha autorizado el permiso para el uso de la cámara. Sin este permiso no es posible hacer uso de la cámara. </string>
+    <string name="files_permission_rejected">No ha autorizado el permiso para la creación y lectura de archivos. Sin este permiso no es posible guardar ni leer archivos. </string>
+    <string name="audio_permission_rejected">No ha autorizado el permiso para la grabación de archivos de audio. No será posible realizar la grabación de archivos de audio. </string>
+    <string name="location_permission_rejected">No ha autorizado el permiso para la obtención de la ubicación. No será posible obtener su ubicación.  </string>
+    <string name="permission_rejected_fix_info">Si este mensaje salta de manera automática es posible que haya denegado expresamente los permisos o que haya estado un tiempo sin usar la aplicación y el sistema operativo los haya denegado automáticamente. En ese caso vaya a los ajustes del dispositivo y compruebe los permisos de la aplicación</string>
     <!--
     Varios
     -->

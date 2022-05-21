@@ -2,17 +2,71 @@ package com.jsm.exptool.providers;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsHandler;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RequestPermissionsProvider {
+
+    public enum PermissionTypes{
+        CAMERA,
+        AUDIO,
+        LOCATION
+    }
+
+   private List<PermissionTypes> permissionsToCheckList = new ArrayList<>();
+
+
+
+    public void addPermission(PermissionTypes type){
+        permissionsToCheckList.add(type);
+    }
+
+    public void removePermission(PermissionTypes type){
+        if (permissionsToCheckList.contains(type)){
+            permissionsToCheckList.remove(type);
+        }
+    }
+
+    public List<PermissionTypes> getPermissionsToCheckList() {
+        return permissionsToCheckList;
+    }
+
+    public static String getPermissionErrorString(Context context, List<String> androidPermissionStrings){
+        StringBuilder permissionErrorString = new StringBuilder();
+        for (String androidPermissionString:androidPermissionStrings
+             ) {
+            switch (androidPermissionString){
+                case Manifest.permission.CAMERA:
+                    permissionErrorString.append(context.getString(R.string.camera_permission_rejected));
+                    break;
+                case Manifest.permission.RECORD_AUDIO:
+                    permissionErrorString.append(context.getString(R.string.audio_permission_rejected));
+                    break;
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                    permissionErrorString.append(context.getString(R.string.files_permission_rejected));
+                    break;
+                case Manifest.permission.ACCESS_FINE_LOCATION:
+                case Manifest.permission.ACCESS_COARSE_LOCATION:
+                    permissionErrorString.append(context.getString(R.string.location_permission_error));
+                    break;
+            }
+
+        }
+
+        if (!"".equals(permissionErrorString.toString())){
+            permissionErrorString.append(context.getString(R.string.permission_rejected_fix_info));
+        }
+        return permissionErrorString.toString();
+    }
 
     private static final String[] CAMERA_PERMISSIONS = new String[]{
             Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE

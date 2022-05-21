@@ -10,6 +10,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.text.Html;
 import android.util.Log;
@@ -106,12 +107,25 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
     private final MutableLiveData<Integer> updateElementInRecycler = new MutableLiveData<>();
 
+    private RequestPermissionsProvider permissionsProvider;
+
 
     public ExperimentPerformViewModel(@NonNull Application application, Experiment experiment) {
         super(application);
         this.experiment = experiment;
         this.quickComments.setValue(experiment.getConfiguration() != null ? experiment.getConfiguration().getQuickComments() : null);
         orchestratorProvider = WorksOrchestratorProvider.getInstance();
+        permissionsProvider = new RequestPermissionsProvider();
+        if(this.experiment.getConfiguration().isCameraEnabled()){
+            permissionsProvider.addPermission(RequestPermissionsProvider.PermissionTypes.CAMERA);
+        }
+        if(this.experiment.getConfiguration().isAudioEnabled()){
+            permissionsProvider.addPermission(RequestPermissionsProvider.PermissionTypes.AUDIO);
+        }
+        if(this.experiment.getConfiguration().isLocationEnabled()){
+            permissionsProvider.addPermission(RequestPermissionsProvider.PermissionTypes.LOCATION);
+        }
+
         initComponentsVisibility();
         changeStateText.setValue(application.getString(R.string.perform_experiment_init_text));
         if (this.experiment.getConfiguration().isSensorEnabled()) {
@@ -603,36 +617,67 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
 
     public void handleRequestPermissions(BaseFragment fragment) {
 
-        if (experiment.getConfiguration().isCameraEnabled())
+        if (experiment.getConfiguration().isCameraEnabled() && permissionsProvider.getPermissionsToCheckList().contains(RequestPermissionsProvider.PermissionTypes.CAMERA))
             RequestPermissionsProvider.requestPermissionsForCamera(((ExperimentPerformFragment) fragment).cameraRequestPermissions);
-        if (experiment.getConfiguration().isAudioEnabled())
+        if (experiment.getConfiguration().isAudioEnabled() && permissionsProvider.getPermissionsToCheckList().contains(RequestPermissionsProvider.PermissionTypes.AUDIO))
             RequestPermissionsProvider.requestPermissionsForAudioRecording(((ExperimentPerformFragment) fragment).audioRequestPermissions);
-        if (experiment.getConfiguration().isLocationEnabled())
+        if (experiment.getConfiguration().isLocationEnabled() && permissionsProvider.getPermissionsToCheckList().contains(RequestPermissionsProvider.PermissionTypes.LOCATION))
             RequestPermissionsProvider.requestPermissionsForLocationFine(((ExperimentPerformFragment) fragment).locationRequestPermissions);
 
     }
 
     public void onCameraPermissionsAccepted(Fragment fragment) {
+        permissionsProvider.removePermission(RequestPermissionsProvider.PermissionTypes.CAMERA);
         if (experiment.getConfiguration().isCameraEnabled())
             initCameraProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment, fragment.getView().findViewById(R.id.cameraPreview));
+        continueProcessingPermissions(fragment);
 
     }
 
     public void onAudioPermissionsAccepted(Fragment fragment) {
-
+        permissionsProvider.removePermission(RequestPermissionsProvider.PermissionTypes.AUDIO);
         if (experiment.getConfiguration().isAudioEnabled())
             initAudioProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment);
+        continueProcessingPermissions(fragment);
     }
 
     public void onLocationPermissionsAccepted(Fragment fragment) {
-
+        permissionsProvider.removePermission(RequestPermissionsProvider.PermissionTypes.LOCATION);
         if (experiment.getConfiguration().isLocationEnabled())
             initLocationProvider(fragment.getContext(), fragment.getViewLifecycleOwner(), (RequestPermissionsInterface) fragment);
+        continueProcessingPermissions(fragment);
     }
 
-    public void onPermissionsError(List<String> rejectedPermissions, Fragment fragment) {
-        //TODO Mejorar error, desconectar camara e informar
-        handleError(new BaseException("Error en permisos", false), fragment.getContext());
+    private void handlePermissionsError(List<String> rejectedPermissions, Fragment fragment) {
+
+        ModalMessage.showError(fragment.getContext(), RequestPermissionsProvider.getPermissionErrorString(getApplication(), rejectedPermissions), null, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                continueProcessingPermissions(fragment);
+            }
+        }, null, null);
+    }
+
+    public void onCameraPermissionsRejected(List<String> rejectedPermissions, Fragment fragment) {
+        permissionsProvider.removePermission(RequestPermissionsProvider.PermissionTypes.CAMERA);
+        handlePermissionsError(rejectedPermissions, fragment);
+    }
+
+    public void onAudioPermissionsRejected(List<String> rejectedPermissions, Fragment fragment) {
+        permissionsProvider.removePermission(RequestPermissionsProvider.PermissionTypes.AUDIO);
+        handlePermissionsError(rejectedPermissions, fragment);
+    }
+
+    public void onLocationPermissionsRejected(List<String> rejectedPermissions, Fragment fragment) {
+        permissionsProvider.removePermission(RequestPermissionsProvider.PermissionTypes.LOCATION);
+        handlePermissionsError(rejectedPermissions, fragment);
+    }
+
+    private void continueProcessingPermissions(Fragment fragment){
+        if (permissionsProvider.getPermissionsToCheckList().size()>0){
+            handleRequestPermissions((ExperimentPerformFragment) fragment);
+        }
+
     }
 
     public void saveCommentValue(String comment, boolean fromRegisterComment){
@@ -711,4 +756,5 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             }
         });
     }
+
 }

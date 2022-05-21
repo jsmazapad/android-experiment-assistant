@@ -49,7 +49,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
 
         @Override
         public void onPermissionsError(List<String> rejectedPermissions) {
-            viewModel.onPermissionsError(rejectedPermissions, ExperimentPerformFragment.this);
+            viewModel.onCameraPermissionsRejected(rejectedPermissions, ExperimentPerformFragment.this);
         }
     };
 
@@ -61,7 +61,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
 
         @Override
         public void onPermissionsError(List<String> rejectedPermissions) {
-            viewModel.onPermissionsError(rejectedPermissions, ExperimentPerformFragment.this);
+            viewModel.onAudioPermissionsRejected(rejectedPermissions, ExperimentPerformFragment.this);
         }
     };
 
@@ -73,7 +73,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
 
         @Override
         public void onPermissionsError(List<String> rejectedPermissions) {
-            viewModel.onPermissionsError(rejectedPermissions, ExperimentPerformFragment.this);
+            viewModel.onLocationPermissionsRejected(rejectedPermissions, ExperimentPerformFragment.this);
         }
     };
 

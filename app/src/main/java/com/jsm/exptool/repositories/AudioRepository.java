@@ -25,7 +25,7 @@ public class AudioRepository {
 
     public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData) {
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> responseLiveData.setValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
+        executor.execute(() -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
             addAll(DBHelper.getAudioRegistersByExperimentId(experimentId));
         }})));
 
