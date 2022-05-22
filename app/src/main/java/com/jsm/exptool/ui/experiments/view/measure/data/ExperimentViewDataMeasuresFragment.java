@@ -48,6 +48,6 @@ public class ExperimentViewDataMeasuresFragment extends BaseRecyclerFragment<Exp
 
     @Override
     protected int getListItemResourceId() {
-        return R.layout.experiment_view_sensor_measure_list_item;
+        return R.layout.experiment_view_data_measure_list_item;
     }
 }

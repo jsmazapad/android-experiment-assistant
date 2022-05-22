@@ -5,8 +5,13 @@ import android.content.Context;
 
 import androidx.navigation.NavController;
 
+import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.model.SensorConfig;
+import com.jsm.exptool.model.experimentconfig.AudioConfig;
+import com.jsm.exptool.model.experimentconfig.CameraConfig;
+import com.jsm.exptool.model.experimentconfig.LocationConfig;
 import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 
@@ -15,9 +20,33 @@ import java.util.List;
 public class ExperimentViewDataMeasuresViewModel extends BaseRecyclerViewModel<ExperimentRegister, ExperimentRegister> {
 
     RepeatableElementConfig measurableItem;
+    private String headerElementValueField;
+    private boolean shortHeaderElementValue;
 
     public ExperimentViewDataMeasuresViewModel(Application app, RepeatableElementConfig measurableItem, List<ExperimentRegister> measures) {
         super(app, measurableItem,  measures);
+        shortHeaderElementValue = false;
+        if(measurableItem instanceof CameraConfig){
+            headerElementValueField = app.getString(R.string.experiment_view_data_embedding_header);
+            shortHeaderElementValue = true;
+        }else if(measurableItem instanceof AudioConfig){
+            headerElementValueField = "";
+        }else if(measurableItem instanceof SensorConfig){
+            headerElementValueField = app.getString(R.string.experiment_view_data_sensor_value_header);
+        }else if (measurableItem instanceof LocationConfig){
+            headerElementValueField = app.getString(R.string.experiment_view_data_location_position_header);
+        }else{
+            //Comentario
+            headerElementValueField = app.getString(R.string.experiment_view_data_comment_value_header);
+        }
+    }
+
+    public String getHeaderElementValueField() {
+        return headerElementValueField;
+    }
+
+    public boolean isShortHeaderElementValue() {
+        return shortHeaderElementValue;
     }
 
     @Override

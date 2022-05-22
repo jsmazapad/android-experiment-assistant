@@ -286,5 +286,53 @@
         <item name="android:paddingEnd">5dp</item>
     </style>
 
+    <style name="ExperimentViewCol1" parent="BaseItemListSecondaryBoldTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">4</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:paddingStart">0dp</item>
+    </style>
+
+    <style name="ExperimentViewCol2" parent="BaseItemListSecondaryBoldTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">2.5</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:paddingStart">0dp</item>
+
+    </style>
+
+    <style name="ExperimentViewCol2ShortHeader" parent="ExperimentViewCol2">
+        <item name="android:layout_weight">1.5</item>
+    </style>
+
+    <style name="ExperimentViewCol2ImageView" parent="ExperimentViewCol2ShortHeader">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:maxWidth">48dp</item>
+        <item name="android:maxHeight">48dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitStart</item>
+    </style>
+
+    <style name="ExperimentViewCol3" parent="BaseItemListSecondaryBoldTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1.5</item>
+
+    </style>
+
+    <style name="ExperimentViewCol3ImageView" parent="ExperimentViewCol3">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:maxWidth">48dp</item>
+        <item name="android:maxHeight">48dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitStart</item>
+    </style>
+
 
 </resources>

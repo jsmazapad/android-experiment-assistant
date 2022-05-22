@@ -19,6 +19,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:background="@color/white"
         android:elevation="2dp"
         android:orientation="horizontal"
@@ -27,35 +29,37 @@
 
         <TextView
             android:id="@+id/datetime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|start"
-            android:paddingStart="10dp"
-            android:text="Tiempo"
+            style="@style/ExperimentViewCol1"
+            android:text="@string/experiment_view_measures_time_header"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/values"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|right"
-            android:paddingEnd="10dp"
-            android:text="Valor"
+            style="@style/ExperimentViewCol2"
+            android:text="@{viewModel.headerElementValueField}"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="@{viewModel.shortHeaderElementValue ? View.GONE : View.VISIBLE}"
+            tools:text="Valor" />
+
+
+        <TextView
+            android:id="@+id/valuesShort"
+            style="@style/ExperimentViewCol2ShortHeader"
+            android:text="@{viewModel.headerElementValueField}"
+            android:visibility="@{viewModel.shortHeaderElementValue ? View.VISIBLE : View.GONE}"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Valor" />
+
         <TextView
             android:id="@+id/sync"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|right"
-            android:paddingEnd="10dp"
-            android:text="Sincronizado"
+            style="@style/ExperimentViewCol3"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="@string/experiment_view_data_sync_header"
+            />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -66,7 +70,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        tools:listitem="@layout/experiment_view_sensor_measure_list_item"
+        tools:listitem="@layout/experiment_view_data_measure_list_item"
         tools:itemCount="39" />
 
 </LinearLayout>

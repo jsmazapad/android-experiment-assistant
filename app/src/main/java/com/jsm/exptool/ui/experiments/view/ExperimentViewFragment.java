@@ -12,6 +12,7 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
+import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentViewFragmentBinding;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.Experiment;
@@ -42,24 +43,9 @@ public class ExperimentViewFragment extends BaseRecyclerFragment<ExperimentViewF
     @Override
     protected ExperimentViewViewModel createViewModel() {
         //TODO Código pruebas, comentar
-//        Experiment experiment = new Experiment();
-//        experiment.setStatus(Experiment.ExperimentStatus.CREATED);
-//        experiment.setTitle("Experimento "+ new Date().getTime());
-//        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  "+ new Date().getTime());
-//        ExperimentConfiguration configuration = new ExperimentConfiguration();
-//        CameraConfig cameraConfig = new CameraConfig();
-//        cameraConfig.setInterval(1000);
-//        cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
-//        configuration.setCameraConfig(cameraConfig );
-//        SensorsGlobalConfig sensorsGlobalConfig = new SensorsGlobalConfig();
-//        sensorsGlobalConfig.setSensors(new ArrayList<SensorConfig>(){{
-//            addAll(SensorHandler.getInstance().getSensors());
-//        }});
-//        configuration.setSensorConfig(sensorsGlobalConfig);
-//        experiment.setConfiguration(configuration);
-//        long id = ExperimentsRepository.registerExperiment(experiment);
-//        experiment.setInternalId(id);
-        Experiment experiment = ExperimentViewFragmentArgs.fromBundle(getArguments()).getExperiment();
+
+        //Experiment experiment = ExperimentViewFragmentArgs.fromBundle(getArguments()).getExperiment();
+        Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest(getContext(), null);
         return new ViewModelProvider(this, new ExperimentViewViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentViewViewModel.class);
     }
 

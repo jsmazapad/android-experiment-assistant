@@ -1,18 +1,5 @@
 <resources>
     <string name="app_name">Experiment Assistant</string>
-    <string name="picture">Picture</string>
-    <string name="description_info">Info</string>
-    <string name="request_permission">This sample needs camera permission.</string>
-    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
-    <string name="intro_message">
-        <![CDATA[
-
-
-            POC to show usage of camera2 API and integration with image analytics providing characteristics vectors from images
-
-
-        ]]>
-    </string>
     <string name="error_network_ask_retry"> ¿Do you want to reload data?</string>
     <string name="default_modal_okButton">Ok</string>
     <string name="default_warning_title">Advertencia</string>
@@ -257,15 +244,36 @@ Experiment list
     <!--
 Permissions
     -->
-    <string name="camera_permission_rejected">No ha autorizado el permiso para el uso de la cámara. Sin este permiso no es posible hacer uso de la cámara. </string>
-    <string name="files_permission_rejected">No ha autorizado el permiso para la creación y lectura de archivos. Sin este permiso no es posible guardar ni leer archivos. </string>
-    <string name="audio_permission_rejected">No ha autorizado el permiso para la grabación de archivos de audio. No será posible realizar la grabación de archivos de audio. </string>
-    <string name="location_permission_rejected">No ha autorizado el permiso para la obtención de la ubicación. No será posible obtener su ubicación.  </string>
+    <string name="camera_permission_rejected">No ha autorizado el permiso para el uso de la cámara. Sin este permiso no es posible hacer uso de la cámara. \n</string>
+    <string name="files_permission_rejected">No ha autorizado el permiso para la creación y lectura de archivos. Sin este permiso no es posible guardar ni leer archivos. \n</string>
+    <string name="audio_permission_rejected">No ha autorizado el permiso para la grabación de archivos de audio. No será posible realizar la grabación de archivos de audio. \n</string>
+    <string name="location_permission_rejected">No ha autorizado el permiso para la obtención de la ubicación. No será posible obtener su ubicación. \n </string>
     <string name="permission_rejected_fix_info">Si este mensaje salta de manera automática es posible que haya denegado expresamente los permisos o que haya estado un tiempo sin usar la aplicación y el sistema operativo los haya denegado automáticamente. En ese caso vaya a los ajustes del dispositivo y compruebe los permisos de la aplicación</string>
     <!--
     Varios
     -->
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="camera_enabled_content_description">Tiene imágenes</string>
+    <string name="audio_enabled_content_description">Tiene sonidos</string>
+    <string name="embedding_enabled_content_description">Tiene embedding de imágenes</string>
+    <string name="location_enabled_content_description">Tiene ubicación</string>
+    <string name="sensors_enabled_content_description">Tiene sensores</string>
+    <string name="sync_enabled_content_description">Tiene sincronización</string>
+    <string name="sync_pending_content_description">Elementos pendientes de sincronizar</string>
+    <string name="experiment_view_start">Inicio</string>
+    <string name="experiment_view_time_duration">Duracion</string>
+    <string name="experiment_view_end">Fin</string>
+    <string name="experiment_view_status_format">Estado: %s</string>
+    <string name="experiment_view_measures_time_header">Tiempo</string>
 
-
+    <string name="experiment_view_data_sync_check_content_description">Sincronización realizada</string>
+    <string name="experiment_view_data_sync_pending_content_description">Sincronización no realizada</string>
+    <string name="experiment_view_data_embedding_check_content_description">Obtención de embedding realizado</string>
+    <string name="experiment_view_data_embedding_pending_content_description">Obtención de embedding no realizado</string>
+    <string name="experiment_view_data_sync_header">Sinc. remota</string>
+    <string name="experiment_view_data_embedding_header">Embedding</string>
+    <string name="experiment_view_data_sensor_value_header">Valor</string>
+    <string name="experiment_view_data_location_position_header">Posición</string>
+    <string name="experiment_view_data_comment_value_header">Comentario</string>
 
 </resources>

@@ -1,5 +1,11 @@
 package com.jsm.exptool.data.mock;
 
+import static com.jsm.exptool.config.SensorConfigConstants.TYPE_GPS;
+import static com.jsm.exptool.config.SensorConfigConstants.TYPE_GPS_SENSOR_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.ALTITUDE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LATITUDE;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LONGITUDE;
+
 import android.content.Context;
 
 import com.jsm.exptool.R;
@@ -12,12 +18,15 @@ import com.jsm.exptool.model.experimentconfig.CameraConfig;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.LocationConfig;
 import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
+import com.jsm.exptool.model.register.CommentRegister;
+import com.jsm.exptool.model.register.SensorRegister;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.providers.DateProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.providers.LocationProvider;
 import com.jsm.exptool.repositories.AudioRepository;
+import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 import com.jsm.exptool.repositories.ImagesRepository;
 import com.jsm.exptool.repositories.SensorsRepository;
@@ -33,10 +42,12 @@ import java.util.Random;
 
 public class MockExamples {
 
-    public static Experiment registerFullExperiment() {
+    public static Experiment registerFullExperiment(Boolean register) {
         //TODO Código desarrollo
         Experiment experiment = new Experiment();
         experiment.setTitle("Experimento generado"+ DateProvider.dateToDisplayStringWithTime(new Date()));
+        experiment.setDescription("Descripción de experimento generado mediante MockExamples, este experimento tiene un conjunto de funcionalidades completo y listo para probar");
+        experiment.setStatus(Experiment.ExperimentStatus.CREATED);
 
         experiment.setConfiguration(new ExperimentConfiguration());
         experiment.getConfiguration().setQuickComments(new ArrayList<String>(){{
@@ -61,8 +72,10 @@ public class MockExamples {
             }
         });
 
-        long id = ExperimentsRepository.registerExperiment(experiment);
-        experiment.setInternalId(id);
+        if(register) {
+            long id = ExperimentsRepository.registerExperiment(experiment);
+            experiment.setInternalId(id);
+        }
 
         return experiment;
     }
@@ -85,98 +98,62 @@ public class MockExamples {
 
     }
 
-    public static Experiment registerExperimentForPerformanceTest() {
-        Experiment experiment = new Experiment();
 
-        experiment.setStatus(Experiment.ExperimentStatus.CREATED);
-        experiment.setTitle("Experimento " + new Date().getTime());
-        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
-        ExperimentConfiguration configuration = new ExperimentConfiguration();
 
-        CameraConfig cameraConfig = new CameraConfig(FrequencyConstants.DEFAULT_CAMERA_FREQ, FrequencyConstants.MIN_CAMERA_INTERVAL_MILLIS, FrequencyConstants.MAX_CAMERA_INTERVAL_MILLIS );
-        cameraConfig.setInterval(1000);
-        cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
-        configuration.setCameraConfig(cameraConfig);
-        SensorsGlobalConfig sensorsGlobalConfig = new SensorsGlobalConfig(FrequencyConstants.DEFAULT_SENSOR_FREQ, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS);
-        sensorsGlobalConfig.setSensors(new ArrayList<SensorConfig>() {{
-            add(SensorHandler.getInstance().getSensors().get(0));
-            add(SensorHandler.getInstance().getSensors().get(1));
-            add(SensorHandler.getInstance().getSensors().get(2));
-        }});
-        configuration.setSensorConfig(sensorsGlobalConfig);
-        AudioConfig audioConfig = new AudioConfig(FrequencyConstants.DEFAULT_AUDIO_FREQ, FrequencyConstants.MIN_AUDIO_INTERVAL_MILLIS, FrequencyConstants.MAX_AUDIO_INTERVAL_MILLIS);
-        audioConfig.setInterval(1000);
-        audioConfig.setRecordingDuration(500);
-        audioConfig.setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
-        configuration.setAudioConfig(audioConfig);
-        experiment.setConfiguration(configuration);
-        long id = ExperimentsRepository.registerExperiment(experiment);
-        experiment.setInternalId(id);
-        return experiment;
-    }
+    public static Experiment registerExperimentForSensorVisualizationTest(Context context, Experiment.ExperimentStatus status) {
+        Experiment experiment = registerFullExperiment(true);
+        ExperimentConfiguration configuration = experiment.getConfiguration();
+        long id = experiment.getInternalId();
 
-    public static Experiment registerExperimentForSensorVisualizationTest(Context context) {
-        Experiment experiment = new Experiment();
+        if(status != null){
+            experiment.setStatus(status);
+        }else{
+            experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
+        }
 
-        experiment.setStatus(new Random().nextBoolean()? Experiment.ExperimentStatus.INITIATED: Experiment.ExperimentStatus.FINISHED);
-        //experiment.setStatus(Experiment.ExperimentStatus.CREATED);
         experiment.setInitDate(new Date());
         if (experiment.getStatus().equals(Experiment.ExperimentStatus.FINISHED)){
             experiment.setEndDate(new Date());
         }
-        experiment.setTitle("Experimento " + new Date().getTime());
-        experiment.setDescription("Descripción del experimento originado en pruebas en la fecha:  " + new Date().getTime());
-        ExperimentConfiguration configuration = new ExperimentConfiguration();
-        CameraConfig cameraConfig = new CameraConfig(FrequencyConstants.DEFAULT_CAMERA_FREQ, FrequencyConstants.MIN_CAMERA_INTERVAL_MILLIS, FrequencyConstants.MAX_CAMERA_INTERVAL_MILLIS );
-        cameraConfig.setInterval(1000);
-        cameraConfig.setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
-        configuration.setCameraConfig(cameraConfig);
-        configuration.setQuickComments(new ArrayList<String>(){{
-            add("Comentario de prueba");
-            add("Otro comentario");
-            add("Otro comentario más");
-            add("Comentario");
-            add("Comentario un poco mas largo");
-            add("Comentario número 6");
-        }});
-        SensorsGlobalConfig sensorsGlobalConfig = new SensorsGlobalConfig(FrequencyConstants.DEFAULT_SENSOR_FREQ, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS);
-        sensorsGlobalConfig.setSensors(new ArrayList<SensorConfig>() {{
-            add(SensorHandler.getInstance().getSensors().get(0));
-            add(SensorHandler.getInstance().getSensors().get(1));
-            add(SensorHandler.getInstance().getSensors().get(2));
-        }});
-        configuration.setSensorConfig(sensorsGlobalConfig);
 
-        AudioConfig audioConfig = new AudioConfig(FrequencyConstants.DEFAULT_AUDIO_FREQ, FrequencyConstants.MIN_AUDIO_INTERVAL_MILLIS, FrequencyConstants.MAX_AUDIO_INTERVAL_MILLIS);
-        configuration.setAudioConfig(audioConfig);
-
-        experiment.setConfiguration(configuration);
-        long id = ExperimentsRepository.registerExperiment(experiment);
-        experiment.setInternalId(id);
+        ExperimentsRepository.updateExperiment(experiment);
 
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
+
+        //Sensores y comentarios
         for (SensorConfig sensor : configuration.getSensorConfig().getSensors()) {
             for (int i = 0; i <= 40; i++) {
-                cal.add(Calendar.HOUR, 1);
+                cal.add(Calendar.MILLISECOND, 10);
                 for (String key : sensor.getSensorReader().getMeasure().keySet()) {
                     sensor.getSensorReader().getMeasure().put(key, new Random().nextFloat());
                 }
-
-
                 SensorsRepository.registerSensorCapture(sensor, "PRUEBA", id, cal.getTime());
+                CommentRepository.registerComment(new CommentRegister(id,cal.getTime(), false, "Comentario de prueba "+ cal.getTime()));
             }
 
         }
 
+        //UBICACION
+        double latitude = 37.347978;
+        double longitude = -5.982095;
+        double altitude = 56.5;
+        float accuracy = 1;
+        for(int i=0; i<60; i++){
 
+            SensorRegister sensorRegister = new SensorRegister(id,  new Date(), false,  latitude, LATITUDE,
+                    longitude,LONGITUDE, altitude, ALTITUDE, TYPE_GPS_SENSOR_NAME, TYPE_GPS, R.string.location, accuracy);
+            SensorsRepository.registerSensorCapture(sensorRegister);
+            latitude += 0.0000001 * i;
+        }
+
+        //Imagenes
         File f = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.IMAGES), "GAtos.jpg");
 
         try {
             if (!f.exists())
                 f.createNewFile();
-//id is some like R.drawable.b_image
             InputStream inputStream = context.getResources().openRawResource(R.raw.cat_4001);
             OutputStream out = new FileOutputStream(f);
             byte buf[] = new byte[1024];
@@ -190,17 +167,14 @@ public class MockExamples {
         }
 
         for (int i = 0; i <= 40; i++) {
-
-
             ImagesRepository.registerImageCapture(f, id, cal.getTime());
         }
 
         File f2 = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO), "cat_sound.mp3");
-
+        //AUDIO
         try {
             if (!f2.exists())
                 f2.createNewFile();
-//id is some like R.drawable.b_image
             InputStream inputStream = context.getResources().openRawResource(R.raw.cat_sound);
             OutputStream out = new FileOutputStream(f2);
             byte buf[] = new byte[1024];
@@ -214,8 +188,6 @@ public class MockExamples {
         }
 
         for (int i = 0; i <= 40; i++) {
-
-
             AudioRepository.registerAudioRecording(f2, id, cal.getTime());
         }
 
@@ -226,7 +198,7 @@ public class MockExamples {
     public static void createRandomCompletedExperiments(Context context){
 
         for (int i=0; i<20; i++){
-            registerExperimentForSensorVisualizationTest(context);
+            registerExperimentForSensorVisualizationTest(context, new Random().nextBoolean()? Experiment.ExperimentStatus.INITIATED: Experiment.ExperimentStatus.FINISHED);
         }
 
     }

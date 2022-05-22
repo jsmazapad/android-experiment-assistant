@@ -22,7 +22,7 @@ public class RequestPermissionsProvider {
         LOCATION
     }
 
-   private List<PermissionTypes> permissionsToCheckList = new ArrayList<>();
+   private final List<PermissionTypes> permissionsToCheckList = new ArrayList<>();
 
 
 
@@ -31,9 +31,7 @@ public class RequestPermissionsProvider {
     }
 
     public void removePermission(PermissionTypes type){
-        if (permissionsToCheckList.contains(type)){
-            permissionsToCheckList.remove(type);
-        }
+        permissionsToCheckList.remove(type);
     }
 
     public List<PermissionTypes> getPermissionsToCheckList() {
@@ -56,7 +54,9 @@ public class RequestPermissionsProvider {
                     break;
                 case Manifest.permission.ACCESS_FINE_LOCATION:
                 case Manifest.permission.ACCESS_COARSE_LOCATION:
-                    permissionErrorString.append(context.getString(R.string.location_permission_error));
+                    if("".equals(permissionErrorString.toString())) {
+                        permissionErrorString.append(context.getString(R.string.location_permission_rejected));
+                    }
                     break;
             }
 
@@ -77,7 +77,8 @@ public class RequestPermissionsProvider {
     };
 
     private static final String[] LOCATION_FINE_PERMISSIONS = new String[]{
-            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
     private static final String[] LOCATION_COARSE_PERMISSIONS = new String[]{

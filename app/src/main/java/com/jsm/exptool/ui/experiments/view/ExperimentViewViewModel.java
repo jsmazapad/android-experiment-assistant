@@ -14,6 +14,7 @@ import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.providers.DateProvider;
+import com.jsm.exptool.providers.ExperimentProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 import java.util.ArrayList;
@@ -68,11 +69,9 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
 
         experimentElements.add(new RepeatableElementConfig(0,0,0, R.string.comments));
 
-
-
         description.setValue(experiment.getDescription());
         title.setValue(experiment.getTitle());
-        status.setValue(experiment.getStatus().status);
+        status.setValue(String.format(getApplication().getString(R.string.experiment_view_status_format), ExperimentProvider.getTranslatableStringFromExperimentStatus(experiment.getStatus(), getApplication())));
         initDateString.setValue(DateProvider.dateToDisplayStringWithTime(experiment.getInitDate()));
         endDateString.setValue(DateProvider.dateToDisplayStringWithTime(experiment.getEndDate()));
         try{

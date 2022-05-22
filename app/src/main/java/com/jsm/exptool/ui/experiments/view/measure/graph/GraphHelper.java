@@ -54,7 +54,7 @@ public class GraphHelper {
 
             for (int i=0; i < measures.size(); i++){
                 SensorRegister measure = (SensorRegister) measures.get(i);
-                xAxis_labels.add(DateProvider.dateToDisplayStringWithTime(measure.getDate()));
+                xAxis_labels.add(DateProvider.dateToDisplayStringWithTime(measure.getDate()).replace(" ", "\n"));
                 valuesX.add(new Entry(i, Double.valueOf(measure.getValue1()).floatValue()));
                 if(!isUniqueAxis){
                     valuesY.add(new Entry(i, Double.valueOf(measure.getValue2()).floatValue()));
@@ -71,7 +71,7 @@ public class GraphHelper {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>() ;
         LineDataSet setX = new LineDataSet(valuesX, "X");
         setX.setDrawCircles(false);
-        setX.setColor(graph.getContext().getResources().getColor(R.color.purple_200));
+        setX.setColor(graph.getContext().getResources().getColor(R.color.graphX));
         setX.setLineWidth(2f);
         dataSets.add(setX);
 
@@ -83,10 +83,10 @@ public class GraphHelper {
             dataSets.add(setZ);
 
             setY.setDrawCircles(false);
-            setY.setColor(graph.getContext().getResources().getColor(R.color.purple_500));
+            setY.setColor(graph.getContext().getResources().getColor(R.color.graphY));
             setY.setLineWidth(2f);
             setZ.setDrawCircles(false);
-            setZ.setColor(graph.getContext().getResources().getColor(R.color.purple_700));
+            setZ.setColor(graph.getContext().getResources().getColor(R.color.graphZ));
             setZ.setLineWidth(2f);
         }
 
@@ -111,8 +111,9 @@ public class GraphHelper {
         XAxis xAxis = graph.getXAxis();
         xAxis.setSpaceMax(0.1f);
         graph.setExtraRightOffset(25);
+        graph.setExtraBottomOffset(40);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(-45);
+        xAxis.setLabelRotationAngle(45);
         xAxis.setGranularity(1f);
         xAxis.setXOffset(-3f);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxis_labels));

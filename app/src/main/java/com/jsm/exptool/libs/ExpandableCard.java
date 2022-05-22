@@ -75,7 +75,7 @@ public class ExpandableCard extends LinearLayout {
         collapseButton.setOnClickListener(view -> {
             collapsed = !collapsed;
             innerContentLayout.setVisibility(collapsed ? View.GONE : View.VISIBLE);
-            extraInfoTV.setVisibility( !"".equals(extraInfoTV.getText()) && collapsed ? VISIBLE: GONE);
+            extraInfoTV.setVisibility( !"".contentEquals(extraInfoTV.getText()) && collapsed ? VISIBLE: GONE);
             collapseButton.setImageDrawable(context.getDrawable(collapsed? R.drawable.ic_baseline_arrow_drop_down_24 : R.drawable.ic_baseline_arrow_drop_up_24));
 
         });
@@ -85,13 +85,13 @@ public class ExpandableCard extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         View [] views = new View [getChildCount()-1];
-        //REcolocación de vistas dentro del card
+        //Recolocación de vistas dentro del card
         for (int i = 1; i<getChildCount(); i++) {
             views[i-1]= this.getChildAt(i);
         }
-        for(int i = 0; i<views.length; i++){
-            removeView(views[i]);
-            innerContentLayout.addView(views[i]);
+        for (View view : views) {
+            removeView(view);
+            innerContentLayout.addView(view);
         }
     }
 
@@ -100,7 +100,7 @@ public class ExpandableCard extends LinearLayout {
        String newValue = newSelectedValue.getValue();
        if (card.extraInfoTV.getText() != newValue){
            card.extraInfoTV.setText(newValue);
-           card.extraInfoTV.setVisibility( !"".equals(card.extraInfoTV.getText()) && card.isCollapsed() ? VISIBLE: GONE);
+           card.extraInfoTV.setVisibility( !"".contentEquals(card.extraInfoTV.getText()) && card.isCollapsed() ? VISIBLE: GONE);
 
        }
     }

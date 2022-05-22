@@ -29,8 +29,8 @@ public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsLis
 
     @Override
     protected ExperimentsListViewModel createViewModel() {
-
-        MockExamples.registerFullExperiment();
+        //TODO Código desarrollo
+        //MockExamples.registerFullExperiment();
         return new ViewModelProvider(this).get(ExperimentsListViewModel.class);
     }
 
