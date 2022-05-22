@@ -116,6 +116,11 @@ dependencies {
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 
     /*
+        BUS DE EVENTOS
+     */
+    implementation("org.greenrobot:eventbus:3.3.1")
+
+    /*
         CAMERAX
      */
     // CameraX core library

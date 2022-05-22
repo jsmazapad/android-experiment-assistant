@@ -1,8 +1,9 @@
 package com.jsm.exptool.providers;
 
+
+import android.app.Dialog;
 import android.content.Context;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -16,7 +17,7 @@ public interface ExperimentActionsInterface {
      * @param experiment
      * @param alertDialog
      */
-    void initExperiment(Context context, Experiment experiment, AlertDialog alertDialog);
+    void initExperiment(Context context, Experiment experiment, Dialog alertDialog);
 
     /**
      * Visualiza los datos de un experimento
@@ -24,7 +25,7 @@ public interface ExperimentActionsInterface {
      * @param experiment
      * @param alertDialog
      */
-    void viewExperimentData(Context context, Experiment experiment, AlertDialog alertDialog);
+    void viewExperimentData(Context context, Experiment experiment, Dialog alertDialog);
 
     /**
      * Exporta el contenido de un experimento a un archivo zip incluyendo sus datos esportados csv y los ficheros asociados a este
@@ -32,7 +33,7 @@ public interface ExperimentActionsInterface {
      * @param experiment
      * @param alertDialog
      */
-    void exportExperiment(Context context, Experiment experiment, AlertDialog alertDialog);
+    void exportExperiment(Context context, Experiment experiment, Dialog alertDialog);
 
     /**
      * Sincroniza el contenido de un experimento con la base de datos
@@ -40,7 +41,7 @@ public interface ExperimentActionsInterface {
      * @param experiment
      * @param alertDialog
      */
-    void syncExperiment(Context context, Experiment experiment, AlertDialog alertDialog);
+    void syncExperiment(Context context, Experiment experiment, Dialog alertDialog);
 
     /**
      * Finaliza un experimento
@@ -48,7 +49,7 @@ public interface ExperimentActionsInterface {
      * @param experiment
      * @param alertDialog
      */
-    void endExperiment(Context context, Experiment experiment, AlertDialog alertDialog);
+    void endExperiment(Context context, Experiment experiment, Dialog alertDialog);
 
     /**
      * Continua un experimento existente
@@ -56,14 +57,14 @@ public interface ExperimentActionsInterface {
      * @param experiment
      * @param alertDialog
      */
-    void continueExperiment(Context context, Experiment experiment, AlertDialog alertDialog);
+    void continueExperiment(Context context, Experiment experiment, Dialog alertDialog);
     /**
      * Elimina un experimento, incluyendo todos los ficheros y registros de base de datos asociados a este
      * @param context
      * @param experiment
      * @param alertDialog
      */
-    void deleteExperiment(Context context, Experiment experiment, AlertDialog alertDialog);
+    void deleteExperiment(Context context, Experiment experiment, Dialog alertDialog);
 
     /**
      * Crea un experimento nuevo copiando la configuración de otro existente
@@ -71,7 +72,7 @@ public interface ExperimentActionsInterface {
      * @param experiment
      * @param alertDialog
      */
-    void createExperimentByCopyingExperimentConfig(Context context, Experiment experiment, AlertDialog alertDialog);
+    void createExperimentByCopyingExperimentConfig(Context context, Experiment experiment, Dialog alertDialog);
 
     MutableLiveData<String> getSensorCountValue();
     MutableLiveData<String> getImageCountValue();
