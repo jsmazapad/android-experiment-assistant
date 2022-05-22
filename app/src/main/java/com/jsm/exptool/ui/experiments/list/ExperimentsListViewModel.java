@@ -214,7 +214,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
     public void exportExperiment(Context context, Experiment experiment, AlertDialog alertDialog) {
         //TODO, ver porque no muestra pantalla de carga
         isLoading.setValue(true);
-        orchestratorProvider.executeExportToCSV(context, experiment);
+        //orchestratorProvider.executeExportToCSV(context, experiment);
     }
 
     @Override
@@ -373,10 +373,6 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
         return quickCommentsText;
     }
 
-    @Override
-    public LiveData<Boolean> getIsLoading() {
-        return super.getIsLoading();
-    }
 
     private void initExperimentActionsDialogObservers(LifecycleOwner lifecycleOwner) {
         sensorCount.observe(lifecycleOwner, countValue -> {

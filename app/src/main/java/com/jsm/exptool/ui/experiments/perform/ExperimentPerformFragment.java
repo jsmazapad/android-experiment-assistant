@@ -171,7 +171,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         binding.quickCommentsRV.setLayoutManager(layoutManager);
     }
 
-    //TODO Arreglar comportamiento de permisos encadenados
+    //TODO Verificar comportamiento permisos al solicitar al inicio, verificar comportamiento app al no tener permisos
     @Override
     public void requestPermissions(){
         viewModel.handleRequestPermissions(this);

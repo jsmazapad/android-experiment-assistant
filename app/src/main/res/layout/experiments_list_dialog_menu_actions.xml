@@ -257,8 +257,9 @@
         </LinearLayout>
     </ScrollView>
     <include
+        android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
         layout="@layout/view_loading_include"
-        android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+        />
     </FrameLayout>
 
 

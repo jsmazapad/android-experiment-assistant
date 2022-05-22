@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.databinding.ExperimentsListDialogMenuActionsBinding;
@@ -16,6 +17,7 @@ public class ExperimentResumeAndActionsDialogProvider {
     public static void createActionsDialog(Context context, Experiment experiment, ExperimentsListViewModel viewModel) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ExperimentsListDialogMenuActionsBinding binding = ExperimentsListDialogMenuActionsBinding.inflate(layoutInflater);
+        ExperimentsListDialogMenuActionsBinding binding = DataBindingUtil.inflate()
         binding.setViewModel(viewModel);
         View mView = binding.getRoot();
         AlertDialog alertDialog;

@@ -43,9 +43,9 @@ public class ExperimentViewFragment extends BaseRecyclerFragment<ExperimentViewF
     @Override
     protected ExperimentViewViewModel createViewModel() {
         //TODO Código pruebas, comentar
+        //Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest(getContext(), null);
+        Experiment experiment = ExperimentViewFragmentArgs.fromBundle(getArguments()).getExperiment();
 
-        //Experiment experiment = ExperimentViewFragmentArgs.fromBundle(getArguments()).getExperiment();
-        Experiment experiment = MockExamples.registerExperimentForSensorVisualizationTest(getContext(), null);
         return new ViewModelProvider(this, new ExperimentViewViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentViewViewModel.class);
     }
 

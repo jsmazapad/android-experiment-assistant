@@ -29,6 +29,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
    private final MutableLiveData<String> description = new MutableLiveData<>();
    private final MutableLiveData<String> title = new MutableLiveData<>();
    private final MutableLiveData<String> status = new MutableLiveData<>();
+    private final MutableLiveData<String> exported = new MutableLiveData<>();
    private final MutableLiveData<String> duration = new MutableLiveData<>();
    private final MutableLiveData<Boolean> sensorEnabled = new MutableLiveData<>(false);
    private final MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
@@ -36,6 +37,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
    private final MutableLiveData<Boolean> audioEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> locationEnabled = new MutableLiveData<>(false);
    private final MutableLiveData<Boolean> syncEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> syncPending = new MutableLiveData<>(false);
 
     public ExperimentViewViewModel(Application app, Experiment experiment) {
         super(app);
@@ -67,11 +69,16 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
             sensorEnabled.setValue(true);
         }
 
+        if(experiment.isSyncPending() || (experimentConfiguration.isEmbeddingEnabled() && experiment.isEmbeddingPending())) {
+            syncPending.setValue(true);
+        }
+
         experimentElements.add(new RepeatableElementConfig(0,0,0, R.string.comments));
 
         description.setValue(experiment.getDescription());
         title.setValue(experiment.getTitle());
         status.setValue(String.format(getApplication().getString(R.string.experiment_view_status_format), ExperimentProvider.getTranslatableStringFromExperimentStatus(experiment.getStatus(), getApplication())));
+        exported.setValue(String.format(getApplication().getString(R.string.experiment_view_exported_format), getApplication().getString(experiment.isExportedPending()? R.string.no_configured : R.string.yes_configured)));
         initDateString.setValue(DateProvider.dateToDisplayStringWithTime(experiment.getInitDate()));
         endDateString.setValue(DateProvider.dateToDisplayStringWithTime(experiment.getEndDate()));
         try{
@@ -104,6 +111,10 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
         return status;
     }
 
+    public MutableLiveData<String> getExported() {
+        return exported;
+    }
+
     public MutableLiveData<String> getDuration() {
         return duration;
     }
@@ -130,6 +141,10 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
 
     public MutableLiveData<Boolean> getLocationEnabled() {
         return locationEnabled;
+    }
+
+    public MutableLiveData<Boolean> getSyncPending() {
+        return syncPending;
     }
 
     @Override

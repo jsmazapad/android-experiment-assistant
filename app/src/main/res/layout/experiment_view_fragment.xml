@@ -121,6 +121,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:contentDescription="@string/sync_pending_content_description"
+                        android:visibility="@{viewModel.syncPending ? View.VISIBLE : View.GONE}"
                         app:srcCompat="@drawable/ic_baseline_sync_problem_24" />
 
 
@@ -136,14 +137,28 @@
                     android:textColor="@color/white"
                     tools:text="Descripción" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:orientation="horizontal">
                 <TextView
                     android:id="@+id/statusTV"
                     style="@style/BaseCardTitleTextView"
-                    android:paddingTop="10dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:text="@{viewModel.status}"
                     android:textColor="@color/white"
-                    tools:text="Descripción" />
+                    tools:text="Estado: Finalizado" />
+                    <TextView
+                        android:id="@+id/exportedTV"
+                        style="@style/BaseCardTitleTextView"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@{viewModel.exported}"
+                        android:textColor="@color/white"
+                        tools:text="Exportado: No" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

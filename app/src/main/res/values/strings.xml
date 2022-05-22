@@ -77,8 +77,8 @@
 
 
     <!--
-  CAMERA CONFIGURATION
-  -->
+      CAMERA CONFIGURATION
+      -->
     <string name="embedding_alg_spinner_title">Seleccione algoritmo</string>
     <string name="camera_configuration_title">Configuración de cámara</string>
     <string name="camera_configuration_flash_and_position_title">Configuración de Flash y posición de la cámara</string>
@@ -123,16 +123,44 @@
     <string name="pending_jobs_dialog_option_wait_only_local">Finalizar trabajos pendientes que requieren de servidor y esperar al resto</string>
     <!--
   AUDIO CONFIGURATION
-  -->
+    -->
     <string name="audio_configuration_title">Configuración de grabación de audio</string>
     <string name="audio_option_spinner_title">Seleccione formato de audio</string>
     <string name="audio_bitrate_spinner_title">Seleccione bitrate</string>
     <string name="audio_configuration_audio_option_title">Configuración de encoder de audio</string>
     <string name="audio_configuration_audio_bitrate_title">Configuración de Bitrate</string>
 
+
     <!--
-VIEW EXPERIMENT MEASURES
--->
+        VIEW EXPERIMENT
+    -->
+    <string name="camera_enabled_content_description">Tiene imágenes</string>
+    <string name="audio_enabled_content_description">Tiene sonidos</string>
+    <string name="embedding_enabled_content_description">Tiene embedding de imágenes</string>
+    <string name="location_enabled_content_description">Tiene ubicación</string>
+    <string name="sensors_enabled_content_description">Tiene sensores</string>
+    <string name="sync_enabled_content_description">Tiene sincronización</string>
+    <string name="sync_pending_content_description">Elementos pendientes de sincronizar</string>
+    <string name="experiment_view_start">Inicio</string>
+    <string name="experiment_view_time_duration">Duracion</string>
+    <string name="experiment_view_end">Fin</string>
+    <string name="experiment_view_status_format">Estado: %s</string>
+    <string name="experiment_view_exported_format">Exportado: %s</string>
+    <string name="experiment_view_measures_time_header">Tiempo</string>
+
+    <string name="experiment_view_data_sync_check_content_description">Sincronización realizada</string>
+    <string name="experiment_view_data_sync_pending_content_description">Sincronización no realizada</string>
+    <string name="experiment_view_data_embedding_check_content_description">Obtención de embedding realizado</string>
+    <string name="experiment_view_data_embedding_pending_content_description">Obtención de embedding no realizado</string>
+    <string name="experiment_view_data_sync_header">Sinc. remota</string>
+    <string name="experiment_view_data_embedding_header">Embedding</string>
+    <string name="experiment_view_data_sensor_value_header">Valor</string>
+    <string name="experiment_view_data_location_position_header">Posición</string>
+    <string name="experiment_view_data_comment_value_header">Comentario</string>
+
+    <!--
+    VIEW EXPERIMENT MEASURES
+    -->
     <string name="data_tab_title">Datos</string>
     <string name="graph_tab_title">Gráfica</string>
     <string name="map_tab_title">Mapa</string>
@@ -143,8 +171,8 @@ VIEW EXPERIMENT MEASURES
 
 
     <!--
-CONFIGURATION
--->
+    CONFIGURATION
+    -->
     <string name="expandable_card_expand_content_description">Expandir </string>
     <string name="expandable_card_contract_content_description">Contraer </string>
     <string name="edit_content_description">Editar</string>
@@ -171,8 +199,8 @@ CONFIGURATION
     <string name="configuration_quick_comments_edit_collection_title">Gestión de colección de comentarios rápidos</string>
 
     <!--
-ABOUT
--->
+    ABOUT
+    -->
     <string name="about_text"><![CDATA[<p>El prop&oacute;sito de esta aplicaci&oacute;n es poder convertir un dispositivo m&oacute;vil Android en una herramienta &uacute;til para la comunidad cient&iacute;fica que permita la obtenci&oacute;n de datos para experimentos, pudiendo funcionar tanto online como offline. Est&aacute; muy enfocada en la obtenci&oacute;n de datos que posteriormente puedan ser procesados por algoritmos de Machine Learning.</p>
 <p>Aplicaci&oacute;n desarrollada como Trabajo Fin de Master para el Master en Ingenier&iacute;a Inform&aacute;tica de la universidad <strong>Pablo de Olavide.</strong></p>
 <p>Desarrollada por</p>
@@ -180,9 +208,9 @@ ABOUT
 <p>Tutelada por</p>
 <p><strong>Gualberto Asencio Cort&eacute;s</strong></p>
 <p><strong>&copy; Joaqu&iacute;n Sainz de la Maza Padr&oacute; 2022</strong></p>]]></string>
-<!--
-Experiment list
--->
+    <!--
+    Experiment list
+    -->
 
     <string name="experiment_filter_name_all">Ninguno</string>
     <string name="experiment_filter_name_create">Creado</string>
@@ -242,7 +270,7 @@ Experiment list
 
 
     <!--
-Permissions
+    Permissions
     -->
     <string name="camera_permission_rejected">No ha autorizado el permiso para el uso de la cámara. Sin este permiso no es posible hacer uso de la cámara. \n</string>
     <string name="files_permission_rejected">No ha autorizado el permiso para la creación y lectura de archivos. Sin este permiso no es posible guardar ni leer archivos. \n</string>
@@ -253,27 +281,6 @@ Permissions
     Varios
     -->
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
-    <string name="camera_enabled_content_description">Tiene imágenes</string>
-    <string name="audio_enabled_content_description">Tiene sonidos</string>
-    <string name="embedding_enabled_content_description">Tiene embedding de imágenes</string>
-    <string name="location_enabled_content_description">Tiene ubicación</string>
-    <string name="sensors_enabled_content_description">Tiene sensores</string>
-    <string name="sync_enabled_content_description">Tiene sincronización</string>
-    <string name="sync_pending_content_description">Elementos pendientes de sincronizar</string>
-    <string name="experiment_view_start">Inicio</string>
-    <string name="experiment_view_time_duration">Duracion</string>
-    <string name="experiment_view_end">Fin</string>
-    <string name="experiment_view_status_format">Estado: %s</string>
-    <string name="experiment_view_measures_time_header">Tiempo</string>
 
-    <string name="experiment_view_data_sync_check_content_description">Sincronización realizada</string>
-    <string name="experiment_view_data_sync_pending_content_description">Sincronización no realizada</string>
-    <string name="experiment_view_data_embedding_check_content_description">Obtención de embedding realizado</string>
-    <string name="experiment_view_data_embedding_pending_content_description">Obtención de embedding no realizado</string>
-    <string name="experiment_view_data_sync_header">Sinc. remota</string>
-    <string name="experiment_view_data_embedding_header">Embedding</string>
-    <string name="experiment_view_data_sensor_value_header">Valor</string>
-    <string name="experiment_view_data_location_position_header">Posición</string>
-    <string name="experiment_view_data_comment_value_header">Comentario</string>
 
 </resources>
