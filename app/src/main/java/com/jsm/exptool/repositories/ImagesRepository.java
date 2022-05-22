@@ -14,10 +14,8 @@ import com.jsm.exptool.data.network.AnalyticsApiService;
 import com.jsm.exptool.data.network.AppDeserializerProvider;
 import com.jsm.exptool.data.network.AppNetworkErrorTreatment;
 import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
-import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.register.SensorRegister;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -36,7 +33,7 @@ import retrofit2.Call;
 
 
 public class ImagesRepository {
-    private static final AnalyticsApiService ImageEmbeddingService = RetrofitService.createService(AnalyticsApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), BuildConfig.BASE_URL);
+    private static final AnalyticsApiService imageEmbeddingService = RetrofitService.createService(AnalyticsApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), BuildConfig.BASE_URL);
 
     /**
      * Obtiene el vector de embedding de manera reactiva
@@ -54,7 +51,7 @@ public class ImagesRepository {
             while (in.read(buf) != -1);
             RequestBody requestBody = RequestBody
                     .create(MediaType.parse("application/octet-stream"), buf);
-            Call<NetworkElementResponse<ImageEmbeddingVector>> call = ImageEmbeddingService.getEmbedding(algorithm, requestBody);
+            Call<NetworkElementResponse<ImageEmbeddingVector>> call = imageEmbeddingService.getEmbedding(algorithm, requestBody);
             call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, responseLiveData));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -82,7 +79,7 @@ public class ImagesRepository {
             while (in.read(buf) != -1);
             RequestBody requestBody = RequestBody
                     .create(MediaType.parse("application/octet-stream"), buf);
-            Call<NetworkElementResponse<ImageEmbeddingVector>> call = ImageEmbeddingService.getEmbedding(algorithm, requestBody);
+            Call<NetworkElementResponse<ImageEmbeddingVector>> call = imageEmbeddingService.getEmbedding(algorithm, requestBody);
             call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, callback));
         } catch (FileNotFoundException e) {
             e.printStackTrace();

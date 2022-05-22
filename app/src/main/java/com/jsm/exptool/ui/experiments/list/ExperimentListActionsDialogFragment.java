@@ -43,6 +43,7 @@ public class ExperimentListActionsDialogFragment extends DialogFragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(mView);
         alertDialogBuilder.setNegativeButton(R.string.default_modal_closeButton, (dialog, which) -> {
+            viewModel.cancelPendingWorks();
         });
 
 
@@ -57,7 +58,6 @@ public class ExperimentListActionsDialogFragment extends DialogFragment {
             binding.endExperimentButton.setOnClickListener(v -> viewModel.endExperiment(context,experiment,  this.getDialog()));
             binding.continueExperimentButton.setOnClickListener(v -> viewModel.continueExperiment(context, experiment, this.getDialog()));
             binding.deleteExperimentButton.setOnClickListener(v -> viewModel.deleteExperiment(context, experiment, this.getDialog()));
-
             binding.copyExperimentButton.setOnClickListener(v -> viewModel.createExperimentByCopyingExperimentConfig(context, experiment, this.getDialog()));
 
             switch (experiment.getStatus()) {

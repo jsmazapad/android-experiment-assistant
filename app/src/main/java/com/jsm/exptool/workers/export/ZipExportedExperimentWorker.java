@@ -5,6 +5,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXP
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Data;
@@ -14,8 +15,11 @@ import androidx.work.WorkerParameters;
 import com.jsm.exptool.config.ExportToCSVConfigOptions;
 import com.jsm.exptool.libs.Zipper;
 import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.providers.DateProvider;
+import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -56,7 +60,8 @@ public class ZipExportedExperimentWorker extends Worker {
         Zipper zipper = new Zipper();
         String [] filenamesArray = filenames.toArray(new String[0]);
         //Reusamos el nombre del primer elemento pero cambiamos la extensión
-        String zipName = filenamesArray[0].replace("csv", "zip");
+        String zipName = filenames.get(0).substring(0,filenames.get(0).lastIndexOf("/")+1)+ FilePathsProvider.formatFileName(experiment.getTitle()+ DateProvider.dateToDisplayStringWithTime(experiment.getInitDate())+".zip");
+        Log.d("ZIP", zipName);
         try {
             zipper.zip(filenamesArray, zipName);
             experiment.setExportedPending(false);
@@ -64,6 +69,18 @@ public class ZipExportedExperimentWorker extends Worker {
         }catch (Exception e) {
             e.printStackTrace();
             return Result.failure();
+        }
+
+        //Eliminamos los archivos csv cuando terminamos
+        for (String fileName:filenames) {
+            try {
+                if (fileName.endsWith(".csv")) {
+                    new File(fileName).delete();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
 
 

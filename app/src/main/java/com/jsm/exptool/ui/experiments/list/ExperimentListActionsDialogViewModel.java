@@ -398,4 +398,8 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
             quickCommentsText = String.format(context.getString(R.string.experiment_actions_quick_comments_format_text), quickCommentListAsString);
         }
     }
+
+    public void cancelPendingWorks(){
+        orchestratorProvider.finishPendingJobs();
+    }
 }

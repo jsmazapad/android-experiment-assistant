@@ -96,8 +96,6 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
-        //TODO Llamar a métodos de db en segundo plano para no sobrecargar el hilo principal
-        //TODO asegurar que sólo se crea una instancia del elemento
 
         Experiment selectedExperiment = elements.getValue().get(position);
 
@@ -206,7 +204,6 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
 
 
-    //TODO Extraer código a delegado
     private void openActionsDialog(Context context, Experiment experiment) {
         ExperimentListActionsDialogFragment dialogFragment = ExperimentListActionsDialogFragment.newInstance(experiment);
         dialogFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), "dialog");

@@ -18,7 +18,12 @@ public class Zipper {
 
     public void zip(String[] filePaths, String zipFileName) throws Exception{
 
-            BufferedInputStream origin = null;
+//            File zipFile = new File(zipFileName);
+//            if(!zipFile.exists())
+//            {
+//                zipFile.createNewFile();
+//            }
+            //BufferedInputStream origin = null;
             FileOutputStream dest = new FileOutputStream(zipFileName);
             ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
                     dest));

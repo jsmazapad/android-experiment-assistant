@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.ui.experiments.perform.ExperimentPerformViewModel;
 
 
 public class ExperimentListActionDialogViewModelFactory implements ViewModelProvider.Factory {
