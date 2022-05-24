@@ -5,6 +5,7 @@ public class WorkerPropertiesConstants {
         public static final String FILE_NAME = "FILE_NAME";
         public static final String DATE_TIMESTAMP = "IMAGE_DATE";
         public static final String EXPERIMENT_ID = "EXPERIMENT_ID";
+        public static final String EXPERIMENT_EXTERNAL_ID = "EXPERIMENT_EXTERNAL_ID";
         public static final String IMAGE_REGISTER_ID = "IMAGE_REGISTER_ID";
         public static final String PROCESSED_IMAGE_FILE_NAME = "PROCESSED_IMAGE_FILE_MANE";
         public static final String PROCESSED_IMAGE_HEIGHT = "PROCESSED_IMAGE_HEIGHT";

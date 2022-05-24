@@ -7,6 +7,8 @@ import androidx.room.Update;
 
 import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.register.CommentRegister;
+import com.jsm.exptool.model.register.ImageRegister;
+import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.List;
 
@@ -36,6 +38,15 @@ public interface CommentRegisterDao {
      */
     @Query("SELECT * FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId ORDER BY date DESC")
     List<CommentRegister> getCommentRegistersByExperimentId(long experimentId);
+
+    /**
+     * Obtiene los registros pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT * FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    List<CommentRegister> getPendingSyncCommentRegistersByExperimentId(long experimentId, int limit);
 
     /**
      * Inserta un registro

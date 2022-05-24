@@ -7,6 +7,7 @@ import androidx.room.Update;
 
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.List;
@@ -29,6 +30,15 @@ public interface SensorRegisterDao {
      */
     @Query("SELECT * FROM "+ SensorRegister.TABLE_NAME + " WHERE sensorType = :type AND experimentId = :experimentId ORDER BY date DESC")
     List<SensorRegister> getSensorsByTypeAndExperimentId(int type, long experimentId);
+
+    /**
+     * Obtiene los registros pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT * FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    List<SensorRegister> getPendingSyncSensorRegistersByExperimentId(long experimentId, int limit);
 
     /**
      * Selecciona un registro mediante su id (externo)

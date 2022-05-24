@@ -7,6 +7,8 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.model.SensorConfig;
+import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.model.register.SensorRegister;
 
@@ -43,6 +45,14 @@ public class SensorsRepository {
 
     public static long registerSensorCapture(SensorRegister sensorRegister){
         return DBHelper.insertSensorRegister(sensorRegister);
+    }
+
+    public static long updateSensorRegister(SensorRegister register) {
+        return DBHelper.updateSensorRegister(register);
+    }
+
+    public static List<SensorRegister> getSynchronouslyPendingSyncRegistersByExperimentId(long experimentId) {
+        return DBHelper.getPendingSyncSensorRegistersByExperimentId(experimentId);
     }
 
     public static void getRegistersByTypeAndExperimentIdAsExperimentRegister(int type, long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){

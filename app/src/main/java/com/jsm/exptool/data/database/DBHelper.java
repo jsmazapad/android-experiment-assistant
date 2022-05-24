@@ -1,5 +1,7 @@
 package com.jsm.exptool.data.database;
 
+import static com.jsm.exptool.config.ConfigConstants.REGISTERS_SYNC_LIMIT;
+
 import android.content.Context;
 
 import androidx.room.Room;
@@ -90,13 +92,21 @@ public class DBHelper {
         return appDatabase.imageDao().insert(imageRegister);
     }
 
-    public static List<ImageRegister> getImages() {
+    public static List<ImageRegister> getImageRegisters() {
         return appDatabase.imageDao().getImages();
     }
 
-
     public static List<ImageRegister> getImageRegistersByExperimentId(long experimentId) {
         return appDatabase.imageDao().getImageRegistersByExperimentId(experimentId);
+    }
+
+
+    public static List<ImageRegister> getPendingSyncImageRegistersByExperimentId(long experimentId) {
+        return appDatabase.imageDao().getPendingSyncImageRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+    }
+
+    public static List<ImageRegister> getPendingFileSyncImageRegistersByExperimentId(long experimentId) {
+        return appDatabase.imageDao().getPendingFileSyncImageRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
     }
 
     public static List<ImageRegister> getImageRegistersWithEmbeddingByExperimentId(long experimentId) {
@@ -108,7 +118,7 @@ public class DBHelper {
         return appDatabase.imageDao().selectById(imageId);
     }
 
-    public static int updateImage(ImageRegister register) {
+    public static int updateImageRegister(ImageRegister register) {
         return appDatabase.imageDao().update(register);
     }
 
@@ -124,7 +134,7 @@ public class DBHelper {
         return appDatabase.audioDao().insert(audioRegister);
     }
 
-    public static List<AudioRegister> getAudios() {
+    public static List<AudioRegister> getAudioRegisters() {
         return appDatabase.audioDao().getAudios();
     }
 
@@ -132,12 +142,20 @@ public class DBHelper {
         return appDatabase.audioDao().getAudioRegistersByExperimentId(experimentId);
     }
 
+    public static List<AudioRegister> getPendingSyncAudioRegistersByExperimentId(long experimentId) {
+        return appDatabase.audioDao().getPendingSyncAudioRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+    }
+
+    public static List<AudioRegister> getPendingFileSyncAudioRegistersByExperimentId(long experimentId) {
+        return appDatabase.audioDao().getPendingFileSyncAudioRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+    }
+
 
     public static AudioRegister getAudioById(long imageId) {
         return appDatabase.audioDao().selectById(imageId);
     }
 
-    public static int updateAudio(AudioRegister register) {
+    public static int updateAudioRegister(AudioRegister register) {
         return appDatabase.audioDao().update(register);
     }
 
@@ -160,6 +178,9 @@ public class DBHelper {
         return appDatabase.sensorDao().getSensorsByExperimentId(experimentId);
     }
 
+    public static List<SensorRegister> getPendingSyncSensorRegistersByExperimentId(long experimentId) {
+        return appDatabase.sensorDao().getPendingSyncSensorRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+    }
 
     public static SensorRegister getSensorRegistersById(long sensorId) {
         return appDatabase.sensorDao().selectById(sensorId);
@@ -192,7 +213,9 @@ public class DBHelper {
     public static List<CommentRegister> getCommentRegistersByExperimentId(long experimentId) {
         return appDatabase.commentDao().getCommentRegistersByExperimentId(experimentId);
     }
-
+    public static List<CommentRegister> getPendingSyncCommentRegistersByExperimentId(long experimentId) {
+        return appDatabase.commentDao().getPendingSyncCommentRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+    }
 
     public static CommentRegister getCommentRegistersById(long sensorId) {
         return appDatabase.commentDao().selectById(sensorId);

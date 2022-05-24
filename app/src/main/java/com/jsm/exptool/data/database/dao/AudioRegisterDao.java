@@ -6,6 +6,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.model.register.ImageRegister;
 
 import java.util.List;
 
@@ -40,6 +41,24 @@ public interface AudioRegisterDao {
      */
     @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId ORDER BY date DESC")
     List<AudioRegister> getAudioRegistersByExperimentId(long experimentId);
+
+    /**
+     * Obtiene los registros pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    List<AudioRegister> getPendingSyncAudioRegistersByExperimentId(long experimentId, int limit);
+
+    /**
+     * Obtiene los registros con archivos pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    List<AudioRegister> getPendingFileSyncAudioRegistersByExperimentId(long experimentId, int limit);
 
 
     /**

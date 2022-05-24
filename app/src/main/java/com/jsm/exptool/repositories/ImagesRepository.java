@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -48,7 +49,7 @@ public class ImagesRepository {
             in = new FileInputStream(image);
             byte[] buf;
             buf = new byte[in.available()];
-            while (in.read(buf) != -1);
+            while (in.read(buf) != -1) ;
             RequestBody requestBody = RequestBody
                     .create(MediaType.parse("application/octet-stream"), buf);
             Call<NetworkElementResponse<ImageEmbeddingVector>> call = imageEmbeddingService.getEmbedding(algorithm, requestBody);
@@ -64,19 +65,19 @@ public class ImagesRepository {
         }
     }
 
-    public static ImageRegister getImageRegisterById(long imageId){
+    public static ImageRegister getImageRegisterById(long imageId) {
         //TODO Pasar a asincrono
         return DBHelper.getImageById(imageId);
     }
 
-    public static void getEmbedding(NetworkElementResponseCallback<ImageEmbeddingVector> callback, File image, String algorithm){
+    public static void getEmbedding(NetworkElementResponseCallback<ImageEmbeddingVector> callback, File image, String algorithm) {
 
         InputStream in = null;
         try {
             in = new FileInputStream(image);
             byte[] buf;
             buf = new byte[in.available()];
-            while (in.read(buf) != -1);
+            while (in.read(buf) != -1) ;
             RequestBody requestBody = RequestBody
                     .create(MediaType.parse("application/octet-stream"), buf);
             Call<NetworkElementResponse<ImageEmbeddingVector>> call = imageEmbeddingService.getEmbedding(algorithm, requestBody);
@@ -87,7 +88,7 @@ public class ImagesRepository {
         } catch (IOException e) {
             e.printStackTrace();
             callback.onResponse(new ElementResponse<>(new BaseException(e.getMessage(), false)));
-        }finally {
+        } finally {
             if (in != null) {
                 try {
                     in.close();
@@ -98,38 +99,47 @@ public class ImagesRepository {
         }
     }
 
-    public static long registerImageCapture(File imageFile, long experimentId, Date date){
+    public static long registerImageCapture(File imageFile, long experimentId, Date date) {
         ImageRegister imageRegister = new ImageRegister(imageFile.getName(), imageFile.getParent(), new ArrayList<>(), false, false, false, experimentId, date);
         return DBHelper.insertImageRegister(imageRegister);
 
     }
-    public static int registerImageEmbedding(ImageRegister imageRegister, ImageEmbeddingVector vector){
+
+    public static int registerImageEmbedding(ImageRegister imageRegister, ImageEmbeddingVector vector) {
         imageRegister.setEmbedding(vector.getEmbedding());
-        return DBHelper.updateImage(imageRegister);
+        return DBHelper.updateImageRegister(imageRegister);
     }
 
-    public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){
+    public static int updateImageRegister(ImageRegister imageRegister) {
+        return DBHelper.updateImageRegister(imageRegister);
+    }
+
+
+    public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData) {
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
+        executor.execute(() -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
             addAll(DBHelper.getImageRegistersByExperimentId(experimentId));
         }})));
-    }
-
-    public static void getRegistersByExperimentId(long experimentId, MutableLiveData<ListResponse<ImageRegister>> responseLiveData){
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(DBHelper.getImageRegistersByExperimentId(experimentId))));
 
     }
 
-    public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse){
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute( () -> countResponse.postValue(DBHelper.getImageRegistersByExperimentId(experimentId).size()));
+    public static List<ImageRegister> getSynchronouslyPendingSyncRegistersByExperimentId(long experimentId) {
+        return DBHelper.getPendingSyncImageRegistersByExperimentId(experimentId);
     }
 
-    public static void countImagesWithEmbeddingsByExperimentId(long experimentId, MutableLiveData<Integer> countResponse){
+    public static List<ImageRegister> getSynchronouslyPendingFileSyncRegistersByExperimentId(long experimentId) {
+        return DBHelper.getPendingFileSyncImageRegistersByExperimentId(experimentId);
+    }
+
+    public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> countResponse.postValue(DBHelper.getImageRegistersByExperimentId(experimentId).size()));
+    }
+
+    public static void countImagesWithEmbeddingsByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
 
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute( () -> countResponse.postValue(DBHelper.getImageRegistersWithEmbeddingByExperimentId(experimentId).size()));
+        executor.execute(() -> countResponse.postValue(DBHelper.getImageRegistersWithEmbeddingByExperimentId(experimentId).size()));
 
     }
 }

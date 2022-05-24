@@ -1,7 +1,7 @@
 package com.jsm.exptool.data.network.responses;
 
 public class RemoteSyncResponse {
-    private long id;
+    private Long id;
     private String status;
 
     public RemoteSyncResponse(long id, String status) {
@@ -9,11 +9,11 @@ public class RemoteSyncResponse {
         this.status = status;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

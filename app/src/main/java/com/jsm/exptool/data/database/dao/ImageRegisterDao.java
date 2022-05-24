@@ -42,6 +42,29 @@ public interface ImageRegisterDao {
     @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId ORDER BY date DESC")
     List<ImageRegister> getImageRegistersByExperimentId(long experimentId);
 
+    /**
+     * Obtiene los registros pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 OR (embedding NOT LIKE '' AND embeddingRemoteSynced = 0) ORDER BY date ASC LIMIT :limit")
+    List<ImageRegister> getPendingSyncImageRegistersByExperimentId(long experimentId, int limit);
+
+    /**
+     * Obtiene los registros con archivos pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    List<ImageRegister> getPendingFileSyncImageRegistersByExperimentId(long experimentId, int limit);
+
+    /**
+     * Obtiene los registros que tienen datos de embedding asociados
+     * @param experimentId
+     * @return
+     */
     @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND (embedding NOT NULL OR embedding NOT LIKE '')ORDER BY date DESC")
     List<ImageRegister> getImageRegistersWithEmbeddingByExperimentId(long experimentId);
     /**

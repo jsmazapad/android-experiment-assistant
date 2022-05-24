@@ -34,7 +34,7 @@ public class Experiment implements Parcelable, Cloneable{
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(index = true, name = COLUMN_ID)
     private long internalId;
-    private int id;
+    private long externalId;
     private int userId;
     private String title;
     private String description;
@@ -54,9 +54,9 @@ public class Experiment implements Parcelable, Cloneable{
 
 
 
-    public Experiment(long internalId, int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending, String size, long duration) {
+    public Experiment(long internalId, long externalId, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending, String size, long duration) {
         this.internalId = internalId;
-        this.id = id;
+        this.externalId = externalId;
         this.userId = userId;
         this.title = title;
         this.description = description;
@@ -78,8 +78,8 @@ public class Experiment implements Parcelable, Cloneable{
 
     }
 
-    public Experiment(int id, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending, String size, long duration) {
-        this.id = id;
+    public Experiment(long externalId, int userId, String title, String description, Date initDate, Date endDate, ExperimentStatus status, ExperimentConfiguration configuration, List<SensorRegister> sensors, ArrayList<ImageRegister> images, ArrayList<AudioRegister> sounds, ArrayList<CommentRegister> comments, int sdkDevice, String device, boolean syncPending, boolean embeddingPending, boolean exportedPending, String size, long duration) {
+        this.externalId = externalId;
         this.userId = userId;
         this.title = title;
         this.description = description;
@@ -112,12 +112,12 @@ public class Experiment implements Parcelable, Cloneable{
         this.internalId = internalId;
     }
 
-    public int getId() {
-        return id;
+    public long getExternalId() {
+        return externalId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setExternalId(long externalId) {
+        this.externalId = externalId;
     }
 
     public int getUserId() {
@@ -297,7 +297,7 @@ public class Experiment implements Parcelable, Cloneable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.internalId);
-        dest.writeInt(this.id);
+        dest.writeLong(this.externalId);
         dest.writeInt(this.userId);
         dest.writeString(this.title);
         dest.writeString(this.description);
@@ -321,7 +321,7 @@ public class Experiment implements Parcelable, Cloneable{
 
     public void readFromParcel(Parcel source) {
         this.internalId = source.readLong();
-        this.id = source.readInt();
+        this.externalId = source.readLong();
         this.userId = source.readInt();
         this.title = source.readString();
         this.description = source.readString();

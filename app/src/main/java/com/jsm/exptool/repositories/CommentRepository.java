@@ -4,10 +4,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
+import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.model.register.ExperimentRegister;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -25,8 +27,16 @@ public class CommentRepository {
         }})));
     }
 
+    public static List<CommentRegister> getSynchronouslyPendingSyncRegistersByExperimentId(long experimentId) {
+        return DBHelper.getPendingSyncCommentRegistersByExperimentId(experimentId);
+    }
+
     public static long registerComment(CommentRegister comment) {
         return DBHelper.insertCommentRegister(comment);
+    }
+
+    public static long updateCommentRegister(CommentRegister comment) {
+        return DBHelper.updateCommentRegister(comment);
     }
 
     public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {

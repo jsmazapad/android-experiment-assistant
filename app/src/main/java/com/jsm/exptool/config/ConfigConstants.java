@@ -24,6 +24,8 @@ public class ConfigConstants {
 
     public static final int MAX_QUICK_COMMENTS = 6;
 
+    public static final int REGISTERS_SYNC_LIMIT = 200;
+
 
 
 }
