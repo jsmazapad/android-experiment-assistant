@@ -33,7 +33,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 
 
-public class ImagesRepository {
+public class ImageRepository {
     private static final AnalyticsApiService imageEmbeddingService = RetrofitService.createService(AnalyticsApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), BuildConfig.BASE_URL);
 
     /**
@@ -112,6 +112,10 @@ public class ImagesRepository {
 
     public static int updateImageRegister(ImageRegister imageRegister) {
         return DBHelper.updateImageRegister(imageRegister);
+    }
+
+    public static int updateRegisterFileSyncedByRegisterId(long registerId){
+        return DBHelper.updateImageRegisterFileSyncedByRegisterId(registerId);
     }
 
 

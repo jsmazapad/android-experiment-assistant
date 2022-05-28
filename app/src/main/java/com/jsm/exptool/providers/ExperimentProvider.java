@@ -1,21 +1,13 @@
 package com.jsm.exptool.providers;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.utils.MemoryUtils;
-import com.jsm.exptool.databinding.ExperimentsListDialogMenuActionsBinding;
 import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
-import com.jsm.exptool.repositories.AudioRepository;
-import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
-import com.jsm.exptool.repositories.ImagesRepository;
 
 import java.util.ArrayList;
 

@@ -8,8 +8,6 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DAT
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LATITUDE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LONGITUDE;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SENSOR;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.SENSOR_NAME;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,12 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jsm.exptool.R;
-import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.register.SensorRegister;
-import com.jsm.exptool.repositories.SensorsRepository;
+import com.jsm.exptool.repositories.SensorRepository;
 
 import java.util.Date;
 
@@ -50,7 +45,7 @@ public class RegisterLocationWorker extends Worker {
         SensorRegister sensorRegister = new SensorRegister(experimentId,  new Date(dateTimestamp), false,  latitude, LATITUDE,
                 longitude,LONGITUDE, altitude, ALTITUDE, TYPE_GPS_SENSOR_NAME, TYPE_GPS, R.string.location, accuracy);
 
-        long insertedRowId = SensorsRepository.registerSensorCapture(sensorRegister);
+        long insertedRowId = SensorRepository.registerSensorCapture(sensorRegister);
         Log.d("LOCATION_REGISTER", String.format("insertado con id %d", insertedRowId));
 
         return Result.success();

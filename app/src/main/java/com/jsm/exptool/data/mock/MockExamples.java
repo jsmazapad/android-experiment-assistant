@@ -28,8 +28,8 @@ import com.jsm.exptool.providers.LocationProvider;
 import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;
-import com.jsm.exptool.repositories.ImagesRepository;
-import com.jsm.exptool.repositories.SensorsRepository;
+import com.jsm.exptool.repositories.ImageRepository;
+import com.jsm.exptool.repositories.SensorRepository;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -129,7 +129,7 @@ public class MockExamples {
                 for (String key : sensor.getSensorReader().getMeasure().keySet()) {
                     sensor.getSensorReader().getMeasure().put(key, new Random().nextFloat());
                 }
-                SensorsRepository.registerSensorCapture(sensor, "PRUEBA", id, cal.getTime());
+                SensorRepository.registerSensorCapture(sensor, "PRUEBA", id, cal.getTime());
                 CommentRepository.registerComment(new CommentRegister(id,cal.getTime(), false, "Comentario de prueba "+ cal.getTime()));
             }
 
@@ -144,7 +144,7 @@ public class MockExamples {
 
             SensorRegister sensorRegister = new SensorRegister(id,  new Date(), false,  latitude, LATITUDE,
                     longitude,LONGITUDE, altitude, ALTITUDE, TYPE_GPS_SENSOR_NAME, TYPE_GPS, R.string.location, accuracy);
-            SensorsRepository.registerSensorCapture(sensorRegister);
+            SensorRepository.registerSensorCapture(sensorRegister);
             latitude += 0.0000001 * i;
         }
 
@@ -167,7 +167,7 @@ public class MockExamples {
         }
 
         for (int i = 0; i <= 40; i++) {
-            ImagesRepository.registerImageCapture(f, id, cal.getTime());
+            ImageRepository.registerImageCapture(f, id, cal.getTime());
         }
 
         File f2 = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO), "cat_sound.mp3");

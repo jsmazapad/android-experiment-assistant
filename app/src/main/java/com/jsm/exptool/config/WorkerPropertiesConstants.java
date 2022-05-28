@@ -7,6 +7,7 @@ public class WorkerPropertiesConstants {
         public static final String EXPERIMENT_ID = "EXPERIMENT_ID";
         public static final String EXPERIMENT_EXTERNAL_ID = "EXPERIMENT_EXTERNAL_ID";
         public static final String IMAGE_REGISTER_ID = "IMAGE_REGISTER_ID";
+        public static final String EXPERIMENT_REGISTER_ID = "EXPERIMENT_REGISTER_ID";
         public static final String PROCESSED_IMAGE_FILE_NAME = "PROCESSED_IMAGE_FILE_MANE";
         public static final String PROCESSED_IMAGE_HEIGHT = "PROCESSED_IMAGE_HEIGHT";
         public static final String PROCESSED_IMAGE_WIDTH = "PROCESSED_IMAGE_WIDTH";
@@ -43,6 +44,18 @@ public class WorkerPropertiesConstants {
         //EXPORTACIÓN
         public static final String EXPORT_REGISTERS = "EXPORT_REGISTERS";
         public static final String ZIP_EXPORTED = "ZIP_EXPORTED";
+
+        //SINCRONIZACIÓN REMOTA
+        public static final String REMOTE_SYNC_WORK = "REMOTE_SYNC_WORK";
+        public static final String REMOTE_SYNC_EXPERIMENT = "REMOTE_SYNC_EXPERIMENT";
+        public static final String REMOTE_SYNC_REGISTERS = "REMOTE_SYNC_REGISTERS";
+        public static final String REMOTE_SYNC_IMAGE_REGISTERS = "REMOTE_SYNC_IMAGE_REGISTERS";
+        public static final String REMOTE_SYNC_AUDIO_REGISTERS = "REMOTE_SYNC_AUDIO_REGISTERS";
+        public static final String REMOTE_SYNC_SENSORS_REGISTERS = "REMOTE_SYNC_SENSORS_REGISTERS";
+        public static final String REMOTE_SYNC_COMMENT_REGISTERS = "REMOTE_SYNC_COMMENT_REGISTERS";
+        public static final String REMOTE_SYNC_FILE_REGISTERS = "REMOTE_SYNC_FILE_REGISTERS";
+        public static final String REMOTE_SYNC_AUDIO_FILE_REGISTERS = "REMOTE_SYNC_FILE_REGISTERS";
+        public static final String REMOTE_SYNC_IMAGE_FILE_REGISTERS = "REMOTE_SYNC_FILE_REGISTERS";
 
     }
 }

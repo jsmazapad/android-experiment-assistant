@@ -23,6 +23,11 @@ public class MediaRegister extends ExperimentRegister {
         this.fileRemoteSynced = fileRemoteSynced;
     }
 
+    public MediaRegister(){
+        super();
+
+    }
+
 
     public String getFileName() {
         return fileName;
@@ -74,10 +79,18 @@ public class MediaRegister extends ExperimentRegister {
     }
 
     protected MediaRegister(Parcel in) {
-        super(in);
-        this.fileName = in.readString();
-        this.fileDirectory = in.readString();
-        this.fileRemoteSynced = in.readByte() != 0;
+        this.readFromParcel(in);
     }
 
+    public static final Creator<MediaRegister> CREATOR = new Creator<MediaRegister>() {
+        @Override
+        public MediaRegister createFromParcel(Parcel source) {
+            return new MediaRegister(source);
+        }
+
+        @Override
+        public MediaRegister[] newArray(int size) {
+            return new MediaRegister[size];
+        }
+    };
 }

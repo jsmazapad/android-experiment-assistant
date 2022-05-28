@@ -1,8 +1,6 @@
 package com.jsm.exptool;
 
 import android.app.Application;
-import android.content.Context;
-import android.hardware.SensorManager;
 import android.util.Log;
 
 
@@ -10,10 +8,9 @@ import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryPerformance;
 import com.jsm.exptool.core.utils.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
-import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.providers.PreferencesProvider;
-import com.jsm.exptool.providers.WorksOrchestratorProvider;
+import com.jsm.exptool.providers.syncworksorchestrator.WorksOrchestratorProvider;
 
 
 public class App extends Application {

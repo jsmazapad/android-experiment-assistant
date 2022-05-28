@@ -20,8 +20,8 @@ import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.model.register.ExperimentRegister;
 import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.CommentRepository;
-import com.jsm.exptool.repositories.ImagesRepository;
-import com.jsm.exptool.repositories.SensorsRepository;
+import com.jsm.exptool.repositories.ImageRepository;
+import com.jsm.exptool.repositories.SensorRepository;
 
 import java.util.List;
 
@@ -95,13 +95,13 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
     @Override
     public void callRepositoryForData() {
         if(measurableItem instanceof SensorConfig) {
-            SensorsRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(((SensorConfig)measurableItem).getSensorReader().getSensorType(), experimentId, apiResponseRepositoryHolder);
+            SensorRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(((SensorConfig)measurableItem).getSensorReader().getSensorType(), experimentId, apiResponseRepositoryHolder);
         }else if(measurableItem instanceof CameraConfig){
-            ImagesRepository.getRegistersByExperimentIdAsExperimentRegister(experimentId, apiResponseRepositoryHolder);
+            ImageRepository.getRegistersByExperimentIdAsExperimentRegister(experimentId, apiResponseRepositoryHolder);
         }else if(measurableItem instanceof AudioConfig){
             AudioRepository.getRegistersByExperimentIdAsExperimentRegister(experimentId, apiResponseRepositoryHolder);
         }else if(measurableItem instanceof LocationConfig){
-            SensorsRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(SensorConfigConstants.TYPE_GPS, experimentId, apiResponseRepositoryHolder);
+            SensorRepository.getRegistersByTypeAndExperimentIdAsExperimentRegister(SensorConfigConstants.TYPE_GPS, experimentId, apiResponseRepositoryHolder);
         }else{
             //Comentarios
             CommentRepository.getRegistersByExperimentIdAsExperimentRegister(experimentId, apiResponseRepositoryHolder);

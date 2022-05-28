@@ -15,7 +15,7 @@ import androidx.work.WorkerParameters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.repositories.SensorsRepository;
+import com.jsm.exptool.repositories.SensorRepository;
 
 import java.util.Date;
 
@@ -45,7 +45,7 @@ public class RegisterSensorWorker extends Worker {
         }
         //TODO Refactorizar para pasar un objeto limpio
         //long insertedRowId = SensorsRepository.registerSensorCapture(keys, values, experimentId, new Date(dateTimestamp));
-        long insertedRowId = SensorsRepository.registerSensorCapture(sensor,sensorName, experimentId, new Date(dateTimestamp));
+        long insertedRowId = SensorRepository.registerSensorCapture(sensor,sensorName, experimentId, new Date(dateTimestamp));
         Log.d("SENSOR_REGISTER", String.format("insertado con id %d", insertedRowId));
 
         return Result.success();

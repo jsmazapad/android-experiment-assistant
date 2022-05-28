@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class SensorsRepository {
+public class SensorRepository {
 
     public static List<SensorConfig> getSensors(){
         return SensorHandler.getInstance().getSensors();

@@ -47,7 +47,7 @@ import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.providers.LocationProvider;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
-import com.jsm.exptool.providers.WorksOrchestratorProvider;
+import com.jsm.exptool.providers.syncworksorchestrator.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.CommentSuggestionsRepository;
 import com.jsm.exptool.repositories.ExperimentsRepository;

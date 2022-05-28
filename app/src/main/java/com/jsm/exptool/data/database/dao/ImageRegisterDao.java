@@ -61,6 +61,14 @@ public interface ImageRegisterDao {
     List<ImageRegister> getPendingFileSyncImageRegistersByExperimentId(long experimentId, int limit);
 
     /**
+     * Actualiza el estado de la sincronización del archivo asociado al registro a partir de su id
+     * @param id
+     * @return
+     */
+    @Query("UPDATE " + ImageRegister.TABLE_NAME + " SET fileRemoteSynced = 1  WHERE _id = :id")
+    int updateFileRemoteSyncedByRegisterId(long id);
+
+    /**
      * Obtiene los registros que tienen datos de embedding asociados
      * @param experimentId
      * @return

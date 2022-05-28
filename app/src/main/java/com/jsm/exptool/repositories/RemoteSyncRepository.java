@@ -26,7 +26,8 @@ import retrofit2.Call;
 
 public class RemoteSyncRepository {
 
-    private static final RemoteSyncApiService remoteSyncService = RetrofitService.createService(RemoteSyncApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), BuildConfig.BASE_URL);
+    //TODO Aplicar configuración de entorno remoto configurable
+    private static final RemoteSyncApiService remoteSyncService = RetrofitService.createService(RemoteSyncApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), BuildConfig.BASE_REMOTE_URL);
 
 
     public static void syncExperiment(NetworkElementResponseCallback<RemoteSyncResponse> callback, Experiment experiment) {

@@ -15,6 +15,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -45,18 +46,23 @@ public interface RemoteSyncApiService {
     @PUT("experiment/{experimentId}/audio/add")
     Call<NetworkElementResponse<RemoteSyncResponse>> uploadAudio(@Path("experimentId") long experimentId,  @Part MultipartBody.Part file);
 
+    @Headers("Content-Type: application/json")
     @PUT("experiment/add")
     Call<NetworkElementResponse<RemoteSyncResponse>> putExperiment(@Body Experiment experiment);
 
+    @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/imageRegister/addAll")
     Call<NetworkElementResponse<RemoteSyncResponse>> putImageRegisters(@Path("experimentId") long experimentId, @Body List<ImageRegister> registers);
 
+    @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/audioRegister/addAll")
     Call<NetworkElementResponse<RemoteSyncResponse>> putAudioRegisters(@Path("experimentId") long experimentId, @Body List<AudioRegister> registers);
 
+    @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/sensorRegister/addAll")
     Call<NetworkElementResponse<RemoteSyncResponse>> putSensorRegisters(@Path("experimentId") long experimentId, @Body List<SensorRegister> registers);
 
+    @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/commentRegister/addAll")
     Call<NetworkElementResponse<RemoteSyncResponse>> putCommentRegisters(@Path("experimentId") long experimentId, @Body List<CommentRegister> registers);
 

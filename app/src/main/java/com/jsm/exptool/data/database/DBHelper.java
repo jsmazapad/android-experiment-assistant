@@ -122,6 +122,10 @@ public class DBHelper {
         return appDatabase.imageDao().update(register);
     }
 
+    public static int updateImageRegisterFileSyncedByRegisterId(long registerId) {
+        return appDatabase.imageDao().updateFileRemoteSyncedByRegisterId(registerId);
+    }
+
     public static int deleteImagesById(ImageRegister register) {
         return appDatabase.imageDao().deleteById(register.getInternalId());
     }
@@ -157,6 +161,10 @@ public class DBHelper {
 
     public static int updateAudioRegister(AudioRegister register) {
         return appDatabase.audioDao().update(register);
+    }
+
+    public static int updateAudioRegisterFileSyncedByRegisterId(long registerId) {
+        return appDatabase.audioDao().updateFileRemoteSyncedByRegisterId(registerId);
     }
 
     public static int deleteAudiosById(AudioRegister register) {

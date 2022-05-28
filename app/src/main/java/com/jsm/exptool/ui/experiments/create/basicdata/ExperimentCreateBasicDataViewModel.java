@@ -32,7 +32,7 @@ import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.providers.LocationProvider;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.repositories.QuickCommentsCollectionsRepository;
-import com.jsm.exptool.repositories.SensorsRepository;
+import com.jsm.exptool.repositories.SensorRepository;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.ArrayList;
@@ -175,7 +175,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
     }
 
     private void initSpinnerData() {
-        sensors = SensorsRepository.getSensors();
+        sensors = SensorRepository.getSensors();
         sensorStrings = new ArrayList<>();
         selectedSensorPositions = new boolean[sensors.size()];
         boolean requiresSensorInitialConfig = initialConfigured && experimentTemplate.getConfiguration() != null && experimentTemplate.getConfiguration().isSensorEnabled() && experimentTemplate.getConfiguration().getSensorConfig().getSensors() != null;

@@ -34,6 +34,9 @@ public class ExperimentRegister implements Parcelable {
         this.date = date;
     }
 
+    public ExperimentRegister() {
+
+    }
 
 
     public long getInternalId() {
@@ -98,11 +101,7 @@ public class ExperimentRegister implements Parcelable {
     }
 
     protected ExperimentRegister(Parcel in) {
-        this.internalId = in.readLong();
-        this.experimentId = in.readLong();
-        long tmpDate = in.readLong();
-        this.date = tmpDate == -1 ? null : new Date(tmpDate);
-        this.dataRemoteSynced = in.readByte() != 0;
+       this.readFromParcel(in);
     }
 
 }

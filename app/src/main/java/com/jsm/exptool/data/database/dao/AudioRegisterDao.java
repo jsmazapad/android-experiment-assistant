@@ -62,6 +62,15 @@ public interface AudioRegisterDao {
 
 
     /**
+     * Actualiza el estado de la sincronización del archivo asociado al registro a partir de su id
+     * @param id
+     * @return
+     */
+    @Query("UPDATE " + AudioRegister.TABLE_NAME + " SET fileRemoteSynced = 1  WHERE _id = :id")
+    int updateFileRemoteSyncedByRegisterId(long id);
+
+
+    /**
      * Inserta un registro
      * @param register
      * @return Id del elemento insertado

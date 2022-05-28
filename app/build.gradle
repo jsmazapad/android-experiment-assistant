@@ -44,16 +44,19 @@ android {
     }
 
     def baseUrl = "BASE_URL"
+    def baseRemoteUrl = "BASE_REMOTE_URL"
     flavorDimensions 'JSM'
     productFlavors {
 
         pro {
             dimension = 'JSM'
             buildConfigField('String', baseUrl, "\"https://api.garaza.io/\"")
+            buildConfigField('String', baseRemoteUrl, "\"https://experiment-assistant-backend.getsandbox.com/\"")
         }
         mock {
             dimension = 'JSM'
             buildConfigField('String', baseUrl, "\"https://api.garaza.io/\"")
+            buildConfigField('String', baseRemoteUrl, "\"https://experiment-assistant-backend.getsandbox.com/\"")
         }
     }
 

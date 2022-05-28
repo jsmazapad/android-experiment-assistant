@@ -14,7 +14,7 @@ import androidx.work.rxjava3.RxWorker;
 
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.repositories.ImagesRepository;
+import com.jsm.exptool.repositories.ImageRepository;
 
 import java.io.File;
 
@@ -40,7 +40,7 @@ public class ObtainEmbeddingWorker extends RxWorker {
                 Log.d("IMAGE_REGISTER", String.format("insertado con id %d", insertedRowId));
             }
             File file = new File(imageFilePath);
-            ImagesRepository.getEmbedding(response -> {
+            ImageRepository.getEmbedding(response -> {
                 if(response.getError() != null){
                     Log.e("IMAGE_REGISTER_ERROR", "error en response de embedding");
 
@@ -53,11 +53,11 @@ public class ObtainEmbeddingWorker extends RxWorker {
                     }
                 }else{
                     Log.d("IMAGE_REGISTER", String.format("callback de embedding con id %d", insertedRowId));
-                    ImageRegister imageRegister = ImagesRepository.getImageRegisterById(insertedRowId);
+                    ImageRegister imageRegister = ImageRepository.getImageRegisterById(insertedRowId);
 
                     if (imageRegister != null) {
                         Log.d("IMAGE_REGISTER", String.format("registro de imagen obtenido con id %d", imageRegister.getInternalId()));
-                        int numRegs = ImagesRepository.registerImageEmbedding(imageRegister, response.getResultElement());
+                        int numRegs = ImageRepository.registerImageEmbedding(imageRegister, response.getResultElement());
                         Log.d("IMAGE_REGISTER", String.format("embedding actualizado en %d registros", numRegs));
 
                     }else{

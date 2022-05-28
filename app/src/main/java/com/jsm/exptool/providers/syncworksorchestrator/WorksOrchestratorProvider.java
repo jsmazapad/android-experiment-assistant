@@ -1,13 +1,15 @@
-package com.jsm.exptool.providers;
+package com.jsm.exptool.providers.syncworksorchestrator;
 
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY;
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY_UNIT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.ACCURACY;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.ALTITUDE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EMBEDDING_ALG;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_EXTERNAL_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_MULTIMEDIA_PATHS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_REGISTER_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LATITUDE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LONGITUDE;
@@ -25,6 +27,12 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_LOCATION;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_EXPERIMENT;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_FILE_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_FILE_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
 
@@ -45,9 +53,13 @@ import androidx.work.WorkManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jsm.exptool.config.ExportToCSVConfigOptions;
+import com.jsm.exptool.libs.WorksOrchestratorUtils;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
+import com.jsm.exptool.model.register.ImageRegister;
+import com.jsm.exptool.providers.FilePathsProvider;
+import com.jsm.exptool.repositories.ImageRepository;
 import com.jsm.exptool.workers.audio.RegisterAudioWorker;
 import com.jsm.exptool.workers.export.ExportExperimentWorker;
 import com.jsm.exptool.workers.export.ZipExportedExperimentWorker;
@@ -56,6 +68,9 @@ import com.jsm.exptool.workers.image.ProcessImageWorker;
 import com.jsm.exptool.workers.image.RegisterImageWorker;
 import com.jsm.exptool.workers.location.RegisterLocationWorker;
 import com.jsm.exptool.workers.sensor.RegisterSensorWorker;
+import com.jsm.exptool.workers.sync.SyncRemoteExperimentWorker;
+import com.jsm.exptool.workers.sync.files.SyncRemoteImageFileRegistersWorker;
+import com.jsm.exptool.workers.sync.registers.SyncRemoteImageRegistersWorker;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -96,6 +111,10 @@ public class WorksOrchestratorProvider {
         mWorkManager.pruneWork();
     }
 
+    /*
+    REALIZACIÓN DE EXPERIMENTO
+     */
+
     public void executeSensorChain(Context context, SensorConfig sensor, Date date, Experiment experiment) {
 
         Gson gson = new GsonBuilder()
@@ -108,7 +127,7 @@ public class WorksOrchestratorProvider {
             put(DATE_TIMESTAMP, date.getTime());
         }};
 
-        Data registerSensorData = createInputData(registerSensorValues);
+        Data registerSensorData = WorksOrchestratorUtils.createInputData(registerSensorValues);
         OneTimeWorkRequest registerSensorRequest = new OneTimeWorkRequest.Builder(RegisterSensorWorker.class)
                 .setInputData(registerSensorData).addTag(PERFORM_EXPERIMENT).addTag(REGISTER_SENSOR).build();
         mWorkManager.enqueue(registerSensorRequest);
@@ -126,7 +145,7 @@ public class WorksOrchestratorProvider {
             put(DATE_TIMESTAMP, date.getTime());
         }};
 
-        Data registerSensorData = createInputData(registerLocationValues);
+        Data registerSensorData = WorksOrchestratorUtils.createInputData(registerLocationValues);
         OneTimeWorkRequest registerLocationRequest = new OneTimeWorkRequest.Builder(RegisterLocationWorker.class)
                 .setInputData(registerSensorData).addTag(PERFORM_EXPERIMENT).addTag(REGISTER_LOCATION).build();
         mWorkManager.enqueue(registerLocationRequest);
@@ -139,7 +158,7 @@ public class WorksOrchestratorProvider {
             put(DATE_TIMESTAMP, date.getTime());
         }};
         //Register image
-        Data registerImageData = createInputData(registerImageValues);
+        Data registerImageData = WorksOrchestratorUtils.createInputData(registerImageValues);
         OneTimeWorkRequest registerAudioRequest = new OneTimeWorkRequest.Builder(RegisterAudioWorker.class)
                 .setInputData(registerImageData).addTag(PERFORM_EXPERIMENT).addTag(REGISTER_AUDIO).build();
         mWorkManager.enqueue(registerAudioRequest);
@@ -156,7 +175,7 @@ public class WorksOrchestratorProvider {
         }};
 
         //Register image
-        Data registerImageData = createInputData(registerImageValues);
+        Data registerImageData = WorksOrchestratorUtils.createInputData(registerImageValues);
         OneTimeWorkRequest registerImageRequest = new OneTimeWorkRequest.Builder(RegisterImageWorker.class)
                 .setInputData(registerImageData).addTag(PERFORM_EXPERIMENT).addTag(REGISTER_IMAGE).build();
         WorkContinuation continuation = mWorkManager.beginWith(registerImageRequest);
@@ -176,12 +195,12 @@ public class WorksOrchestratorProvider {
             }};
 
             //Procesado de imagen
-            Data processImageData = createInputData(processImageValuesMap);
+            Data processImageData = WorksOrchestratorUtils.createInputData(processImageValuesMap);
             OneTimeWorkRequest processImageRequest = new OneTimeWorkRequest.Builder(ProcessImageWorker.class)
                     .setInputData(processImageData).addTag(PERFORM_EXPERIMENT).addTag(PROCESS_IMAGE).build();
             continuation = continuation.then(processImageRequest);
             //Obtención de vector embebido
-            Data embeddingAdditionalData = createInputData(embeddingAdditionalValuesMap);
+            Data embeddingAdditionalData = WorksOrchestratorUtils.createInputData(embeddingAdditionalValuesMap);
             OneTimeWorkRequest obtainEmbeddingRequest = new OneTimeWorkRequest.Builder(ObtainEmbeddingWorker.class)
                     .setInputData(embeddingAdditionalData).addTag(PERFORM_EXPERIMENT).addTag(OBTAIN_EMBEDDED_IMAGE).addTag(REMOTE_WORK).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
             continuation = continuation.then(obtainEmbeddingRequest);
@@ -191,7 +210,9 @@ public class WorksOrchestratorProvider {
 
     }
 
-
+    /*
+    EXPORTACIÓN A CSV
+     */
     public void executeExportToCSV(Context context, Experiment experiment) {
         List<OneTimeWorkRequest> exportRegistersRequests = new ArrayList<>();
         //Creamos listado de exportadores que se ejecutaran en paralelo
@@ -201,7 +222,7 @@ public class WorksOrchestratorProvider {
                 put(TABLE_NAME, element);
             }};
 
-            Data inputData = createInputData(inputDataValues);
+            Data inputData = WorksOrchestratorUtils.createInputData(inputDataValues);
             OneTimeWorkRequest exportRequest = new OneTimeWorkRequest.Builder(ExportExperimentWorker.class)
                     .setInputData(inputData).addTag(EXPORT_REGISTERS).addTag(element).build();
             exportRegistersRequests.add(exportRequest);
@@ -218,7 +239,7 @@ public class WorksOrchestratorProvider {
 
 
         }};
-        Data zipInputData = createInputData(zipInputDataValues);
+        Data zipInputData = WorksOrchestratorUtils.createInputData(zipInputDataValues);
         OneTimeWorkRequest zipRequest = new OneTimeWorkRequest.Builder(ZipExportedExperimentWorker.class)
                 .setInputData(zipInputData).addTag(ZIP_EXPORTED).build();
 
@@ -226,30 +247,82 @@ public class WorksOrchestratorProvider {
 
     }
 
+    /*
+    SINCRONIZACIÓN REMOTA
+     */
 
-    private Data createInputData(Map<String, Object> valuesMap) {
-        Data.Builder builder = new Data.Builder();
-        for (Map.Entry<String, Object> entry : valuesMap.entrySet()) {
-            if (entry.getKey() != null && entry.getValue() != null) {
-                if (entry.getValue() instanceof String) {
-                    builder.putString(entry.getKey(), (String) entry.getValue());
-                } else if (entry.getValue() instanceof Integer) {
-                    builder.putInt(entry.getKey(), (Integer) entry.getValue());
-                } else if (entry.getValue() instanceof Double) {
-                    builder.putDouble(entry.getKey(), (Double) entry.getValue());
-                } else if (entry.getValue() instanceof Float) {
-                    builder.putFloat(entry.getKey(), (Float) entry.getValue());
-                } else if (entry.getValue() instanceof Long) {
-                    builder.putLong(entry.getKey(), (Long) entry.getValue());
-                } else if (entry.getValue() instanceof Float[]) {
-                    builder.putFloatArray(entry.getKey(), (float[]) entry.getValue());
-                } else if (entry.getValue() instanceof String[]) {
-                    builder.putStringArray(entry.getKey(), (String[]) entry.getValue());
-                }
+    public void executeFullRemoteSync(Context context, Experiment experiment, boolean updateAlwaysExperiment) {
+
+
+        Map<String, Object> experimentDataValues = new HashMap<String, Object>() {{
+            put(EXPERIMENT_ID, experiment.getInternalId());
+        }};
+        Data experimentInputData = WorksOrchestratorUtils.createInputData(experimentDataValues);
+
+
+        OneTimeWorkRequest syncExperimentRequest = new OneTimeWorkRequest.Builder(SyncRemoteExperimentWorker.class).setInputData(experimentInputData)
+                .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_EXPERIMENT).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
+
+
+        List<OneTimeWorkRequest> syncExperimentRegisters = new ArrayList<>();
+        //Creamos listado de sincronizadores que se ejecutaran en paralelo
+
+        Map<String, Object> registersInputDataValues = new HashMap<String, Object>() {
+            {
+                put(EXPERIMENT_ID, experiment.getInternalId());
+                put(EXPERIMENT_EXTERNAL_ID, experiment.getExternalId());
             }
+        };
+
+        Data registersInputData = WorksOrchestratorUtils.createInputData(registersInputDataValues);
+
+        if (experiment.getConfiguration() != null && experiment.getConfiguration().isCameraEnabled()) {
+            createSyncImageWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
         }
-        return builder.build();
+
+
+        if(experiment.getExternalId() < 1 || updateAlwaysExperiment) {
+            mWorkManager.beginWith(syncExperimentRequest).then(syncExperimentRegisters).enqueue();
+        }else{
+            mWorkManager.enqueue(syncExperimentRegisters);
+        }
+
     }
+
+    private void createSyncImageWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, Data registersInputData) {
+        OneTimeWorkRequest.Builder imageRegistersRequestBuilder = new OneTimeWorkRequest.Builder(SyncRemoteImageRegistersWorker.class)
+                .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_REGISTERS).addTag(REMOTE_SYNC_IMAGE_REGISTERS);
+
+        List<ImageRegister> pendingImageFileRegisters = ImageRepository.getSynchronouslyPendingFileSyncRegistersByExperimentId(experiment.getInternalId());
+        if (experiment.getExternalId() > 0) {
+            imageRegistersRequestBuilder.setInputData(registersInputData);
+        }
+        OneTimeWorkRequest imageRegistersRequest = imageRegistersRequestBuilder.build();
+        syncExperimentRegisters.add(imageRegistersRequest);
+
+        for (ImageRegister register : pendingImageFileRegisters) {
+
+            Map<String, Object> registersFileInputDataValues = new HashMap<String, Object>() {
+                {
+                    put(EXPERIMENT_REGISTER_ID, register.getInternalId());
+                    put(FILE_NAME, register.getFullPath());
+                }
+            };
+
+            OneTimeWorkRequest.Builder imageFileRegistersRequestBuilder = new OneTimeWorkRequest.Builder(SyncRemoteImageFileRegistersWorker.class)
+                    .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).addTag(REMOTE_SYNC_IMAGE_FILE_REGISTERS);
+            if (experiment.getExternalId() > 0) {
+                registersFileInputDataValues.putAll(registersInputDataValues);
+            }
+            Data registersFileInputData = WorksOrchestratorUtils.createInputData(registersFileInputDataValues);
+            imageFileRegistersRequestBuilder.setInputData(registersFileInputData);
+            OneTimeWorkRequest imageFileRegistersRequest = imageFileRegistersRequestBuilder.build();
+            syncExperimentRegisters.add(imageFileRegistersRequest);
+        }
+    }
+
+
+   
 
     public LiveData<List<WorkInfo>> getWorkInfoByTag(String tag) {
         return mWorkManager.getWorkInfosByTagLiveData(tag);

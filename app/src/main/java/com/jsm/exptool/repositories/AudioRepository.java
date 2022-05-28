@@ -27,6 +27,10 @@ public class AudioRepository {
         return DBHelper.updateAudioRegister(register);
     }
 
+    public static int updateRegisterFileSyncedByRegisterId(long registerId){
+        return DBHelper.updateAudioRegisterFileSyncedByRegisterId(registerId);
+    }
+
     public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
@@ -39,8 +43,12 @@ public class AudioRepository {
         return DBHelper.getPendingSyncAudioRegistersByExperimentId(experimentId);
     }
 
-    public static List<AudioRegister> getSynchronouslyPendingSyncFileRegistersByExperimentId(long experimentId) {
+    public static List<AudioRegister> getSynchronouslyPendingFileSyncRegistersByExperimentId(long experimentId) {
         return DBHelper.getPendingFileSyncAudioRegistersByExperimentId(experimentId);
+    }
+
+    public static AudioRegister getSynchronouslyRegisterById(long registerId) {
+        return DBHelper.getAudioById(registerId);
     }
 
     public static void getRegistersByExperimentId(long experimentId, MutableLiveData<ListResponse<AudioRegister>> responseLiveData) {

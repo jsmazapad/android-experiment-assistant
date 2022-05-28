@@ -1,12 +1,16 @@
 package com.jsm.exptool.workers.sync;
 
 import static com.jsm.exptool.config.NetworkConstants.MAX_RETRIES;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_EXTERNAL_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_REGISTER_ID;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.work.Data;
 import androidx.work.WorkerParameters;
 import androidx.work.rxjava3.RxWorker;
 
@@ -18,8 +22,8 @@ import com.jsm.exptool.repositories.RemoteSyncRepository;
 import io.reactivex.rxjava3.core.Single;
 
 
-public class RegisterRemoteExperimentWorker extends RxWorker {
-    public RegisterRemoteExperimentWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+public class SyncRemoteExperimentWorker extends RxWorker {
+    public SyncRemoteExperimentWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
@@ -58,7 +62,11 @@ public class RegisterRemoteExperimentWorker extends RxWorker {
                         assert experiment != null;
                         experiment.setExternalId(response.getResultElement().getId());
                         ExperimentsRepository.updateExperiment(experiment);
-                        emitter.onSuccess(Result.success());
+                        Data outputData = new Data.Builder()
+                                .putLong(EXPERIMENT_EXTERNAL_ID, experiment.getExternalId())
+                                .putLong(EXPERIMENT_ID, experiment.getInternalId())
+                                .build();
+                        emitter.onSuccess(Result.success(outputData));
                     }else{
                         emitter.onError(new BaseException("Error en obtención de resultado del servidor", false));
                     }

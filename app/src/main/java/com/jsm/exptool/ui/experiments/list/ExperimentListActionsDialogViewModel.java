@@ -24,11 +24,11 @@ import com.jsm.exptool.model.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.providers.ExperimentActionsInterface;
 import com.jsm.exptool.providers.ExperimentProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
-import com.jsm.exptool.providers.WorksOrchestratorProvider;
+import com.jsm.exptool.providers.syncworksorchestrator.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.CommentRepository;
-import com.jsm.exptool.repositories.ImagesRepository;
-import com.jsm.exptool.repositories.SensorsRepository;
+import com.jsm.exptool.repositories.ImageRepository;
+import com.jsm.exptool.repositories.SensorRepository;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -163,6 +163,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
 
     @Override
     public void syncExperiment(Context context, Experiment experiment, Dialog alertDialog) {
+        orchestratorProvider.executeFullRemoteSync(context, experiment, true);
 
     }
 
@@ -349,14 +350,14 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
             if(experiment.getStatus().equals(Experiment.ExperimentStatus.INITIATED) || experiment.getStatus().equals(Experiment.ExperimentStatus.FINISHED)) {
                 if (configuration.isSensorEnabled() || configuration.isLocationEnabled()) {
                     sensorCountValue.setValue(context.getString(R.string.data_loading_text));
-                    SensorsRepository.countRegistersByExperimentId(experiment.getInternalId(), sensorCount);
+                    SensorRepository.countRegistersByExperimentId(experiment.getInternalId(), sensorCount);
 
                 } else {
                     sensorCountValue.setValue("");
                 }
                 if (configuration.isCameraEnabled()) {
                     imageCountValue.setValue(context.getString(R.string.data_loading_text));
-                    ImagesRepository.countRegistersByExperimentId(experiment.getInternalId(), imageCount);
+                    ImageRepository.countRegistersByExperimentId(experiment.getInternalId(), imageCount);
 
                 } else {
                     imageCountValue.setValue("");
@@ -364,7 +365,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
 
                 if (configuration.isEmbeddingEnabled()) {
                     embeddingCountValue.setValue(context.getString(R.string.data_loading_text));
-                    ImagesRepository.countImagesWithEmbeddingsByExperimentId(experiment.getInternalId(), embeddingCount);
+                    ImageRepository.countImagesWithEmbeddingsByExperimentId(experiment.getInternalId(), embeddingCount);
                 } else {
                     embeddingCountValue.setValue("");
                 }

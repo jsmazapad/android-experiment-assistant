@@ -14,7 +14,7 @@ import androidx.work.ListenableWorker;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.jsm.exptool.repositories.ImagesRepository;
+import com.jsm.exptool.repositories.ImageRepository;
 
 import java.io.File;
 import java.util.Date;
@@ -36,7 +36,7 @@ public class RegisterImageWorker extends Worker {
         }
         File imageFile = new File(imageFileName);
        //TODO Refactorizar para pasar un objeto limpio
-        long insertedRowId = ImagesRepository.registerImageCapture(imageFile, experimentId, new Date(dateTimestamp));
+        long insertedRowId = ImageRepository.registerImageCapture(imageFile, experimentId, new Date(dateTimestamp));
         Log.d("IMAGE_REGISTER", String.format("insertado con id %d", insertedRowId));
         Data outputData = new Data.Builder()
                 .putLong(IMAGE_REGISTER_ID, insertedRowId)
