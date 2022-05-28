@@ -27,8 +27,8 @@ public abstract class MediaWorksOrchestratorSyncTaskCreator<T extends MediaRegis
     protected abstract List<T> getPendingFileRegisters(long experimentInternalId);
 
     @Override
-    public void createSyncImageWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, Data registersExperimentInputData) {
-        super.createSyncImageWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersExperimentInputData);
+    public void createSyncWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, Data registersExperimentInputData) {
+        super.createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersExperimentInputData);
         createSyncFileRegisterWorks(experiment, syncExperimentRegisters, registersInputDataValues);
 
     }

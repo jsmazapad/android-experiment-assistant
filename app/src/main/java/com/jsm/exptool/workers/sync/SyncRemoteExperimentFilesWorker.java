@@ -54,23 +54,13 @@ public abstract class SyncRemoteExperimentFilesWorker<T extends MediaRegister> e
                 return;
             }
             File file = new File(registerFilePath);
-
             executeRemoteSync(emitter, experimentRegisterId, experimentExternalId, file);
-
-//            if (instanceOfType instanceof AudioRegister) {
-//                RemoteSyncRepository.syncAudioFile(response -> executeInnerCallbackLogic(emitter, experimentRegisterId, response), experimentExternalId, file);
-//            }  else if (instanceOfType instanceof ImageRegister) {
-//                RemoteSyncRepository.syncImageFile(response -> executeInnerCallbackLogic(emitter, experimentRegisterId, response), experimentExternalId, file);
-//            }else{
-//                emitter.onError(new BaseException("Error de reconocimiento de tipo de registro", false));
-//            }
-
-
 
         });
     }
 
     protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, long experimentRegisterId, long experimentExternalId, File file);
+
     protected abstract int updateRegister(long experimentRegisterId);
 
     protected void executeInnerCallbackLogic(SingleEmitter<Result> emitter, long experimentRegisterId, ElementResponse<RemoteSyncResponse> response) {
@@ -89,17 +79,10 @@ public abstract class SyncRemoteExperimentFilesWorker<T extends MediaRegister> e
 
             if (response.getResultElement() != null) {
                 int updatedNum = updateRegister(experimentRegisterId);
-//                if (instanceOfType instanceof AudioRegister) {
-//                     updatedNum = AudioRepository.updateRegisterFileSyncedByRegisterId(experimentRegisterId);
-//                }  else if (instanceOfType instanceof ImageRegister) {
-//                    updatedNum = ImageRepository.updateRegisterFileSyncedByRegisterId(experimentRegisterId);
-//                }else{
-//                    emitter.onError(new BaseException("Error de reconocimiento de tipo de registro", false));
-//                }
 
-                if(updatedNum > 0){
+                if (updatedNum > 0) {
                     emitter.onSuccess(Result.success());
-                }else{
+                } else {
                     emitter.onError(new BaseException("Error en la actualización de la base de datos", false));
                 }
             } else {

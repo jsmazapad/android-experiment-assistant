@@ -1,6 +1,7 @@
 package com.jsm.exptool.data.network;
 
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
+import com.jsm.exptool.data.network.responses.LoginResponse;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
@@ -15,6 +16,8 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -65,5 +68,9 @@ public interface RemoteSyncApiService {
     @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/commentRegister/addAll")
     Call<NetworkElementResponse<RemoteSyncResponse>> putCommentRegisters(@Path("experimentId") long experimentId, @Body List<CommentRegister> registers);
+
+    @FormUrlEncoded
+    @POST("login")
+    Call<NetworkElementResponse<LoginResponse>> login(@Field("user") String user, @Field("password") String password);
 
 }

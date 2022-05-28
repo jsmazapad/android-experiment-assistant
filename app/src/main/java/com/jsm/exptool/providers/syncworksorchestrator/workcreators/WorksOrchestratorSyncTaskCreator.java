@@ -28,7 +28,7 @@ public abstract class WorksOrchestratorSyncTaskCreator<T extends ExperimentRegis
     protected abstract Class<? extends RxWorker> getRegisterWorkerClass();
     protected abstract String getRegisterTag();
 
-    public void createSyncImageWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, Data registersExperimentInputData) {
+    public void createSyncWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, Data registersExperimentInputData) {
         createSyncRegisterWork(experiment, syncExperimentRegisters, registersExperimentInputData);
 
     }

@@ -13,6 +13,7 @@ public class PreferencesProvider {
 
     private final static String PASSWORD = "PASSWORD";
     private final static String USER = "USER";
+    private final static String SESSION_TOKEN = "SESSION_TOKEN";
     private final static String REMOTE_SERVER = "REMOTE_SERVER";
     private final static String SENSOR_DEFAULT_FREQ = "SENSOR_DEFAULT_FREQ";
     private final static String CAMERA_DEFAULT_FREQ = "CAMERA_DEFAULT_FREQ";
@@ -20,7 +21,6 @@ public class PreferencesProvider {
     private final static String LOCATION_DEFAULT_FREQ = "LOCATION_DEFAULT_FREQ";
     private final static String REMOTE_DEFAULT_FREQ = "REMOTE_DEFAULT_FREQ";
     private final static String ANALYTICS_KEY = "ANALYTICS_KEY";
-
 
 
     public static String getPassword() {
@@ -170,6 +170,23 @@ public class PreferencesProvider {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
             editor.putInt(REMOTE_DEFAULT_FREQ, value);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected static String getSessionToken() {
+        String data = PreferenceManager.getSharedPreferences().getString(SESSION_TOKEN, "");
+        return data;
+
+    }
+
+    protected static void setSessionToken(String value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putString(SESSION_TOKEN, value);
             editor.commit();
         } catch (Exception e) {
             e.printStackTrace();

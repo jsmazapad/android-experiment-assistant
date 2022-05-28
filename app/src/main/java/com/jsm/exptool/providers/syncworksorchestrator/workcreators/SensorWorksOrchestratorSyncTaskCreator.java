@@ -9,7 +9,7 @@ import com.jsm.exptool.model.register.SensorRegister;
 import com.jsm.exptool.workers.sync.registers.SyncRemoteSensorRegistersWorker;
 
 
-public abstract class SensorWorksOrchestratorSyncTaskCreator extends WorksOrchestratorSyncTaskCreator<SensorRegister> {
+public class SensorWorksOrchestratorSyncTaskCreator extends WorksOrchestratorSyncTaskCreator<SensorRegister> {
 
    
 

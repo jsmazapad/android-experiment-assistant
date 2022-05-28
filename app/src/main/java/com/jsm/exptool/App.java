@@ -10,6 +10,7 @@ import com.jsm.exptool.core.utils.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.SensorHandler;
 import com.jsm.exptool.providers.PreferencesProvider;
+import com.jsm.exptool.providers.SessionProvider;
 import com.jsm.exptool.providers.syncworksorchestrator.WorksOrchestratorProvider;
 
 
@@ -26,6 +27,13 @@ public class App extends Application {
             DBHelper.initialize(this);
             PreferenceManager.initialize(this);
             SensorHandler.getInstance().initialize(this);
+            //Al iniciar la aplicación, eliminamos los datos de sesión que hubiera guardados
+            SessionProvider.clearSession();
+
+            //TODO CODIGO PRUEBAS BORRAR
+            PreferencesProvider.setPassword("prueba");
+            PreferencesProvider.setUser("prueba");
+            PreferencesProvider.setRemoteServer("https://experiment-assistant-backend.getsandbox.com/");
 
             //TODO Recoger cambios cuando se setea en configuración
             String analyticsKey = PreferencesProvider.getAnalyticsKey();

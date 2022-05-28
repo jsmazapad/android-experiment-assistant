@@ -9,7 +9,7 @@ import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.workers.sync.registers.SyncRemoteCommentRegistersWorker;
 
 
-public abstract class CommentWorksOrchestratorSyncTaskCreator extends WorksOrchestratorSyncTaskCreator<CommentRegister> {
+public class CommentWorksOrchestratorSyncTaskCreator extends WorksOrchestratorSyncTaskCreator<CommentRegister> {
 
    
 

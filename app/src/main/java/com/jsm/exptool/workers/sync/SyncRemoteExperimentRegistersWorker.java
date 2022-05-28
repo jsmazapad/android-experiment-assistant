@@ -28,7 +28,6 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
         super(context, workerParams);
     }
 
-    //TODO Pasar a fachada
     @NonNull
     @Override
     @SuppressWarnings("unchecked")
@@ -39,45 +38,22 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
             long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
             long experimentExternalId = getInputData().getLong(EXPERIMENT_EXTERNAL_ID, -1);
 
-            if(experimentId == -1 || experimentExternalId == -1){
+            if (experimentId == -1 || experimentExternalId == -1) {
                 //TODO Mejorar mensajes error
                 emitter.onError(new BaseException("Error de parámetros", false));
+                return;
             }
             List<T> pendingRegisters = getPendingRegisters(experimentId);
-//            if (instanceOfType instanceof AudioRegister){
-//                pendingRegisters = (List<T>) AudioRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId);
-//            }else if (instanceOfType instanceof CommentRegister){
-//                pendingRegisters = (List<T>) CommentRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId);
-//            }else if (instanceOfType instanceof SensorRegister){
-//                pendingRegisters = (List<T>) SensorsRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId);
-//            }else if (instanceOfType instanceof ImageRegister){
-//                pendingRegisters = (List<T>) ImagesRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId);
-//            }else{
-//                emitter.onError(new BaseException("Error de reconocimiento de tipo de registro", false));
-//            }
 
-            if(pendingRegisters == null){
+
+            if (pendingRegisters == null) {
                 emitter.onError(new BaseException("Error en obtención de elemento de BBDD", false));
-            }else if (pendingRegisters.size() == 0){
+            } else if (pendingRegisters.size() == 0) {
                 emitter.onSuccess(Result.success());
             }
 
             List<T> finalPendingRegisters = pendingRegisters;
-
-            executeRemoteSync(emitter, finalPendingRegisters, experimentExternalId );
-
-//            if (instanceOfType instanceof AudioRegister){
-//                RemoteSyncRepository.syncAudioRegisters(response -> executeInnerCallbackLogic(emitter, finalPendingRegisters, response), experimentExternalId, (List<AudioRegister>) pendingRegisters);
-//            }else if (instanceOfType instanceof CommentRegister){
-//                RemoteSyncRepository.syncCommentRegisters(response -> executeInnerCallbackLogic(emitter, finalPendingRegisters, response), experimentExternalId, (List<CommentRegister>) pendingRegisters);
-//            }else if (instanceOfType instanceof SensorRegister){
-//                RemoteSyncRepository.syncSensorRegisters(response -> executeInnerCallbackLogic(emitter, finalPendingRegisters, response), experimentExternalId, (List<SensorRegister>) pendingRegisters);
-//            }else if (instanceOfType instanceof ImageRegister){
-//                RemoteSyncRepository.syncImageRegisters(response -> executeInnerCallbackLogic(emitter, finalPendingRegisters, response), experimentExternalId, (List<ImageRegister>) pendingRegisters);
-//            }else{
-//                emitter.onError(new BaseException("Error de reconocimiento de tipo de registro", false));
-//            }
-
+            executeRemoteSync(emitter, finalPendingRegisters, experimentExternalId);
 
         });
     }
@@ -89,41 +65,26 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
     protected abstract void updateRegister(T register);
 
     protected void executeInnerCallbackLogic(SingleEmitter<Result> emitter, List<T> pendingRegisters, ElementResponse<RemoteSyncResponse> response) {
-        if(response.getError() != null){
+        if (response.getError() != null) {
             Log.e("SYNC_REGISTER", "error en response");
 
             //emitter.onError(response.getError());
-            if(getRunAttemptCount()< MAX_RETRIES) {
-                Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount()+1));
+            if (getRunAttemptCount() < MAX_RETRIES) {
+                Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount() + 1));
                 emitter.onSuccess(Result.retry());
-            }else{
+            } else {
                 emitter.onError(response.getError());
             }
-        }else{
+        } else {
             if (response.getResultElement() != null) {
-                for (T register: pendingRegisters) {
+                for (T register : pendingRegisters) {
                     register.setDataRemoteSynced(true);
                     updateRegister(register);
-//                    if (register instanceof AudioRegister){
-//                        AudioRepository.updateAudioRegister((AudioRegister) register);
-//                    }else if (register instanceof CommentRegister){
-//                        CommentRepository.updateCommentRegister((CommentRegister) register);
-//                    }else if (register instanceof SensorRegister){
-//                        SensorsRepository.updateSensorRegister((SensorRegister) register);
-//                    }else if (register instanceof ImageRegister){
-//                        ImageRegister imageRegister = (ImageRegister) register;
-//                        if(imageRegister.getEmbedding().size() > 0){
-//                            imageRegister.setEmbeddingRemoteSynced(true);
-//                        }
-//                        ImagesRepository.updateImageRegister(imageRegister);
-//                    }else{
-//                        emitter.onError(new BaseException("Error de reconocimiento de tipo de registro", false));
-//                    }
 
                 }
 
                 emitter.onSuccess(Result.success());
-            }else{
+            } else {
                 emitter.onError(new BaseException("Error en obtención de resultado del servidor", false));
             }
         }

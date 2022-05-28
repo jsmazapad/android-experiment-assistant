@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
+import com.jsm.exptool.data.network.responses.LoginResponse;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
 import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
 
@@ -29,6 +30,8 @@ public class ElementDeserializer<E> implements JsonDeserializer<NetworkElementRe
             deserializerElementStrategy = new ImageEmbeddingVectorDeserializerStrategy();
         } else if (((ParameterizedType) typeOfT).getActualTypeArguments()[0] == RemoteSyncResponse.class) {
             deserializerElementStrategy = new RemoteSyncResponseDeserializerStrategy();
+        }else if (((ParameterizedType) typeOfT).getActualTypeArguments()[0] == LoginResponse.class) {
+            deserializerElementStrategy = new LoginResponseDeserializerStrategy();
         } else {
             throw new JsonParseException("Ha habido un error con la estructura de la respuesta");
         }

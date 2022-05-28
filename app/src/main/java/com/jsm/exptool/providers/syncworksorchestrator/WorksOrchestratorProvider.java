@@ -9,7 +9,6 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXP
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.DATE_TIMESTAMP;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_MULTIMEDIA_PATHS;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_REGISTER_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LATITUDE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LONGITUDE;
@@ -28,10 +27,6 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_LOCATION;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_EXPERIMENT;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_FILE_REGISTERS;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_FILE_REGISTERS;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_REGISTERS;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
@@ -57,9 +52,11 @@ import com.jsm.exptool.libs.WorksOrchestratorUtils;
 import com.jsm.exptool.model.Experiment;
 import com.jsm.exptool.model.SensorConfig;
 import com.jsm.exptool.model.experimentconfig.CameraConfig;
-import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.providers.FilePathsProvider;
-import com.jsm.exptool.repositories.ImageRepository;
+import com.jsm.exptool.providers.syncworksorchestrator.workcreators.AudioWorksOrchestratorSyncTaskCreator;
+import com.jsm.exptool.providers.syncworksorchestrator.workcreators.CommentWorksOrchestratorSyncTaskCreator;
+import com.jsm.exptool.providers.syncworksorchestrator.workcreators.ImageWorksOrchestratorSyncTaskCreator;
+import com.jsm.exptool.providers.syncworksorchestrator.workcreators.SensorWorksOrchestratorSyncTaskCreator;
 import com.jsm.exptool.workers.audio.RegisterAudioWorker;
 import com.jsm.exptool.workers.export.ExportExperimentWorker;
 import com.jsm.exptool.workers.export.ZipExportedExperimentWorker;
@@ -69,8 +66,6 @@ import com.jsm.exptool.workers.image.RegisterImageWorker;
 import com.jsm.exptool.workers.location.RegisterLocationWorker;
 import com.jsm.exptool.workers.sensor.RegisterSensorWorker;
 import com.jsm.exptool.workers.sync.SyncRemoteExperimentWorker;
-import com.jsm.exptool.workers.sync.files.SyncRemoteImageFileRegistersWorker;
-import com.jsm.exptool.workers.sync.registers.SyncRemoteImageRegistersWorker;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -276,8 +271,19 @@ public class WorksOrchestratorProvider {
 
         Data registersInputData = WorksOrchestratorUtils.createInputData(registersInputDataValues);
 
-        if (experiment.getConfiguration() != null && experiment.getConfiguration().isCameraEnabled()) {
-            createSyncImageWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
+        if(experiment.getConfiguration() != null ) {
+            if (experiment.getConfiguration().isCameraEnabled()) {
+                new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
+            }
+            if (experiment.getConfiguration().isAudioEnabled()) {
+                new AudioWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
+            }
+            if (experiment.getConfiguration().isSensorEnabled() || experiment.getConfiguration().isLocationEnabled()) {
+                new SensorWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
+            }
+
+            new CommentWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
+
         }
 
 
@@ -289,37 +295,7 @@ public class WorksOrchestratorProvider {
 
     }
 
-    private void createSyncImageWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, Data registersInputData) {
-        OneTimeWorkRequest.Builder imageRegistersRequestBuilder = new OneTimeWorkRequest.Builder(SyncRemoteImageRegistersWorker.class)
-                .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_REGISTERS).addTag(REMOTE_SYNC_IMAGE_REGISTERS);
 
-        List<ImageRegister> pendingImageFileRegisters = ImageRepository.getSynchronouslyPendingFileSyncRegistersByExperimentId(experiment.getInternalId());
-        if (experiment.getExternalId() > 0) {
-            imageRegistersRequestBuilder.setInputData(registersInputData);
-        }
-        OneTimeWorkRequest imageRegistersRequest = imageRegistersRequestBuilder.build();
-        syncExperimentRegisters.add(imageRegistersRequest);
-
-        for (ImageRegister register : pendingImageFileRegisters) {
-
-            Map<String, Object> registersFileInputDataValues = new HashMap<String, Object>() {
-                {
-                    put(EXPERIMENT_REGISTER_ID, register.getInternalId());
-                    put(FILE_NAME, register.getFullPath());
-                }
-            };
-
-            OneTimeWorkRequest.Builder imageFileRegistersRequestBuilder = new OneTimeWorkRequest.Builder(SyncRemoteImageFileRegistersWorker.class)
-                    .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).addTag(REMOTE_SYNC_IMAGE_FILE_REGISTERS);
-            if (experiment.getExternalId() > 0) {
-                registersFileInputDataValues.putAll(registersInputDataValues);
-            }
-            Data registersFileInputData = WorksOrchestratorUtils.createInputData(registersFileInputDataValues);
-            imageFileRegistersRequestBuilder.setInputData(registersFileInputData);
-            OneTimeWorkRequest imageFileRegistersRequest = imageFileRegistersRequestBuilder.build();
-            syncExperimentRegisters.add(imageFileRegistersRequest);
-        }
-    }
 
 
    

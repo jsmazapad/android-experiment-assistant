@@ -34,7 +34,7 @@ import retrofit2.Call;
 
 
 public class ImageRepository {
-    private static final AnalyticsApiService imageEmbeddingService = RetrofitService.createService(AnalyticsApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), BuildConfig.BASE_URL);
+    private static final AnalyticsApiService imageEmbeddingService = RetrofitService.createService(AnalyticsApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), null,  BuildConfig.BASE_URL_EMBEDDING_SERVER, false);
 
     /**
      * Obtiene el vector de embedding de manera reactiva

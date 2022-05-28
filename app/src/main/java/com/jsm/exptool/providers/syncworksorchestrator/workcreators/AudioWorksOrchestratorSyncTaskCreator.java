@@ -13,7 +13,7 @@ import com.jsm.exptool.workers.sync.registers.SyncRemoteAudioRegistersWorker;
 
 import java.util.List;
 
-public abstract class AudioWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestratorSyncTaskCreator<AudioRegister> {
+public class AudioWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestratorSyncTaskCreator<AudioRegister> {
 
    
 

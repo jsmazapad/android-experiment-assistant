@@ -13,7 +13,7 @@ import com.jsm.exptool.workers.sync.registers.SyncRemoteImageRegistersWorker;
 
 import java.util.List;
 
-public abstract class ImageWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestratorSyncTaskCreator<ImageRegister> {
+public class ImageWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestratorSyncTaskCreator<ImageRegister> {
 
 
 

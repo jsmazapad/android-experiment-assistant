@@ -17,10 +17,13 @@ import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Converter;
@@ -42,7 +45,7 @@ public abstract class RetrofitService {
     /**
      * Mapa que contiene los servicios retrofit que se crean
      */
-    private static HashMap<Class, Retrofit> retrofitMap = new HashMap<>();
+    private static HashMap<Class<?>, Retrofit> retrofitMap = new HashMap<>();
     /**
      * Objeto que se usa para el tratamiento de errores en la capa de red
      */
@@ -53,20 +56,21 @@ public abstract class RetrofitService {
     private static CustomDeserializerProvider deserializerProvider;
 
     /**
-     * Crea un servicio retrofit si este no existe ya y lo añade al mapa de servicios existentes, si existe lo obtiene del mapa de servicios
+     * Crea un servicio retrofit si este no existe ya y lo añade al mapa de servicios existentes. Si existe y alwaysCreate no está a true, lo obtiene del mapa de servicios
      * @param serviceClass Clase del servicio
      * @param errorTreatment Objeto que se encarga del tratamiento de errores
      * @param deserializerProvider Proveedor de deserializadores
      * @param baseUrl Url base del servicio
      * @param <E> Tipo usado para la especialización de la clase del servicio
+     * @param alwaysCreate Parámetro para indicar si siempre debe crear el servicio independientemente de que exista o no
      * @return
      */
-    public static <E> E createService(Class<E> serviceClass, NetworkErrorTreatmentInterface errorTreatment, CustomDeserializerProvider deserializerProvider, String baseUrl) {
+    public static <E> E createService(Class<E> serviceClass, NetworkErrorTreatmentInterface errorTreatment, CustomDeserializerProvider deserializerProvider, List<Interceptor> interceptors, String baseUrl, boolean alwaysCreate) {
 
         RetrofitService.errorTreatment = errorTreatment;
         RetrofitService.deserializerProvider = deserializerProvider;
         Retrofit retrofit;
-        if (!retrofitMap.containsKey(serviceClass)) {
+        if (alwaysCreate || !retrofitMap.containsKey(serviceClass)) {
             Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                     .baseUrl(baseUrl);
             //Si tiene proveedor es json
@@ -78,8 +82,14 @@ public abstract class RetrofitService {
                         new Persister(new AnnotationStrategy())));
             }
 
-
-
+            if(interceptors != null && interceptors.size()>0){
+                OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+                for(Interceptor interceptor: interceptors) {
+                    httpClient.addInterceptor(interceptor);
+                }
+                OkHttpClient client = httpClient.build();
+                retrofitBuilder.client(client);
+            }
 
             retrofit = retrofitBuilder.build();
             retrofitMap.put(serviceClass, retrofit);

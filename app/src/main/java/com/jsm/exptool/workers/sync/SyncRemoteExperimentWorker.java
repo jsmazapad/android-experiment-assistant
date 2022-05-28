@@ -35,29 +35,31 @@ public class SyncRemoteExperimentWorker extends RxWorker {
         return Single.create(emitter -> {
             long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
 
-            if(experimentId == -1){
+            if (experimentId == -1) {
                 //TODO Mejorar mensajes error
                 emitter.onError(new BaseException("Error de parámetros", false));
+                return;
             }
 
             Experiment experiment = ExperimentsRepository.getExperimentById(experimentId);
 
-            if(experiment == null){
+            if (experiment == null) {
                 emitter.onError(new BaseException("Error en obtención de elemento de BBDD", false));
+                return;
             }
 
             RemoteSyncRepository.syncExperiment(response -> {
-                if(response.getError() != null){
+                if (response.getError() != null) {
                     Log.e("SYNC_REGISTER", "error en response");
 
                     //emitter.onError(response.getError());
-                    if(getRunAttemptCount()< MAX_RETRIES) {
-                        Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount()+1));
+                    if (getRunAttemptCount() < MAX_RETRIES) {
+                        Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount() + 1));
                         emitter.onSuccess(Result.retry());
-                    }else{
+                    } else {
                         emitter.onError(response.getError());
                     }
-                }else{
+                } else {
                     if (response.getResultElement() != null && response.getResultElement().getId() != null && response.getResultElement().getId() > 0) {
                         assert experiment != null;
                         experiment.setExternalId(response.getResultElement().getId());
@@ -67,7 +69,7 @@ public class SyncRemoteExperimentWorker extends RxWorker {
                                 .putLong(EXPERIMENT_ID, experiment.getInternalId())
                                 .build();
                         emitter.onSuccess(Result.success(outputData));
-                    }else{
+                    } else {
                         emitter.onError(new BaseException("Error en obtención de resultado del servidor", false));
                     }
                 }
