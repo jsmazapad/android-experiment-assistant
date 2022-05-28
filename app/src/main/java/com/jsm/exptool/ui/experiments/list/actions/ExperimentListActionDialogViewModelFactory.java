@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.list;
+package com.jsm.exptool.ui.experiments.list.actions;
 
 import android.app.Application;
 

@@ -2,6 +2,7 @@ package com.jsm.exptool.libs;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class AudioHandler {
             player.start();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
             return false;
         }
     }
@@ -56,7 +57,7 @@ public class AudioHandler {
             recorder.prepare();
             recorder.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
         }
 
 
@@ -71,7 +72,7 @@ public class AudioHandler {
                 recorder.release();
                 recorder = null;
             }catch (Exception e){
-                e.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
             }
         }
     }

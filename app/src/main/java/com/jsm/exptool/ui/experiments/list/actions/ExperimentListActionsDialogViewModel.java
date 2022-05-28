@@ -1,4 +1,4 @@
-package com.jsm.exptool.ui.experiments.list;
+package com.jsm.exptool.ui.experiments.list.actions;
 
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.EXPORT_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
@@ -29,6 +29,7 @@ import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.ImageRepository;
 import com.jsm.exptool.repositories.SensorRepository;
+import com.jsm.exptool.ui.experiments.list.ExperimentsListFragmentDirections;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -163,7 +164,8 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
 
     @Override
     public void syncExperiment(Context context, Experiment experiment, Dialog alertDialog) {
-        orchestratorProvider.executeFullRemoteSync(context, experiment, true);
+        alertDialog.cancel();
+        ((BaseActivity) context).getNavController().navigate(ExperimentsListFragmentDirections.actionNavExperimentsToNavSyncExperiment(experiment));
 
     }
 

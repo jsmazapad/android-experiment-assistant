@@ -152,7 +152,7 @@ public abstract class RetrofitService {
                     try {
                         Log.d("Network Error", response.errorBody().string());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
                     }
                     liveDataVar.setValue(new ElementResponse<>(errorTreatment.handleNetworkError(response, null)));
                 }
@@ -180,7 +180,7 @@ public abstract class RetrofitService {
                     try {
                         Log.d("Network Error", response.errorBody().string());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
                     }
                     networkElementResponseCallback.onResponse(new ElementResponse<>(errorTreatment.handleNetworkError(response, null)));
                 }
@@ -214,7 +214,7 @@ public abstract class RetrofitService {
                     try {
                         Log.d("Network Error", response.errorBody().string());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
                     }
                     liveDataVar.setValue(new ListResponse<E>(errorTreatment.handleNetworkError(response, null)));
                 }
@@ -247,7 +247,7 @@ public abstract class RetrofitService {
                     try {
                         Log.d("Network Error", response.errorBody().string());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
                     }
                     liveDataVar.setValue(new ElementResponse<E>(errorTreatment.handleNetworkError(response, null)));
                 }
@@ -274,7 +274,7 @@ public abstract class RetrofitService {
                     try {
                         Log.d("Network Error", response.errorBody().string());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
                     }
                     liveDataVar.setValue(new ListResponse<O>(errorTreatment.handleNetworkError(response, null)));
                 }

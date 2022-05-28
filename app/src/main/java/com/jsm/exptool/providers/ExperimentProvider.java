@@ -1,6 +1,7 @@
 package com.jsm.exptool.providers;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -65,7 +66,7 @@ public class ExperimentProvider {
             clonedExperiment.setStatus(Experiment.ExperimentStatus.CREATED);
             clonedExperiment.getConfiguration().setQuickComments(new ArrayList<>());
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            Log.e(ExperimentProvider.class.getSimpleName(), e.getMessage(), e);
         }
         return clonedExperiment;
     }

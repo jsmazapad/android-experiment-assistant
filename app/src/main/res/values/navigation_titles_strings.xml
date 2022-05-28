@@ -2,6 +2,7 @@
 <resources>
 
     <string name="title_experiments_fragment">Experimentos</string>
+    <string name="title_sync_experiment_fragment">Sincronización</string>
     <string name="title_experiments_create_fragment">Crear experimento</string>
     <string name="title_experiments_configure_fragment">Configurar experimento</string>
     <string name="title_experiments_configure_camera_fragment">Configurar Cámara</string>

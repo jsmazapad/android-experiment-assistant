@@ -1,6 +1,7 @@
 package com.jsm.exptool.providers;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.core.utils.PreferenceManager;
@@ -24,8 +25,7 @@ public class PreferencesProvider {
 
 
     public static String getPassword() {
-        String data = PreferenceManager.getSharedPreferences().getString(PASSWORD, "");
-        return data;
+        return PreferenceManager.getSharedPreferences().getString(PASSWORD, "");
 
     }
 
@@ -36,13 +36,12 @@ public class PreferencesProvider {
             editor.putString(PASSWORD, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     public static String getUser() {
-        String data = PreferenceManager.getSharedPreferences().getString(USER, "");
-        return data;
+        return PreferenceManager.getSharedPreferences().getString(USER, "");
 
     }
 
@@ -53,13 +52,12 @@ public class PreferencesProvider {
             editor.putString(USER, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     public static String getRemoteServer() {
-        String data = PreferenceManager.getSharedPreferences().getString(REMOTE_SERVER, "");
-        return data;
+        return PreferenceManager.getSharedPreferences().getString(REMOTE_SERVER, "");
 
     }
 
@@ -70,13 +68,12 @@ public class PreferencesProvider {
             editor.putString(REMOTE_SERVER, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     public static String getAnalyticsKey() {
-        String data = PreferenceManager.getSharedPreferences().getString(ANALYTICS_KEY, "");
-        return data;
+        return PreferenceManager.getSharedPreferences().getString(ANALYTICS_KEY, "");
 
     }
 
@@ -87,13 +84,12 @@ public class PreferencesProvider {
             editor.putString(ANALYTICS_KEY, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     public static int getSensorDefaultFreq() {
-        int data = PreferenceManager.getSharedPreferences().getInt(SENSOR_DEFAULT_FREQ, FrequencyConstants.DEFAULT_SENSOR_FREQ);
-        return data;
+        return PreferenceManager.getSharedPreferences().getInt(SENSOR_DEFAULT_FREQ, FrequencyConstants.DEFAULT_SENSOR_FREQ);
 
     }
 
@@ -104,13 +100,12 @@ public class PreferencesProvider {
             editor.putInt(SENSOR_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     public static int getCameraDefaultFreq() {
-        int data = PreferenceManager.getSharedPreferences().getInt(CAMERA_DEFAULT_FREQ, FrequencyConstants.DEFAULT_CAMERA_FREQ);
-        return data;
+        return PreferenceManager.getSharedPreferences().getInt(CAMERA_DEFAULT_FREQ, FrequencyConstants.DEFAULT_CAMERA_FREQ);
 
     }
 
@@ -121,13 +116,12 @@ public class PreferencesProvider {
             editor.putInt(CAMERA_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     public static int getAudioDefaultFreq() {
-        int data = PreferenceManager.getSharedPreferences().getInt(AUDIO_DEFAULT_FREQ, FrequencyConstants.DEFAULT_AUDIO_FREQ);
-        return data;
+        return PreferenceManager.getSharedPreferences().getInt(AUDIO_DEFAULT_FREQ, FrequencyConstants.DEFAULT_AUDIO_FREQ);
 
     }
 
@@ -138,13 +132,12 @@ public class PreferencesProvider {
             editor.putInt(AUDIO_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     public static int getLocationDefaultFreq() {
-        int data = PreferenceManager.getSharedPreferences().getInt(LOCATION_DEFAULT_FREQ, FrequencyConstants.DEFAULT_LOCATION_FREQ);
-        return data;
+        return PreferenceManager.getSharedPreferences().getInt(LOCATION_DEFAULT_FREQ, FrequencyConstants.DEFAULT_LOCATION_FREQ);
 
     }
 
@@ -155,13 +148,12 @@ public class PreferencesProvider {
             editor.putInt(LOCATION_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     public static int getRemoteSyncDefaultFreq() {
-        int data = PreferenceManager.getSharedPreferences().getInt(REMOTE_DEFAULT_FREQ, FrequencyConstants.DEFAULT_REMOTE_SYNC_FREQ);
-        return data;
+        return PreferenceManager.getSharedPreferences().getInt(REMOTE_DEFAULT_FREQ, FrequencyConstants.DEFAULT_REMOTE_SYNC_FREQ);
 
     }
 
@@ -172,13 +164,12 @@ public class PreferencesProvider {
             editor.putInt(REMOTE_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
     protected static String getSessionToken() {
-        String data = PreferenceManager.getSharedPreferences().getString(SESSION_TOKEN, "");
-        return data;
+        return PreferenceManager.getSharedPreferences().getString(SESSION_TOKEN, "");
 
     }
 
@@ -189,7 +180,7 @@ public class PreferencesProvider {
             editor.putString(SESSION_TOKEN, value);
             editor.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 

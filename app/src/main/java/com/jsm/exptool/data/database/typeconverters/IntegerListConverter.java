@@ -1,5 +1,7 @@
 package com.jsm.exptool.data.database.typeconverters;
 
+import android.util.Log;
+
 import androidx.room.TypeConverter;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class IntegerListConverter {
                 for (int i = 0; i < values.length; i++) parsed[i] = Integer.parseInt(values[i]);
                 list = Arrays.asList(parsed);
             }catch (NumberFormatException e){
-                e.printStackTrace();
+                Log.e(IntegerListConverter.class.getSimpleName(), e.getMessage(), e);
                 return new ArrayList<>();
             }
         }

@@ -1,6 +1,7 @@
 package com.jsm.exptool.providers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.jsm.exptool.config.ExportToCSVConfigOptions;
 import com.jsm.exptool.data.database.DBHelper;
@@ -21,7 +22,7 @@ public class ExportDataProvider {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(ExportDataProvider.class.getSimpleName(), e.getMessage(), e);
         }
         return TableToCSVExporter.exportToCsvFromTable(file, Objects.requireNonNull(ExportToCSVConfigOptions.EXPORT_TO_CSV_OPTIONS.get(tableName)), new String[]{Long.valueOf(experiment.getInternalId()).toString()}, DBHelper.getAppDatabase());
     }

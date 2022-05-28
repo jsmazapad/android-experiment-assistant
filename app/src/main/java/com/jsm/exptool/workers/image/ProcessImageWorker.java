@@ -7,6 +7,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PRO
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.PROCESSED_IMAGE_WIDTH;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Data;
@@ -41,7 +42,7 @@ public class ProcessImageWorker extends Worker {
                 targetFile.createNewFile();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
         }
         ImageResizer.resizeImageFile(imageFile, targetFile, Math.max(optimalWidth, optimalHeight));
         Data outputData = new Data.Builder()

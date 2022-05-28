@@ -121,7 +121,7 @@ public class CameraXHandler {
                 // Currently no exceptions thrown. cameraProviderFuture.get()
                 // shouldn't block since the listener is being called, so no need to
                 // handle InterruptedException.
-                e.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
             }
         }, ContextCompat.getMainExecutor(context));
     }

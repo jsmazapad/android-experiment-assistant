@@ -2,6 +2,7 @@ package com.jsm.exptool.ui.experiments.view;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -84,7 +85,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
         try{
             duration.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(experiment.getEndDate().getTime()-experiment.getInitDate().getTime()));
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 
         }
 

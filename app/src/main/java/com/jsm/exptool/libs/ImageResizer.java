@@ -2,6 +2,7 @@ package com.jsm.exptool.libs;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,7 +31,7 @@ public class ImageResizer {
             resizedBitmap.recycle();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(ImageResizer.class.getSimpleName(), e.getMessage(), e);
             return false;
         }
     }

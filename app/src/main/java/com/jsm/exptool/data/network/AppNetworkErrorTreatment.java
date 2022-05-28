@@ -40,7 +40,7 @@ public class AppNetworkErrorTreatment implements NetworkErrorTreatmentInterface 
                 error = jObjError.getString("message");
             }
         } catch (JSONException | IOException | NullPointerException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
         }
 
 

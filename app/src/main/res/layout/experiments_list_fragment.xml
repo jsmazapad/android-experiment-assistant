@@ -21,7 +21,7 @@
                 android:id="@+id/filterCard"
                 style="@style/BaseCardView"
                 app:initial_expanded="true"
-                app:title="Filtros"
+                app:title="@string/filter_card_title"
                 app:extra_info="@{viewModel.filterResume}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

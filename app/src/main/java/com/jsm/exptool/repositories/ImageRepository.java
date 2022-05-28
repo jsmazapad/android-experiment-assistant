@@ -1,5 +1,7 @@
 package com.jsm.exptool.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.BuildConfig;
@@ -55,11 +57,11 @@ public class ImageRepository {
             Call<NetworkElementResponse<ImageEmbeddingVector>> call = imageEmbeddingService.getEmbedding(algorithm, requestBody);
             call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, responseLiveData));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
             responseLiveData.setValue(new ElementResponse<>(new BaseException(e.getMessage(), false)));
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
             responseLiveData.setValue(new ElementResponse<>(new BaseException(e.getMessage(), false)));
 
         }
@@ -83,17 +85,17 @@ public class ImageRepository {
             Call<NetworkElementResponse<ImageEmbeddingVector>> call = imageEmbeddingService.getEmbedding(algorithm, requestBody);
             call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, callback));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
             callback.onResponse(new ElementResponse<>(new BaseException(e.getMessage(), false)));
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
             callback.onResponse(new ElementResponse<>(new BaseException(e.getMessage(), false)));
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
                 }
             }
         }

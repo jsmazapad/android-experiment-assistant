@@ -20,6 +20,18 @@
         <action
             android:id="@+id/action_nav_experiments_to_nav_perform_experiment"
             app:destination="@id/nav_perform_experiment" />
+        <action
+            android:id="@+id/action_nav_experiments_to_nav_sync_experiment"
+            app:destination="@id/nav_sync_experiment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_sync_experiment"
+        android:name="com.jsm.exptool.ui.experiments.list.actions.sync.ExperimentsListSyncLogFragment"
+        android:label="@string/title_sync_experiment_fragment"
+        tools:layout="@layout/experiments_list_sync_log_fragment">
+        <argument
+            android:name="experiment"
+            app:argType="com.jsm.exptool.model.Experiment" />
     </fragment>
     <fragment
         android:id="@+id/nav_configuration"
@@ -37,8 +49,7 @@
         android:id="@+id/nav_suggestion_configuration"
         android:name="com.jsm.exptool.ui.configuration.suggestions.ConfigurationSuggestionsFragment"
         android:label="@string/title_configuration_suggestions_fragment"
-        tools:layout="@layout/configuration_suggestions_fragment">
-    </fragment>
+        tools:layout="@layout/configuration_suggestions_fragment" />
     <fragment
         android:id="@+id/nav_quick_comments_configuration"
         android:name="com.jsm.exptool.ui.configuration.quickComments.ConfigurationQuickCommentsFragment"
@@ -62,8 +73,7 @@
         android:id="@+id/nav_about"
         android:name="com.jsm.exptool.ui.about.AboutFragment"
         android:label="@string/title_info_fragment"
-        tools:layout="@layout/about_fragment">
-    </fragment>
+        tools:layout="@layout/about_fragment" />
 
     <fragment
         android:id="@+id/nav_perform_experiment"
@@ -109,9 +119,9 @@
             app:destination="@id/nav_manage_quick_comments_configuration" />
         <argument
             android:name="experiment"
+            android:defaultValue="@null"
             app:argType="com.jsm.exptool.model.Experiment"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/nav_experiment_configure"

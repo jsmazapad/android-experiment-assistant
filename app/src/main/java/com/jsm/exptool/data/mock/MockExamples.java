@@ -7,6 +7,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LAT
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.LONGITUDE;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
@@ -163,7 +164,7 @@ public class MockExamples {
             out.close();
             inputStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(MockExamples.class.getSimpleName(), e.getMessage(), e);
         }
 
         for (int i = 0; i <= 40; i++) {
@@ -184,7 +185,7 @@ public class MockExamples {
             out.close();
             inputStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(MockExamples.class.getSimpleName(), e.getMessage(), e);
         }
 
         for (int i = 0; i <= 40; i++) {

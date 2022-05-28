@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.jsm.exptool.ui.experiments.list.actions.sync.ExperimentsListSyncLogViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/syncButton"
+                    style="@style/FullWidthButton"
+                    android:onClick="@{()->viewModel.syncExperiment()}"
+                    android:text="@string/experiment_actions_sync_text" />
+
+                <com.jsm.exptool.libs.ExpandableCard
+                    android:id="@+id/filterCard"
+                    style="@style/BaseCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:extra_info="@{viewModel.filterResume}"
+                    app:initial_expanded="true"
+                    app:title="@string/pending_elements_card_title">
+
+
+                    <TextView
+                        style="@style/BaseItemListSecondaryBoldTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/status_filter_text" />
+
+
+                    <TextView
+                        style="@style/BaseItemListSecondaryBoldTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/condition_filter_text" />
+
+
+                </com.jsm.exptool.libs.ExpandableCard>
+
+                <TextView
+                    style="@style/BaseCardTitleItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sync_events_log" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/elementsRV"
+                        style="@style/RecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/filterCard"
+                        tools:listitem="@layout/experiments_list_sync_log_item">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

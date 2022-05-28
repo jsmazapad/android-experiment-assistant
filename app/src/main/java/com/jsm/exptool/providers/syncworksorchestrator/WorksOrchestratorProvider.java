@@ -26,7 +26,13 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_LOCATION;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_AUDIO_FILE_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_AUDIO_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_COMMENT_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_EXPERIMENT;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_FILE_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_SENSORS_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
@@ -37,6 +43,7 @@ import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
+import androidx.annotation.StringRes;
 import androidx.lifecycle.LiveData;
 import androidx.work.BackoffPolicy;
 import androidx.work.Data;
@@ -44,9 +51,11 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkContinuation;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
+import androidx.work.WorkQuery;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jsm.exptool.R;
 import com.jsm.exptool.config.ExportToCSVConfigOptions;
 import com.jsm.exptool.libs.WorksOrchestratorUtils;
 import com.jsm.exptool.model.Experiment;
@@ -69,6 +78,8 @@ import com.jsm.exptool.workers.sync.SyncRemoteExperimentWorker;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -128,6 +139,7 @@ public class WorksOrchestratorProvider {
         mWorkManager.enqueue(registerSensorRequest);
     }
 
+    //TODO Eliminar context de los métodos donde no se usa
     public void executeLocationChain(Context context, Location location, Date date, Experiment experiment) {
 
 
@@ -246,7 +258,7 @@ public class WorksOrchestratorProvider {
     SINCRONIZACIÓN REMOTA
      */
 
-    public void executeFullRemoteSync(Context context, Experiment experiment, boolean updateAlwaysExperiment) {
+    public void executeFullRemoteSync(Experiment experiment, boolean updateAlwaysExperiment) {
 
 
         Map<String, Object> experimentDataValues = new HashMap<String, Object>() {{
@@ -271,8 +283,9 @@ public class WorksOrchestratorProvider {
 
         Data registersInputData = WorksOrchestratorUtils.createInputData(registersInputDataValues);
 
-        if(experiment.getConfiguration() != null ) {
+        if (experiment.getConfiguration() != null) {
             if (experiment.getConfiguration().isCameraEnabled()) {
+                //TODO Separar sincronización de registros en varias tareas según tamaño
                 new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
             }
             if (experiment.getConfiguration().isAudioEnabled()) {
@@ -287,21 +300,58 @@ public class WorksOrchestratorProvider {
         }
 
 
-        if(experiment.getExternalId() < 1 || updateAlwaysExperiment) {
+        if (experiment.getExternalId() < 1 || updateAlwaysExperiment) {
             mWorkManager.beginWith(syncExperimentRequest).then(syncExperimentRegisters).enqueue();
-        }else{
+        } else {
             mWorkManager.enqueue(syncExperimentRegisters);
         }
 
     }
 
+    public @StringRes int getRemoteStateTranslatableStringResFromWorkInfo(WorkInfo workInfo) {
+        int translatableStringRes = 0;
+        if (workInfo.getTags().contains(REMOTE_SYNC_IMAGE_REGISTERS)) {
+            translatableStringRes = R.string.image_register;
+        } else if (workInfo.getTags().contains(REMOTE_SYNC_IMAGE_FILE_REGISTERS)) {
+            translatableStringRes = R.string.image_file;
+        } else if (workInfo.getTags().contains(REMOTE_SYNC_AUDIO_REGISTERS)) {
+            translatableStringRes = R.string.audio_register;
+        } else if (workInfo.getTags().contains(REMOTE_SYNC_AUDIO_FILE_REGISTERS)) {
+            translatableStringRes = R.string.audio_file;
+        } else if (workInfo.getTags().contains(OBTAIN_EMBEDDED_IMAGE)) {
+            translatableStringRes = R.string.embedding;
+        } else if (workInfo.getTags().contains(REMOTE_SYNC_SENSORS_REGISTERS)) {
+            translatableStringRes = R.string.sensor_register;
+        } else if (workInfo.getTags().contains(REMOTE_SYNC_COMMENT_REGISTERS)) {
+            translatableStringRes = R.string.comment_register;
+        } else if (workInfo.getTags().contains(REMOTE_SYNC_EXPERIMENT)) {
+            translatableStringRes = R.string.experiment_register;
+        }
 
+        return translatableStringRes;
+    }
 
+    public boolean isSuccessWork(WorkInfo workInfo){
+        return workInfo.getState() == WorkInfo.State.SUCCEEDED;
+    }
 
-   
 
     public LiveData<List<WorkInfo>> getWorkInfoByTag(String tag) {
         return mWorkManager.getWorkInfosByTagLiveData(tag);
+    }
+
+    public LiveData<List<WorkInfo>> getWorkInfoByTagAndState(List<String> tags, List<WorkInfo.State> states) {
+        return mWorkManager.getWorkInfosLiveData(WorkQuery.Builder.fromTags(tags).addStates(states).build());
+    }
+
+    public LiveData<List<WorkInfo>> getSuccessWorkInfoByTag(List<String> tags) {
+        List<WorkInfo.State> completedStates = Collections.singletonList(WorkInfo.State.SUCCEEDED);
+        return this.getWorkInfoByTagAndState(tags, completedStates);
+    }
+
+    public LiveData<List<WorkInfo>> getCompletedWorkInfoByTag(List<String> tags) {
+        List<WorkInfo.State> completedStates = Arrays.asList(WorkInfo.State.SUCCEEDED, WorkInfo.State.FAILED, WorkInfo.State.CANCELLED);
+        return this.getWorkInfoByTagAndState(tags, completedStates);
     }
 
     public int countPendingWorks(List<WorkInfo> workInfoList) {
@@ -315,6 +365,7 @@ public class WorksOrchestratorProvider {
     }
 
 
+    //TODO Reemplazar estos métodos por el uso de getWorkInfosLiveData
     public int countWorksByState(List<WorkInfo> workInfoList, WorkInfo.State state) {
         int counter = 0;
         for (WorkInfo info : workInfoList) {

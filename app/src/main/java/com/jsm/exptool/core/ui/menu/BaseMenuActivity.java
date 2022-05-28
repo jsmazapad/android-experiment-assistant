@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -129,7 +130,7 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(getPackageName(), 0);
             versionName = "v" + pInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
         }
 
         return versionName;

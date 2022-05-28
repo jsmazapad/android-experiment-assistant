@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.jsm.exptool.ui.experiments.list.ExperimentListActionsDialogViewModel" />
+            type="com.jsm.exptool.ui.experiments.list.actions.ExperimentListActionsDialogViewModel" />
     </data>
 
 
