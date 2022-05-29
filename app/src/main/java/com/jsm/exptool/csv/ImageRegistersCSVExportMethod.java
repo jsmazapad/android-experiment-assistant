@@ -8,6 +8,7 @@ import com.jsm.exptool.model.register.ImageRegister;
 import com.opencsv.CSVWriter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,7 @@ public class ImageRegistersCSVExportMethod extends ExperimentsDatabaseTableToCSV
 
     @Override
     protected List<String> createExcludedFields() {
-        return new ArrayList<String>(){{
-            add("fileDirectory");
-        }};
+        return Collections.singletonList("fileDirectory");
     }
 
     @Override

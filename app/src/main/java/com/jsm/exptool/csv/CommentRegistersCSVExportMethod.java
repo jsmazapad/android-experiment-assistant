@@ -16,9 +16,7 @@ public class CommentRegistersCSVExportMethod extends ExperimentsDatabaseTableToC
 
     @Override
     protected List<String> createExcludedFields() {
-        return new ArrayList<String>(){{
-
-        }};
+        return new ArrayList<>();
     }
 
     @Override

@@ -28,6 +28,12 @@ public class SplashActivity extends AppCompatActivity {
                         wait(100);
                     } catch (InterruptedException e) {
                         Log.w(SplashActivity.class.getSimpleName(), e.getMessage(), e);
+                        /*The throwing of the InterruptedException clears the interrupted state of the Thread, so if the exception is not handled properly
+                        the information that the thread was interrupted will be lost. Instead, InterruptedExceptions should either be rethrown -
+                        immediately or after cleaning up the method’s state - or the thread should be re-interrupted by calling Thread.interrupt() even
+                        if this is supposed to be a single-threaded application. Any other course of action risks delaying thread shutdown and loses the
+                        information that the thread was interrupted - probably without finishing its task.*/
+                        Thread.currentThread().interrupt();
                     } finally {
                         SplashActivity.this.exitSplash();
                     }

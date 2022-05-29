@@ -16,11 +16,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ExportToCSVConfigOptions {
-    public static final Map<String, ExperimentsDatabaseTableToCSVExportMethod> EXPORT_TO_CSV_OPTIONS = new HashMap<String, ExperimentsDatabaseTableToCSVExportMethod>() {{
-        put(Experiment.TABLE_NAME, new ExperimentExportCSVExportMethod());
-        put(SensorRegister.TABLE_NAME, new SensorRegistersCSVExportMethod());
-        put(ImageRegister.TABLE_NAME, new ImageRegistersCSVExportMethod());
-        put(AudioRegister.TABLE_NAME, new AudioRegistersCSVExportMethod());
-        put(CommentRegister.TABLE_NAME, new CommentRegistersCSVExportMethod());
-    }};
+    public static final Map<String, ExperimentsDatabaseTableToCSVExportMethod> EXPORT_TO_CSV_OPTIONS = initializeExportOptions();
+
+    private static HashMap<String, ExperimentsDatabaseTableToCSVExportMethod> initializeExportOptions() {
+        HashMap<String, ExperimentsDatabaseTableToCSVExportMethod> mapToReturn = new HashMap<>();
+        mapToReturn.put(Experiment.TABLE_NAME, new ExperimentExportCSVExportMethod());
+        mapToReturn.put(SensorRegister.TABLE_NAME, new SensorRegistersCSVExportMethod());
+        mapToReturn.put(ImageRegister.TABLE_NAME, new ImageRegistersCSVExportMethod());
+        mapToReturn.put(AudioRegister.TABLE_NAME, new AudioRegistersCSVExportMethod());
+        mapToReturn.put(CommentRegister.TABLE_NAME, new CommentRegistersCSVExportMethod());
+        return mapToReturn;
+    }
 }

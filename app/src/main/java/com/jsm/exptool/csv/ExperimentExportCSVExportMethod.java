@@ -5,6 +5,7 @@ import com.jsm.exptool.libs.tabletocsv.TableToCSVConverterFunctionInterface;
 import com.jsm.exptool.model.Experiment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,20 +18,19 @@ public class ExperimentExportCSVExportMethod extends ExperimentsDatabaseTableToC
 
     @Override
     protected List<String> createExcludedFields() {
-        return new ArrayList<String>(){{
-            add("initDate");
-            add("endDate");
+        return Arrays.asList(
+            "initDate",
+            "endDate",
             //TODO ¿Eliminar este parámetro de la definición de la clase?
-            add("audio_config_encodingBitRatesOptions");
-        }};
+            "audio_config_encodingBitRatesOptions"
+       );
     }
 
     @Override
     protected Map<String, TableToCSVConverterFunctionInterface> createFieldsToConvert() {
-        return new HashMap<String, TableToCSVConverterFunctionInterface>(){{
-            put("quickComments", field -> field.replace(StringListConverter.DELIMITER, ","));
-
-        }};
+        HashMap<String, TableToCSVConverterFunctionInterface> mapToReturn = new HashMap<>();
+        mapToReturn.put("quickComments", field -> field.replace(StringListConverter.DELIMITER, ","));
+        return mapToReturn;
     }
 
     @Override
