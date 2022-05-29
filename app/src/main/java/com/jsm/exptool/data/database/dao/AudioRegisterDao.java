@@ -43,6 +43,13 @@ public interface AudioRegisterDao {
     List<AudioRegister> getAudioRegistersByExperimentId(long experimentId);
 
     /**
+     * Obtiene la cuenta de todas las entidades de la BD para un experimento
+     * @return
+     */
+    @Query("SELECT COUNT(*) FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId ORDER BY date DESC")
+    int getAudioRegistersCountByExperimentId(long experimentId);
+
+    /**
      * Obtiene los registros pendientes de sincronización con servidor remoto
      * @param experimentId
      * @param limit
@@ -52,6 +59,15 @@ public interface AudioRegisterDao {
     List<AudioRegister> getPendingSyncAudioRegistersByExperimentId(long experimentId, int limit);
 
     /**
+     * Obtiene la cuenta de los registros pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT COUNT(*) FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    int getPendingSyncAudioRegistersCountByExperimentId(long experimentId, int limit);
+
+    /**
      * Obtiene los registros con archivos pendientes de sincronización con servidor remoto
      * @param experimentId
      * @param limit
@@ -59,6 +75,15 @@ public interface AudioRegisterDao {
      */
     @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
     List<AudioRegister> getPendingFileSyncAudioRegistersByExperimentId(long experimentId, int limit);
+
+    /**
+     * Obtiene la cuenta de los registros con archivos pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT COUNT(*) FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    int getPendingFileSyncAudioRegistersCountByExperimentId(long experimentId, int limit);
 
 
     /**

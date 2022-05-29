@@ -31,6 +31,9 @@ public class SyncRemoteImageRegistersWorker extends SyncRemoteExperimentRegister
 
     @Override
     protected void updateRegister(ImageRegister register) {
+        if(register.getEmbedding() != null && register.getEmbedding().size() > 0){
+            register.setEmbeddingRemoteSynced(true);
+        }
         ImageRepository.updateImageRegister(register);
     }
 }

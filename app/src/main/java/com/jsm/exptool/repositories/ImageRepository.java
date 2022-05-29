@@ -109,6 +109,7 @@ public class ImageRepository {
 
     public static int registerImageEmbedding(ImageRegister imageRegister, ImageEmbeddingVector vector) {
         imageRegister.setEmbedding(vector.getEmbedding());
+        imageRegister.setEmbeddingRemoteSynced(false);
         return DBHelper.updateImageRegister(imageRegister);
     }
 
@@ -137,15 +138,33 @@ public class ImageRepository {
         return DBHelper.getPendingFileSyncImageRegistersByExperimentId(experimentId);
     }
 
+    public static List<ImageRegister> getSynchronouslyPendingEmbeddingSyncRegistersByExperimentId(long experimentId) {
+        return DBHelper.getPendingEmbeddingImageRegistersByExperimentId(experimentId);
+    }
+
     public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> countResponse.postValue(DBHelper.getImageRegistersByExperimentId(experimentId).size()));
+        executor.execute(() -> countResponse.postValue(DBHelper.countImageRegistersByExperimentId(experimentId)));
     }
 
     public static void countImagesWithEmbeddingsByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
 
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> countResponse.postValue(DBHelper.getImageRegistersWithEmbeddingByExperimentId(experimentId).size()));
+        executor.execute(() -> countResponse.postValue(DBHelper.countImageRegistersWithEmbeddingByExperimentId(experimentId)));
+    }
 
+    public static void countPendingSyncRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> countResponse.postValue(DBHelper.countPendingSyncImageRegistersByExperimentId(experimentId)));
+    }
+
+    public static void countPendingSyncFileRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> countResponse.postValue(DBHelper.countPendingFileSyncImageRegistersByExperimentId(experimentId)));
+    }
+
+    public static void countPendingSyncEmbeddingRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> countResponse.postValue(DBHelper.countPendingEmbeddingImageRegistersByExperimentId(experimentId)));
     }
 }

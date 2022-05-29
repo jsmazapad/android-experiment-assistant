@@ -40,6 +40,13 @@ public interface CommentRegisterDao {
     List<CommentRegister> getCommentRegistersByExperimentId(long experimentId);
 
     /**
+     * Obtiene la cuenta de todas las entidades de la BD para un experimento
+     * @return
+     */
+    @Query("SELECT COUNT(*) FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId ORDER BY date DESC")
+    int getCommentRegistersCountByExperimentId(long experimentId);
+
+    /**
      * Obtiene los registros pendientes de sincronización con servidor remoto
      * @param experimentId
      * @param limit
@@ -47,6 +54,15 @@ public interface CommentRegisterDao {
      */
     @Query("SELECT * FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
     List<CommentRegister> getPendingSyncCommentRegistersByExperimentId(long experimentId, int limit);
+
+    /**
+     * Obtiene la cuenta de los registros pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT COUNT(*) FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    int getPendingSyncCommentRegistersCountByExperimentId(long experimentId, int limit);
 
     /**
      * Inserta un registro

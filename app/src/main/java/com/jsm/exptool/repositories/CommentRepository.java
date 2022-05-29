@@ -41,8 +41,12 @@ public class CommentRepository {
 
     public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> countResponse.postValue(DBHelper.getCommentRegistersByExperimentId(experimentId).size()));
+        executor.execute(() -> countResponse.postValue(DBHelper.countCommentRegistersByExperimentId(experimentId)));
+    }
 
+    public static void countPendingSyncRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> countResponse.postValue(DBHelper.countPendingSyncCommentRegistersByExperimentId(experimentId)));
     }
 
 }

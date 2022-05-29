@@ -284,7 +284,8 @@
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="sync_state_content_description">Estado de sincronización</string>
     <string name="pending_elements_card_title">Elementos pendientes</string>
-    <string name="sync_number_format">sincronizados: %d</string>
+    <string name="sync_number_format">Pendientes: %d, éxito: %d, fallo: %d</string>
+    <string name="sync_number_format_example_text">Pendientes: 15, éxito: 3, fallo: 2</string>
     <string name="image_register">Reg. Imagen</string>
     <string name="image_file">Archivo Imagen</string>
     <string name="audio_register">Reg. Audio</string>
@@ -292,10 +293,13 @@
     <string name="sensor_register">Reg. Sensor</string>
     <string name="comment_register">Reg. Comentario</string>
     <string name="experiment_register">Experimento</string>
+    <string name="processing_image_for_embedding">Procesando imagen para embedding</string>
     <string name="embedding">Embedding</string>
     <string name="success">Sincronizado</string>
     <string name="failure">Fallo</string>
     <string name="sync_events_log">Log de eventos</string>
+    <string name="registers">Registros</string>
+    <string name="files">Archivos</string>
 
 
 </resources>

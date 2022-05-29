@@ -32,7 +32,7 @@ public abstract class WorksOrchestratorSyncTaskCreator<T extends ExperimentRegis
         createSyncRegisterWork(experiment, syncExperimentRegisters, registersExperimentInputData);
 
     }
-
+    //TODO establecer backoff policy, condición de red y cambiar métodos para separar según conjuntos de ids
     private void createSyncRegisterWork(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters,  Data registersExperimentInputData) {
         OneTimeWorkRequest.Builder syncRegistersRequestBuilder = new OneTimeWorkRequest.Builder(getRegisterWorkerClass())
                 .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_REGISTERS).addTag(getRegisterTag());

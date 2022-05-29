@@ -54,8 +54,8 @@ public class WorkerPropertiesConstants {
         public static final String REMOTE_SYNC_SENSORS_REGISTERS = "REMOTE_SYNC_SENSORS_REGISTERS";
         public static final String REMOTE_SYNC_COMMENT_REGISTERS = "REMOTE_SYNC_COMMENT_REGISTERS";
         public static final String REMOTE_SYNC_FILE_REGISTERS = "REMOTE_SYNC_FILE_REGISTERS";
-        public static final String REMOTE_SYNC_AUDIO_FILE_REGISTERS = "REMOTE_SYNC_FILE_REGISTERS";
-        public static final String REMOTE_SYNC_IMAGE_FILE_REGISTERS = "REMOTE_SYNC_FILE_REGISTERS";
+        public static final String REMOTE_SYNC_AUDIO_FILE_REGISTERS = "REMOTE_SYNC_AUDIO_FILE_REGISTERS";
+        public static final String REMOTE_SYNC_IMAGE_FILE_REGISTERS = "REMOTE_SYNC_IMAGE_FILE_REGISTERS";
 
     }
 }

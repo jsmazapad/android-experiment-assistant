@@ -41,6 +41,15 @@ public interface SensorRegisterDao {
     List<SensorRegister> getPendingSyncSensorRegistersByExperimentId(long experimentId, int limit);
 
     /**
+     * Obtiene los registros pendientes de sincronización con servidor remoto
+     * @param experimentId
+     * @param limit
+     * @return
+     */
+    @Query("SELECT COUNT(*) FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
+    int getPendingSyncSensorRegistersCountByExperimentId(long experimentId, int limit);
+
+    /**
      * Selecciona un registro mediante su id (externo)
      * @param id id de la entidad objetivo
      * @return
@@ -56,6 +65,15 @@ public interface SensorRegisterDao {
      */
     @Query("SELECT * FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId")
     List<SensorRegister> getSensorsByExperimentId(long experimentId);
+
+    /**
+     * Obtiene la cuenta de todas las entidades de la BD para un experimento
+     * en este caso no realizamos order BY porque queremos un criterio uniforme
+     * con otras fuentes de datos y lo ordenamos mediante programación
+     * @return
+     */
+    @Query("SELECT COUNT(*) FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId")
+    int getSensorsCountByExperimentId(long experimentId);
 
     /**
      * Inserta un registro

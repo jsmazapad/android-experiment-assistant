@@ -59,7 +59,17 @@ public class AudioRepository {
 
     public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> countResponse.postValue(DBHelper.getAudioRegistersByExperimentId(experimentId).size()));
+        executor.execute(() -> countResponse.postValue(DBHelper.countAudioRegistersByExperimentId(experimentId)));
+    }
+
+    public static void countPendingSyncRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> countResponse.postValue(DBHelper.countPendingSyncAudioRegistersByExperimentId(experimentId)));
+    }
+
+    public static void countPendingSyncFileRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> countResponse.postValue(DBHelper.countPendingFileSyncAudioRegistersByExperimentId(experimentId)));
     }
 
 }
