@@ -25,8 +25,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name="com.jsm.exptool.ui.main.MainActivity"
-            android:exported="true">
+        <activity android:name="com.jsm.exptool.ui.main.MainActivity">
 
         </activity>
         <activity android:name="com.jsm.exptool.ui.splash.SplashActivity"
