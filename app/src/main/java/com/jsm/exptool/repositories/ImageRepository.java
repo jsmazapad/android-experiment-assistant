@@ -90,9 +90,9 @@ public class ImageRepository {
 
     public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData) {
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
-            addAll(DBHelper.getImageRegistersByExperimentId(experimentId));
-        }})));
+        executor.execute(() -> responseLiveData.postValue(new ListResponse<>(new ArrayList<>(
+            DBHelper.getImageRegistersByExperimentId(experimentId))
+        )));
 
     }
 

@@ -22,9 +22,9 @@ public class CommentRepository {
 
     public static void getRegistersByExperimentIdAsExperimentRegister(long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData) {
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>() {{
-            addAll(DBHelper.getCommentRegistersByExperimentId(experimentId));
-        }})));
+        executor.execute(() -> responseLiveData.postValue(new ListResponse<>(new ArrayList<>(
+            DBHelper.getCommentRegistersByExperimentId(experimentId))
+        )));
     }
 
     public static List<CommentRegister> getSynchronouslyPendingSyncRegistersByExperimentId(long experimentId) {

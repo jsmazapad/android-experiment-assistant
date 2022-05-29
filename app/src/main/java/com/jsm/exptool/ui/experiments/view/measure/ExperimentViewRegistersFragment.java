@@ -40,7 +40,7 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
         TabLayout tabLayout = binding.tabs;
         viewModel.getApiResponseMediator().observe(getViewLifecycleOwner(), response->{});
         viewModel.getElements().observe(getViewLifecycleOwner(), response->{
-            mSectionsPagerAdapter = new ExperimentViewRegistersSectionPagerAdapter(getChildFragmentManager(), getLifecycle(), new ArrayList<ExperimentRegister>(){{addAll(response);}}, viewModel.getMeasurableItem());
+            mSectionsPagerAdapter = new ExperimentViewRegistersSectionPagerAdapter(getChildFragmentManager(), getLifecycle(), new ArrayList<>(response), viewModel.getMeasurableItem());
             mViewPager = binding.viewPagerContainer;
             //Eliminamos swipe para que sólo se pueda mover tocando las pestañas
             mViewPager.setUserInputEnabled(false);

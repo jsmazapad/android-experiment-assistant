@@ -16,9 +16,7 @@ public class SensorRegistersCSVExportMethod extends ExperimentsDatabaseTableToCS
 
     @Override
     protected List<String> createExcludedFields() {
-        return new ArrayList<String>(){{
-
-        }};
+        return new ArrayList<>();
     }
 
     @Override

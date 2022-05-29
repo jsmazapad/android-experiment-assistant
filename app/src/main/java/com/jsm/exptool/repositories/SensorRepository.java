@@ -61,7 +61,7 @@ public class SensorRepository {
 
     public static void getRegistersByTypeAndExperimentIdAsExperimentRegister(int type, long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>(){{addAll(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId));}})));
+        executor.execute( () -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId)))));
     }
 
     public static void getRegistersByTypeAndExperimentId(int type, long experimentId, MutableLiveData<ListResponse<SensorRegister>> responseLiveData){

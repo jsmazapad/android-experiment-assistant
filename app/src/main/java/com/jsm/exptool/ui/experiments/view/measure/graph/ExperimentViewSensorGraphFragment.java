@@ -54,9 +54,8 @@ public class ExperimentViewSensorGraphFragment extends BaseFragment<ExperimentVi
         LineChart graph = binding.lineChart;
         //graph.setDragEnabled(true);
         //graph.setScaleEnabled(false);
-        ArrayList<ExperimentRegister> reversedArrayList = new ArrayList<ExperimentRegister>() {{
-            addAll(registers);
-        }};
+        ArrayList<ExperimentRegister> reversedArrayList = new ArrayList<>(registers);
+
         Collections.reverse(reversedArrayList);
         new GraphHelper(graph,reversedArrayList);
     }
