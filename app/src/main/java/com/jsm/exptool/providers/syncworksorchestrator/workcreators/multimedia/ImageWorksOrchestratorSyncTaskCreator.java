@@ -40,22 +40,18 @@ public class ImageWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestrato
 
     }
 
+    //TODO Quitar syncExperiment y ejecutar primero estos trabajos
     private void createEmbeddingWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters) {
         List<ImageRegister> pendingRegisters = ImageRepository.getSynchronouslyPendingEmbeddingSyncRegistersByExperimentId(experiment.getInternalId());
         for (ImageRegister register : pendingRegisters) {
 
-            Map<String, Object> registersEmbeddingInputDataValues = new HashMap<String, Object>() {
-                {
-                    put(IMAGE_REGISTER_ID, register.getInternalId());
-                }
-            };
+            Map<String, Object> registersEmbeddingInputDataValues =  new HashMap<>();
+            registersEmbeddingInputDataValues.put(IMAGE_REGISTER_ID, register.getInternalId());
 
             File file = new File(register.getFullPath());
 
             WorkContinuation continuation = WorksOrchestratorProvider.getInstance().prepareEmbeddingChain(file, true, experiment.getConfiguration().getCameraConfig(), null, registersEmbeddingInputDataValues );
             continuation.enqueue();
-
-
         }
     }
 

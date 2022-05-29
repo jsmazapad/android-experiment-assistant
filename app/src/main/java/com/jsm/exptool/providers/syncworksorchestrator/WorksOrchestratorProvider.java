@@ -130,12 +130,11 @@ public class WorksOrchestratorProvider {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
-        Map<String, Object> registerSensorValues = new HashMap<String, Object>() {{
-            put(SENSOR, gson.toJson(sensor));
-            put(SENSOR_NAME, context.getString(sensor.getNameStringResource()));
-            put(EXPERIMENT_ID, experiment.getInternalId());
-            put(DATE_TIMESTAMP, date.getTime());
-        }};
+        Map<String, Object> registerSensorValues = new HashMap<>();
+        registerSensorValues.put(SENSOR, gson.toJson(sensor));
+        registerSensorValues.put(SENSOR_NAME, context.getString(sensor.getNameStringResource()));
+        registerSensorValues.put(EXPERIMENT_ID, experiment.getInternalId());
+        registerSensorValues.put(DATE_TIMESTAMP, date.getTime());
 
         Data registerSensorData = WorksOrchestratorUtils.createInputData(registerSensorValues);
         OneTimeWorkRequest registerSensorRequest = new OneTimeWorkRequest.Builder(RegisterSensorWorker.class)
@@ -147,14 +146,14 @@ public class WorksOrchestratorProvider {
     public void executeLocationChain(Context context, Location location, Date date, Experiment experiment) {
 
 
-        Map<String, Object> registerLocationValues = new HashMap<String, Object>() {{
-            put(LATITUDE, location.getLatitude());
-            put(LONGITUDE, location.getLongitude());
-            put(ALTITUDE, location.getAltitude());
-            put(ACCURACY, location.getAccuracy());
-            put(EXPERIMENT_ID, experiment.getInternalId());
-            put(DATE_TIMESTAMP, date.getTime());
-        }};
+        Map<String, Object> registerLocationValues = new HashMap<>();
+        registerLocationValues.put(LATITUDE, location.getLatitude());
+        registerLocationValues.put(LONGITUDE, location.getLongitude());
+        registerLocationValues.put(ALTITUDE, location.getAltitude());
+        registerLocationValues.put(ACCURACY, location.getAccuracy());
+        registerLocationValues.put(EXPERIMENT_ID, experiment.getInternalId());
+        registerLocationValues.put(DATE_TIMESTAMP, date.getTime());
+
 
         Data registerSensorData = WorksOrchestratorUtils.createInputData(registerLocationValues);
         OneTimeWorkRequest registerLocationRequest = new OneTimeWorkRequest.Builder(RegisterLocationWorker.class)
@@ -163,11 +162,11 @@ public class WorksOrchestratorProvider {
     }
 
     public void executeAudioChain(Context context, File mFile, Date date, Experiment experiment) {
-        Map<String, Object> registerImageValues = new HashMap<String, Object>() {{
-            put(FILE_NAME, mFile.getPath());
-            put(EXPERIMENT_ID, experiment.getInternalId());
-            put(DATE_TIMESTAMP, date.getTime());
-        }};
+        Map<String, Object> registerImageValues = new HashMap<>();
+        registerImageValues.put(FILE_NAME, mFile.getPath());
+        registerImageValues.put(EXPERIMENT_ID, experiment.getInternalId());
+        registerImageValues.put(DATE_TIMESTAMP, date.getTime());
+
         //Register image
         Data registerImageData = WorksOrchestratorUtils.createInputData(registerImageValues);
         OneTimeWorkRequest registerAudioRequest = new OneTimeWorkRequest.Builder(RegisterAudioWorker.class)
@@ -180,11 +179,11 @@ public class WorksOrchestratorProvider {
         CameraConfig cameraConfig = experiment.getConfiguration().getCameraConfig();
         WorkContinuation continuation = null;
 
-        Map<String, Object> registerImageValues = new HashMap<String, Object>() {{
-            put(FILE_NAME, mFile.getPath());
-            put(EXPERIMENT_ID, experiment.getInternalId());
-            put(DATE_TIMESTAMP, date.getTime());
-        }};
+        Map<String, Object> registerImageValues = new HashMap<>();
+        registerImageValues.put(FILE_NAME, mFile.getPath());
+        registerImageValues.put(EXPERIMENT_ID, experiment.getInternalId());
+        registerImageValues.put(DATE_TIMESTAMP, date.getTime());
+
 
         //Register image
         Data registerImageData = WorksOrchestratorUtils.createInputData(registerImageValues);
@@ -204,17 +203,17 @@ public class WorksOrchestratorProvider {
     public WorkContinuation prepareEmbeddingChain(File mFile, boolean onlyEmbedding, CameraConfig cameraConfig, WorkContinuation continuation, Map<String, Object> onlyEmbeddingInputDataValues) {
         //TODO Extraer resized a constante en provider
         String processedFileName = mFile.getParent() + "/resized" + mFile.getName();
-        Map<String, Object> processImageValuesMap = new HashMap<String, Object>() {{
-            put(FILE_NAME, mFile.getPath());
-            put(PROCESSED_IMAGE_FILE_NAME, processedFileName);
-            put(PROCESSED_IMAGE_HEIGHT, cameraConfig.getEmbeddingAlgorithm().getOptimalImageHeight());
-            put(PROCESSED_IMAGE_WIDTH, cameraConfig.getEmbeddingAlgorithm().getOptimalImageHeight());
-        }};
-        Map<String, Object> embeddingAdditionalValuesMap = new HashMap<String, Object>() {{
-            put(EMBEDDING_ALG, cameraConfig.getEmbeddingAlgorithm().getRemoteServerName());
-        }};
+        Map<String, Object> processImageValuesMap = new HashMap<>();
+        processImageValuesMap.put(FILE_NAME, mFile.getPath());
+        processImageValuesMap.put(PROCESSED_IMAGE_FILE_NAME, processedFileName);
+        processImageValuesMap.put(PROCESSED_IMAGE_HEIGHT, cameraConfig.getEmbeddingAlgorithm().getOptimalImageHeight());
+        processImageValuesMap.put(PROCESSED_IMAGE_WIDTH, cameraConfig.getEmbeddingAlgorithm().getOptimalImageHeight());
 
-        if (onlyEmbedding && onlyEmbeddingInputDataValues != null){
+        Map<String, Object> embeddingAdditionalValuesMap = new HashMap<>();
+        embeddingAdditionalValuesMap.put(EMBEDDING_ALG, cameraConfig.getEmbeddingAlgorithm().getRemoteServerName());
+
+
+        if (onlyEmbedding && onlyEmbeddingInputDataValues != null) {
             processImageValuesMap.putAll(onlyEmbeddingInputDataValues);
         }
 
@@ -223,7 +222,7 @@ public class WorksOrchestratorProvider {
         OneTimeWorkRequest.Builder processImageRequestBuilder = new OneTimeWorkRequest.Builder(ProcessImageWorker.class)
                 .setInputData(processImageData).addTag(PERFORM_EXPERIMENT).addTag(PROCESS_IMAGE);
 
-        if(onlyEmbedding){
+        if (onlyEmbedding) {
             //Añadimos etiqueta de trabajo remoto para poder observarlo junto a los otros trabajos
             processImageRequestBuilder.addTag(REMOTE_WORK);
         }
@@ -249,10 +248,10 @@ public class WorksOrchestratorProvider {
         List<OneTimeWorkRequest> exportRegistersRequests = new ArrayList<>();
         //Creamos listado de exportadores que se ejecutaran en paralelo
         for (String element : ExportToCSVConfigOptions.EXPORT_TO_CSV_OPTIONS.keySet()) {
-            Map<String, Object> inputDataValues = new HashMap<String, Object>() {{
-                put(EXPERIMENT_ID, experiment.getInternalId());
-                put(TABLE_NAME, element);
-            }};
+            Map<String, Object> inputDataValues = new HashMap<>();
+            inputDataValues.put(EXPERIMENT_ID, experiment.getInternalId());
+            inputDataValues.put(TABLE_NAME, element);
+
 
             Data inputData = WorksOrchestratorUtils.createInputData(inputDataValues);
             OneTimeWorkRequest exportRequest = new OneTimeWorkRequest.Builder(ExportExperimentWorker.class)
@@ -263,14 +262,12 @@ public class WorksOrchestratorProvider {
             //mWorkManager.enqueue();
 
         }
-        Map<String, Object> zipInputDataValues = new HashMap<String, Object>() {{
-            put(EXPERIMENT_MULTIMEDIA_PATHS, new String[]{
-                    FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.IMAGES).getPath(),
-                    FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO).getPath()
-            });
+        Map<String, Object> zipInputDataValues = new HashMap<>();
+        zipInputDataValues.put(EXPERIMENT_MULTIMEDIA_PATHS, new String[]{
+                FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.IMAGES).getPath(),
+                FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO).getPath()
+        });
 
-
-        }};
         Data zipInputData = WorksOrchestratorUtils.createInputData(zipInputDataValues);
         OneTimeWorkRequest zipRequest = new OneTimeWorkRequest.Builder(ZipExportedExperimentWorker.class)
                 .setInputData(zipInputData).addTag(ZIP_EXPORTED).build();
@@ -287,26 +284,21 @@ public class WorksOrchestratorProvider {
 
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            Map<String, Object> experimentDataValues = new HashMap<String, Object>() {{
-                put(EXPERIMENT_ID, experiment.getInternalId());
-            }};
-            Data experimentInputData = WorksOrchestratorUtils.createInputData(experimentDataValues);
+            Map<String, Object> experimentDataValues = new HashMap<>();
+            experimentDataValues.put(EXPERIMENT_ID, experiment.getInternalId());
 
+            Data experimentInputData = WorksOrchestratorUtils.createInputData(experimentDataValues);
 
             OneTimeWorkRequest syncExperimentRequest = new OneTimeWorkRequest.Builder(SyncRemoteExperimentWorker.class).setInputData(experimentInputData)
                     .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_EXPERIMENT).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
 
-
             List<OneTimeWorkRequest> syncExperimentRegisters = new ArrayList<>();
             //Creamos listado de sincronizadores que se ejecutaran en paralelo
 
-            Map<String, Object> registersInputDataValues = new HashMap<String, Object>() {
-                {
-                    put(EXPERIMENT_ID, experiment.getInternalId());
-                    put(EXPERIMENT_EXTERNAL_ID, experiment.getExternalId());
-                }
-            };
+            Map<String, Object> registersInputDataValues = new HashMap<>();
 
+            registersInputDataValues.put(EXPERIMENT_ID, experiment.getInternalId());
+            registersInputDataValues.put(EXPERIMENT_EXTERNAL_ID, experiment.getExternalId());
 
             if (experiment.getConfiguration() != null) {
                 if (experiment.getConfiguration().isCameraEnabled()) {
@@ -355,7 +347,7 @@ public class WorksOrchestratorProvider {
             translatableStringRes = R.string.comment_register;
         } else if (workInfo.getTags().contains(REMOTE_SYNC_EXPERIMENT)) {
             translatableStringRes = R.string.experiment_register;
-        }else if (workInfo.getTags().contains(PROCESS_IMAGE)) {
+        } else if (workInfo.getTags().contains(PROCESS_IMAGE)) {
             translatableStringRes = R.string.processing_image_for_embedding;
         }
 

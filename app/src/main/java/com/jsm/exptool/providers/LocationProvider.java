@@ -24,6 +24,7 @@ import com.jsm.exptool.libs.GPSUtils;
 import com.jsm.exptool.model.LocationOption;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LocationProvider {
 
@@ -60,7 +61,7 @@ public class LocationProvider {
         initLocationServices(context);
     }
 
-    public static ArrayList<LocationOption> getLocationOptions(){
+    public static List<LocationOption> getLocationOptions(){
         return LocationConfigConstants.SUPPORTED_LOCATION_CONFIGURATIONS;
     }
 

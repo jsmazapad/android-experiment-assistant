@@ -61,7 +61,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
     private final MutableLiveData<Integer> audioRecordBitRate = new MutableLiveData<>();
     private final MutableLiveData<String> audioRecordOptionTitle = new MutableLiveData<>();
     //Ubicación
-    private final ArrayList<LocationOption> locationMethods = LocationProvider.getLocationOptions();
+    private final List<LocationOption> locationMethods = LocationProvider.getLocationOptions();
     private MutableLiveData<LocationOption> selectedLocationMethod = new MutableLiveData<>();
 
 
@@ -199,7 +199,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         return locationSettingsEnabled;
     }
 
-    public ArrayList<LocationOption> getLocationMethods() {
+    public List<LocationOption> getLocationMethods() {
         return locationMethods;
     }
 

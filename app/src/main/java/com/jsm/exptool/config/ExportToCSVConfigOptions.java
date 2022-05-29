@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ExportToCSVConfigOptions {
-    public static final Map <String, ExperimentsDatabaseTableToCSVExportMethod> EXPORT_TO_CSV_OPTIONS = new HashMap<String, ExperimentsDatabaseTableToCSVExportMethod>(){{
+    public static final Map<String, ExperimentsDatabaseTableToCSVExportMethod> EXPORT_TO_CSV_OPTIONS = new HashMap<String, ExperimentsDatabaseTableToCSVExportMethod>() {{
         put(Experiment.TABLE_NAME, new ExperimentExportCSVExportMethod());
         put(SensorRegister.TABLE_NAME, new SensorRegistersCSVExportMethod());
         put(ImageRegister.TABLE_NAME, new ImageRegistersCSVExportMethod());

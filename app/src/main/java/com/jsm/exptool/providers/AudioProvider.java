@@ -6,6 +6,7 @@ import com.jsm.exptool.model.AudioRecordingOption;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AudioProvider {
@@ -25,7 +26,7 @@ public class AudioProvider {
         return(INSTANCE);
     }
 
-    public ArrayList<AudioRecordingOption> getAudioRecordingOptions(){
+    public List<AudioRecordingOption> getAudioRecordingOptions(){
         return AudioConfigConstants.SUPPORTED_AUDIO_CONFIGURATIONS;
     }
 

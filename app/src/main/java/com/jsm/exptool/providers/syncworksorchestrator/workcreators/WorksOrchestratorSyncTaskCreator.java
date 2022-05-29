@@ -39,7 +39,7 @@ public abstract class WorksOrchestratorSyncTaskCreator<T extends ExperimentRegis
         createSyncRegisterWork(experiment, syncExperimentRegisters, registersInputDataValues);
 
     }
-    //TODO establecer backoff policy, condición de red y cambiar métodos para separar según conjuntos de ids
+    //TODO establecer condición de red
     private void createSyncRegisterWork(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters,   Map<String, Object> registersInputDataValues) {
         List<T> pendingRegisters = getPendingRegisters(experiment.getInternalId());
         List<Long> pendingRegistersIdsForWork = new ArrayList<>(REGISTERS_SYNC_LIMIT);

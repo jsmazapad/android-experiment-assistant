@@ -27,6 +27,7 @@ public abstract class MediaWorksOrchestratorSyncTaskCreator<T extends MediaRegis
     protected abstract Class<? extends RxWorker> getFileRegisterWorkerClass();
 
     protected abstract String getFileRegisterTag();
+
     protected abstract List<T> getPendingFileRegisters(long experimentInternalId);
 
     @Override
@@ -37,16 +38,13 @@ public abstract class MediaWorksOrchestratorSyncTaskCreator<T extends MediaRegis
     }
 
     //TODO Refactorizar parámetros para no usar el Data
-    private void createSyncFileRegisterWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues){
+    private void createSyncFileRegisterWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues) {
         List<T> pendingRegisters = getPendingFileRegisters(experiment.getInternalId());
         for (T register : pendingRegisters) {
 
-            Map<String, Object> registersFileInputDataValues = new HashMap<String, Object>() {
-                {
-                    put(EXPERIMENT_REGISTER_ID, register.getInternalId());
-                    put(FILE_NAME, register.getFullPath());
-                }
-            };
+            Map<String, Object> registersFileInputDataValues = new HashMap<>();
+            registersFileInputDataValues.put(EXPERIMENT_REGISTER_ID, register.getInternalId());
+            registersFileInputDataValues.put(FILE_NAME, register.getFullPath());
 
             OneTimeWorkRequest.Builder syncFileRegistersRequestBuilder = new OneTimeWorkRequest.Builder(getFileRegisterWorkerClass())
                     .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).addTag(getFileRegisterTag()).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT);
