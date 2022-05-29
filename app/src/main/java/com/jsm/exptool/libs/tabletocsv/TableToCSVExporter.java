@@ -33,9 +33,9 @@ public class TableToCSVExporter {
             } catch (Exception e) {
                 Log.w(TableToCSVExporter.class.getSimpleName(), e.getMessage(), e);
             }
-            return fileToReturn;
 
         }
+        return fileToReturn;
     }
 
 }

@@ -13,13 +13,13 @@ import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class SeekbarSelectorHelper {
 
-    private static final String DEFAULT_TAG= "DEFAULT_TAG";
+    private static final String DEFAULT_TAG = "DEFAULT_TAG";
 
     public static <T extends RepeatableElementConfig> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue) {
-        initFrequencySelector(includedSelectorBinding,listener, minValue, maxValue, initialValue, DEFAULT_TAG);
+        initFrequencySelector(includedSelectorBinding, listener, minValue, maxValue, initialValue, DEFAULT_TAG);
     }
 
-        public static <T extends RepeatableElementConfig> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue, String tag) {
+    public static <T extends RepeatableElementConfig> void initFrequencySelector(ViewLayoutFrequencySelectorBinding includedSelectorBinding, FrequencySelectorListener listener, final int minValue, final int maxValue, final int initialValue, String tag) {
 
         final TextView minDelayTV = includedSelectorBinding.minDelayTV;
         final TextView maxDelayTV = includedSelectorBinding.maxDelayTV;
@@ -41,7 +41,7 @@ public class SeekbarSelectorHelper {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                //No necesitado de momento
             }
 
             @Override
@@ -64,7 +64,7 @@ public class SeekbarSelectorHelper {
         maxDelayTV.setText(TimeDisplayStringProvider.millisecondsToStringBestDisplay(maxValue));
         changeFrequencyText(frequencyTV, includedSelectorBinding.seekbarFrequency.getProgress());
         minusButton.setOnClickListener(v -> {
-            if (seekbarFrequency.getProgress() >= minValue + DEFAULT_STEPS_FREQ && seekbarFrequency.getProgress() >= minValue + DEFAULT_STEPS_FREQ) {
+            if (seekbarFrequency.getProgress() >= minValue + DEFAULT_STEPS_FREQ) {
                 seekbarFrequency.setProgress(seekbarFrequency.getProgress() - DEFAULT_STEPS_FREQ);
                 changeFrequencyText(frequencyTV, seekbarFrequency.getProgress());
             }
@@ -84,7 +84,7 @@ public class SeekbarSelectorHelper {
         frequencyTV.setText(TimeDisplayStringProvider.millisecondsToStringBestDisplay(value));
     }
 
-    public interface FrequencySelectorListener{
+    public interface FrequencySelectorListener {
         void onSeekBarValueSelected(int value, SeekBar seekBar);
     }
 }

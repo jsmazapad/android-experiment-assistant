@@ -36,14 +36,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 public class MockExamples {
 
-    public static Experiment registerFullExperiment(Boolean register) {
+    public static Experiment registerFullExperiment(boolean register) {
         //TODO Código desarrollo
         Experiment experiment = new Experiment();
         experiment.setTitle("Experimento generado"+ DateProvider.dateToDisplayStringWithTime(new Date()));
@@ -51,14 +54,14 @@ public class MockExamples {
         experiment.setStatus(Experiment.ExperimentStatus.CREATED);
 
         experiment.setConfiguration(new ExperimentConfiguration());
-        experiment.getConfiguration().setQuickComments(new ArrayList<String>(){{
-            add("Comentario de prueba");
-            add("Otro comentario");
-            add("Otro comentario más");
-            add("Comentario");
-            add("Comentario un poco mas largo");
-            add("Comentario número 6");
-        }});
+        experiment.getConfiguration().setQuickComments(Arrays.asList(
+            "Comentario de prueba",
+            "Otro comentario",
+            "Otro comentario más",
+            "Comentario",
+            "Comentario un poco mas largo",
+            "Comentario número 6"
+        ));
         experiment.getConfiguration().setCameraConfig(new CameraConfig(FrequencyConstants.DEFAULT_CAMERA_FREQ, FrequencyConstants.MIN_CAMERA_INTERVAL_MILLIS, FrequencyConstants.MAX_CAMERA_INTERVAL_MILLIS ));
         experiment.getConfiguration().getCameraConfig().setEmbeddingAlgorithm(EmbeddingAlgorithmsProvider.getEmbeddingAlgorithms().get(0));
         experiment.getConfiguration().setAudioConfig(new AudioConfig(FrequencyConstants.DEFAULT_AUDIO_FREQ, FrequencyConstants.MIN_AUDIO_INTERVAL_MILLIS, FrequencyConstants.MAX_AUDIO_INTERVAL_MILLIS));
@@ -66,12 +69,9 @@ public class MockExamples {
         experiment.getConfiguration().getLocationConfig().setLocationOption(LocationProvider.getLocationOptions().get(0));
         experiment.getConfiguration().setSensorConfig(new SensorsGlobalConfig(FrequencyConstants.DEFAULT_SENSOR_FREQ, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS));
         experiment.getConfiguration().getAudioConfig().setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
-        experiment.getConfiguration().getSensorConfig().setSensors(new ArrayList<SensorConfig>() {
-            {
-                addAll(SensorHandler.getInstance().getSensors());
 
-            }
-        });
+        experiment.getConfiguration().getSensorConfig().setSensors(new ArrayList<>(SensorHandler.getInstance().getSensors()));
+
 
         if(register) {
             long id = ExperimentsRepository.registerExperiment(experiment);
@@ -123,12 +123,13 @@ public class MockExamples {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
+        Random randomGenerator = new Random();
         //Sensores y comentarios
         for (SensorConfig sensor : configuration.getSensorConfig().getSensors()) {
             for (int i = 0; i <= 40; i++) {
                 cal.add(Calendar.MILLISECOND, 10);
                 for (String key : sensor.getSensorReader().getMeasure().keySet()) {
-                    sensor.getSensorReader().getMeasure().put(key, new Random().nextFloat());
+                    sensor.getSensorReader().getMeasure().put(key, randomGenerator.nextFloat());
                 }
                 SensorRepository.registerSensorCapture(sensor, "PRUEBA", id, cal.getTime());
                 CommentRepository.registerComment(new CommentRegister(id,cal.getTime(), false, "Comentario de prueba "+ cal.getTime()));
@@ -197,9 +198,9 @@ public class MockExamples {
     }
 
     public static void createRandomCompletedExperiments(Context context){
-
+        Random randomGenerator = new Random();
         for (int i=0; i<20; i++){
-            registerExperimentForSensorVisualizationTest(context, new Random().nextBoolean()? Experiment.ExperimentStatus.INITIATED: Experiment.ExperimentStatus.FINISHED);
+            registerExperimentForSensorVisualizationTest(context, randomGenerator.nextBoolean()? Experiment.ExperimentStatus.INITIATED: Experiment.ExperimentStatus.FINISHED);
         }
 
     }

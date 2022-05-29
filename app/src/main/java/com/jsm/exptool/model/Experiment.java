@@ -18,7 +18,6 @@ import com.jsm.exptool.model.register.ImageRegister;
 import com.jsm.exptool.model.register.SensorRegister;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -278,7 +277,7 @@ public class Experiment implements Parcelable, Cloneable{
         public static ExperimentStatus chooseByStatus(String status){
             ExperimentStatus returnValue = null;
             for (ExperimentStatus statusEnum: ExperimentStatus.values()) {
-                if (statusEnum.status == status)
+                if (statusEnum.status.equals(status))
                 {
                     returnValue = statusEnum;
                 }
