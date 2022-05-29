@@ -34,6 +34,11 @@ public class AudioWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestrato
     }
 
     @Override
+    protected List<AudioRegister> getPendingRegisters(long experimentInternalId) {
+        return AudioRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentInternalId);
+    }
+
+    @Override
     protected String getFileRegisterTag() {
         return REMOTE_SYNC_AUDIO_FILE_REGISTERS;
     }

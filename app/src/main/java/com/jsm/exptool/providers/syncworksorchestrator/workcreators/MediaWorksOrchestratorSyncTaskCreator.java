@@ -1,11 +1,14 @@
 package com.jsm.exptool.providers.syncworksorchestrator.workcreators;
 
+import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY;
+import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY_UNIT;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_REGISTER_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_FILE_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 
+import androidx.work.BackoffPolicy;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.rxjava3.RxWorker;
@@ -27,8 +30,8 @@ public abstract class MediaWorksOrchestratorSyncTaskCreator<T extends MediaRegis
     protected abstract List<T> getPendingFileRegisters(long experimentInternalId);
 
     @Override
-    public void createSyncWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, Data registersExperimentInputData) {
-        super.createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersExperimentInputData);
+    public void createSyncWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues) {
+        super.createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
         createSyncFileRegisterWorks(experiment, syncExperimentRegisters, registersInputDataValues);
 
     }
@@ -46,7 +49,7 @@ public abstract class MediaWorksOrchestratorSyncTaskCreator<T extends MediaRegis
             };
 
             OneTimeWorkRequest.Builder syncFileRegistersRequestBuilder = new OneTimeWorkRequest.Builder(getFileRegisterWorkerClass())
-                    .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).addTag(getFileRegisterTag());
+                    .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).addTag(getFileRegisterTag()).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT);
             if (experiment.getExternalId() > 0) {
                 registersFileInputDataValues.putAll(registersInputDataValues);
             }

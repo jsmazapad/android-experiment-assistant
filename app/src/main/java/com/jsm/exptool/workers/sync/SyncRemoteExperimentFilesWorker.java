@@ -65,7 +65,7 @@ public abstract class SyncRemoteExperimentFilesWorker<T extends MediaRegister> e
 
     protected void executeInnerCallbackLogic(SingleEmitter<Result> emitter, long experimentRegisterId, ElementResponse<RemoteSyncResponse> response) {
         if (response.getError() != null) {
-            Log.e("SYNC_REGISTER", "error en response");
+            Log.w("SYNC_REGISTER", "error en response");
 
             //emitter.onError(response.getError());
             if (getRunAttemptCount() < MAX_RETRIES) {

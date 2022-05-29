@@ -7,7 +7,11 @@ import androidx.work.rxjava3.RxWorker;
 
 import com.jsm.exptool.model.register.SensorRegister;
 import com.jsm.exptool.providers.syncworksorchestrator.workcreators.WorksOrchestratorSyncTaskCreator;
+import com.jsm.exptool.repositories.ImageRepository;
+import com.jsm.exptool.repositories.SensorRepository;
 import com.jsm.exptool.workers.sync.registers.SyncRemoteSensorRegistersWorker;
+
+import java.util.List;
 
 
 public class SensorWorksOrchestratorSyncTaskCreator extends WorksOrchestratorSyncTaskCreator<SensorRegister> {
@@ -20,6 +24,11 @@ public class SensorWorksOrchestratorSyncTaskCreator extends WorksOrchestratorSyn
     @Override
     protected String getRegisterTag() {
         return REMOTE_SYNC_SENSORS_REGISTERS;
+    }
+
+    @Override
+    protected List<SensorRegister> getPendingRegisters(long experimentInternalId) {
+        return SensorRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentInternalId);
     }
 
 }

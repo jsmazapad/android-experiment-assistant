@@ -347,6 +347,8 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         String size = MemoryUtils.getFormattedFileSize(FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()));
         this.experiment.setSize(size);
         experiment.setExportedPending(true);
+        //TODO Debe tener en cuenta los casos donde se realice la sincronización junto al experimento
+        experiment.setSyncPending(true);
         if(experiment.getConfiguration().isEmbeddingEnabled()){
             if (numImages.getValue() > numEmbeddings.getValue()){
                 experiment.setEmbeddingPending(true);
@@ -460,7 +462,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
                     audioTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            Log.e("AUDIOWORKER", "audiostop");
+                            Log.w("AUDIOWORKER", "audiostop");
                             AudioProvider.getInstance().stopRecording();
                             orchestratorProvider.executeAudioChain(getApplication(), mFile, date, experiment);
 
@@ -489,7 +491,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
                         locationValueString.postValue(String.format(formatString, location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy()));
                         orchestratorProvider.executeLocationChain(getApplication(), location, date, experiment);
                     }else{
-                        Log.e("Experiment perform", "Error al obtener ubicación");
+                        Log.w("Experiment perform", "Error al obtener ubicación");
                     }
 
                 }

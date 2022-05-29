@@ -55,6 +55,10 @@ public class SensorRepository {
         return DBHelper.getPendingSyncSensorRegistersByExperimentId(experimentId);
     }
 
+    public static SensorRegister getSynchronouslyRegisterById(long registerId) {
+        return DBHelper.getSensorRegisterById(registerId);
+    }
+
     public static void getRegistersByTypeAndExperimentIdAsExperimentRegister(int type, long experimentId, MutableLiveData<ListResponse<ExperimentRegister>> responseLiveData){
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute( () -> responseLiveData.postValue(new ListResponse<>(new ArrayList<ExperimentRegister>(){{addAll(DBHelper.getSensorRegistersByTypeAndExperimentId(type, experimentId));}})));

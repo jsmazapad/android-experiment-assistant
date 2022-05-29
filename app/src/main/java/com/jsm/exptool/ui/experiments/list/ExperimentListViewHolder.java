@@ -57,7 +57,7 @@ public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment>
         try {
             lengthTV.setText(TimeDisplayStringProvider.millisecondsToStringBestDisplay(element.getDuration()));
         }catch (Exception e){
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
             lengthTV.setText("");
         }
         imagesIV.setVisibility(element.getConfiguration().isCameraEnabled()? View.VISIBLE: View.GONE);

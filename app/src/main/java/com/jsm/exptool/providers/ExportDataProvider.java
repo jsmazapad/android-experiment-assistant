@@ -22,7 +22,7 @@ public class ExportDataProvider {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            Log.e(ExportDataProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(ExportDataProvider.class.getSimpleName(), e.getMessage(), e);
         }
         return TableToCSVExporter.exportToCsvFromTable(file, Objects.requireNonNull(ExportToCSVConfigOptions.EXPORT_TO_CSV_OPTIONS.get(tableName)), new String[]{Long.valueOf(experiment.getInternalId()).toString()}, DBHelper.getAppDatabase());
     }

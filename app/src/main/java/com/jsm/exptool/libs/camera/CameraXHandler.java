@@ -1,7 +1,12 @@
 package com.jsm.exptool.libs.camera;
 
+import static com.jsm.exptool.config.ConfigConstants.CAMERA_OUTPUT_TARGET_HEIGHT;
+import static com.jsm.exptool.config.ConfigConstants.CAMERA_OUTPUT_TARGET_WIDTH;
+
 import android.content.Context;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.util.Log;
+import android.util.Size;
 
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -95,6 +100,7 @@ public class CameraXHandler {
                 imageCapture = new ImageCapture.Builder()
                         .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                         .setFlashMode(flashMode)
+                        .setTargetResolution(new Size(CAMERA_OUTPUT_TARGET_WIDTH,CAMERA_OUTPUT_TARGET_HEIGHT))
                         .build();
 
                 // Choose the camera by requiring a lens facing
@@ -121,7 +127,7 @@ public class CameraXHandler {
                 // Currently no exceptions thrown. cameraProviderFuture.get()
                 // shouldn't block since the listener is being called, so no need to
                 // handle InterruptedException.
-                Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+                Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
             }
         }, ContextCompat.getMainExecutor(context));
     }

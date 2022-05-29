@@ -130,7 +130,7 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(getPackageName(), 0);
             versionName = "v" + pInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
         }
 
         return versionName;

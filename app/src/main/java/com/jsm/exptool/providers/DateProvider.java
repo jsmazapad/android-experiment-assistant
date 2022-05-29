@@ -16,7 +16,7 @@ public class DateProvider {
         try {
             dateString = DateUtils.dateFormat(date, ConfigConstants.DISPLAY_DATE_WITH_TIME_FORMAT);
         } catch (Exception e) {
-            Log.e(DateProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(DateProvider.class.getSimpleName(), e.getMessage(), e);
         }
         return dateString;
     }

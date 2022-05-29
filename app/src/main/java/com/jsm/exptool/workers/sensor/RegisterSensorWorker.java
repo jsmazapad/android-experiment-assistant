@@ -35,8 +35,8 @@ public class RegisterSensorWorker extends Worker {
                     .create();
              sensor = gson.fromJson(getInputData().getString(SENSOR), SensorConfig.class);
         }catch (Exception e){
-            Log.e("ERROR EN PARSEO", "ERROR EN PARSEO");
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w("ERROR EN PARSEO", "ERROR EN PARSEO");
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
         }
         long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
         long dateTimestamp = getInputData().getLong(DATE_TIMESTAMP, -1);

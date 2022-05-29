@@ -85,7 +85,7 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
         try{
             duration.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(experiment.getEndDate().getTime()-experiment.getInitDate().getTime()));
         }catch (Exception e){
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
 
         }
 

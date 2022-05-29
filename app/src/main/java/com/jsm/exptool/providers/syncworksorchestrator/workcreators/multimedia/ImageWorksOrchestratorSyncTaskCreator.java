@@ -32,11 +32,11 @@ import java.util.Map;
 public class ImageWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestratorSyncTaskCreator<ImageRegister> {
 
     @Override
-    public void createSyncWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, Data registersExperimentInputData) {
+    public void createSyncWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues) {
         if(experiment.getConfiguration().isEmbeddingEnabled()) {
             createEmbeddingWorks(experiment, syncExperimentRegisters);
         }
-        super.createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersExperimentInputData);
+        super.createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
 
     }
 
@@ -72,6 +72,11 @@ public class ImageWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestrato
     @Override
     protected String getRegisterTag() {
         return REMOTE_SYNC_IMAGE_REGISTERS;
+    }
+
+    @Override
+    protected List<ImageRegister> getPendingRegisters(long experimentInternalId) {
+        return ImageRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentInternalId);
     }
 
     @Override

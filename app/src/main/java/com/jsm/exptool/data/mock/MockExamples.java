@@ -164,7 +164,7 @@ public class MockExamples {
             out.close();
             inputStream.close();
         } catch (Exception e) {
-            Log.e(MockExamples.class.getSimpleName(), e.getMessage(), e);
+            Log.w(MockExamples.class.getSimpleName(), e.getMessage(), e);
         }
 
         for (int i = 0; i <= 40; i++) {
@@ -185,7 +185,7 @@ public class MockExamples {
             out.close();
             inputStream.close();
         } catch (Exception e) {
-            Log.e(MockExamples.class.getSimpleName(), e.getMessage(), e);
+            Log.w(MockExamples.class.getSimpleName(), e.getMessage(), e);
         }
 
         for (int i = 0; i <= 40; i++) {

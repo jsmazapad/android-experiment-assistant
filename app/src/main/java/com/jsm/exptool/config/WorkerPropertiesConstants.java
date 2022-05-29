@@ -24,6 +24,8 @@ public class WorkerPropertiesConstants {
         public static final String FILE_NAMES = "FILE_NAMES";
         public static final String TABLE_NAME = "TABLE_NAME";
         public static final String EXPERIMENT_MULTIMEDIA_PATHS = "EXPERIMENT_MULTIMEDIA_PATHS";
+        public static final String REGISTER_IDS_TO_SYNC = "REGISTER_IDS_TO_SYNC";
+        public static final String UPDATED_REGISTERS_NUM = "UPDATED_REGISTERS_NUM";
     }
 
     public class WorkTagsConstants {

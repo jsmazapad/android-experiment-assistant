@@ -31,6 +31,10 @@ public class CommentRepository {
         return DBHelper.getPendingSyncCommentRegistersByExperimentId(experimentId);
     }
 
+    public static CommentRegister getSynchronouslyRegisterById(long registerId) {
+        return DBHelper.getCommentById(registerId);
+    }
+
     public static long registerComment(CommentRegister comment) {
         return DBHelper.insertCommentRegister(comment);
     }

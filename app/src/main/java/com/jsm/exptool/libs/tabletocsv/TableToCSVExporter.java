@@ -23,7 +23,7 @@ public class TableToCSVExporter {
             fileToReturn = file;
 
         } catch (Exception e) {
-            Log.e(TableToCSVExporter.class.getSimpleName(), e.getMessage(), e);
+            Log.w(TableToCSVExporter.class.getSimpleName(), e.getMessage(), e);
         } finally {
 
             try {
@@ -31,7 +31,7 @@ public class TableToCSVExporter {
                 csvWriter.close();
 
             } catch (Exception e) {
-                Log.e(TableToCSVExporter.class.getSimpleName(), e.getMessage(), e);
+                Log.w(TableToCSVExporter.class.getSimpleName(), e.getMessage(), e);
             }
             return fileToReturn;
 

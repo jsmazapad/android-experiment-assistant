@@ -50,7 +50,7 @@ public class SyncRemoteExperimentWorker extends RxWorker {
 
             RemoteSyncRepository.syncExperiment(response -> {
                 if (response.getError() != null) {
-                    Log.e("SYNC_REGISTER", "error en response");
+                    Log.w("SYNC_REGISTER", "error en response");
 
                     //emitter.onError(response.getError());
                     if (getRunAttemptCount() < MAX_RETRIES) {

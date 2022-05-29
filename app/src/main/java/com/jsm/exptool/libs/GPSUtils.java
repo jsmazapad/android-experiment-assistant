@@ -93,7 +93,7 @@ public class GPSUtils {
                                 break;
                             case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                                 String errorMessage = "No es posible activar su ubicación. Pòr favor, hágalo de manera manual y vuelva a intentarlo";
-                                Log.e(TAG, errorMessage);
+                                Log.w(TAG, errorMessage);
 
                                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
                         }

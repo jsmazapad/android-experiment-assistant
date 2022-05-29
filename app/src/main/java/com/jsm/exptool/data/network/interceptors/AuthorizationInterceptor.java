@@ -47,7 +47,7 @@ public class AuthorizationInterceptor implements Interceptor {
                             method(mainRequest.method(), mainRequest.body());
                     mainResponse = chain.proceed(builder.build());
                 }catch (NullPointerException e){
-                    Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+                    Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
                 }
             }
         }

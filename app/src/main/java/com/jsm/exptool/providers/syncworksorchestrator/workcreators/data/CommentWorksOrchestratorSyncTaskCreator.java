@@ -7,7 +7,10 @@ import androidx.work.rxjava3.RxWorker;
 
 import com.jsm.exptool.model.register.CommentRegister;
 import com.jsm.exptool.providers.syncworksorchestrator.workcreators.WorksOrchestratorSyncTaskCreator;
+import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.workers.sync.registers.SyncRemoteCommentRegistersWorker;
+
+import java.util.List;
 
 
 public class CommentWorksOrchestratorSyncTaskCreator extends WorksOrchestratorSyncTaskCreator<CommentRegister> {
@@ -23,7 +26,11 @@ public class CommentWorksOrchestratorSyncTaskCreator extends WorksOrchestratorSy
     protected String getRegisterTag() {
         return REMOTE_SYNC_COMMENT_REGISTERS;
     }
-    
-    
+
+    @Override
+    protected List<CommentRegister> getPendingRegisters(long experimentInternalId) {
+        return CommentRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentInternalId);
+    }
+
 
 }

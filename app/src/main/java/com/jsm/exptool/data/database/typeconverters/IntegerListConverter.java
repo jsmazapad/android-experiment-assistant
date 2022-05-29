@@ -29,7 +29,7 @@ public class IntegerListConverter {
                 for (int i = 0; i < values.length; i++) parsed[i] = Integer.parseInt(values[i]);
                 list = Arrays.asList(parsed);
             }catch (NumberFormatException e){
-                Log.e(IntegerListConverter.class.getSimpleName(), e.getMessage(), e);
+                Log.w(IntegerListConverter.class.getSimpleName(), e.getMessage(), e);
                 return new ArrayList<>();
             }
         }

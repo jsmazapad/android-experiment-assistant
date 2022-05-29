@@ -28,7 +28,7 @@ public class AudioHandler {
             player.start();
             return true;
         } catch (Exception e) {
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
             return false;
         }
     }
@@ -57,7 +57,7 @@ public class AudioHandler {
             recorder.prepare();
             recorder.start();
         } catch (Exception e) {
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
         }
 
 
@@ -72,7 +72,7 @@ public class AudioHandler {
                 recorder.release();
                 recorder = null;
             }catch (Exception e){
-                Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+                Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
             }
         }
     }

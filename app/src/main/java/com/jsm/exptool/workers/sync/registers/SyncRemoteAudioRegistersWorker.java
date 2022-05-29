@@ -21,13 +21,13 @@ public class SyncRemoteAudioRegistersWorker extends SyncRemoteExperimentRegister
     }
 
     @Override
-    protected List<AudioRegister> getPendingRegisters(long experimentId) {
-        return AudioRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId);
+    protected AudioRegister getRegister(long registerId) {
+        return AudioRepository.getSynchronouslyRegisterById(registerId);
     }
 
     @Override
-    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<AudioRegister> pendingRegisters, long experimentExternalId) {
-        RemoteSyncRepository.syncAudioRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response), experimentExternalId, pendingRegisters);
+    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<AudioRegister> pendingRegisters, long experimentExternalId, int numRegistersToupdate) {
+        RemoteSyncRepository.syncAudioRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response, numRegistersToupdate), experimentExternalId, pendingRegisters);
     }
 
     @Override

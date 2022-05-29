@@ -66,7 +66,7 @@ public class ExperimentProvider {
             clonedExperiment.setStatus(Experiment.ExperimentStatus.CREATED);
             clonedExperiment.getConfiguration().setQuickComments(new ArrayList<>());
         } catch (CloneNotSupportedException e) {
-            Log.e(ExperimentProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(ExperimentProvider.class.getSimpleName(), e.getMessage(), e);
         }
         return clonedExperiment;
     }

@@ -38,40 +38,6 @@ import retrofit2.Call;
 public class ImageRepository {
     private static final AnalyticsApiService imageEmbeddingService = RetrofitService.createService(AnalyticsApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), null,  BuildConfig.BASE_URL_EMBEDDING_SERVER, false);
 
-    /**
-     * Obtiene el vector de embedding de manera reactiva
-     *
-     * @param responseLiveData livedata donde se setean los elementos
-     * @param image            Fichero que contiene una imagen
-     */
-    public static void getEmbedding(MutableLiveData<ElementResponse<ImageEmbeddingVector>> responseLiveData, File image, String algorithm) {
-        //TODO Eliminar al final si no se usa
-        InputStream in;
-        try {
-            in = new FileInputStream(image);
-            byte[] buf;
-            buf = new byte[in.available()];
-            while (in.read(buf) != -1) ;
-            RequestBody requestBody = RequestBody
-                    .create(MediaType.parse("application/octet-stream"), buf);
-            Call<NetworkElementResponse<ImageEmbeddingVector>> call = imageEmbeddingService.getEmbedding(algorithm, requestBody);
-            call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, responseLiveData));
-        } catch (FileNotFoundException e) {
-            Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
-            responseLiveData.setValue(new ElementResponse<>(new BaseException(e.getMessage(), false)));
-
-        } catch (IOException e) {
-            Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
-            responseLiveData.setValue(new ElementResponse<>(new BaseException(e.getMessage(), false)));
-
-        }
-    }
-
-    public static ImageRegister getImageRegisterById(long imageId) {
-        //TODO Pasar a asincrono
-        return DBHelper.getImageById(imageId);
-    }
-
     public static void getEmbedding(NetworkElementResponseCallback<ImageEmbeddingVector> callback, File image, String algorithm) {
 
         InputStream in = null;
@@ -85,17 +51,17 @@ public class ImageRepository {
             Call<NetworkElementResponse<ImageEmbeddingVector>> call = imageEmbeddingService.getEmbedding(algorithm, requestBody);
             call.enqueue(RetrofitService.createElementCallBack(ImageEmbeddingVector.class, callback));
         } catch (FileNotFoundException e) {
-            Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
+            Log.w(ImageRepository.class.getSimpleName(), e.getMessage(), e);
             callback.onResponse(new ElementResponse<>(new BaseException(e.getMessage(), false)));
         } catch (IOException e) {
-            Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
+            Log.w(ImageRepository.class.getSimpleName(), e.getMessage(), e);
             callback.onResponse(new ElementResponse<>(new BaseException(e.getMessage(), false)));
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    Log.e(ImageRepository.class.getSimpleName(), e.getMessage(), e);
+                    Log.w(ImageRepository.class.getSimpleName(), e.getMessage(), e);
                 }
             }
         }
@@ -140,6 +106,10 @@ public class ImageRepository {
 
     public static List<ImageRegister> getSynchronouslyPendingEmbeddingSyncRegistersByExperimentId(long experimentId) {
         return DBHelper.getPendingEmbeddingImageRegistersByExperimentId(experimentId);
+    }
+
+    public static ImageRegister getSynchronouslyRegisterById(long imageId) {
+        return DBHelper.getImageById(imageId);
     }
 
     public static void countRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {

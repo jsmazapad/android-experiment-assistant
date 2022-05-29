@@ -42,7 +42,7 @@ public class ProcessImageWorker extends Worker {
                 targetFile.createNewFile();
             }
         } catch (IOException e) {
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
         }
         ImageResizer.resizeImageFile(imageFile, targetFile, Math.max(optimalWidth, optimalHeight));
         Data outputData = new Data.Builder()

@@ -31,7 +31,7 @@ public class ImageResizer {
             resizedBitmap.recycle();
             return true;
         } catch (Exception e) {
-            Log.e(ImageResizer.class.getSimpleName(), e.getMessage(), e);
+            Log.w(ImageResizer.class.getSimpleName(), e.getMessage(), e);
             return false;
         }
     }

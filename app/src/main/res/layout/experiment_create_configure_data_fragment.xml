@@ -19,11 +19,6 @@
 
             <LinearLayout style="@style/BaseLinearLayoutFromNestedScroll">
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.embeddingAlgName}"/>
                 <include
                     layout="@layout/experiment_configure_camera_card_include"
                     android:visibility="@{viewModel.cameraSettingsEnabled ? View.VISIBLE : View.GONE}"

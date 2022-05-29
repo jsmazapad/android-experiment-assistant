@@ -91,7 +91,7 @@ public interface ImageRegisterDao {
      * @param limit
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND  (embedding LIKE '' OR embeddingRemoteSynced = 0) ORDER BY date ASC LIMIT :limit")
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND  embedding LIKE '' ORDER BY date ASC LIMIT :limit")
     List<ImageRegister> getPendingEmbeddingImageRegistersByExperimentId(long experimentId, int limit);
 
     /**
@@ -100,7 +100,7 @@ public interface ImageRegisterDao {
      * @param limit
      * @return
      */
-    @Query("SELECT COUNT(*) FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND  (embedding LIKE '' OR embeddingRemoteSynced = 0) ORDER BY date ASC LIMIT :limit")
+    @Query("SELECT COUNT(*) FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND  embedding LIKE '' ORDER BY date ASC LIMIT :limit")
     int getPendingEmbeddingImageRegistersCountByExperimentId(long experimentId, int limit);
 
     /**

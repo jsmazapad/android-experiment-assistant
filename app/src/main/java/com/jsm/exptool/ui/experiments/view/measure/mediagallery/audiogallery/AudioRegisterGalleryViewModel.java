@@ -69,7 +69,7 @@ public class AudioRegisterGalleryViewModel extends MediaRegisterGalleryViewModel
                 player.play();
             }
         }catch (Exception e){
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
             closeViewer();
             handleError(new BaseException("Error al reproducir archivo", false), context );
         }

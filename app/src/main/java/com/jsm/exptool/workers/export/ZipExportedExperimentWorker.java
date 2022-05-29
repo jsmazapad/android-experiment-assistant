@@ -67,7 +67,7 @@ public class ZipExportedExperimentWorker extends Worker {
             experiment.setExportedPending(false);
             ExperimentsRepository.updateExperiment(experiment);
         }catch (Exception e) {
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
             return Result.failure();
         }
 
@@ -78,7 +78,7 @@ public class ZipExportedExperimentWorker extends Worker {
                     new File(fileName).delete();
                 }
             }catch (Exception e){
-                Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+                Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
             }
 
         }

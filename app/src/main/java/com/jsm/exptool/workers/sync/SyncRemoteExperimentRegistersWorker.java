@@ -3,11 +3,16 @@ package com.jsm.exptool.workers.sync;
 import static com.jsm.exptool.config.NetworkConstants.MAX_RETRIES;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_EXTERNAL_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_REGISTER_ID;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.REGISTER_IDS_TO_SYNC;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.UPDATED_REGISTERS_NUM;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.work.Data;
 import androidx.work.WorkerParameters;
 import androidx.work.rxjava3.RxWorker;
 
@@ -16,6 +21,7 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
 import com.jsm.exptool.model.register.ExperimentRegister;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
@@ -37,13 +43,14 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
         return Single.create(emitter -> {
             long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
             long experimentExternalId = getInputData().getLong(EXPERIMENT_EXTERNAL_ID, -1);
+            long [] registerIdsToSync = getInputData().getLongArray(REGISTER_IDS_TO_SYNC);
 
-            if (experimentId == -1 || experimentExternalId == -1) {
+            if (experimentId == -1 || experimentExternalId == -1 || registerIdsToSync == null) {
                 //TODO Mejorar mensajes error
                 emitter.onError(new BaseException("Error de parámetros", false));
                 return;
             }
-            List<T> pendingRegisters = getPendingRegisters(experimentId);
+            List<T> pendingRegisters = getPendingRegisters(registerIdsToSync);
 
 
             if (pendingRegisters == null) {
@@ -53,20 +60,31 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
             }
 
             List<T> finalPendingRegisters = pendingRegisters;
-            executeRemoteSync(emitter, finalPendingRegisters, experimentExternalId);
+            executeRemoteSync(emitter, finalPendingRegisters, experimentExternalId, registerIdsToSync.length);
 
         });
     }
 
-    protected abstract List<T> getPendingRegisters(long experimentId);
+    protected List<T> getPendingRegisters(long[] registerIds){
+        List<T> pendingRegisters = new ArrayList<>();
+        for (long registerId:registerIds) {
+            T register = getRegister(registerId);
+            if(register != null){
+                pendingRegisters.add(register);
+            }
+        }
+        return pendingRegisters;
+    }
 
-    protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, List<T> pendingRegisters, long experimentExternalId);
+    protected abstract  T getRegister(long registerId);
+
+    protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, List<T> pendingRegisters, long experimentExternalId, int numRegistersToupdate);
 
     protected abstract void updateRegister(T register);
 
-    protected void executeInnerCallbackLogic(SingleEmitter<Result> emitter, List<T> pendingRegisters, ElementResponse<RemoteSyncResponse> response) {
+    protected void executeInnerCallbackLogic(SingleEmitter<Result> emitter, List<T> pendingRegisters, ElementResponse<RemoteSyncResponse> response, int updatedRegistersNum) {
         if (response.getError() != null) {
-            Log.e("SYNC_REGISTER", "error en response");
+            Log.w("SYNC_REGISTER", "error en response");
 
             //emitter.onError(response.getError());
             if (getRunAttemptCount() < MAX_RETRIES) {
@@ -80,10 +98,13 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
                 for (T register : pendingRegisters) {
                     register.setDataRemoteSynced(true);
                     updateRegister(register);
-
                 }
 
-                emitter.onSuccess(Result.success());
+                Data outputData = new Data.Builder()
+                        .putLong(UPDATED_REGISTERS_NUM, updatedRegistersNum)
+                        .build();
+
+                emitter.onSuccess(Result.success(outputData));
             } else {
                 emitter.onError(new BaseException("Error en obtención de resultado del servidor", false));
             }

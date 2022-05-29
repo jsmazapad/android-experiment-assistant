@@ -2,6 +2,9 @@ package com.jsm.exptool.libs;
 
 import androidx.work.Data;
 
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.Map;
 
 public class WorksOrchestratorUtils {
@@ -21,7 +24,9 @@ public class WorksOrchestratorUtils {
                 } else if (entry.getValue() instanceof Long) {
                     builder.putLong(entry.getKey(), (Long) entry.getValue());
                 } else if (entry.getValue() instanceof Float[]) {
-                    builder.putFloatArray(entry.getKey(), (float[]) entry.getValue());
+                    builder.putFloatArray(entry.getKey(), ArrayUtils.toPrimitive((Float[]) entry.getValue()));
+                } else if (entry.getValue() instanceof Long[]) {
+                    builder.putLongArray(entry.getKey(), ArrayUtils.toPrimitive((Long[])entry.getValue()));
                 } else if (entry.getValue() instanceof String[]) {
                     builder.putStringArray(entry.getKey(), (String[]) entry.getValue());
                 }

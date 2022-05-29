@@ -58,7 +58,7 @@ public class App extends Application {
 
         } catch (Exception e) {
             //No se debe llegar a este punto nunca
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+            Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
         }
     }
 

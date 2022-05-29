@@ -28,7 +28,7 @@ public class DoubleListConverter {
                 for (int i = 0; i < values.length; i++) parsed[i] = Double.parseDouble(values[i]);
                 list = Arrays.asList(parsed);
             }catch (NumberFormatException e){
-                Log.e(DoubleListConverter.class.getSimpleName(), e.getMessage(), e);
+                Log.w(DoubleListConverter.class.getSimpleName(), e.getMessage(), e);
                 return new ArrayList<>();
             }
         }

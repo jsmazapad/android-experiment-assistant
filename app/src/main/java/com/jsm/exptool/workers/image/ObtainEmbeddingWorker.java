@@ -42,7 +42,7 @@ public class ObtainEmbeddingWorker extends RxWorker {
             File file = new File(imageFilePath);
             ImageRepository.getEmbedding(response -> {
                 if(response.getError() != null){
-                    Log.e("IMAGE_REGISTER_ERROR", "error en response de embedding");
+                    Log.w("IMAGE_REGISTER_ERROR", "error en response de embedding");
 
                     //emitter.onError(response.getError());
                     if(getRunAttemptCount()< MAX_RETRIES) {
@@ -53,7 +53,7 @@ public class ObtainEmbeddingWorker extends RxWorker {
                     }
                 }else{
                     Log.d("IMAGE_REGISTER", String.format("callback de embedding con id %d", insertedRowId));
-                    ImageRegister imageRegister = ImageRepository.getImageRegisterById(insertedRowId);
+                    ImageRegister imageRegister = ImageRepository.getSynchronouslyRegisterById(insertedRowId);
 
                     if (imageRegister != null) {
                         Log.d("IMAGE_REGISTER", String.format("registro de imagen obtenido con id %d", imageRegister.getInternalId()));
@@ -63,7 +63,7 @@ public class ObtainEmbeddingWorker extends RxWorker {
                     }else{
                         emitter.onError(new BaseException("Embedding: error en obtención de imageregister by id", false));
 
-                        Log.e("IMAGE_REGISTER_ERROR", "error en obtención de imageregister by id");
+                        Log.w("IMAGE_REGISTER_ERROR", "error en obtención de imageregister by id");
 
                     }
 

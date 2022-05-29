@@ -36,7 +36,7 @@ public class PreferencesProvider {
             editor.putString(PASSWORD, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -52,7 +52,7 @@ public class PreferencesProvider {
             editor.putString(USER, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -68,7 +68,7 @@ public class PreferencesProvider {
             editor.putString(REMOTE_SERVER, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -84,7 +84,7 @@ public class PreferencesProvider {
             editor.putString(ANALYTICS_KEY, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -100,7 +100,7 @@ public class PreferencesProvider {
             editor.putInt(SENSOR_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -116,7 +116,7 @@ public class PreferencesProvider {
             editor.putInt(CAMERA_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -132,7 +132,7 @@ public class PreferencesProvider {
             editor.putInt(AUDIO_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -148,7 +148,7 @@ public class PreferencesProvider {
             editor.putInt(LOCATION_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -164,7 +164,7 @@ public class PreferencesProvider {
             editor.putInt(REMOTE_DEFAULT_FREQ, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 
@@ -180,7 +180,7 @@ public class PreferencesProvider {
             editor.putString(SESSION_TOKEN, value);
             editor.commit();
         } catch (Exception e) {
-            Log.e(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
         }
     }
 

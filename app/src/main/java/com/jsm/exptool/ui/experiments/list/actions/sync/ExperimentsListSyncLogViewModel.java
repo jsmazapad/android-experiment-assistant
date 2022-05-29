@@ -1,5 +1,6 @@
 package com.jsm.exptool.ui.experiments.list.actions.sync;
 
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.UPDATED_REGISTERS_NUM;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 
 import android.app.Application;
@@ -10,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
+import androidx.work.Data;
 import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
@@ -85,6 +87,7 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
     public ExperimentsListSyncLogViewModel(Application app, Experiment experiment) {
         super(app);
         this.experiment = experiment;
+        orchestratorProvider.finishPendingJobs();
         if (experiment.getConfiguration() != null) {
             imageEnabled.setValue(experiment.getConfiguration().isCameraEnabled());
             audioEnabled.setValue(experiment.getConfiguration().isAudioEnabled());
@@ -192,13 +195,20 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
     }
 
     public void syncExperiment() {
-        orchestratorProvider.finishPendingJobs();
+        workPreparationReady.setValue(false);
         orchestratorProvider.executeFullRemoteSync(experiment, true, workPreparationReady);
     }
 
     @Override
     public void initObservers(LifecycleOwner owner) {
         super.initObservers(owner);
+
+        workPreparationReady.observe(owner, isReady ->{
+            if(isReady != null){
+                isLoading.setValue(!isReady);
+
+            }
+        });
 
         imageCount.observe(owner, count -> {
             pendingImageCount = count;
@@ -245,7 +255,10 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
                     successWork = true;
                     stateStringRes = R.string.success;
                 }
-                updateWorkCounter(successWork, typeStringRes);
+                Data outputData = lastWorkInfo.getOutputData();
+                int numRegisters = lastWorkInfo.getOutputData().getInt(UPDATED_REGISTERS_NUM, 1);
+
+                updateWorkCounter(successWork, typeStringRes, numRegisters);
                 ExperimentSyncStateRow syncRow = new ExperimentSyncStateRow(syncRowTypeTitle, getApplication().getString(stateStringRes), successWork);
                 if (elements.getValue() != null) {
                     int position = elements.getValue().size();
@@ -257,63 +270,63 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
 
     }
 
-    private void updateWorkCounter(boolean successWork, int typeStringRes) {
+    private void updateWorkCounter(boolean successWork, int typeStringRes, int numRegisters) {
         //TODO Aplicar cuenta de registros basada en número maximo de ellos
         if (typeStringRes == R.string.image_register) {
             if (successWork) {
-                successImageCount++;
+                successImageCount+=numRegisters;
             } else {
-                failureImageCount++;
+                failureImageCount+=numRegisters;
             }
             setImageRegisterCounts();
 
         } else if (typeStringRes == R.string.image_file) {
             if (successWork) {
-                successImageFilesCount++;
+                successImageFilesCount+=numRegisters;
             } else {
-                failureImageFilesCount++;
+                failureImageFilesCount+=numRegisters;
             }
             setImageFileCounts();
 
         } else if (typeStringRes == R.string.audio_register) {
             if (successWork) {
-                successAudioCount++;
+                successAudioCount+=numRegisters;
             } else {
-                failureAudioCount++;
+                failureAudioCount+=numRegisters;
             }
             setAudioRegisterCounts();
         } else if (typeStringRes == R.string.audio_file) {
             if (successWork) {
-                successAudioFilesCount++;
+                successAudioFilesCount+=numRegisters;
             } else {
-                failureAudioFilesCount++;
+                failureAudioFilesCount+=numRegisters;
             }
             setAudioFileCounts();
         } else if (typeStringRes == R.string.embedding) {
             if (successWork) {
-                successEmbeddingCount++;
+                successEmbeddingCount+=numRegisters;
             } else {
-                failureEmbeddingCount++;
+                failureEmbeddingCount+=numRegisters;
             }
             setEmbeddingRegisterCounts();
         } else if (typeStringRes == R.string.sensor_register) {
             if (successWork) {
-                successSensorCount++;
+                successSensorCount+=numRegisters;
             } else {
-                failureSensorCount++;
+                failureSensorCount+=numRegisters;
             }
             setSensorRegisterCounts();
         } else if (typeStringRes == R.string.comment_register) {
             if (successWork) {
-                successCommentCount++;
+                successCommentCount+=numRegisters;
             } else {
-                failureCommentCount++;
+                failureCommentCount+=numRegisters;
             }
             setCommentRegisterCounts();
         }else if (typeStringRes == R.string.processing_image_for_embedding) {
             if (!successWork) {
                 //Solo cuenta si falla, porque el work para obtener embedding no se ejecutará
-                failureEmbeddingCount++;
+                failureEmbeddingCount+=numRegisters;
             }
             setEmbeddingRegisterCounts();
         }

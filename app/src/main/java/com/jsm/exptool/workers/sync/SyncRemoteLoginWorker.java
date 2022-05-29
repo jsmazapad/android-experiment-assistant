@@ -30,7 +30,7 @@ public class SyncRemoteLoginWorker extends RxWorker {
 
             RemoteSyncRepository.login(response -> {
                 if (response.getError() != null) {
-                    Log.e("SYNC_REGISTER", "error en response");
+                    Log.w("SYNC_REGISTER", "error en response");
 
                     //Si el error es de tipo InvalidSessionException es que no se ha hecho login correctamente, no se reintenta
                     if (getRunAttemptCount() < MAX_RETRIES && !(response.getError() instanceof InvalidSessionException)) {

@@ -307,24 +307,21 @@ public class WorksOrchestratorProvider {
                 }
             };
 
-            Data registersInputData = WorksOrchestratorUtils.createInputData(registersInputDataValues);
 
             if (experiment.getConfiguration() != null) {
                 if (experiment.getConfiguration().isCameraEnabled()) {
                     //TODO Separar sincronización de registros en varias tareas según tamaño
-                    new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
-                    if(experiment.getConfiguration().isEmbeddingEnabled()){
+                    new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
 
-                    }
                 }
                 if (experiment.getConfiguration().isAudioEnabled()) {
-                    new AudioWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
+                    new AudioWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
                 }
                 if (experiment.getConfiguration().isSensorEnabled() || experiment.getConfiguration().isLocationEnabled()) {
-                    new SensorWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
+                    new SensorWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
                 }
 
-                new CommentWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, registersInputData);
+                new CommentWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
 
             }
 
@@ -334,7 +331,7 @@ public class WorksOrchestratorProvider {
             } else {
                 mWorkManager.enqueue(syncExperimentRegisters);
             }
-            initializationFinished.setValue(true);
+            initializationFinished.postValue(true);
         });
 
     }

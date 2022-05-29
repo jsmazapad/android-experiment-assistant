@@ -234,7 +234,7 @@ public class DBHelper {
         return appDatabase.sensorDao().getPendingSyncSensorRegistersCountByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
     }
 
-    public static SensorRegister getSensorRegistersById(long sensorId) {
+    public static SensorRegister getSensorRegisterById(long sensorId) {
         return appDatabase.sensorDao().selectById(sensorId);
     }
 
@@ -260,6 +260,10 @@ public class DBHelper {
 
     public static List<CommentRegister> getCommentRegisters() {
         return appDatabase.commentDao().getComments();
+    }
+
+    public static CommentRegister getCommentById(long registerId){
+        return appDatabase.commentDao().selectById(registerId);
     }
 
     public static List<CommentRegister> getCommentRegistersByExperimentId(long experimentId) {

@@ -5,7 +5,9 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.work.WorkerParameters;
 
+import com.jsm.exptool.model.register.AudioRegister;
 import com.jsm.exptool.model.register.ImageRegister;
+import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.ImageRepository;
 import com.jsm.exptool.repositories.RemoteSyncRepository;
 import com.jsm.exptool.workers.sync.SyncRemoteExperimentRegistersWorker;
@@ -20,13 +22,13 @@ public class SyncRemoteImageRegistersWorker extends SyncRemoteExperimentRegister
     }
 
     @Override
-    protected List<ImageRegister> getPendingRegisters(long experimentId) {
-        return ImageRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId);
+    protected ImageRegister getRegister(long registerId) {
+        return ImageRepository.getSynchronouslyRegisterById(registerId);
     }
 
     @Override
-    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<ImageRegister> pendingRegisters, long experimentExternalId) {
-        RemoteSyncRepository.syncImageRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response), experimentExternalId, pendingRegisters);
+    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<ImageRegister> pendingRegisters, long experimentExternalId, int numRegistersToupdate) {
+        RemoteSyncRepository.syncImageRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response, numRegistersToupdate), experimentExternalId, pendingRegisters);
     }
 
     @Override

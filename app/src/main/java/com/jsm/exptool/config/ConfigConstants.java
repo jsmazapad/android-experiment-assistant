@@ -22,6 +22,10 @@ public class ConfigConstants {
     public static final int IMAGE_THUMBNAIL_WIDTH = 120;
     public static final int IMAGE_THUMBNAIL_HEIGHT = 120;
 
+    public static final int CAMERA_OUTPUT_TARGET_HEIGHT = 800;
+
+    public static final int CAMERA_OUTPUT_TARGET_WIDTH = 800;
+
     public static final int MAX_QUICK_COMMENTS = 6;
 
     public static final int REGISTERS_SYNC_LIMIT = 200;
