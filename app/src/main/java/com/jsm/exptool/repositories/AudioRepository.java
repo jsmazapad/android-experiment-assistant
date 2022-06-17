@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.AudioRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 
 import java.io.File;
 import java.util.ArrayList;

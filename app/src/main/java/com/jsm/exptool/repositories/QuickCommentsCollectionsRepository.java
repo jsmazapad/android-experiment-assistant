@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
-import com.jsm.exptool.model.QuickCommentsCollection;
+import com.jsm.exptool.entities.QuickCommentsCollection;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

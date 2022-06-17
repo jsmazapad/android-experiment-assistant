@@ -12,8 +12,8 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentViewDataMeasuresFragmentBinding;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;
 
 import java.util.List;

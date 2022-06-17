@@ -5,9 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.work.WorkerParameters;
 
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.CommentRegister;
-import com.jsm.exptool.repositories.AudioRepository;
+import com.jsm.exptool.entities.register.CommentRegister;
 import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.repositories.RemoteSyncRepository;
 import com.jsm.exptool.workers.sync.SyncRemoteExperimentRegistersWorker;

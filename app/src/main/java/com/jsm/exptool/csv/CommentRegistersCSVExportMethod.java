@@ -1,7 +1,7 @@
 package com.jsm.exptool.csv;
 
 import com.jsm.exptool.libs.tabletocsv.TableToCSVConverterFunctionInterface;
-import com.jsm.exptool.model.register.CommentRegister;
+import com.jsm.exptool.entities.register.CommentRegister;
 
 import java.util.ArrayList;
 import java.util.HashMap;

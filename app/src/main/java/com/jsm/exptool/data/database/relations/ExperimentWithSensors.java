@@ -3,8 +3,8 @@ package com.jsm.exptool.data.database.relations;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.SensorConfig;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.SensorConfig;
 
 import java.util.List;
 

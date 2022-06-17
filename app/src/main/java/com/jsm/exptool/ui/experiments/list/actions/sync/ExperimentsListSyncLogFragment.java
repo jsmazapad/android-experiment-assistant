@@ -13,7 +13,7 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 
 import com.jsm.exptool.databinding.ExperimentsListSyncLogFragmentBinding;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 
 
 

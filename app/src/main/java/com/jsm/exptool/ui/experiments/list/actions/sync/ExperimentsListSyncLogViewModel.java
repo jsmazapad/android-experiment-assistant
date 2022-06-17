@@ -17,7 +17,7 @@ import androidx.work.WorkInfo;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.providers.syncworksorchestrator.WorksOrchestratorProvider;
 import com.jsm.exptool.repositories.AudioRepository;
 import com.jsm.exptool.repositories.CommentRepository;

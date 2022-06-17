@@ -6,7 +6,7 @@ import android.util.Log;
 import com.jsm.exptool.config.ExportToCSVConfigOptions;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.tabletocsv.TableToCSVExporter;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 
 import java.io.File;
 import java.io.IOException;

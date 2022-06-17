@@ -2,27 +2,16 @@ package com.jsm.exptool.ui.experiments.view.measure.mediagallery.audiogallery;
 
 import android.app.Application;
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.ImageView;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DataSpec;
-import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.MediaRegister;
-import com.jsm.exptool.providers.ImagesProvider;
+import com.jsm.exptool.entities.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.MediaRegister;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewModel;
 
 import java.io.File;

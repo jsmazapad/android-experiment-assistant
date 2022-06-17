@@ -14,7 +14,7 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentCreateConfigureDataFragmentBinding;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 
 
 public class ExperimentCreateConfigureDataFragment extends BaseRecyclerFragment<ExperimentCreateConfigureDataFragmentBinding, ExperimentCreateConfigureDataViewModel> {

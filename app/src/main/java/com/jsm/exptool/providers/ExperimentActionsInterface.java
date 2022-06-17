@@ -7,7 +7,7 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 
 public interface ExperimentActionsInterface {
 

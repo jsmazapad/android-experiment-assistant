@@ -8,18 +8,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.databinding.ExperimentViewGalleryAudioFragmentBinding;
-import com.jsm.exptool.databinding.ExperimentViewGalleryImageFragmentBinding;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryFragment;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewModelFactory;
-import com.jsm.exptool.ui.experiments.view.measure.mediagallery.imagegallery.ImageRegisterGalleryAdapter;
-import com.jsm.exptool.ui.experiments.view.measure.mediagallery.imagegallery.ImageRegisterGalleryViewModel;
 
 import java.util.List;
 

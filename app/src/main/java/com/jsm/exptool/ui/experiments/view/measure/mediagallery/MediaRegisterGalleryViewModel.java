@@ -8,8 +8,8 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.MediaRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.MediaRegister;
 import com.jsm.exptool.providers.DateProvider;
 
 import java.util.List;

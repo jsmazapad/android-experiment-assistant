@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.model.register.MediaRegister;
+import com.jsm.exptool.entities.register.MediaRegister;
 import com.jsm.exptool.providers.ImagesProvider;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewHolder;
 

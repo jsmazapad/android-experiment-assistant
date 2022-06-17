@@ -5,8 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.ui.experiments.perform.ExperimentPerformViewModel;
+import com.jsm.exptool.entities.Experiment;
 
 
 public class ExperimentCreateBasicDataViewModelFactory implements ViewModelProvider.Factory {

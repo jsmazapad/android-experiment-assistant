@@ -5,8 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.jsm.exptool.core.ui.base.BaseViewModel;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 
 import java.util.List;
 

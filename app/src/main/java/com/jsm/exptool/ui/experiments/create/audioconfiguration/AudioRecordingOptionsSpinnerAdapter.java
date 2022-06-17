@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.jsm.exptool.core.ui.views.adapters.BaseSpinnerAdapter;
-import com.jsm.exptool.model.AudioRecordingOption;
+import com.jsm.exptool.entities.AudioRecordingOption;
 
 import java.util.List;
 

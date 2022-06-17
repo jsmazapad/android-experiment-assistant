@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.jsm.exptool.core.ui.views.adapters.BaseSpinnerAdapter;
-import com.jsm.exptool.model.QuickCommentsCollection;
+import com.jsm.exptool.entities.QuickCommentsCollection;
 
 
 import java.util.List;

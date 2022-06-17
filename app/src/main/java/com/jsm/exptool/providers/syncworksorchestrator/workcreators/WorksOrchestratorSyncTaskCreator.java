@@ -3,11 +3,7 @@ package com.jsm.exptool.providers.syncworksorchestrator.workcreators;
 import static com.jsm.exptool.config.ConfigConstants.REGISTERS_SYNC_LIMIT;
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY;
 import static com.jsm.exptool.config.NetworkConstants.RETRY_DELAY_UNIT;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_REGISTER_ID;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.REGISTER_IDS_TO_SYNC;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_FILE_REGISTERS;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_FILE_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
@@ -18,11 +14,8 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.rxjava3.RxWorker;
 
 import com.jsm.exptool.libs.WorksOrchestratorUtils;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.register.MediaRegister;
-import com.jsm.exptool.workers.sync.files.SyncRemoteImageFileRegistersWorker;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 
 import java.util.ArrayList;
 import java.util.HashMap;

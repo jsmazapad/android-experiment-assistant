@@ -1,24 +1,19 @@
 package com.jsm.exptool.ui.experiments.create.audioconfiguration;
 
 import static com.jsm.exptool.config.ConfigConstants.AUDIO_CONFIG_ARG;
-import static com.jsm.exptool.config.ConfigConstants.CAMERA_CONFIG_ARG;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
-import android.widget.AbsSpinner;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
-import com.jsm.exptool.model.AudioRecordingOption;
-import com.jsm.exptool.model.experimentconfig.AudioConfig;
+import com.jsm.exptool.entities.AudioRecordingOption;
+import com.jsm.exptool.entities.experimentconfig.AudioConfig;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.ui.main.MainActivity;
 

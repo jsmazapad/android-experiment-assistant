@@ -1,7 +1,7 @@
 package com.jsm.exptool.providers;
 
 import com.jsm.exptool.config.EmbeddingConfig;
-import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
+import com.jsm.exptool.entities.embedding.EmbeddingAlgorithm;
 
 import java.util.List;
 

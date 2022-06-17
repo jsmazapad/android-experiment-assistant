@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
 
 public class ExperimentViewViewHolder extends BaseRecyclerViewHolder<RepeatableElementConfig> {
 

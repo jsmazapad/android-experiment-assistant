@@ -5,7 +5,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 
 import androidx.work.rxjava3.RxWorker;
 
-import com.jsm.exptool.model.register.CommentRegister;
+import com.jsm.exptool.entities.register.CommentRegister;
 import com.jsm.exptool.providers.syncworksorchestrator.workcreators.WorksOrchestratorSyncTaskCreator;
 import com.jsm.exptool.repositories.CommentRepository;
 import com.jsm.exptool.workers.sync.registers.SyncRemoteCommentRegistersWorker;

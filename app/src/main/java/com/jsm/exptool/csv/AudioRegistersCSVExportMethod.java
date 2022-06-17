@@ -1,10 +1,8 @@
 package com.jsm.exptool.csv;
 
 import com.jsm.exptool.libs.tabletocsv.TableToCSVConverterFunctionInterface;
-import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.entities.register.AudioRegister;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

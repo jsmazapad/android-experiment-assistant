@@ -1,10 +1,9 @@
 package com.jsm.exptool.providers;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.filters.FilterOption;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.filters.FilterOption;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

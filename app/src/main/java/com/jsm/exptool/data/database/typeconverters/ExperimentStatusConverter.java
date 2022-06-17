@@ -2,12 +2,7 @@ package com.jsm.exptool.data.database.typeconverters;
 
 import androidx.room.TypeConverter;
 
-import com.jsm.exptool.model.Experiment;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import com.jsm.exptool.entities.Experiment;
 
 public class ExperimentStatusConverter {
 

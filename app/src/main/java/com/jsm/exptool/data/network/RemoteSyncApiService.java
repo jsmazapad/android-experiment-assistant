@@ -3,17 +3,15 @@ package com.jsm.exptool.data.network;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.data.network.responses.LoginResponse;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.CommentRegister;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.register.AudioRegister;
+import com.jsm.exptool.entities.register.CommentRegister;
+import com.jsm.exptool.entities.register.ImageRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;

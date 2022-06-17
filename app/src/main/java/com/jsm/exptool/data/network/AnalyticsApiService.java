@@ -1,7 +1,7 @@
 package com.jsm.exptool.data.network;
 
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
-import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
+import com.jsm.exptool.entities.embedding.ImageEmbeddingVector;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;

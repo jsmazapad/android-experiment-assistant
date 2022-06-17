@@ -9,10 +9,9 @@ import androidx.room.Update;
 import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.data.database.relations.ExperimentWithSensors;
 import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.experimentconfig.SensorsGlobalConfig;
-import com.jsm.exptool.model.register.AudioRegister;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 
 import java.util.ArrayList;

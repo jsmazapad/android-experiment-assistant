@@ -6,8 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.ui.experiments.list.actions.ExperimentListActionsDialogViewModel;
+import com.jsm.exptool.entities.Experiment;
 
 
 public class ExperimentsListSyncLogViewModelFactory implements ViewModelProvider.Factory {

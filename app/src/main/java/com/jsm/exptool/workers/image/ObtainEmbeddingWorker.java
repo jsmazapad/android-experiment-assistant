@@ -13,7 +13,7 @@ import androidx.work.WorkerParameters;
 import androidx.work.rxjava3.RxWorker;
 
 import com.jsm.exptool.core.exceptions.BaseException;
-import com.jsm.exptool.model.register.ImageRegister;
+import com.jsm.exptool.entities.register.ImageRegister;
 import com.jsm.exptool.repositories.ImageRepository;
 
 import java.io.File;

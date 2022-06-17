@@ -2,8 +2,6 @@ package com.jsm.exptool.ui.experiments.view.measure.graph;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -13,9 +11,9 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentViewSensorGraphFragmentBinding;
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;
 
 import java.util.ArrayList;

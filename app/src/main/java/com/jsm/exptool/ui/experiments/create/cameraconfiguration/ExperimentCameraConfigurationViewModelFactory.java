@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.experimentconfig.CameraConfig;
+import com.jsm.exptool.entities.experimentconfig.CameraConfig;
 
 public class ExperimentCameraConfigurationViewModelFactory implements ViewModelProvider.Factory {
 

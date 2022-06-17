@@ -18,13 +18,11 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.providers.CameraProvider;
-import com.jsm.exptool.model.experimentconfig.CameraConfig;
-import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
+import com.jsm.exptool.entities.experimentconfig.CameraConfig;
+import com.jsm.exptool.entities.embedding.EmbeddingAlgorithm;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
-import com.jsm.exptool.libs.requestpermissions.PermissionsResultCallBack;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
-import com.jsm.exptool.ui.experiments.perform.ExperimentPerformFragment;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.List;

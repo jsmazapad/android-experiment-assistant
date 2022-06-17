@@ -5,7 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.jsm.exptool.model.QuickCommentsCollection;
+import com.jsm.exptool.entities.QuickCommentsCollection;
 
 import java.util.List;
 

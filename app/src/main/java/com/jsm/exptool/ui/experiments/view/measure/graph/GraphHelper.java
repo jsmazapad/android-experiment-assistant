@@ -11,8 +11,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.jsm.exptool.R;
 import com.jsm.exptool.libs.graph.GraphMarkerView;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.providers.DateProvider;
 
 import java.util.ArrayList;

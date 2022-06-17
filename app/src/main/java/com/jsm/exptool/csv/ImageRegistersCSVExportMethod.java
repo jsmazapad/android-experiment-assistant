@@ -4,7 +4,7 @@ import android.database.Cursor;
 
 import com.jsm.exptool.data.database.typeconverters.DoubleListConverter;
 import com.jsm.exptool.libs.tabletocsv.TableToCSVConverterFunctionInterface;
-import com.jsm.exptool.model.register.ImageRegister;
+import com.jsm.exptool.entities.register.ImageRegister;
 import com.opencsv.CSVWriter;
 
 import java.util.ArrayList;

@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
-import com.jsm.exptool.model.register.MediaRegister;
+import com.jsm.exptool.entities.register.MediaRegister;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewAdapter;
 
 import java.util.List;

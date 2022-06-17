@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 
 import java.util.List;
 

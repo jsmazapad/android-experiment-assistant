@@ -23,8 +23,8 @@ import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
 import com.jsm.exptool.libs.requestpermissions.PermissionResultCallbackForViewModel;
-import com.jsm.exptool.model.CommentSuggestion;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.CommentSuggestion;
+import com.jsm.exptool.entities.Experiment;
 
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;

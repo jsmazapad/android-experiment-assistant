@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class SeekbarSelectorHelper {

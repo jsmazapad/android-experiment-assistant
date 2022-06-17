@@ -2,7 +2,6 @@ package com.jsm.exptool.workers.export;
 
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAMES;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.TABLE_NAME;
 
 
@@ -13,7 +12,7 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.providers.ExportDataProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 

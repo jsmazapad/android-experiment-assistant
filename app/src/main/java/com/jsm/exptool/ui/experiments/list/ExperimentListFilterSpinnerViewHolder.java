@@ -3,10 +3,8 @@ package com.jsm.exptool.ui.experiments.list;
 import android.view.View;
 import android.widget.TextView;
 
-import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.AudioRecordingOption;
-import com.jsm.exptool.model.filters.FilterOption;
+import com.jsm.exptool.entities.filters.FilterOption;
 
 public class ExperimentListFilterSpinnerViewHolder<FilterType, ValueType> extends BaseRecyclerViewHolder<FilterOption<FilterType, ValueType>> {
 

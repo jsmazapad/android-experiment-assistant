@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.experimentconfig.MultimediaConfig;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.experimentconfig.MultimediaConfig;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.audiogallery.AudioRegisterGalleryViewModel;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.imagegallery.ImageRegisterGalleryViewModel;
 

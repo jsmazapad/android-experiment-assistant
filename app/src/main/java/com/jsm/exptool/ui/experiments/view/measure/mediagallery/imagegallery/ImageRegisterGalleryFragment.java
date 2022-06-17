@@ -11,10 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.databinding.ExperimentViewGalleryImageFragmentBinding;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryFragment;
-import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewAdapter;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewModelFactory;
 
 

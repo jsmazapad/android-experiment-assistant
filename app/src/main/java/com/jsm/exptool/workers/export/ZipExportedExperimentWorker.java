@@ -14,7 +14,7 @@ import androidx.work.WorkerParameters;
 
 import com.jsm.exptool.config.ExportToCSVConfigOptions;
 import com.jsm.exptool.libs.Zipper;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.providers.DateProvider;
 import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.repositories.ExperimentsRepository;

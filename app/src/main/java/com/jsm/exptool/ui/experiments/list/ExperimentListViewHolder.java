@@ -7,11 +7,9 @@ import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.core.utils.MemoryUtils;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.providers.DateProvider;
 import com.jsm.exptool.providers.ExperimentProvider;
-import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment> {

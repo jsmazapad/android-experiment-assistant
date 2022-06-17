@@ -1,17 +1,16 @@
 package com.jsm.exptool.ui.experiments.view.measure.data;
 
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.CommentRegister;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.register.AudioRegister;
+import com.jsm.exptool.entities.register.CommentRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.ImageRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.providers.DateProvider;
 
 public class ExperimentViewDataMeasureViewHolder extends BaseRecyclerViewHolder<ExperimentRegister> {

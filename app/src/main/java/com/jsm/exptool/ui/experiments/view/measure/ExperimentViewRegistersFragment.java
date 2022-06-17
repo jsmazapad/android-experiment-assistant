@@ -14,11 +14,8 @@ import android.view.ViewGroup;
 import com.google.android.material.tabs.TabLayout;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
-import com.jsm.exptool.data.mock.MockExamples;
 import com.jsm.exptool.databinding.ExperimentViewRegistersFragmentBinding;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
 
 import java.util.ArrayList;
 

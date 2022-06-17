@@ -5,10 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 
 import java.util.List;
 

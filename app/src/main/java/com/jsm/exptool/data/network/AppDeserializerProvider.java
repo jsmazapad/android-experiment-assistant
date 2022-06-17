@@ -5,8 +5,6 @@ import com.google.gson.JsonObject;
 import com.jsm.exptool.core.data.network.CustomDeserializerProvider;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.data.network.deserializers.ElementDeserializer;
-import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
-import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
 
 public class AppDeserializerProvider implements CustomDeserializerProvider {
 

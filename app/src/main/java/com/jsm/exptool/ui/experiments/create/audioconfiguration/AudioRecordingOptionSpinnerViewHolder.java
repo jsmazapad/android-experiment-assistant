@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.AudioRecordingOption;
+import com.jsm.exptool.entities.AudioRecordingOption;
 
 public class AudioRecordingOptionSpinnerViewHolder extends BaseRecyclerViewHolder<AudioRecordingOption> {
 

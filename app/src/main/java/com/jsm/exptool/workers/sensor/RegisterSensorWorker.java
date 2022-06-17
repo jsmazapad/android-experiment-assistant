@@ -14,7 +14,7 @@ import androidx.work.WorkerParameters;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jsm.exptool.model.SensorConfig;
+import com.jsm.exptool.entities.SensorConfig;
 import com.jsm.exptool.repositories.SensorRepository;
 
 import java.util.Date;

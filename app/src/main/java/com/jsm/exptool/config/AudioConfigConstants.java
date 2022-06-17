@@ -3,7 +3,7 @@ package com.jsm.exptool.config;
 import android.media.MediaRecorder;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.model.AudioRecordingOption;
+import com.jsm.exptool.entities.AudioRecordingOption;
 
 import java.util.ArrayList;
 import java.util.Arrays;

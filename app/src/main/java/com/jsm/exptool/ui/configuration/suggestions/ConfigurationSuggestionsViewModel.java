@@ -12,7 +12,7 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.core.utils.ModalMessage;
-import com.jsm.exptool.model.CommentSuggestion;
+import com.jsm.exptool.entities.CommentSuggestion;
 import com.jsm.exptool.repositories.CommentSuggestionsRepository;
 
 import java.util.List;

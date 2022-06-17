@@ -3,8 +3,6 @@ package com.jsm.exptool.workers.sync;
 import static com.jsm.exptool.config.NetworkConstants.MAX_RETRIES;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_EXTERNAL_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.EXPERIMENT_ID;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.IMAGE_REGISTER_ID;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.REGISTER_IDS_TO_SYNC;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.UPDATED_REGISTERS_NUM;
 
@@ -19,7 +17,7 @@ import androidx.work.rxjava3.RxWorker;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 
 import java.util.ArrayList;
 import java.util.List;

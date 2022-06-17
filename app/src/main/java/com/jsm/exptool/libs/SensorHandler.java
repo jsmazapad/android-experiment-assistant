@@ -11,11 +11,10 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.config.MeasureConfigConstants;
 import com.jsm.exptool.config.SensorConfigConstants;
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.SensorEventInterface;
-import com.jsm.exptool.model.TriggerEventInterface;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
-import com.jsm.exptool.model.externaleventsreader.SensorReader;
+import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.SensorEventInterface;
+import com.jsm.exptool.entities.TriggerEventInterface;
+import com.jsm.exptool.entities.externaleventsreader.SensorReader;
 
 import java.util.ArrayList;
 import java.util.List;

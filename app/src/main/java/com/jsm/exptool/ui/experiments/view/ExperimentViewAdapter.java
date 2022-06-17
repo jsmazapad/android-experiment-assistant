@@ -8,7 +8,7 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.OnRecyclerItemSelectedListener;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.experimentconfig.AudioConfig;
+import com.jsm.exptool.entities.experimentconfig.AudioConfig;
 
 public class ExperimentAudioConfigurationViewModelFactory implements ViewModelProvider.Factory {
 

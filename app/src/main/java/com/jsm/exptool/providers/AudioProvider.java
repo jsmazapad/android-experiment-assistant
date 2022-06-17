@@ -2,10 +2,9 @@ package com.jsm.exptool.providers;
 
 import com.jsm.exptool.config.AudioConfigConstants;
 import com.jsm.exptool.libs.AudioHandler;
-import com.jsm.exptool.model.AudioRecordingOption;
+import com.jsm.exptool.entities.AudioRecordingOption;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 

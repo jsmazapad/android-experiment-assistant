@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.ui.experiments.view.measure.data.ExperimentViewDataMeasuresViewModel;
 
 import java.util.List;

@@ -3,9 +3,7 @@ package com.jsm.exptool.ui.experiments.view.measure.mediagallery.imagegallery;
 import android.app.Application;
 import android.widget.ImageView;
 
-import com.jsm.exptool.core.data.repositories.responses.ListResponse;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.MediaRegister;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 import com.jsm.exptool.providers.ImagesProvider;
 import com.jsm.exptool.ui.experiments.view.measure.mediagallery.MediaRegisterGalleryViewModel;
 

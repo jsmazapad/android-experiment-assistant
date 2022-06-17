@@ -5,9 +5,8 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 
 import androidx.work.rxjava3.RxWorker;
 
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.providers.syncworksorchestrator.workcreators.WorksOrchestratorSyncTaskCreator;
-import com.jsm.exptool.repositories.ImageRepository;
 import com.jsm.exptool.repositories.SensorRepository;
 import com.jsm.exptool.workers.sync.registers.SyncRemoteSensorRegistersWorker;
 

@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.CommentSuggestion;
+import com.jsm.exptool.entities.CommentSuggestion;
 
 public class ConfigurationSuggestionViewHolder extends BaseRecyclerViewHolder<CommentSuggestion> {
     private final TextView titleTV, numUsedTimesTV;

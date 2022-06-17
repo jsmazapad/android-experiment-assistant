@@ -21,12 +21,11 @@ import com.google.android.gms.maps.model.SquareCap;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentViewMapFragmentBinding;
-import com.jsm.exptool.model.experimentconfig.LocationConfig;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.experimentconfig.LocationConfig;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.providers.DateProvider;
-import com.jsm.exptool.providers.TimeDisplayStringProvider;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;
 
 

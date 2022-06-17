@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.utils.MemoryUtils;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.repositories.ExperimentsRepository;
 
 import java.util.ArrayList;

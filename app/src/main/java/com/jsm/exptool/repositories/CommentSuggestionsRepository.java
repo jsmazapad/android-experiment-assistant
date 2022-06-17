@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
-import com.jsm.exptool.model.CommentSuggestion;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.CommentSuggestion;
 
 import java.util.List;
 import java.util.concurrent.Executor;

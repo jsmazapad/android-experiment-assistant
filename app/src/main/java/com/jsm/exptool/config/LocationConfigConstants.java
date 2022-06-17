@@ -2,10 +2,8 @@ package com.jsm.exptool.config;
 
 import com.google.android.gms.location.LocationRequest;
 import com.jsm.exptool.R;
-import com.jsm.exptool.model.AudioRecordingOption;
-import com.jsm.exptool.model.LocationOption;
+import com.jsm.exptool.entities.LocationOption;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

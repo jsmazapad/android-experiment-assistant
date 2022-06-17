@@ -13,9 +13,9 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.jsm.exptool.R;
 import com.jsm.exptool.databinding.DialogSelectFrequencyBinding;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.experimentconfig.AudioConfig;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.AudioConfig;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.libs.SeekbarSelectorHelper;
 
 

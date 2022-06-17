@@ -6,7 +6,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 
-import com.jsm.exptool.model.CommentSuggestion;
+import com.jsm.exptool.entities.CommentSuggestion;
 
 import java.util.List;
 

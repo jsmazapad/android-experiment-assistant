@@ -17,7 +17,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.repositories.SensorRepository;
 
 import java.util.Date;

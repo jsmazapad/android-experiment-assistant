@@ -20,14 +20,14 @@ import com.jsm.exptool.data.database.typeconverters.FlashModesConverter;
 import com.jsm.exptool.data.database.typeconverters.IntegerListConverter;
 import com.jsm.exptool.data.database.typeconverters.StringFloatSortedMapConverter;
 import com.jsm.exptool.data.database.typeconverters.StringListConverter;
-import com.jsm.exptool.model.CommentSuggestion;
-import com.jsm.exptool.model.QuickCommentsCollection;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.register.CommentRegister;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.CommentSuggestion;
+import com.jsm.exptool.entities.QuickCommentsCollection;
+import com.jsm.exptool.entities.register.AudioRegister;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.register.CommentRegister;
+import com.jsm.exptool.entities.register.ImageRegister;
+import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.register.SensorRegister;
 
 
 /**

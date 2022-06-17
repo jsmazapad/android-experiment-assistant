@@ -15,7 +15,7 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ConfigurationAddQuickCommentsCollectionFragmentBinding;
-import com.jsm.exptool.model.QuickCommentsCollection;
+import com.jsm.exptool.entities.QuickCommentsCollection;
 
 public class ConfigurationAddQuickCommentsCollectionFragment extends BaseRecyclerFragment<ConfigurationAddQuickCommentsCollectionFragmentBinding, ConfigurationAddQuickCommentsCollectionViewModel> {
 

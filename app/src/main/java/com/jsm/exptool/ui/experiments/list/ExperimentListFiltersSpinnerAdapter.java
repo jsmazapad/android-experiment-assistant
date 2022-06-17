@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.jsm.exptool.core.ui.views.adapters.BaseSpinnerAdapter;
-import com.jsm.exptool.model.filters.FilterOption;
+import com.jsm.exptool.entities.filters.FilterOption;
 
 
 import java.util.List;

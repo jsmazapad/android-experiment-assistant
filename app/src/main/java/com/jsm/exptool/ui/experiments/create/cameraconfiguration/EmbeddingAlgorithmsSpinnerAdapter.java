@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.jsm.exptool.core.ui.views.adapters.BaseSpinnerAdapter;
-import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
+import com.jsm.exptool.entities.embedding.EmbeddingAlgorithm;
 
 import java.util.List;
 

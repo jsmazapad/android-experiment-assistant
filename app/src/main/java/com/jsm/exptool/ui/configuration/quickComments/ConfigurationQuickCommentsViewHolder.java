@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.ItemManagementActionsListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.model.QuickCommentsCollection;
+import com.jsm.exptool.entities.QuickCommentsCollection;
 
 public class ConfigurationQuickCommentsViewHolder extends BaseRecyclerViewHolder<QuickCommentsCollection> {
     private final TextView titleTV, descriptionTV;

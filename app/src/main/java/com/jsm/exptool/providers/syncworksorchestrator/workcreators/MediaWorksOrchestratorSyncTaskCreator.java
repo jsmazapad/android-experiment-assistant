@@ -14,8 +14,8 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.rxjava3.RxWorker;
 
 import com.jsm.exptool.libs.WorksOrchestratorUtils;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.register.MediaRegister;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.register.MediaRegister;
 
 import java.util.HashMap;
 import java.util.List;

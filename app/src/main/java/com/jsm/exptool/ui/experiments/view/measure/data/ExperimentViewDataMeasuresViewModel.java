@@ -8,12 +8,12 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.experimentconfig.AudioConfig;
-import com.jsm.exptool.model.experimentconfig.CameraConfig;
-import com.jsm.exptool.model.experimentconfig.LocationConfig;
-import com.jsm.exptool.model.experimentconfig.RepeatableElementConfig;
-import com.jsm.exptool.model.register.ExperimentRegister;
+import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.AudioConfig;
+import com.jsm.exptool.entities.experimentconfig.CameraConfig;
+import com.jsm.exptool.entities.experimentconfig.LocationConfig;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
+import com.jsm.exptool.entities.register.ExperimentRegister;
 
 import java.util.List;
 

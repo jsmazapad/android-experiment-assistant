@@ -8,7 +8,7 @@ import com.google.gson.JsonParseException;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.data.network.responses.LoginResponse;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
-import com.jsm.exptool.model.embedding.ImageEmbeddingVector;
+import com.jsm.exptool.entities.embedding.ImageEmbeddingVector;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

@@ -2,9 +2,8 @@ package com.jsm.exptool.csv;
 
 import com.jsm.exptool.data.database.typeconverters.StringListConverter;
 import com.jsm.exptool.libs.tabletocsv.TableToCSVConverterFunctionInterface;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

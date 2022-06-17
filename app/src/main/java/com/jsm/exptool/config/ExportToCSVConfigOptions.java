@@ -6,11 +6,11 @@ import com.jsm.exptool.csv.ExperimentExportCSVExportMethod;
 import com.jsm.exptool.csv.ImageRegistersCSVExportMethod;
 import com.jsm.exptool.csv.SensorRegistersCSVExportMethod;
 import com.jsm.exptool.csv.ExperimentsDatabaseTableToCSVExportMethod;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.CommentRegister;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.register.AudioRegister;
+import com.jsm.exptool.entities.register.CommentRegister;
+import com.jsm.exptool.entities.register.ImageRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 
 import java.util.HashMap;
 import java.util.Map;

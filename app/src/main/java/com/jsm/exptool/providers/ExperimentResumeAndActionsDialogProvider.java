@@ -1,15 +1,8 @@
 package com.jsm.exptool.providers;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
-
-import com.jsm.exptool.R;
-import com.jsm.exptool.databinding.ExperimentsListDialogMenuActionsBinding;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.ui.experiments.list.ExperimentsListViewModel;
 
 public class ExperimentResumeAndActionsDialogProvider {

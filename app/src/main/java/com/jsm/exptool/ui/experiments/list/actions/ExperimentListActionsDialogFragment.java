@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.databinding.ExperimentsListDialogMenuActionsBinding;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 
 public class ExperimentListActionsDialogFragment extends DialogFragment {
     Context context;

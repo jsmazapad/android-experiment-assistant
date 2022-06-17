@@ -11,8 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentCreateAudioConfgurationFragmentBinding;
-import com.jsm.exptool.model.experimentconfig.AudioConfig;
-import com.jsm.exptool.providers.AudioProvider;
+import com.jsm.exptool.entities.experimentconfig.AudioConfig;
 
 public class ExperimentAudioConfigurationFragment extends BaseFragment<ExperimentCreateAudioConfgurationFragmentBinding, ExperimentAudioConfigurationViewModel> {
 

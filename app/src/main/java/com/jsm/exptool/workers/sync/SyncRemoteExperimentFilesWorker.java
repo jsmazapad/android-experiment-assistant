@@ -16,12 +16,7 @@ import androidx.work.rxjava3.RxWorker;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.register.MediaRegister;
-import com.jsm.exptool.repositories.AudioRepository;
-import com.jsm.exptool.repositories.ImageRepository;
-import com.jsm.exptool.repositories.RemoteSyncRepository;
+import com.jsm.exptool.entities.register.MediaRegister;
 
 import java.io.File;
 

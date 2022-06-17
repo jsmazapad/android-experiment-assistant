@@ -2,15 +2,12 @@ package com.jsm.exptool.repositories;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.common.util.concurrent.HandlerExecutor;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.libs.SensorHandler;
-import com.jsm.exptool.model.SensorConfig;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.CommentRegister;
-import com.jsm.exptool.model.register.ExperimentRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.register.ExperimentRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 
 import java.util.ArrayList;
 import java.util.Date;

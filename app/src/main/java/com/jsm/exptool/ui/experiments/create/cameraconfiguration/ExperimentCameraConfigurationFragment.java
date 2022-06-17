@@ -15,7 +15,7 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentCreateCameraConfgurationFragmentBinding;
 import com.jsm.exptool.libs.requestpermissions.PermissionResultCallbackForViewModel;
-import com.jsm.exptool.model.experimentconfig.CameraConfig;
+import com.jsm.exptool.entities.experimentconfig.CameraConfig;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 

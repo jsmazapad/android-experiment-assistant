@@ -1,8 +1,5 @@
 package com.jsm.exptool.repositories;
 
-import androidx.lifecycle.MutableLiveData;
-
-import com.jsm.exptool.BuildConfig;
 import com.jsm.exptool.core.data.network.NetworkElementResponseCallback;
 import com.jsm.exptool.core.data.network.RetrofitService;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
@@ -13,11 +10,11 @@ import com.jsm.exptool.data.network.interceptors.AuthorizationInterceptor;
 import com.jsm.exptool.data.network.interceptors.HeaderInterceptor;
 import com.jsm.exptool.data.network.responses.LoginResponse;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
-import com.jsm.exptool.model.Experiment;
-import com.jsm.exptool.model.register.AudioRegister;
-import com.jsm.exptool.model.register.CommentRegister;
-import com.jsm.exptool.model.register.ImageRegister;
-import com.jsm.exptool.model.register.SensorRegister;
+import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.register.AudioRegister;
+import com.jsm.exptool.entities.register.CommentRegister;
+import com.jsm.exptool.entities.register.ImageRegister;
+import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.providers.PreferencesProvider;
 
 import java.io.File;

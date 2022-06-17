@@ -1,9 +1,8 @@
 package com.jsm.exptool.config;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.model.embedding.EmbeddingAlgorithm;
+import com.jsm.exptool.entities.embedding.EmbeddingAlgorithm;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

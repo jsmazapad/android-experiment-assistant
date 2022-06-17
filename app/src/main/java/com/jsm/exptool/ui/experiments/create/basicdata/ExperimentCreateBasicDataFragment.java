@@ -20,7 +20,7 @@ import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentCreateBasicDataFragmentBinding;
 import com.jsm.exptool.libs.MultiSpinner;
-import com.jsm.exptool.model.Experiment;
+import com.jsm.exptool.entities.Experiment;
 
 
 public class ExperimentCreateBasicDataFragment extends BaseRecyclerFragment<ExperimentCreateBasicDataFragmentBinding, ExperimentCreateBasicDataViewModel> {
