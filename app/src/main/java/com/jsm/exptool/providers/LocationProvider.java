@@ -19,9 +19,9 @@ import com.google.android.gms.location.LocationServices;
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.ConfigConstants;
 import com.jsm.exptool.config.LocationConfigConstants;
-import com.jsm.exptool.core.utils.ModalMessage;
+import com.jsm.exptool.core.libs.ModalMessage;
 import com.jsm.exptool.libs.GPSUtils;
-import com.jsm.exptool.entities.LocationOption;
+import com.jsm.exptool.entities.experimentconfig.LocationOption;
 
 import java.util.List;
 

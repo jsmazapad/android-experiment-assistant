@@ -11,17 +11,17 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.experimentconfig.AudioConfig;
 import com.jsm.exptool.entities.experimentconfig.CameraConfig;
 import com.jsm.exptool.entities.experimentconfig.LocationConfig;
 import com.jsm.exptool.entities.experimentconfig.MultimediaConfig;
 import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.entities.register.ExperimentRegister;
-import com.jsm.exptool.repositories.AudioRepository;
-import com.jsm.exptool.repositories.CommentRepository;
-import com.jsm.exptool.repositories.ImageRepository;
-import com.jsm.exptool.repositories.SensorRepository;
+import com.jsm.exptool.data.repositories.AudioRepository;
+import com.jsm.exptool.data.repositories.CommentRepository;
+import com.jsm.exptool.data.repositories.ImageRepository;
+import com.jsm.exptool.data.repositories.SensorRepository;
 
 import java.util.List;
 

@@ -11,9 +11,9 @@ import android.util.Log;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
-import com.jsm.exptool.libs.SensorHandler;
+import com.jsm.exptool.providers.SensorProvider;
 import com.jsm.exptool.entities.Experiment;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.experimentconfig.AudioConfig;
 import com.jsm.exptool.entities.experimentconfig.CameraConfig;
 import com.jsm.exptool.entities.experimentconfig.ExperimentConfiguration;
@@ -26,11 +26,11 @@ import com.jsm.exptool.providers.DateProvider;
 import com.jsm.exptool.providers.EmbeddingAlgorithmsProvider;
 import com.jsm.exptool.providers.FilePathsProvider;
 import com.jsm.exptool.providers.LocationProvider;
-import com.jsm.exptool.repositories.AudioRepository;
-import com.jsm.exptool.repositories.CommentRepository;
-import com.jsm.exptool.repositories.ExperimentsRepository;
-import com.jsm.exptool.repositories.ImageRepository;
-import com.jsm.exptool.repositories.SensorRepository;
+import com.jsm.exptool.data.repositories.AudioRepository;
+import com.jsm.exptool.data.repositories.CommentRepository;
+import com.jsm.exptool.data.repositories.ExperimentsRepository;
+import com.jsm.exptool.data.repositories.ImageRepository;
+import com.jsm.exptool.data.repositories.SensorRepository;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,7 +68,7 @@ public class MockExamples {
         experiment.getConfiguration().setSensorConfig(new SensorsGlobalConfig(FrequencyConstants.DEFAULT_SENSOR_FREQ, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS));
         experiment.getConfiguration().getAudioConfig().setRecordingOption(AudioProvider.getInstance().getAudioRecordingOptions().get(0));
 
-        experiment.getConfiguration().getSensorConfig().setSensors(new ArrayList<>(SensorHandler.getInstance().getSensors()));
+        experiment.getConfiguration().getSensorConfig().setSensors(new ArrayList<>(SensorProvider.getInstance().getSensors()));
 
 
         if(register) {

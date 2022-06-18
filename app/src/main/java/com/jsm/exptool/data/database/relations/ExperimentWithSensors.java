@@ -4,7 +4,7 @@ import androidx.room.Embedded;
 import androidx.room.Relation;
 
 import com.jsm.exptool.entities.Experiment;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 
 import java.util.List;
 

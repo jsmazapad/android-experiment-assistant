@@ -1,11 +1,11 @@
 package com.jsm.exptool.config;
 
-import com.jsm.exptool.csv.AudioRegistersCSVExportMethod;
-import com.jsm.exptool.csv.CommentRegistersCSVExportMethod;
-import com.jsm.exptool.csv.ExperimentExportCSVExportMethod;
-import com.jsm.exptool.csv.ImageRegistersCSVExportMethod;
-import com.jsm.exptool.csv.SensorRegistersCSVExportMethod;
-import com.jsm.exptool.csv.ExperimentsDatabaseTableToCSVExportMethod;
+import com.jsm.exptool.providers.export.csv.AudioRegistersCSVExportMethod;
+import com.jsm.exptool.providers.export.csv.CommentRegistersCSVExportMethod;
+import com.jsm.exptool.providers.export.csv.ExperimentExportCSVExportMethod;
+import com.jsm.exptool.providers.export.csv.ImageRegistersCSVExportMethod;
+import com.jsm.exptool.providers.export.csv.SensorRegistersCSVExportMethod;
+import com.jsm.exptool.providers.export.csv.ExperimentsDatabaseTableToCSVExportMethod;
 import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.entities.register.AudioRegister;
 import com.jsm.exptool.entities.register.CommentRegister;

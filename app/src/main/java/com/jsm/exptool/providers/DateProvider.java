@@ -4,7 +4,7 @@ package com.jsm.exptool.providers;
 import android.util.Log;
 
 import com.jsm.exptool.config.ConfigConstants;
-import com.jsm.exptool.core.utils.DateUtils;
+import com.jsm.exptool.libs.DateUtils;
 
 import java.util.Date;
 

@@ -3,7 +3,7 @@ package com.jsm.exptool.libs.tabletocsv;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.jsm.exptool.csv.ExperimentsDatabaseTableToCSVExportMethod;
+import com.jsm.exptool.providers.export.csv.ExperimentsDatabaseTableToCSVExportMethod;
 import com.jsm.exptool.data.database.AppDatabase;
 import com.opencsv.CSVWriter;
 

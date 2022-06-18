@@ -6,7 +6,7 @@ import static com.jsm.exptool.config.ConfigConstants.IMAGE_THUMBNAIL_WIDTH;
 import android.widget.ImageView;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.core.utils.ImageUtils;
+import com.jsm.exptool.libs.ImageUtils;
 
 
 /**

@@ -6,7 +6,6 @@ import androidx.room.Embedded;
 import androidx.room.Ignore;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.entities.LocationOption;
 
 public class LocationConfig extends RepeatableElementConfig {
     @Embedded private LocationOption locationOption;

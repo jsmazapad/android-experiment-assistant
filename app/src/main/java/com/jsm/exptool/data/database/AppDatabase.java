@@ -26,7 +26,7 @@ import com.jsm.exptool.entities.register.AudioRegister;
 import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.entities.register.CommentRegister;
 import com.jsm.exptool.entities.register.ImageRegister;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.register.SensorRegister;
 
 

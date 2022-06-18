@@ -18,11 +18,11 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
 import com.jsm.exptool.entities.Experiment;
-import com.jsm.exptool.providers.syncworksorchestrator.WorksOrchestratorProvider;
-import com.jsm.exptool.repositories.AudioRepository;
-import com.jsm.exptool.repositories.CommentRepository;
-import com.jsm.exptool.repositories.ImageRepository;
-import com.jsm.exptool.repositories.SensorRepository;
+import com.jsm.exptool.providers.worksorchestrator.WorksOrchestratorProvider;
+import com.jsm.exptool.data.repositories.AudioRepository;
+import com.jsm.exptool.data.repositories.CommentRepository;
+import com.jsm.exptool.data.repositories.ImageRepository;
+import com.jsm.exptool.data.repositories.SensorRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;

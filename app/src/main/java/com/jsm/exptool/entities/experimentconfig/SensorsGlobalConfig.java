@@ -5,7 +5,6 @@ import android.os.Parcel;
 import androidx.room.Ignore;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.entities.SensorConfig;
 
 
 import java.util.List;

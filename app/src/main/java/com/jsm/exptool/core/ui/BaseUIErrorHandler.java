@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.exceptions.BaseException;
-import com.jsm.exptool.core.utils.ModalMessage;
+import com.jsm.exptool.core.libs.ModalMessage;
 
 
 /**

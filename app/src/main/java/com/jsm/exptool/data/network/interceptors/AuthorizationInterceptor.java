@@ -5,7 +5,7 @@ import android.util.Log;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.data.network.responses.LoginResponse;
 import com.jsm.exptool.providers.SessionProvider;
-import com.jsm.exptool.repositories.RemoteSyncRepository;
+import com.jsm.exptool.data.repositories.RemoteSyncRepository;
 
 import java.io.IOException;
 

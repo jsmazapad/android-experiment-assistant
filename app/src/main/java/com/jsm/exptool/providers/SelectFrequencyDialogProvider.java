@@ -13,10 +13,9 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.jsm.exptool.R;
 import com.jsm.exptool.databinding.DialogSelectFrequencyBinding;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.experimentconfig.AudioConfig;
 import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
-import com.jsm.exptool.libs.SeekbarSelectorHelper;
 
 
 public class SelectFrequencyDialogProvider {
@@ -34,7 +33,7 @@ public class SelectFrequencyDialogProvider {
             mBuilder.setTitle(alternativeTitle);
         }
         ViewLayoutFrequencySelectorBinding includedSelectorBinding = binding.frequencySelectorIncluded;
-        SeekbarSelectorHelper.initFrequencySelector( includedSelectorBinding,null, minValue, maxValue, initialValue);
+        SeekbarSelectorProvider.initFrequencySelector( includedSelectorBinding,null, minValue, maxValue, initialValue);
         final SwitchMaterial defaultFreqSwitch = binding.switchSensorGlobalFrequency;
 
         if(frequencyConfiguration instanceof SensorConfig && showGlobal) {

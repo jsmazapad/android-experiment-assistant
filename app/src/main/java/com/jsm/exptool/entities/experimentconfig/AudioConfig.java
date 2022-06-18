@@ -7,7 +7,6 @@ import androidx.room.Embedded;
 import androidx.room.Ignore;
 
 import com.jsm.exptool.R;
-import com.jsm.exptool.entities.AudioRecordingOption;
 
 public class AudioConfig extends MultimediaConfig {
 

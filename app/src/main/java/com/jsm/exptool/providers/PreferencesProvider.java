@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.jsm.exptool.config.FrequencyConstants;
-import com.jsm.exptool.core.utils.PreferenceManager;
+import com.jsm.exptool.libs.PreferenceManager;
 
 /**
  * Almacen central de preferencias de usuario

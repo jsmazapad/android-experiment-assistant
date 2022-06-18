@@ -14,9 +14,9 @@ import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.ItemManagementActionsListener;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.core.utils.ModalMessage;
+import com.jsm.exptool.core.libs.ModalMessage;
 import com.jsm.exptool.entities.QuickCommentsCollection;
-import com.jsm.exptool.repositories.QuickCommentsCollectionsRepository;
+import com.jsm.exptool.data.repositories.QuickCommentsCollectionsRepository;
 import com.jsm.exptool.ui.main.MainActivity;
 
 import java.util.List;

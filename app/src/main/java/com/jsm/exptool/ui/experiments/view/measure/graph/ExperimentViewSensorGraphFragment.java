@@ -11,7 +11,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.databinding.ExperimentViewSensorGraphFragmentBinding;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.entities.register.ExperimentRegister;
 import com.jsm.exptool.ui.experiments.view.measure.ExperimentViewRegistersFragment;

@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.DeleteActionListener;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 
 public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<SensorConfig> {
 

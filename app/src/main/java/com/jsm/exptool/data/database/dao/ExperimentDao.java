@@ -10,7 +10,7 @@ import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.data.database.relations.ExperimentWithSensors;
 import com.jsm.exptool.data.database.typeconverters.ExperimentStatusConverter;
 import com.jsm.exptool.entities.Experiment;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 

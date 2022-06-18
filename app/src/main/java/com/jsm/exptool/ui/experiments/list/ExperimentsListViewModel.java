@@ -26,8 +26,8 @@ import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.entities.filters.FilterOption;
 import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 import com.jsm.exptool.providers.ExperimentProvider;
-import com.jsm.exptool.providers.syncworksorchestrator.WorksOrchestratorProvider;
-import com.jsm.exptool.repositories.ExperimentsRepository;
+import com.jsm.exptool.providers.worksorchestrator.WorksOrchestratorProvider;
+import com.jsm.exptool.data.repositories.ExperimentsRepository;
 import com.jsm.exptool.ui.experiments.list.actions.ExperimentListActionsDialogFragment;
 
 import java.io.File;

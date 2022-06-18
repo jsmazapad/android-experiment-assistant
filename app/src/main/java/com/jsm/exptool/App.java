@@ -6,12 +6,12 @@ import android.util.Log;
 
 import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryPerformance;
-import com.jsm.exptool.core.utils.PreferenceManager;
+import com.jsm.exptool.libs.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
-import com.jsm.exptool.libs.SensorHandler;
+import com.jsm.exptool.providers.SensorProvider;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.SessionProvider;
-import com.jsm.exptool.providers.syncworksorchestrator.WorksOrchestratorProvider;
+import com.jsm.exptool.providers.worksorchestrator.WorksOrchestratorProvider;
 
 
 public class App extends Application {
@@ -26,7 +26,7 @@ public class App extends Application {
             //Inicialización de singletons que dependen del contexto de la aplicación
             DBHelper.initialize(this);
             PreferenceManager.initialize(this);
-            SensorHandler.getInstance().initialize(this);
+            SensorProvider.getInstance().initialize(this);
             //Al iniciar la aplicación, eliminamos los datos de sesión que hubiera guardados
             SessionProvider.clearSession();
 

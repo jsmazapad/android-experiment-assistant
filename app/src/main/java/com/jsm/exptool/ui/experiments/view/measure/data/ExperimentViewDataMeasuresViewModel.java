@@ -8,7 +8,7 @@ import androidx.navigation.NavController;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
-import com.jsm.exptool.entities.SensorConfig;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.experimentconfig.AudioConfig;
 import com.jsm.exptool.entities.experimentconfig.CameraConfig;
 import com.jsm.exptool.entities.experimentconfig.LocationConfig;

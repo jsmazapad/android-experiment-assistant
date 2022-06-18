@@ -31,7 +31,7 @@
         tools:layout="@layout/experiments_list_sync_log_fragment">
         <argument
             android:name="experiment"
-            app:argType="com.jsm.exptool.model.Experiment" />
+            app:argType="com.jsm.exptool.entities.Experiment" />
     </fragment>
     <fragment
         android:id="@+id/nav_configuration"
@@ -66,7 +66,7 @@
         tools:layout="@layout/configuration_add_quick_comments_collection_fragment">
         <argument
             android:name="quickCommentsCollection"
-            app:argType="com.jsm.exptool.model.QuickCommentsCollection"
+            app:argType="com.jsm.exptool.entities.QuickCommentsCollection"
             app:nullable="true" />
     </fragment>
     <fragment
@@ -82,7 +82,7 @@
         tools:layout="@layout/experiment_perform_fragment">
         <argument
             android:name="experiment"
-            app:argType="com.jsm.exptool.model.Experiment" />
+            app:argType="com.jsm.exptool.entities.Experiment" />
         <action
             android:id="@+id/action_nav_perform_experiment_to_nav_experiments"
             app:destination="@id/nav_experiments" />
@@ -95,7 +95,7 @@
         tools:layout="@layout/experiment_create_camera_confguration_fragment">
         <argument
             android:name="cameraConfig"
-            app:argType="com.jsm.exptool.model.experimentconfig.CameraConfig" />
+            app:argType="com.jsm.exptool.entities.experimentconfig.CameraConfig" />
     </fragment>
     <fragment
         android:id="@+id/nav_experiment_create_audio_configuration"
@@ -104,7 +104,7 @@
         tools:layout="@layout/experiment_create_audio_confguration_fragment">
         <argument
             android:name="audioConfig"
-            app:argType="com.jsm.exptool.model.experimentconfig.AudioConfig" />
+            app:argType="com.jsm.exptool.entities.experimentconfig.AudioConfig" />
     </fragment>
     <fragment
         android:id="@+id/nav_experiment_create"
@@ -120,7 +120,7 @@
         <argument
             android:name="experiment"
             android:defaultValue="@null"
-            app:argType="com.jsm.exptool.model.Experiment"
+            app:argType="com.jsm.exptool.entities.Experiment"
             app:nullable="true" />
     </fragment>
     <fragment
@@ -130,7 +130,7 @@
         tools:layout="@layout/experiment_create_configure_data_fragment">
         <argument
             android:name="experiment"
-            app:argType="com.jsm.exptool.model.Experiment" />
+            app:argType="com.jsm.exptool.entities.Experiment" />
         <action
             android:id="@+id/action_nav_experiment_configure_to_nav_experiment_create_camera_configuration"
             app:destination="@id/nav_experiment_create_camera_configuration" />
@@ -155,7 +155,7 @@
             app:destination="@id/nav_view_experiment_measures" />
         <argument
             android:name="experiment"
-            app:argType="com.jsm.exptool.model.Experiment" />
+            app:argType="com.jsm.exptool.entities.Experiment" />
         <action
             android:id="@+id/action_nav_view_experiment_to_nav_perform_experiment"
             app:destination="@id/nav_perform_experiment" />
@@ -171,7 +171,7 @@
             app:argType="long" />
         <argument
             android:name="element"
-            app:argType="com.jsm.exptool.model.experimentconfig.RepeatableElementConfig" />
+            app:argType="com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig" />
     </fragment>
 
 </navigation>

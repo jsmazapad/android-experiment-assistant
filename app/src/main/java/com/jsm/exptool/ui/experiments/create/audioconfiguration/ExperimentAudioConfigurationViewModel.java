@@ -12,7 +12,7 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
-import com.jsm.exptool.entities.AudioRecordingOption;
+import com.jsm.exptool.entities.experimentconfig.AudioRecordingOption;
 import com.jsm.exptool.entities.experimentconfig.AudioConfig;
 import com.jsm.exptool.providers.AudioProvider;
 import com.jsm.exptool.ui.main.MainActivity;

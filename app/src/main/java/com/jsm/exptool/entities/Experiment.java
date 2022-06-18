@@ -12,6 +12,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.jsm.exptool.entities.experimentconfig.ExperimentConfiguration;
+import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.register.AudioRegister;
 import com.jsm.exptool.entities.register.CommentRegister;
 import com.jsm.exptool.entities.register.ImageRegister;

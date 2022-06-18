@@ -13,14 +13,14 @@ import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
-import com.jsm.exptool.core.utils.ModalMessage;
+import com.jsm.exptool.core.libs.ModalMessage;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
-import com.jsm.exptool.libs.SeekbarSelectorHelper;
+import com.jsm.exptool.providers.SeekbarSelectorProvider;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.TimeDisplayStringProvider;
-import com.jsm.exptool.repositories.CommentSuggestionsRepository;
+import com.jsm.exptool.data.repositories.CommentSuggestionsRepository;
 
-public class ConfigurationViewModel extends BaseViewModel implements SeekbarSelectorHelper.FrequencySelectorListener {
+public class ConfigurationViewModel extends BaseViewModel implements SeekbarSelectorProvider.FrequencySelectorListener {
 
     private final String SENSOR_TAG = "SENSOR_TAG";
     private final String AUDIO_TAG = "AUDIO_TAG";
@@ -125,11 +125,11 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
         for (ViewLayoutFrequencySelectorBinding selectorBinding:includedSelectorsBinding) {
             int id = selectorBinding.getRoot().getId();
             if (id == R.id.sensorFrequencySelectorIncluded) {
-                SeekbarSelectorHelper.initFrequencySelector(selectorBinding, this, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, sensorDefaultFrequency, SENSOR_TAG);
+                SeekbarSelectorProvider.initFrequencySelector(selectorBinding, this, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, sensorDefaultFrequency, SENSOR_TAG);
             } else if (id == R.id.audioFrequencySelectorIncluded) {
-                SeekbarSelectorHelper.initFrequencySelector(selectorBinding, this, FrequencyConstants.MIN_AUDIO_INTERVAL_MILLIS, FrequencyConstants.MAX_AUDIO_INTERVAL_MILLIS, audioDefaultFrequency, AUDIO_TAG);
+                SeekbarSelectorProvider.initFrequencySelector(selectorBinding, this, FrequencyConstants.MIN_AUDIO_INTERVAL_MILLIS, FrequencyConstants.MAX_AUDIO_INTERVAL_MILLIS, audioDefaultFrequency, AUDIO_TAG);
             } else if (id == R.id.cameraFrequencySelectorIncluded) {
-                SeekbarSelectorHelper.initFrequencySelector(selectorBinding, this, FrequencyConstants.MIN_CAMERA_INTERVAL_MILLIS, FrequencyConstants.MAX_CAMERA_INTERVAL_MILLIS, cameraDefaultFrequency, CAMERA_TAG);
+                SeekbarSelectorProvider.initFrequencySelector(selectorBinding, this, FrequencyConstants.MIN_CAMERA_INTERVAL_MILLIS, FrequencyConstants.MAX_CAMERA_INTERVAL_MILLIS, cameraDefaultFrequency, CAMERA_TAG);
             }
 
         }

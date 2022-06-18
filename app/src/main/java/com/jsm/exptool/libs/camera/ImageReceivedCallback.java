@@ -4,8 +4,8 @@ import java.io.File;
 
 public interface ImageReceivedCallback {
 
-    public void onImageReceived(File imageFile);
-    public void onErrorReceived(Exception error);
+     void onImageReceived(File imageFile);
+     void onErrorReceived(Exception error);
 
 
 }

@@ -25,6 +25,7 @@ public class RepeatableElementConfig implements Parcelable {
 
     }
 
+
     public final int getNameStringResource() {
         return this.nameStringResource;
     }
@@ -53,6 +54,17 @@ public class RepeatableElementConfig implements Parcelable {
         this.intervalMax = intervalMax;
     }
 
+    public static final Creator<RepeatableElementConfig> CREATOR = new Creator<RepeatableElementConfig>() {
+        @Override
+        public RepeatableElementConfig createFromParcel(Parcel in) {
+            return new RepeatableElementConfig(in);
+        }
+
+        @Override
+        public RepeatableElementConfig[] newArray(int size) {
+            return new RepeatableElementConfig[size];
+        }
+    };
 
     @Override
     public int describeContents() {
