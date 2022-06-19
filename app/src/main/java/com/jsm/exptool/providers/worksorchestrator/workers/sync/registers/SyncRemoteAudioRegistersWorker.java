@@ -25,7 +25,7 @@ public class SyncRemoteAudioRegistersWorker extends SyncRemoteExperimentRegister
     }
 
     @Override
-    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<AudioRegister> pendingRegisters, long experimentExternalId, int numRegistersToupdate) {
+    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<AudioRegister> pendingRegisters, String experimentExternalId, int numRegistersToupdate) {
         RemoteSyncRepository.syncAudioRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response, numRegistersToupdate), experimentExternalId, pendingRegisters);
     }
 

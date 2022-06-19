@@ -39,11 +39,11 @@ public abstract class SyncRemoteExperimentFilesWorker<T extends MediaRegister> e
 
         return Single.create(emitter -> {
             long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
-            long experimentExternalId = getInputData().getLong(EXPERIMENT_EXTERNAL_ID, -1);
+            String experimentExternalId = getInputData().getString(EXPERIMENT_EXTERNAL_ID);
             long experimentRegisterId = getInputData().getLong(EXPERIMENT_REGISTER_ID, -1);
             String registerFilePath = getInputData().getString(FILE_NAME);
 
-            if (experimentId == -1 || experimentExternalId == -1 || experimentRegisterId == -1 || registerFilePath == null) {
+            if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId) || experimentRegisterId == -1 || registerFilePath == null) {
                 //TODO Mejorar mensajes error
                 emitter.onError(new BaseException("Error de parámetros", false));
                 return;
@@ -54,7 +54,7 @@ public abstract class SyncRemoteExperimentFilesWorker<T extends MediaRegister> e
         });
     }
 
-    protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, long experimentRegisterId, long experimentExternalId, File file);
+    protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, long experimentRegisterId, String experimentExternalId, File file);
 
     protected abstract int updateRegister(long experimentRegisterId);
 

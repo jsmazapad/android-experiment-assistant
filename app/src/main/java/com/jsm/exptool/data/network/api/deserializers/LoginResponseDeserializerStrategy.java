@@ -1,9 +1,8 @@
-package com.jsm.exptool.data.network.deserializers;
+package com.jsm.exptool.data.network.api.deserializers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.jsm.exptool.data.network.responses.LoginResponse;
-import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
 
 
 class LoginResponseDeserializerStrategy implements DeserializerElementStrategyInterface<LoginResponse> {

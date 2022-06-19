@@ -14,16 +14,17 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
         <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,78 +37,109 @@
                     app:extra_info="@{viewModel.extraServerCardText}"
                     app:title="@string/configuration_remote_server_card">
 
-                    <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                    <TextView
+                        android:id="@+id/quickCommentsTitleTV"
+                        style="@style/BaseCardTitleTextView.TitleItem"
+                        android:layout_height="wrap_content"
+                        android:text="@string/configuration_remote_server_method" />
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/remoteSyncMethodSpinner"
+                        style="@style/BaseSpinner"
+                        android:prompt="@string/quick_comments_spinner_title"
+                        android:onItemSelected="@{(parent, view, position, id) -> viewModel.onRemoteSyncMethodSelected(position)}"
+                        app:spinnerAdapter="@{ viewModel.getRemoteSyncMethodsAdapter(context)}"
+                        tools:listitem="@layout/generic_title_description_spinner_list_item" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/BaseTextInputLayout"
+                        android:visibility="@{viewModel.firebaseEnabled ? View.VISIBLE : View.GONE}">
 
                         <com.google.android.material.textfield.TextInputEditText
                             style="@style/BaseTextInputEditText"
-                            android:hint="@string/configuration_remote_username"
-                            android:text="@={viewModel.username}" />
+                            android:hint="@string/configuration_remote_firebase_key"
+                            android:text="@={viewModel.firebaseKey}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.remoteServerEnabled ? View.VISIBLE : View.GONE}">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            style="@style/BaseTextInputEditText"
-                            android:hint="@string/configuration_remote_pass"
-                            android:text="@={viewModel.password}" />
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_username"
+                                android:text="@={viewModel.username}" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            style="@style/BaseTextInputEditText"
-                            android:hint="@string/configuration_remote_server_url"
-                            android:text="@={viewModel.serverUrl}" />
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_pass"
+                                android:text="@={viewModel.password}" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                    <Button
-                        android:id="@+id/checkConnectionButton"
-                        style="@style/BaseButton"
-                        android:layout_gravity="center"
-                        android:text="@string/configuration_remote_check_connectivity" />
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_server_url"
+                                android:text="@={viewModel.serverUrl}" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/checkConnectionButton"
+                            style="@style/BaseButton"
+                            android:layout_gravity="center"
+                            android:text="@string/configuration_remote_check_connectivity" />
+                    </LinearLayout>
 
                 </com.jsm.exptool.libs.ExpandableCard>
 
-                <com.jsm.exptool.libs.ExpandableCard
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:extra_info="@{viewModel.extraFlurryCardText}"
-                    app:title="Clave Flurry Analytics">
-                    <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            style="@style/BaseTextInputEditText"
-                            android:hint="clave analíticas"
-                            android:text="@={viewModel.analyticsKey}" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </com.jsm.exptool.libs.ExpandableCard>
                 <com.jsm.exptool.libs.ExpandableCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:extra_info="@{viewModel.extraSensorCardText}"
-                    app:title="Configuración por defecto de frecuencia de lectura de sensor">
+                    app:title="@string/configuration_sensor_card">
+
                     <include
                         android:id="@+id/sensorFrequencySelectorIncluded"
                         layout="@layout/view_layout_frequency_selector" />
                 </com.jsm.exptool.libs.ExpandableCard>
+
+                <com.jsm.exptool.libs.ExpandableCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:extra_info="@{viewModel.extraLocationCardText}"
+                    app:title="@string/configuration_location_card">
+
+                    <include
+                        android:id="@+id/locationFrequencySelectorIncluded"
+                        layout="@layout/view_layout_frequency_selector" />
+                </com.jsm.exptool.libs.ExpandableCard>
+
                 <com.jsm.exptool.libs.ExpandableCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:extra_info="@{viewModel.extraCameraCardText}"
-                    app:title="Configuración por defecto de intervalo de toma de fotos de cámara">
+                    app:title="@string/configuration_camera_card">
+
                     <include
                         android:id="@+id/cameraFrequencySelectorIncluded"
                         layout="@layout/view_layout_frequency_selector" />
                 </com.jsm.exptool.libs.ExpandableCard>
+
                 <com.jsm.exptool.libs.ExpandableCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:extra_info="@{viewModel.extraAudioCardText}"
-                    app:title="Configuración por defecto de intervalo de grabación de audio">
+                    app:title="@string/configuration_audio_card">
+
                     <include
                         android:id="@+id/audioFrequencySelectorIncluded"
                         layout="@layout/view_layout_frequency_selector" />
@@ -118,31 +150,32 @@
                     android:layout_height="wrap_content"
                     app:extra_info="Abrir para gestionar"
                     app:title="Comentarios por defecto para autocompletar">
+
                     <Button
                         android:id="@+id/openSuggestionsConfig"
                         style="@style/FullWidthButton"
                         android:onClick="@{() -> viewModel.openSuggestionsConfig(context)}"
                         android:text="Gestionar" />
+
                     <Button
                         android:id="@+id/resetSuggestionsCounter"
                         style="@style/FullWidthButton"
                         android:onClick="@{() -> viewModel.resetSuggestionsCounter(context)}"
-                        android:text="Resetear contadores de sugerencias de comentario" />
+                        android:text="@string/configuration_reset_suggestions_counter" />
                 </com.jsm.exptool.libs.ExpandableCard>
+
                 <com.jsm.exptool.libs.ExpandableCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:extra_info="Abrir para gestionar"
                     app:title="Comentarios rápidos">
+
                     <Button
                         android:id="@+id/manageQuickComments"
                         style="@style/FullWidthButton"
                         android:onClick="@{() -> viewModel.openQuickCommentsConfig(context)}"
-                        android:text="Gestionar" />
+                        android:text="@string/configuration_manage_quick_comments_button" />
                 </com.jsm.exptool.libs.ExpandableCard>
-
-
-
 
 
                 <Button

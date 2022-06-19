@@ -48,7 +48,7 @@ public abstract class MediaWorksOrchestratorSyncTaskCreator<T extends MediaRegis
 
             OneTimeWorkRequest.Builder syncFileRegistersRequestBuilder = new OneTimeWorkRequest.Builder(getFileRegisterWorkerClass())
                     .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).addTag(getFileRegisterTag()).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT);
-            if (experiment.getExternalId() > 0) {
+            if (experiment.getExternalId() != null && !"".equals(experiment.getExternalId())) {
                 registersFileInputDataValues.putAll(registersInputDataValues);
             }
             Data registersFileInputData = WorksOrchestratorUtils.createInputData(registersFileInputDataValues);

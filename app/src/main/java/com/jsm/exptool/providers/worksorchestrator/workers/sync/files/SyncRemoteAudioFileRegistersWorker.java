@@ -20,7 +20,7 @@ public class SyncRemoteAudioFileRegistersWorker extends SyncRemoteExperimentFile
     }
 
     @Override
-    protected void executeRemoteSync(SingleEmitter<Result> emitter, long experimentRegisterId, long experimentExternalId, File file) {
+    protected void executeRemoteSync(SingleEmitter<Result> emitter, long experimentRegisterId, String experimentExternalId, File file) {
         RemoteSyncRepository.syncAudioFile(response -> executeInnerCallbackLogic(emitter, experimentRegisterId, response), experimentExternalId, file);
     }
 

@@ -18,7 +18,7 @@ import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
 
 import java.io.File;
 
-public class FirebaseStorageClient {
+public class FirebaseStorageService {
 
     public enum FileTypes {
         IMAGE("image"),

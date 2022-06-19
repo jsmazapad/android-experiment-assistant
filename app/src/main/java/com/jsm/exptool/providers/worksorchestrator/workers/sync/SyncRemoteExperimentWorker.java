@@ -58,12 +58,12 @@ public class SyncRemoteExperimentWorker extends RxWorker {
                         emitter.onError(response.getError());
                     }
                 } else {
-                    if (response.getResultElement() != null && response.getResultElement().getId() != null && response.getResultElement().getId() > 0) {
+                    if (response.getResultElement() != null && response.getResultElement().getId() != null && !"".equals(response.getResultElement().getId())) {
                         assert experiment != null;
                         experiment.setExternalId(response.getResultElement().getId());
                         ExperimentsRepository.updateExperiment(experiment);
                         Data outputData = new Data.Builder()
-                                .putLong(EXPERIMENT_EXTERNAL_ID, experiment.getExternalId())
+                                .putString(EXPERIMENT_EXTERNAL_ID, experiment.getExternalId())
                                 .putLong(EXPERIMENT_ID, experiment.getInternalId())
                                 .build();
                         emitter.onSuccess(Result.success(outputData));

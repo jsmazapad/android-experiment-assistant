@@ -1,4 +1,4 @@
-package com.jsm.exptool.data.network.interceptors;
+package com.jsm.exptool.data.network.api.interceptors;
 
 import android.util.Log;
 

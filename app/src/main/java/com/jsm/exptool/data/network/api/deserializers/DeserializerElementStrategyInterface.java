@@ -1,4 +1,4 @@
-package com.jsm.exptool.data.network.deserializers;
+package com.jsm.exptool.data.network.api.deserializers;
 
 import com.google.gson.JsonObject;
 

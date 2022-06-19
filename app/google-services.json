@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "815591212824",
+    "project_id": "experiments-assistant",
+    "storage_bucket": "experiments-assistant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815591212824:android:0e3ca018a4ccd1774d806d",
+        "android_client_info": {
+          "package_name": "com.jsm.exptool.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815591212824-pj25eqibnit30h951robbro419po5qso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBD41C8IAedS_98SPgxUnn-a1qKzpodvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815591212824-pj25eqibnit30h951robbro419po5qso.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

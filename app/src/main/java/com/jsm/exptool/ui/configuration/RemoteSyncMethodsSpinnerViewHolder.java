@@ -1,29 +1,28 @@
-package com.jsm.exptool.ui.experiments.create.basicdata;
+package com.jsm.exptool.ui.configuration;
 
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewHolder;
-import com.jsm.exptool.entities.QuickCommentsCollection;
+import com.jsm.exptool.providers.RemoteSyncMethodsProvider;
 
-public class QuickCommentsCollectionsSpinnerViewHolder extends BaseRecyclerViewHolder<QuickCommentsCollection> {
+public class RemoteSyncMethodsSpinnerViewHolder extends BaseRecyclerViewHolder<RemoteSyncMethodsProvider.RemoteConfigMethods> {
 
 
     TextView titleTV;
     TextView descriptionTV;
 
-    protected QuickCommentsCollectionsSpinnerViewHolder(View v) {
+    protected RemoteSyncMethodsSpinnerViewHolder(View v) {
         super(v);
         titleTV = v.findViewById(R.id.titleTV);
         descriptionTV = v.findViewById(R.id.descriptionTV);
     }
 
     @Override
-    public void fillViewHolder(QuickCommentsCollection element) {
-        titleTV.setText(element.getName());
-        descriptionTV.setText(TextUtils.join(", ", element.getQuickComments()));
+    public void fillViewHolder(RemoteSyncMethodsProvider.RemoteConfigMethods element) {
+        titleTV.setText(itemView.getContext().getString(element.getTitleStringRes()));
+        descriptionTV.setText(itemView.getContext().getString(element.getDescriptionStringRes()));
 
     }
 }

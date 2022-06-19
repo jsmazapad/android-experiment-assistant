@@ -46,7 +46,7 @@ public abstract class WorksOrchestratorSyncTaskCreator<T extends ExperimentRegis
                     Map<String, Object> workInputDataValues = new HashMap<>();
                     workInputDataValues.put(REGISTER_IDS_TO_SYNC, pendingRegistersIdsForWork.toArray(new Long[pendingRegistersIdsForWork.size()]));
 
-                    if (experiment.getExternalId() > 0) {
+                    if (experiment.getExternalId() != null && !"".equals(experiment.getExternalId())) {
                         workInputDataValues.putAll(registersInputDataValues);
                     }
                     Data registersInputData = WorksOrchestratorUtils.createInputData(workInputDataValues);

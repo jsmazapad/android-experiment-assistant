@@ -1,19 +1,19 @@
 package com.jsm.exptool.data.network.responses;
 
 public class RemoteSyncResponse {
-    private Long id;
+    private String id;
     private String status;
 
-    public RemoteSyncResponse(long id, String status) {
+    public RemoteSyncResponse(String id, String status) {
         this.id = id;
         this.status = status;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

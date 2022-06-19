@@ -39,6 +39,18 @@ public class ExperimentRegister implements Parcelable {
     }
 
 
+    public static final Creator<ExperimentRegister> CREATOR = new Creator<ExperimentRegister>() {
+        @Override
+        public ExperimentRegister createFromParcel(Parcel in) {
+            return new ExperimentRegister(in);
+        }
+
+        @Override
+        public ExperimentRegister[] newArray(int size) {
+            return new ExperimentRegister[size];
+        }
+    };
+
     public long getInternalId() {
         return internalId;
     }

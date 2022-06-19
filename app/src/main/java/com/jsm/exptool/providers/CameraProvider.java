@@ -180,6 +180,7 @@ public class CameraProvider {
             for (FlashModes mode : FlashModes.values()) {
                 if (mode.flashMode == imageCaptureMode) {
                     returnValue = mode;
+                    break;
                 }
 
             }

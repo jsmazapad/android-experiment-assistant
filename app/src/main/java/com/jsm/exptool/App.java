@@ -17,8 +17,6 @@ import com.jsm.exptool.providers.worksorchestrator.WorksOrchestratorProvider;
 public class App extends Application {
 
 
-
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,15 +34,14 @@ public class App extends Application {
             PreferencesProvider.setRemoteServer("https://experiment-assistant-backend.getsandbox.com/");
 
             //TODO Recoger cambios cuando se setea en configuración
-            String analyticsKey = PreferencesProvider.getAnalyticsKey();
-            if (!"".equals(analyticsKey)) {
-                new FlurryAgent.Builder()
-                        .withCaptureUncaughtExceptions(true)
-                        .withIncludeBackgroundSessionsInMetrics(true)
-                        .withLogLevel(Log.VERBOSE)
-                        .withPerformanceMetrics(FlurryPerformance.ALL)
-                        .build(this, analyticsKey);
-            }
+
+            new FlurryAgent.Builder()
+                    .withCaptureUncaughtExceptions(true)
+                    .withIncludeBackgroundSessionsInMetrics(true)
+                    .withLogLevel(Log.VERBOSE)
+                    .withPerformanceMetrics(FlurryPerformance.ALL)
+                    .build(this, "8YXD6WS2T8NRBQFGNVPD");
+
 
             WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
             orchestratorProvider.init(this);
@@ -52,9 +49,7 @@ public class App extends Application {
             //MockExamples.createRandomCompletedExperiments(this);
 
 
-
-
-           // App.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            // App.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         } catch (Exception e) {
             //No se debe llegar a este punto nunca

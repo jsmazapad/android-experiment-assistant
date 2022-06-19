@@ -1,4 +1,4 @@
-package com.jsm.exptool.data.network;
+package com.jsm.exptool.data.network.api;
 
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.data.network.responses.LoginResponse;
@@ -41,11 +41,11 @@ public interface RemoteSyncApiService {
     @Multipart
     @PUT("experiment/{experimentId}/image/add")
         //@Headers("Content-Type: image/jpeg")
-    Call<NetworkElementResponse<RemoteSyncResponse>> uploadImage(@Path("experimentId") long experimentId, @Part MultipartBody.Part file);
+    Call<NetworkElementResponse<RemoteSyncResponse>> uploadImage(@Path("experimentId") String experimentId, @Part MultipartBody.Part file);
 
     @Multipart
     @PUT("experiment/{experimentId}/audio/add")
-    Call<NetworkElementResponse<RemoteSyncResponse>> uploadAudio(@Path("experimentId") long experimentId,  @Part MultipartBody.Part file);
+    Call<NetworkElementResponse<RemoteSyncResponse>> uploadAudio(@Path("experimentId") String experimentId,  @Part MultipartBody.Part file);
 
     @Headers("Content-Type: application/json")
     @PUT("experiment/add")
@@ -53,19 +53,19 @@ public interface RemoteSyncApiService {
 
     @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/imageRegister/addAll")
-    Call<NetworkElementResponse<RemoteSyncResponse>> putImageRegisters(@Path("experimentId") long experimentId, @Body List<ImageRegister> registers);
+    Call<NetworkElementResponse<RemoteSyncResponse>> putImageRegisters(@Path("experimentId") String experimentId, @Body List<ImageRegister> registers);
 
     @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/audioRegister/addAll")
-    Call<NetworkElementResponse<RemoteSyncResponse>> putAudioRegisters(@Path("experimentId") long experimentId, @Body List<AudioRegister> registers);
+    Call<NetworkElementResponse<RemoteSyncResponse>> putAudioRegisters(@Path("experimentId") String experimentId, @Body List<AudioRegister> registers);
 
     @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/sensorRegister/addAll")
-    Call<NetworkElementResponse<RemoteSyncResponse>> putSensorRegisters(@Path("experimentId") long experimentId, @Body List<SensorRegister> registers);
+    Call<NetworkElementResponse<RemoteSyncResponse>> putSensorRegisters(@Path("experimentId") String experimentId, @Body List<SensorRegister> registers);
 
     @Headers("Content-Type: application/json")
     @PUT("experiment/{experimentId}/commentRegister/addAll")
-    Call<NetworkElementResponse<RemoteSyncResponse>> putCommentRegisters(@Path("experimentId") long experimentId, @Body List<CommentRegister> registers);
+    Call<NetworkElementResponse<RemoteSyncResponse>> putCommentRegisters(@Path("experimentId") String experimentId, @Body List<CommentRegister> registers);
 
     @FormUrlEncoded
     @POST("login")

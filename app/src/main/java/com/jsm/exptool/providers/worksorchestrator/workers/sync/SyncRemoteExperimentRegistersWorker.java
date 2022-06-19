@@ -40,10 +40,10 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
 
         return Single.create(emitter -> {
             long experimentId = getInputData().getLong(EXPERIMENT_ID, -1);
-            long experimentExternalId = getInputData().getLong(EXPERIMENT_EXTERNAL_ID, -1);
+            String experimentExternalId = getInputData().getString(EXPERIMENT_EXTERNAL_ID);
             long [] registerIdsToSync = getInputData().getLongArray(REGISTER_IDS_TO_SYNC);
 
-            if (experimentId == -1 || experimentExternalId == -1 || registerIdsToSync == null) {
+            if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId) || registerIdsToSync == null) {
                 //TODO Mejorar mensajes error
                 emitter.onError(new BaseException("Error de parámetros", false));
                 return;
@@ -76,7 +76,7 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
 
     protected abstract  T getRegister(long registerId);
 
-    protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, List<T> pendingRegisters, long experimentExternalId, int numRegistersToupdate);
+    protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, List<T> pendingRegisters, String experimentExternalId, int numRegistersToupdate);
 
     protected abstract void updateRegister(T register);
 

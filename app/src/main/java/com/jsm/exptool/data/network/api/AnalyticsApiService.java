@@ -1,4 +1,4 @@
-package com.jsm.exptool.data.network;
+package com.jsm.exptool.data.network.api;
 
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.entities.embedding.ImageEmbeddingVector;

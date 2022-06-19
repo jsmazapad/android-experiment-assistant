@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "508a481761289d30c798ba7178e820f8",
+    "identityHash": "d1d396218a178fcb0eaf1b38ed81662b",
     "entities": [
       {
         "tableName": "imageRegisters",
@@ -83,7 +83,7 @@
       },
       {
         "tableName": "experiments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `externalId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `syncPending` INTEGER NOT NULL, `embeddingPending` INTEGER NOT NULL, `exportedPending` INTEGER NOT NULL, `size` TEXT, `duration` INTEGER NOT NULL, `quickComments` TEXT, `quickCommentsCollectionUsedId` INTEGER, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_intervalMax` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_intervalMax` INTEGER, `audio_config_nameStringResource` INTEGER, `audio_config_recordingDuration` INTEGER, `audio_config_displayName` TEXT, `audio_config_descriptionTranslatableRes` INTEGER, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `location_config_interval` INTEGER, `location_config_intervalMin` INTEGER, `location_config_intervalMax` INTEGER, `location_config_nameStringResource` INTEGER, `location_config_titleTranslatableRes` INTEGER, `location_config_descriptionTranslatableRes` INTEGER, `location_config_locationMode` INTEGER, `location_config_locationReferenceName` TEXT, `sensor_config_interval` INTEGER, `sensor_config_intervalMin` INTEGER, `sensor_config_intervalMax` INTEGER, `sensor_config_nameStringResource` INTEGER, `remote_sync_config_interval` INTEGER, `remote_sync_config_intervalMin` INTEGER, `remote_sync_config_intervalMax` INTEGER, `remote_sync_config_nameStringResource` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `externalId` TEXT, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `syncPending` INTEGER NOT NULL, `embeddingPending` INTEGER NOT NULL, `exportedPending` INTEGER NOT NULL, `size` TEXT, `duration` INTEGER NOT NULL, `quickComments` TEXT, `quickCommentsCollectionUsedId` INTEGER, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_intervalMax` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_intervalMax` INTEGER, `audio_config_nameStringResource` INTEGER, `audio_config_recordingDuration` INTEGER, `audio_config_displayName` TEXT, `audio_config_descriptionTranslatableRes` INTEGER, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `location_config_interval` INTEGER, `location_config_intervalMin` INTEGER, `location_config_intervalMax` INTEGER, `location_config_nameStringResource` INTEGER, `location_config_titleTranslatableRes` INTEGER, `location_config_descriptionTranslatableRes` INTEGER, `location_config_locationMode` INTEGER, `location_config_locationReferenceName` TEXT, `sensor_config_interval` INTEGER, `sensor_config_intervalMin` INTEGER, `sensor_config_intervalMax` INTEGER, `sensor_config_nameStringResource` INTEGER, `remote_sync_config_interval` INTEGER, `remote_sync_config_intervalMin` INTEGER, `remote_sync_config_intervalMax` INTEGER, `remote_sync_config_nameStringResource` INTEGER)",
         "fields": [
           {
             "fieldPath": "internalId",
@@ -94,8 +94,8 @@
           {
             "fieldPath": "externalId",
             "columnName": "externalId",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "userId",
@@ -845,7 +845,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"508a481761289d30c798ba7178e820f8\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d1d396218a178fcb0eaf1b38ed81662b\")"
     ]
   }
 }

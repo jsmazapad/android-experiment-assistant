@@ -25,7 +25,7 @@ public class SyncRemoteImageRegistersWorker extends SyncRemoteExperimentRegister
     }
 
     @Override
-    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<ImageRegister> pendingRegisters, long experimentExternalId, int numRegistersToupdate) {
+    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<ImageRegister> pendingRegisters, String experimentExternalId, int numRegistersToupdate) {
         RemoteSyncRepository.syncImageRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response, numRegistersToupdate), experimentExternalId, pendingRegisters);
     }
 

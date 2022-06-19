@@ -318,7 +318,7 @@ public class WorksOrchestratorProvider {
             }
 
 
-            if (experiment.getExternalId() < 1 || updateAlwaysExperiment) {
+            if (experiment.getExternalId() == null || "".equals(experiment.getExternalId()) || updateAlwaysExperiment) {
                 mWorkManager.beginWith(syncExperimentRequest).then(syncExperimentRegisters).enqueue();
             } else {
                 mWorkManager.enqueue(syncExperimentRegisters);

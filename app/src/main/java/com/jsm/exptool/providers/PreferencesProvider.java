@@ -21,7 +21,8 @@ public class PreferencesProvider {
     private final static String AUDIO_DEFAULT_FREQ = "AUDIO_DEFAULT_FREQ";
     private final static String LOCATION_DEFAULT_FREQ = "LOCATION_DEFAULT_FREQ";
     private final static String REMOTE_DEFAULT_FREQ = "REMOTE_DEFAULT_FREQ";
-    private final static String ANALYTICS_KEY = "ANALYTICS_KEY";
+    private final static String FIREBASE_KEY = "FIREBASE_KEY";
+    private final static String REMOTE_SYNC_METHOD = "REMOTE_SYNC_METHOD";
 
 
     public static String getPassword() {
@@ -72,16 +73,16 @@ public class PreferencesProvider {
         }
     }
 
-    public static String getAnalyticsKey() {
-        return PreferenceManager.getSharedPreferences().getString(ANALYTICS_KEY, "");
+    public static String getFirebaseKey() {
+        return PreferenceManager.getSharedPreferences().getString(FIREBASE_KEY, "");
 
     }
 
-    public static void setAnalyticsKey(String value) {
+    public static void setFirebaseKey(String value) {
         try {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
-            editor.putString(ANALYTICS_KEY, value);
+            editor.putString(FIREBASE_KEY, value);
             editor.commit();
         } catch (Exception e) {
             Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
@@ -178,6 +179,22 @@ public class PreferencesProvider {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
             editor.putString(SESSION_TOKEN, value);
+            editor.commit();
+        } catch (Exception e) {
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+        }
+    }
+
+    public static String getRemoteSyncMethod() {
+        return PreferenceManager.getSharedPreferences().getString(REMOTE_SYNC_METHOD, RemoteSyncMethodsProvider.REMOTE_METHOD_NONE);
+
+    }
+
+    public static void setRemoteSyncMethod(String value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putString(REMOTE_SYNC_METHOD, value);
             editor.commit();
         } catch (Exception e) {
             Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
