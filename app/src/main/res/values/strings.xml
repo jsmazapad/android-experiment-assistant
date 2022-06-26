@@ -64,14 +64,14 @@
     <!--
     FREQUENCY
     -->
-    <string name="global_frequency_text">Frecuencia por defecto</string>
+    <string name="global_frequency_text">Frecuencia global</string>
     <string name="min_delay">Delay mínimo</string>
     <string name="max_delay">Delay máximo</string>
     <string name="configure_frequency_title">Configurar Frecuencia:\n%s</string>
     <string name="configure_duration">Configurar Duración:\n%s</string>
     <string name="content_description_slider_to_select_frequency">Mueva el slider para seleccionar una frecuencia</string>
-    <string name="global_frequency_literal">Por defecto</string>
-    <string name="global_frequency_configuration_content_description">Configurar frecuencia por defecto para sensores</string>
+    <string name="global_frequency_literal">Global</string>
+    <string name="global_frequency_configuration_content_description">Configurar frecuencia global para sensores</string>
     <string name="location_frequency_configuration_content_description">Configurar frecuencia de registro de ubicación</string>
     <string name="remote_sync_frequency_configuration_content_description">Configurar frecuencia de registro de elementos en servidor remoto</string>
 
@@ -202,7 +202,7 @@
     <string name="configuration_remote_method_none">Ninguno</string>
     <string name="configuration_remote_method_api">Servidor remoto con API</string>
     <string name="configuration_remote_method_firebase">Firebase</string>
-    <string name="configuration_remote_method_none_desc">No podrá realizar almacenar sus datos en fuentes remotas</string>
+    <string name="configuration_remote_method_none_desc">No podrá conectar con fuentes remotas para almacenar su datos</string>
     <string name="configuration_remote_method_api_desc">Sincronización mediante servicios web</string>
     <string name="configuration_remote_method_firebase_desc">Sincronización mediante tecnologías de Firebase en la nube</string>
     <string name="configuration_sensor_card">Configuración por defecto de frecuencia de lectura de sensor</string>
@@ -211,6 +211,7 @@
     <string name="configuration_audio_card">Configuración por defecto de intervalo de grabación de audio</string>
     <string name="configuration_reset_suggestions_counter">Resetear contadores de sugerencias de comentario</string>
     <string name="configuration_manage_quick_comments_button">Gestionar</string>
+    <string name="configuration_manage_comments_button">Gestionar</string>
     <string name="configuration_no_remote_configuration_text">No hay configuración</string>
 
     <!--
@@ -315,7 +316,9 @@
     <string name="sync_events_log">Log de eventos</string>
     <string name="registers">Registros</string>
     <string name="files">Archivos</string>
-
+    <string name="configuration_suggestion_card">Sugerencias para autocompletar comentarios</string>
+    <string name="configuration_quick_comments_card">Comentarios rápidos</string>
+    <string name="configuration_manage_extra_info">Abrir para gestionar</string>
 
 
 </resources>

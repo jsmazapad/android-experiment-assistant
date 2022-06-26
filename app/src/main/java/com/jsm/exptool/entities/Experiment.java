@@ -11,6 +11,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
 import com.jsm.exptool.entities.experimentconfig.ExperimentConfiguration;
 import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.entities.register.AudioRegister;
@@ -42,10 +43,10 @@ public class Experiment implements Parcelable, Cloneable{
     private Date endDate;
     private ExperimentStatus status;
     @Embedded private ExperimentConfiguration configuration;
-    @Ignore private List<SensorRegister> sensors = new ArrayList<>();
-    @Ignore private ArrayList<ImageRegister> images = new ArrayList<>();
-    @Ignore private ArrayList<AudioRegister> sounds = new ArrayList<>();
-    @Ignore private ArrayList<CommentRegister> comments = new ArrayList<>();
+    @Expose(serialize = false)  @Ignore private List<SensorRegister> sensors = new ArrayList<>();
+    @Expose(serialize = false)  @Ignore private ArrayList<ImageRegister> images = new ArrayList<>();
+    @Expose(serialize = false)  @Ignore private ArrayList<AudioRegister> sounds = new ArrayList<>();
+    @Expose(serialize = false)  @Ignore private ArrayList<CommentRegister> comments = new ArrayList<>();
     private int sdkDevice;
     private String device;
     private boolean syncPending, embeddingPending, exportedPending;

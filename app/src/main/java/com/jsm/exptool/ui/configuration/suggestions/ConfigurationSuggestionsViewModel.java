@@ -55,7 +55,7 @@ public class ConfigurationSuggestionsViewModel extends BaseRecyclerViewModel<Com
 
     public void saveSuggestion(Context context) {
 
-        if (CommentSuggestionsRepository.checkIfCommentSuggestionExists(suggestion.getValue()).size() == 0) {
+        if (CommentSuggestionsRepository.checkIfCommentSuggestionExists(suggestion.getValue()).size() == 0 && suggestion.getValue() != null && !"".equals(suggestion.getValue())) {
 
             CommentSuggestionsRepository.registerCommentSuggestion(new CommentSuggestion(0, suggestion.getValue()));
             callRepositoryForData();

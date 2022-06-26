@@ -12,7 +12,7 @@ import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.database.DBHelper;
-import com.jsm.exptool.data.network.api.AnalyticsApiService;
+import com.jsm.exptool.data.network.api.EmbeddingApiService;
 import com.jsm.exptool.data.network.api.AppDeserializerProvider;
 import com.jsm.exptool.data.network.AppNetworkErrorTreatment;
 import com.jsm.exptool.entities.embedding.ImageEmbeddingVector;
@@ -36,7 +36,7 @@ import retrofit2.Call;
 
 
 public class ImageRepository {
-    private static final AnalyticsApiService imageEmbeddingService = HttpClientServiceManager.createService(AnalyticsApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), null,  BuildConfig.BASE_URL_EMBEDDING_SERVER, false);
+    private static final EmbeddingApiService imageEmbeddingService = HttpClientServiceManager.createService(EmbeddingApiService.class, new AppNetworkErrorTreatment(), new AppDeserializerProvider(), null,  BuildConfig.BASE_URL_EMBEDDING_SERVER, false);
 
     public static void getEmbedding(NetworkElementResponseCallback<ImageEmbeddingVector> callback, File image, String algorithm) {
 

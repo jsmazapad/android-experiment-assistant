@@ -148,14 +148,14 @@
                 <com.jsm.exptool.libs.ExpandableCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:extra_info="Abrir para gestionar"
-                    app:title="Comentarios por defecto para autocompletar">
+                    app:extra_info="@string/configuration_manage_extra_info"
+                    app:title="@string/configuration_suggestion_card">
 
                     <Button
                         android:id="@+id/openSuggestionsConfig"
                         style="@style/FullWidthButton"
                         android:onClick="@{() -> viewModel.openSuggestionsConfig(context)}"
-                        android:text="Gestionar" />
+                        android:text="@string/configuration_manage_comments_button" />
 
                     <Button
                         android:id="@+id/resetSuggestionsCounter"
@@ -167,8 +167,8 @@
                 <com.jsm.exptool.libs.ExpandableCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:extra_info="Abrir para gestionar"
-                    app:title="Comentarios rápidos">
+                    app:extra_info="@string/configuration_manage_extra_info"
+                    app:title="@string/configuration_quick_comments_card">
 
                     <Button
                         android:id="@+id/manageQuickComments"

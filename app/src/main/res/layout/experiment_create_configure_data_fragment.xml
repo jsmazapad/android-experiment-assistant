@@ -55,7 +55,8 @@
                                 tools:text="0ms" />
 
                             <ImageButton
-                                style="@style/DurationButton"
+                                style="@style/FrequencyButton"
+                                app:tint="@color/card_header_text"
                                 android:contentDescription="@string/remote_sync_frequency_configuration_content_description"
                                 android:onClick="@{() -> viewModel.onRemoteSyncSelectFrequency(context)}" />
                         </LinearLayout>
@@ -84,7 +85,8 @@
                                 android:text="@{viewModel.locationFreqValueText}"
                                 tools:text="0ms" />
                             <ImageButton
-                                style="@style/DurationButton"
+                                style="@style/FrequencyButton"
+                                app:tint="@color/card_header_text"
                                 android:layout_width="wrap_content"
                                 android:contentDescription="@string/location_frequency_configuration_content_description"
                                 android:onClick="@{() -> viewModel.onLocationSelectFrequency(context)}" />
@@ -145,7 +147,7 @@
                                 tools:text="0ms" />
 
                             <ImageButton
-                                style="@style/DurationButton"
+                                style="@style/FrequencyButton"
                                 android:layout_width="wrap_content"
                                 android:contentDescription="@string/global_frequency_configuration_content_description"
                                 android:onClick="@{() -> viewModel.onSensorGlobalSelectFrequency(context)}" />
@@ -168,7 +170,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            tools:listitem="@layout/generic_cloud_tag_with_deletion_list_item">
+                            tools:listitem="@layout/experiment_create_configure_data_list_item">
 
                         </androidx.recyclerview.widget.RecyclerView>
 

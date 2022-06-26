@@ -14,7 +14,7 @@ import retrofit2.http.Path;
 /**
  * Interface con la definición de todas las llamadas al servicio web
  */
-public interface AnalyticsApiService {
+public interface EmbeddingApiService {
 
     /**
      *
