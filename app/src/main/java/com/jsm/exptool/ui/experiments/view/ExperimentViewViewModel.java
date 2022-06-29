@@ -23,68 +23,71 @@ import java.util.List;
 
 public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableElementConfig, RepeatableElementConfig> {
 
-   private Experiment experiment;
+    private Experiment experiment;
 
-   private final MutableLiveData<String> initDateString = new MutableLiveData<>();
-   private final MutableLiveData<String> endDateString = new MutableLiveData<>();
-   private final MutableLiveData<String> description = new MutableLiveData<>();
-   private final MutableLiveData<String> title = new MutableLiveData<>();
-   private final MutableLiveData<String> status = new MutableLiveData<>();
+    private final MutableLiveData<String> initDateString = new MutableLiveData<>();
+    private final MutableLiveData<String> endDateString = new MutableLiveData<>();
+    private final MutableLiveData<String> description = new MutableLiveData<>();
+    private final MutableLiveData<String> title = new MutableLiveData<>();
+    private final MutableLiveData<String> status = new MutableLiveData<>();
     private final MutableLiveData<String> exported = new MutableLiveData<>();
-   private final MutableLiveData<String> duration = new MutableLiveData<>();
-   private final MutableLiveData<Boolean> sensorEnabled = new MutableLiveData<>(false);
-   private final MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
-   private final MutableLiveData<Boolean> embeddingEnabled = new MutableLiveData<>(false);
-   private final MutableLiveData<Boolean> audioEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<String> duration = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> sensorEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> cameraEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> embeddingEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> audioEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> locationEnabled = new MutableLiveData<>(false);
-   private final MutableLiveData<Boolean> syncEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> syncEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> syncPending = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> descriptionEnabled = new MutableLiveData<>(false);
 
     public ExperimentViewViewModel(Application app, Experiment experiment) {
         super(app);
         this.experiment = experiment;
         initExperimentComponents();
-
-
     }
 
-    public void initExperimentComponents(){
+    public void initExperimentComponents() {
         ExperimentConfiguration experimentConfiguration = this.experiment.getConfiguration();
         ArrayList<RepeatableElementConfig> experimentElements = new ArrayList<>();
-        if(experimentConfiguration.isCameraEnabled()) {
+        if (experimentConfiguration.isCameraEnabled()) {
             experimentElements.add(experimentConfiguration.getCameraConfig());
             cameraEnabled.setValue(true);
-            if(experimentConfiguration.isEmbeddingEnabled())
+            if (experimentConfiguration.isEmbeddingEnabled())
                 embeddingEnabled.setValue(true);
         }
-        if(experimentConfiguration.isAudioEnabled()) {
+        if (experimentConfiguration.isAudioEnabled()) {
             experimentElements.add(experimentConfiguration.getAudioConfig());
             audioEnabled.setValue(true);
         }
-        if(experimentConfiguration.isLocationEnabled()) {
+        if (experimentConfiguration.isLocationEnabled()) {
             experimentElements.add(experimentConfiguration.getLocationConfig());
             locationEnabled.setValue(true);
         }
-        if(experimentConfiguration.isSensorEnabled()) {
+        if (experimentConfiguration.isSensorEnabled()) {
             experimentElements.addAll(experimentConfiguration.getSensorConfig().getSensors());
             sensorEnabled.setValue(true);
         }
 
-        if(experiment.isSyncPending() || (experimentConfiguration.isEmbeddingEnabled() && experiment.isEmbeddingPending())) {
+        if (experiment.getDescription() != null && !"".equals(experiment.getDescription()) ) {
+            descriptionEnabled.setValue(true);
+        }
+
+        if (experiment.isSyncPending() || (experimentConfiguration.isEmbeddingEnabled() && experiment.isEmbeddingPending())) {
             syncPending.setValue(true);
         }
 
-        experimentElements.add(new RepeatableElementConfig(0,0,0, R.string.comments));
+        experimentElements.add(new RepeatableElementConfig(0, 0, 0, R.string.comments));
 
         description.setValue(experiment.getDescription());
         title.setValue(experiment.getTitle());
         status.setValue(String.format(getApplication().getString(R.string.experiment_view_status_format), ExperimentProvider.getTranslatableStringFromExperimentStatus(experiment.getStatus(), getApplication())));
-        exported.setValue(String.format(getApplication().getString(R.string.experiment_view_exported_format), getApplication().getString(experiment.isExportedPending()? R.string.no_configured : R.string.yes_configured)));
+        exported.setValue(String.format(getApplication().getString(R.string.experiment_view_exported_format), getApplication().getString(experiment.isExportedPending() ? R.string.no_configured : R.string.yes_configured)));
         initDateString.setValue(DateProvider.dateToDisplayStringWithTime(experiment.getInitDate()));
         endDateString.setValue(DateProvider.dateToDisplayStringWithTime(experiment.getEndDate()));
-        try{
-            duration.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(experiment.getEndDate().getTime()-experiment.getInitDate().getTime()));
-        }catch (Exception e){
+        try {
+            duration.setValue(TimeDisplayStringProvider.millisecondsToStringBestDisplay(experiment.getEndDate().getTime() - experiment.getInitDate().getTime()));
+        } catch (Exception e) {
             Log.w(this.getClass().getSimpleName(), e.getMessage(), e);
 
         }
@@ -146,6 +149,10 @@ public class ExperimentViewViewModel extends BaseRecyclerViewModel<RepeatableEle
 
     public MutableLiveData<Boolean> getSyncPending() {
         return syncPending;
+    }
+
+    public MutableLiveData<Boolean> getDescriptionEnabled() {
+        return descriptionEnabled;
     }
 
     @Override

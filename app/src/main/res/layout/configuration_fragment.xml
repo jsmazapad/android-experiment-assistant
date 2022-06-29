@@ -35,6 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:extra_info="@{viewModel.extraServerCardText}"
+                    app:initial_expanded="true"
                     app:title="@string/configuration_remote_server_card">
 
                     <TextView
@@ -42,23 +43,46 @@
                         style="@style/BaseCardTitleTextView.TitleItem"
                         android:layout_height="wrap_content"
                         android:text="@string/configuration_remote_server_method" />
+
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/remoteSyncMethodSpinner"
                         style="@style/BaseSpinner"
-                        android:prompt="@string/quick_comments_spinner_title"
                         android:onItemSelected="@{(parent, view, position, id) -> viewModel.onRemoteSyncMethodSelected(position)}"
+                        android:prompt="@string/quick_comments_spinner_title"
                         app:spinnerAdapter="@{ viewModel.getRemoteSyncMethodsAdapter(context)}"
                         tools:listitem="@layout/generic_title_description_spinner_list_item" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/BaseTextInputLayout"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:visibility="@{viewModel.firebaseEnabled ? View.VISIBLE : View.GONE}">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            style="@style/BaseTextInputEditText"
-                            android:hint="@string/configuration_remote_firebase_key"
-                            android:text="@={viewModel.firebaseKey}" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_firebase_key"
+                                android:text="@={viewModel.firebaseKey}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_firebase_app"
+                                android:text="@={viewModel.firebaseApp}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_firebase_project"
+                                android:text="@={viewModel.firebaseProject}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_firebase_storage_bucket"
+                                android:text="@={viewModel.firebaseStorageBucket}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

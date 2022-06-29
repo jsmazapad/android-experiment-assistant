@@ -10,8 +10,13 @@ public class SessionProvider {
         PreferencesProvider.setSessionToken(token);
     }
 
+    public static boolean hasSession(){
+        return !"".equals(PreferencesProvider.getSessionToken()) ;
+    }
+
     public static void clearSession(){
         PreferencesProvider.setSessionToken("");
     }
+
 
 }

@@ -11,6 +11,7 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
+import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.core.libs.ModalMessage;
@@ -34,6 +35,9 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
     private final MutableLiveData<String> password = new MutableLiveData<>();
     private final MutableLiveData<String> serverUrl = new MutableLiveData<>();
     private final MutableLiveData<String> firebaseKey = new MutableLiveData<>();
+    private final MutableLiveData<String> firebaseApp = new MutableLiveData<>();
+    private final MutableLiveData<String> firebaseProject = new MutableLiveData<>();
+    private final MutableLiveData<String> firebaseStorageBucket = new MutableLiveData<>();
     private final MutableLiveData<Boolean> remoteServerEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> firebaseEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<RemoteSyncMethodsProvider.RemoteConfigMethods> remoteConfigMethod = new MutableLiveData<>(RemoteSyncMethodsProvider.RemoteConfigMethods.NONE);
@@ -55,6 +59,9 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
         password.setValue(PreferencesProvider.getPassword());
         serverUrl.setValue(PreferencesProvider.getRemoteServer());
         firebaseKey.setValue(PreferencesProvider.getFirebaseKey());
+        firebaseApp.setValue(PreferencesProvider.getFirebaseApp());
+        firebaseProject.setValue(PreferencesProvider.getFirebaseProject());
+        firebaseStorageBucket.setValue(PreferencesProvider.getFirebaseStorageBucket());
         remoteConfigMethod.setValue(RemoteSyncMethodsProvider.getRemoteConfigMethodFromInternalId(PreferencesProvider.getRemoteSyncMethod()));
         sensorDefaultFrequency = PreferencesProvider.getSensorDefaultFreq();
         cameraDefaultFrequency = PreferencesProvider.getCameraDefaultFreq();
@@ -81,6 +88,18 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
 
     public MutableLiveData<String> getFirebaseKey() {
         return firebaseKey;
+    }
+
+    public MutableLiveData<String> getFirebaseApp() {
+        return firebaseApp;
+    }
+
+    public MutableLiveData<String> getFirebaseProject() {
+        return firebaseProject;
+    }
+
+    public MutableLiveData<String> getFirebaseStorageBucket() {
+        return firebaseStorageBucket;
     }
 
     public MutableLiveData<String> getExtraServerCardText() {
@@ -133,16 +152,47 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
 
 
     public void savePreferences() {
-        PreferencesProvider.setUser(username.getValue());
-        PreferencesProvider.setPassword(password.getValue());
-        PreferencesProvider.setRemoteServer(serverUrl.getValue());
+
         PreferencesProvider.setSensorDefaultFreq(sensorDefaultFrequency);
         PreferencesProvider.setAudioDefaultFreq(audioDefaultFrequency);
         PreferencesProvider.setCameraDefaultFreq(cameraDefaultFrequency);
         PreferencesProvider.setLocationDefaultFreq(locationDefaultFrequency);
-        PreferencesProvider.setFirebaseKey(firebaseKey.getValue());
+
         if (remoteConfigMethod.getValue() != null) {
-            PreferencesProvider.setRemoteSyncMethod(remoteConfigMethod.getValue().getInternalId());
+
+            switch (remoteConfigMethod.getValue()){
+                case API:
+                    if(username.getValue() != null && !"".equals(username.getValue()) &&
+                            password.getValue() != null && !"".equals(password.getValue()) &&
+                            serverUrl.getValue() != null && !"".equals(serverUrl.getValue())){
+                        PreferencesProvider.setUser(username.getValue());
+                        PreferencesProvider.setPassword(password.getValue());
+                        PreferencesProvider.setRemoteServer(serverUrl.getValue());
+                        PreferencesProvider.setRemoteSyncMethod(remoteConfigMethod.getValue().getInternalId());
+                    }else{
+                        handleError(new BaseException(getApplication().getString(R.string.configuration_remote_sync_error), false), getApplication());
+                    }
+                    break;
+                case FIREBASE:
+                    if(firebaseKey.getValue() != null && !"".equals(firebaseKey.getValue()) &&
+                            firebaseApp.getValue() != null && !"".equals(firebaseApp.getValue()) &&
+                            firebaseProject.getValue() != null && !"".equals(firebaseProject.getValue()) &&
+                            firebaseStorageBucket.getValue() != null && !"".equals(firebaseStorageBucket.getValue())){
+                        PreferencesProvider.setFirebaseKey(firebaseKey.getValue());
+                        PreferencesProvider.setFirebaseApp(firebaseApp.getValue());
+                        PreferencesProvider.setFirebaseProject(firebaseProject.getValue());
+                        PreferencesProvider.setFirebaseStorageBucket(firebaseStorageBucket.getValue());
+                        PreferencesProvider.setRemoteSyncMethod(remoteConfigMethod.getValue().getInternalId());
+                        RemoteSyncMethodsProvider.initStrategy(getApplication());
+                    }else{
+                        handleError(new BaseException(getApplication().getString(R.string.configuration_remote_sync_error), false), getApplication());
+                    }
+                    break;
+                case NONE:
+                    PreferencesProvider.setRemoteSyncMethod(remoteConfigMethod.getValue().getInternalId());
+                    break;
+            }
+
         }
     }
 

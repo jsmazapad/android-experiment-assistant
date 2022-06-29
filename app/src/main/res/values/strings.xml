@@ -179,7 +179,10 @@
     <string name="delete_content_description">Eliminar</string>
     <string name="configuration_remote_server_card">Configuración de servidor remoto</string>
     <string name="configuration_remote_server_method">Método de sincronización</string>
-    <string name="configuration_remote_firebase_key">API Key de Firebase</string>
+    <string name="configuration_remote_firebase_key">API Key</string>
+    <string name="configuration_remote_firebase_app">ApplicationId</string>
+    <string name="configuration_remote_firebase_project">ProjectId</string>
+    <string name="configuration_remote_firebase_storage_bucket">StorageBucket</string>
     <string name="configuration_remote_username">Usuario</string>
     <string name="configuration_remote_pass">Contraseña</string>
     <string name="configuration_remote_server_url">Url del servidor</string>
@@ -218,7 +221,7 @@
     ABOUT
     -->
     <string name="about_text"><![CDATA[<p>El prop&oacute;sito de esta aplicaci&oacute;n es poder convertir un dispositivo m&oacute;vil Android en una herramienta &uacute;til para la comunidad cient&iacute;fica que permita la obtenci&oacute;n de datos para experimentos, pudiendo funcionar tanto online como offline. Est&aacute; muy enfocada en la obtenci&oacute;n de datos que posteriormente puedan ser procesados por algoritmos de Machine Learning.</p>
-<p>Aplicaci&oacute;n desarrollada como Trabajo Fin de Master para el Master en Ingenier&iacute;a Inform&aacute;tica de la universidad <strong>Pablo de Olavide.</strong></p>
+<p>Aplicaci&oacute;n desarrollada como Trabajo Fin de M&aacute;ster para el M&aacute;ster en Ingenier&iacute;a Inform&aacute;tica de la Universidad <strong>Pablo de Olavide.</strong></p>
 <p>Desarrollada por</p>
 <p><strong>Joaqu&iacute;n Sainz de la Maza Padr&oacute;</strong></p>
 <p>Tutelada por</p>
@@ -319,6 +322,8 @@
     <string name="configuration_suggestion_card">Sugerencias para autocompletar comentarios</string>
     <string name="configuration_quick_comments_card">Comentarios rápidos</string>
     <string name="configuration_manage_extra_info">Abrir para gestionar</string>
+    <string name="configuration_remote_sync_error">No se han guardado los datos de sincronización remota. Todos los datos de sincronización remota son obligatorios, por favor revísaleo</string>
+    <string name="go_back">Atrás</string>
 
 
 </resources>

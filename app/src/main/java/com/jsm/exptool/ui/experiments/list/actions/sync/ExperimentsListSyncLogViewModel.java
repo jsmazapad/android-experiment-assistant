@@ -5,6 +5,8 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.StringRes;
 import androidx.lifecycle.LifecycleOwner;
@@ -27,6 +29,7 @@ import com.jsm.exptool.data.repositories.SensorRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<ExperimentSyncStateRow, ExperimentSyncStateRow> {
 
@@ -238,12 +241,27 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
             pendingCommentCount = count;
             setCommentRegisterCounts();
         });
-
-
+//TODO CODIGO PRUEBA
+        AtomicInteger counter = new AtomicInteger();
+        //END TODO CODIGO PRUEBA
         LiveData<List<WorkInfo>> registerWorkInfo = orchestratorProvider.getCompletedWorkInfoByTag(Collections.singletonList(REMOTE_WORK));
         registerWorkInfo.observe(owner, workInfoList -> {
             if (workInfoList != null && workInfoList.size() > 0) {
+
                 WorkInfo lastWorkInfo = workInfoList.get(workInfoList.size() - 1);
+
+                //TODO CODIGO PRUEBA
+                counter.getAndIncrement();
+                Log.d("Numero de tareas", ""+counter.get());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Log.d("Último", String.join(" ", lastWorkInfo.getTags()));
+                }
+
+                WorkInfo firstWorkInfo = workInfoList.get(workInfoList.size() - 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Log.d("Primero", String.join(" ", firstWorkInfo.getTags()));
+                }
+                //END TODO
                 String syncRowTypeTitle = "";
                 int typeStringRes = orchestratorProvider.getRemoteStateTranslatableStringResFromWorkInfo(lastWorkInfo);
                 if (typeStringRes > 0) {
@@ -359,6 +377,8 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
     private void setImageRegisterCounts() {
         imageRegisterCountsText.setValue(String.format(getApplication().getString(R.string.sync_number_format), pendingImageCount, successImageCount, failureImageCount));
     }
+
+    
 
 
 }

@@ -22,6 +22,9 @@ public class PreferencesProvider {
     private final static String LOCATION_DEFAULT_FREQ = "LOCATION_DEFAULT_FREQ";
     private final static String REMOTE_DEFAULT_FREQ = "REMOTE_DEFAULT_FREQ";
     private final static String FIREBASE_KEY = "FIREBASE_KEY";
+    private final static String FIREBASE_APP = "FIREBASE_APP";
+    private final static String FIREBASE_PROJECT = "FIREBASE_PROJECT";
+    private final static String FIREBASE_STORAGE_BUCKET = "FIREBASE_STORAGE_BUCKET";
     private final static String REMOTE_SYNC_METHOD = "REMOTE_SYNC_METHOD";
 
 
@@ -83,6 +86,54 @@ public class PreferencesProvider {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
             editor.putString(FIREBASE_KEY, value);
+            editor.commit();
+        } catch (Exception e) {
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+        }
+    }
+
+    public static String getFirebaseApp() {
+        return PreferenceManager.getSharedPreferences().getString(FIREBASE_APP, "");
+
+    }
+
+    public static void setFirebaseApp(String value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putString(FIREBASE_APP, value);
+            editor.commit();
+        } catch (Exception e) {
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+        }
+    }
+
+    public static String getFirebaseProject() {
+        return PreferenceManager.getSharedPreferences().getString(FIREBASE_PROJECT, "");
+
+    }
+
+    public static void setFirebaseProject(String value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putString(FIREBASE_PROJECT, value);
+            editor.commit();
+        } catch (Exception e) {
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+        }
+    }
+
+    public static String getFirebaseStorageBucket() {
+        return PreferenceManager.getSharedPreferences().getString(FIREBASE_STORAGE_BUCKET, "");
+
+    }
+
+    public static void setFirebaseStorageBucket(String value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putString(FIREBASE_STORAGE_BUCKET, value);
             editor.commit();
         } catch (Exception e) {
             Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);

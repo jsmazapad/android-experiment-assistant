@@ -8,6 +8,7 @@ import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryPerformance;
 import com.jsm.exptool.libs.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
+import com.jsm.exptool.providers.RemoteSyncMethodsProvider;
 import com.jsm.exptool.providers.SensorProvider;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.SessionProvider;
@@ -29,9 +30,16 @@ public class App extends Application {
             SessionProvider.clearSession();
 
             //TODO CODIGO PRUEBAS BORRAR
+//            PreferencesProvider.setPassword("prueba");
+//            PreferencesProvider.setUser("prueba");
+//            PreferencesProvider.setRemoteServer("https://experiment-assistant-backend.getsandbox.com/");
             PreferencesProvider.setPassword("prueba");
-            PreferencesProvider.setUser("prueba");
-            PreferencesProvider.setRemoteServer("https://experiment-assistant-backend.getsandbox.com/");
+            PreferencesProvider.setUser("jsainz.developer.pruebas@gmail.com");
+            PreferencesProvider.setFirebaseKey("AIzaSyBBD41C8IAedS_98SPgxUnn-a1qKzpodvk");
+            PreferencesProvider.setFirebaseApp("1:815591212824:android:0e3ca018a4ccd1774d806d");
+            PreferencesProvider.setFirebaseProject("experiments-assistant");
+            PreferencesProvider.setFirebaseStorageBucket("experiments-assistant.appspot.com");
+
 
             //TODO Recoger cambios cuando se setea en configuración
 
@@ -41,6 +49,8 @@ public class App extends Application {
                     .withLogLevel(Log.VERBOSE)
                     .withPerformanceMetrics(FlurryPerformance.ALL)
                     .build(this, "8YXD6WS2T8NRBQFGNVPD");
+
+            RemoteSyncMethodsProvider.initStrategy(this);
 
 
             WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();

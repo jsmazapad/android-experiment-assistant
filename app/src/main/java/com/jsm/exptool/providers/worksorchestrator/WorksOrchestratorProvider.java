@@ -109,6 +109,7 @@ public class WorksOrchestratorProvider {
     public void init(Application application) {
         mWorkManager = WorkManager.getInstance(application);
         finishPendingJobs();
+
     }
 
     public void finishPendingJobs() {

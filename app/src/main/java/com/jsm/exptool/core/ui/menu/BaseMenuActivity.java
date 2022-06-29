@@ -3,6 +3,8 @@ package com.jsm.exptool.core.ui.menu;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,6 +15,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
@@ -171,9 +175,17 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
         MenuInflater inflater = getMenuInflater();
         if (backVisible) {
             inflater.inflate(R.menu.main, menu);
+            Drawable drawable = menu.findItem(R.id.goBack).getIcon();
+            if (drawable != null) {
+                // If we don't mutate the drawable, then all drawable's with this id will have a color
+                // filter applied to it.
+                drawable.mutate();
+                drawable.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+            }
         }
         toolbar.setNavigationIcon(R.drawable.hamburger_icon_white);
         Objects.requireNonNull(toolbar.getNavigationIcon()).setTint(getResources().getColor(R.color.primaryTextColor));
+
 
         // return true so that the menu pop up is opened
         return true;
@@ -181,6 +193,7 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         if (item.getItemId() == R.id.goBack) {
             this.onBackPressed();
         }

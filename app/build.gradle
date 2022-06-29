@@ -72,8 +72,12 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "commons-io:commons-io:2.6"
     implementation "org.apache.commons:commons-lang3:3.9"
-    implementation 'com.google.firebase:firebase-firestore:24.1.2'
+    /*
+    FIREBASE
+ */
+    implementation 'com.google.firebase:firebase-firestore:24.2.0'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.6'
     /*
         LIFECYCLE
      */

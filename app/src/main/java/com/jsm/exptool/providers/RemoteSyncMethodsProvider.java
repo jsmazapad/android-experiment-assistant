@@ -110,5 +110,13 @@ public class RemoteSyncMethodsProvider {
             return strategy;
     }
 
+    public static void initStrategy(Context c){
+        SessionProvider.clearSession();
+        RemoteConfigMethods strategy = RemoteSyncMethodsProvider.getRemoteConfigMethodFromInternalId(PreferencesProvider.getRemoteSyncMethod());
+        if (strategy.equals(RemoteConfigMethods.FIREBASE)){
+            FireBaseStrategy.init(c);
+        }
+    }
+
 
 }

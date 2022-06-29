@@ -1,5 +1,9 @@
 package com.jsm.exptool.data.network.firebase;
 
+import android.content.Context;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -11,10 +15,12 @@ import com.jsm.exptool.data.network.firebase.exceptions.FirebaseTypeException;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
 import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.entities.register.ExperimentRegister;
+import com.jsm.exptool.providers.PreferencesProvider;
 
 import java.util.List;
 
 public class FirebaseFirestoreService {
+
     public enum FirestoreCollections {
         IMAGES("images"),
         AUDIOS("audios"),
@@ -40,13 +46,26 @@ public class FirebaseFirestoreService {
             if (element instanceof Experiment) {
                 Experiment experiment = (Experiment) element;
                 CollectionReference reference = db.collection(type.getType());
-                DocumentReference docReference = reference.document(String.valueOf(experiment.getExternalId()));
-                docReference.set(experiment).addOnCompleteListener(task -> {
-                    callback.onResponse(new ElementResponse<>(new RemoteSyncResponse(experiment.getExternalId(), "")));
-                }).addOnFailureListener(exception -> {
-                    callback.onResponse(new ElementResponse<>(new BaseException(exception.getMessage(), true)));
-                });
+                DocumentReference docReference;
 
+                if(experiment.getExternalId() != null && !"".equals(experiment.getExternalId())){
+                     docReference = reference.document(String.valueOf(experiment.getExternalId()));
+                    docReference.set(experiment).addOnCompleteListener(task -> {
+                        callback.onResponse(new ElementResponse<>(new RemoteSyncResponse(experiment.getExternalId(), "")));
+                    }).addOnFailureListener(exception -> {
+                        callback.onResponse(new ElementResponse<>(new BaseException(exception.getMessage(), true)));
+                    });
+                }else{
+                    reference.add(experiment).addOnCompleteListener(task -> {
+                        try {
+                            callback.onResponse(new ElementResponse<>(new RemoteSyncResponse(task.getResult().getId(), "")));
+                        }catch (Exception exception){
+                            callback.onResponse(new ElementResponse<>(new BaseException(exception.getMessage(), true)));
+                        }
+                    }).addOnFailureListener(exception -> {
+                        callback.onResponse(new ElementResponse<>(new BaseException(exception.getMessage(), true)));
+                    });
+                }
             } else {
                 callback.onResponse(new ElementResponse<>(new FirebaseTypeException()));
 
@@ -57,6 +76,11 @@ public class FirebaseFirestoreService {
             CollectionReference reference = db.collection(FirestoreCollections.EXPERIMENTS.getType());
             DocumentReference docReference = reference.document(experimentId);
             docReference.collection(type.getType()).document(String.valueOf(id)).set(element).addOnCompleteListener(task -> {
+                try{
+                    task.getResult();
+                }catch (Exception exception){
+                    callback.onResponse(new ElementResponse<>(new BaseException(exception.getMessage(), true)));
+                }
                 callback.onResponse(new ElementResponse<>(new RemoteSyncResponse(String.valueOf(id), "")));
             }).addOnFailureListener(exception -> {
                 callback.onResponse(new ElementResponse<>(new BaseException(exception.getMessage(), true)));
@@ -78,6 +102,11 @@ public class FirebaseFirestoreService {
             batch.set(docReference.collection(type.getType()).document(id), register);
         }
         batch.commit().addOnCompleteListener(task -> {
+            try{
+                task.getResult();
+            }catch (Exception exception){
+                callback.onResponse(new ElementResponse<>(new BaseException(exception.getMessage(), true)));
+            }
             callback.onResponse(new ElementResponse<>(new RemoteSyncResponse(experimentId, "")));
         }).addOnFailureListener(exception -> {
             callback.onResponse(new ElementResponse<>(new BaseException(exception.getMessage(), true)));

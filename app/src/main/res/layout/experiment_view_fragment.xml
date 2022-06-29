@@ -56,7 +56,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="0dp"
-                    android:background="@color/secondaryDarkColor"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="0dp"
                     android:orientation="horizontal">
@@ -134,6 +133,7 @@
                     android:paddingTop="10dp"
                     android:layout_width="match_parent"
                     android:text="@{viewModel.description}"
+                    android:visibility="@{viewModel.descriptionEnabled ? View.VISIBLE : View.GONE}"
                     android:textColor="@color/white"
                     tools:text="Descripción" />
 
