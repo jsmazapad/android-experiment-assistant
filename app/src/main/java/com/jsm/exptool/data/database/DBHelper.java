@@ -105,27 +105,27 @@ public class DBHelper {
 
 
     public static List<ImageRegister> getPendingSyncImageRegistersByExperimentId(long experimentId) {
-        return appDatabase.imageDao().getPendingSyncImageRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.imageDao().getPendingSyncImageRegistersByExperimentId(experimentId);
     }
 
     public static int countPendingSyncImageRegistersByExperimentId(long experimentId) {
-        return appDatabase.imageDao().getPendingSyncImageRegistersCountByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.imageDao().getPendingSyncImageRegistersCountByExperimentId(experimentId);
     }
 
     public static List<ImageRegister> getPendingFileSyncImageRegistersByExperimentId(long experimentId) {
-        return appDatabase.imageDao().getPendingFileSyncImageRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.imageDao().getPendingFileSyncImageRegistersByExperimentId(experimentId);
     }
 
     public static int countPendingFileSyncImageRegistersByExperimentId(long experimentId) {
-        return appDatabase.imageDao().getPendingFileSyncImageRegistersCountByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.imageDao().getPendingFileSyncImageRegistersCountByExperimentId(experimentId);
     }
 
     public static List<ImageRegister> getPendingEmbeddingImageRegistersByExperimentId(long experimentId) {
-        return appDatabase.imageDao().getPendingEmbeddingImageRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.imageDao().getPendingEmbeddingImageRegistersByExperimentId(experimentId);
     }
 
     public static int countPendingEmbeddingImageRegistersByExperimentId(long experimentId) {
-        return appDatabase.imageDao().getPendingEmbeddingImageRegistersCountByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.imageDao().getPendingEmbeddingImageRegistersCountByExperimentId(experimentId);
     }
 
     public static List<ImageRegister> getImageRegistersWithEmbeddingByExperimentId(long experimentId) {
@@ -174,19 +174,19 @@ public class DBHelper {
     }
 
     public static List<AudioRegister> getPendingSyncAudioRegistersByExperimentId(long experimentId) {
-        return appDatabase.audioDao().getPendingSyncAudioRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.audioDao().getPendingSyncAudioRegistersByExperimentId(experimentId);
     }
 
     public static int countPendingSyncAudioRegistersByExperimentId(long experimentId) {
-        return appDatabase.audioDao().getPendingSyncAudioRegistersCountByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.audioDao().getPendingSyncAudioRegistersCountByExperimentId(experimentId);
     }
 
     public static List<AudioRegister> getPendingFileSyncAudioRegistersByExperimentId(long experimentId) {
-        return appDatabase.audioDao().getPendingFileSyncAudioRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.audioDao().getPendingFileSyncAudioRegistersByExperimentId(experimentId);
     }
 
     public static int countPendingFileSyncAudioRegistersByExperimentId(long experimentId) {
-        return appDatabase.audioDao().getPendingFileSyncAudioRegistersCountByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.audioDao().getPendingFileSyncAudioRegistersCountByExperimentId(experimentId);
     }
 
 
@@ -226,11 +226,11 @@ public class DBHelper {
     }
 
     public static List<SensorRegister> getPendingSyncSensorRegistersByExperimentId(long experimentId) {
-        return appDatabase.sensorDao().getPendingSyncSensorRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.sensorDao().getPendingSyncSensorRegistersByExperimentId(experimentId);
     }
 
     public static int countPendingSyncSensorRegistersByExperimentId(long experimentId) {
-        return appDatabase.sensorDao().getPendingSyncSensorRegistersCountByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.sensorDao().getPendingSyncSensorRegistersCountByExperimentId(experimentId);
     }
 
     public static SensorRegister getSensorRegisterById(long sensorId) {
@@ -274,11 +274,11 @@ public class DBHelper {
     }
 
     public static List<CommentRegister> getPendingSyncCommentRegistersByExperimentId(long experimentId) {
-        return appDatabase.commentDao().getPendingSyncCommentRegistersByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.commentDao().getPendingSyncCommentRegistersByExperimentId(experimentId);
     }
 
     public static int countPendingSyncCommentRegistersByExperimentId(long experimentId) {
-        return appDatabase.commentDao().getPendingSyncCommentRegistersCountByExperimentId(experimentId, REGISTERS_SYNC_LIMIT);
+        return appDatabase.commentDao().getPendingSyncCommentRegistersCountByExperimentId(experimentId);
     }
 
     public static CommentRegister getCommentRegistersById(long sensorId) {

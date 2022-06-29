@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryPerformance;
+import com.google.firebase.auth.FirebaseAuth;
 import com.jsm.exptool.libs.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
 import com.jsm.exptool.providers.RemoteSyncMethodsProvider;
@@ -41,6 +42,7 @@ public class App extends Application {
             PreferencesProvider.setFirebaseStorageBucket("experiments-assistant.appspot.com");
 
 
+
             //TODO Recoger cambios cuando se setea en configuración
 
             new FlurryAgent.Builder()
@@ -55,7 +57,7 @@ public class App extends Application {
 
             WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
             orchestratorProvider.init(this);
-
+            FirebaseAuth.getInstance().signOut();
             //MockExamples.createRandomCompletedExperiments(this);
 
 

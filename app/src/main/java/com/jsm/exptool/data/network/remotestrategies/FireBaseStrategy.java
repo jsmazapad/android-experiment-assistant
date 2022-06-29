@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jsm.exptool.core.data.network.NetworkElementResponseCallback;
+import com.jsm.exptool.core.data.network.exceptions.InvalidSessionException;
 import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
@@ -57,7 +58,7 @@ public class FireBaseStrategy implements RemoteStrategyInterface{
 
     @Override
     public Call<NetworkElementResponse<LoginResponse>> login(NetworkElementResponseCallback<LoginResponse> callback, boolean returnCall) {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(PreferencesProvider.getUser(), PreferencesProvider.getPassword()).addOnSuccessListener(authResult -> callback.onResponse(new ElementResponse<>(new LoginResponse("OK")))).addOnFailureListener(e -> callback.onResponse(new ElementResponse<>(new BaseException(e.getMessage(), false))));
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(PreferencesProvider.getUser(), PreferencesProvider.getPassword()).addOnSuccessListener(authResult -> callback.onResponse(new ElementResponse<>(new LoginResponse("OK")))).addOnFailureListener(e -> callback.onResponse(new ElementResponse<>(new InvalidSessionException(e.getMessage()))));
         return null;
     }
 

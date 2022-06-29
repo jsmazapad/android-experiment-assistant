@@ -46,20 +46,18 @@ public interface CommentRegisterDao {
     /**
      * Obtiene los registros pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT * FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
-    List<CommentRegister> getPendingSyncCommentRegistersByExperimentId(long experimentId, int limit);
+    @Query("SELECT * FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC")
+    List<CommentRegister> getPendingSyncCommentRegistersByExperimentId(long experimentId);
 
     /**
      * Obtiene la cuenta de los registros pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT COUNT(*) FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
-    int getPendingSyncCommentRegistersCountByExperimentId(long experimentId, int limit);
+    @Query("SELECT COUNT(*) FROM "+ CommentRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC")
+    int getPendingSyncCommentRegistersCountByExperimentId(long experimentId);
 
     /**
      * Inserta un registro

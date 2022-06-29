@@ -324,6 +324,10 @@
     <string name="configuration_manage_extra_info">Abrir para gestionar</string>
     <string name="configuration_remote_sync_error">No se han guardado los datos de sincronización remota. Todos los datos de sincronización remota son obligatorios, por favor revísaleo</string>
     <string name="go_back">Atrás</string>
+    <string name="sync_experiment_error">Error al sincronizar experimento. Sincronización abortada</string>
+    <string name="sync_credentials_error">Error al iniciar sesión. Compruebe sus credenciales y vuelva a intentarlo.</string>
+    <string name="sync_finished_title">Sincronización finalizada</string>
+    <string name="sync_finished_text">La sincronización ha terminado</string>
 
 
 </resources>

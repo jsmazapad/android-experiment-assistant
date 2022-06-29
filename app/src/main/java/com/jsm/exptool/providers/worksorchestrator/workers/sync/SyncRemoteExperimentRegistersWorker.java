@@ -17,7 +17,10 @@ import androidx.work.rxjava3.RxWorker;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
 import com.jsm.exptool.entities.register.ExperimentRegister;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,7 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
 
             if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId) || registerIdsToSync == null) {
                 //TODO Mejorar mensajes error
+                EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, registerIdsToSync != null ? registerIdsToSync.length : 1));
                 emitter.onError(new BaseException("Error de parámetros", false));
                 return;
             }
@@ -52,6 +56,7 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
 
 
             if (pendingRegisters == null) {
+                EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, registerIdsToSync != null ? registerIdsToSync.length : 1));
                 emitter.onError(new BaseException("Error en obtención de elemento de BBDD", false));
             } else if (pendingRegisters.size() == 0) {
                 emitter.onSuccess(Result.success());
@@ -89,6 +94,7 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
                 Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount() + 1));
                 emitter.onSuccess(Result.retry());
             } else {
+                EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, updatedRegistersNum));
                 emitter.onError(response.getError());
             }
         } else {
@@ -101,9 +107,10 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
                 Data outputData = new Data.Builder()
                         .putLong(UPDATED_REGISTERS_NUM, updatedRegistersNum)
                         .build();
-
+                EventBus.getDefault().post(new WorkFinishedEvent(getTags(), true, updatedRegistersNum));
                 emitter.onSuccess(Result.success(outputData));
             } else {
+                EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, updatedRegistersNum));
                 emitter.onError(new BaseException("Error en obtención de resultado del servidor", false));
             }
         }

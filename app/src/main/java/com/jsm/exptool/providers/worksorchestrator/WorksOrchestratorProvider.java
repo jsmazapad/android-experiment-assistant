@@ -86,6 +86,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -329,26 +330,25 @@ public class WorksOrchestratorProvider {
 
     }
 
-    public @StringRes
-    int getRemoteStateTranslatableStringResFromWorkInfo(WorkInfo workInfo) {
+    public @StringRes int getRemoteStateTranslatableStringResFromWorkTags(Set<String> tags) {
         int translatableStringRes = 0;
-        if (workInfo.getTags().contains(REMOTE_SYNC_IMAGE_REGISTERS)) {
+        if (tags.contains(REMOTE_SYNC_IMAGE_REGISTERS)) {
             translatableStringRes = R.string.image_register;
-        } else if (workInfo.getTags().contains(REMOTE_SYNC_IMAGE_FILE_REGISTERS)) {
+        } else if (tags.contains(REMOTE_SYNC_IMAGE_FILE_REGISTERS)) {
             translatableStringRes = R.string.image_file;
-        } else if (workInfo.getTags().contains(REMOTE_SYNC_AUDIO_REGISTERS)) {
+        } else if (tags.contains(REMOTE_SYNC_AUDIO_REGISTERS)) {
             translatableStringRes = R.string.audio_register;
-        } else if (workInfo.getTags().contains(REMOTE_SYNC_AUDIO_FILE_REGISTERS)) {
+        } else if (tags.contains(REMOTE_SYNC_AUDIO_FILE_REGISTERS)) {
             translatableStringRes = R.string.audio_file;
-        } else if (workInfo.getTags().contains(OBTAIN_EMBEDDED_IMAGE)) {
+        } else if (tags.contains(OBTAIN_EMBEDDED_IMAGE)) {
             translatableStringRes = R.string.embedding;
-        } else if (workInfo.getTags().contains(REMOTE_SYNC_SENSORS_REGISTERS)) {
+        } else if (tags.contains(REMOTE_SYNC_SENSORS_REGISTERS)) {
             translatableStringRes = R.string.sensor_register;
-        } else if (workInfo.getTags().contains(REMOTE_SYNC_COMMENT_REGISTERS)) {
+        } else if (tags.contains(REMOTE_SYNC_COMMENT_REGISTERS)) {
             translatableStringRes = R.string.comment_register;
-        } else if (workInfo.getTags().contains(REMOTE_SYNC_EXPERIMENT)) {
+        } else if (tags.contains(REMOTE_SYNC_EXPERIMENT)) {
             translatableStringRes = R.string.experiment_register;
-        } else if (workInfo.getTags().contains(PROCESS_IMAGE)) {
+        } else if (tags.contains(PROCESS_IMAGE)) {
             translatableStringRes = R.string.processing_image_for_embedding;
         }
 

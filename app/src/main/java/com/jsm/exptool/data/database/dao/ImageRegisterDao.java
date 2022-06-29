@@ -51,56 +51,52 @@ public interface ImageRegisterDao {
     /**
      * Obtiene los registros pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 OR (embedding NOT LIKE '' AND embeddingRemoteSynced = 0) ORDER BY date ASC LIMIT :limit")
-    List<ImageRegister> getPendingSyncImageRegistersByExperimentId(long experimentId, int limit);
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 OR (embedding NOT LIKE '' AND embeddingRemoteSynced = 0) ORDER BY date ASC")
+    List<ImageRegister> getPendingSyncImageRegistersByExperimentId(long experimentId);
 
     /**
      * Obtiene los registros pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT COUNT(*) FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 OR (embedding NOT LIKE '' AND embeddingRemoteSynced = 0) ORDER BY date ASC LIMIT :limit")
-    int getPendingSyncImageRegistersCountByExperimentId(long experimentId, int limit);
+    @Query("SELECT COUNT(*) FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 OR (embedding NOT LIKE '' AND embeddingRemoteSynced = 0) ORDER BY date ASC")
+    int getPendingSyncImageRegistersCountByExperimentId(long experimentId);
 
     /**
      * Obtiene los registros con archivos pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
-    List<ImageRegister> getPendingFileSyncImageRegistersByExperimentId(long experimentId, int limit);
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC")
+    List<ImageRegister> getPendingFileSyncImageRegistersByExperimentId(long experimentId);
 
     /**
      * Obtiene los registros con archivos pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT COUNT(*) FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
-    int getPendingFileSyncImageRegistersCountByExperimentId(long experimentId, int limit);
+    @Query("SELECT COUNT(*) FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC")
+    int getPendingFileSyncImageRegistersCountByExperimentId(long experimentId);
 
     /**
      * Obtiene los registros pendientes de calcular embedding
      * @param experimentId
-     * @param limit
+     
      * @return
      */
-    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND  embedding LIKE '' ORDER BY date ASC LIMIT :limit")
-    List<ImageRegister> getPendingEmbeddingImageRegistersByExperimentId(long experimentId, int limit);
+    @Query("SELECT * FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND  embedding LIKE '' ORDER BY date ASC")
+    List<ImageRegister> getPendingEmbeddingImageRegistersByExperimentId(long experimentId);
 
     /**
      * Obtiene los registros pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
+     
      * @return
      */
-    @Query("SELECT COUNT(*) FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND  embedding LIKE '' ORDER BY date ASC LIMIT :limit")
-    int getPendingEmbeddingImageRegistersCountByExperimentId(long experimentId, int limit);
+    @Query("SELECT COUNT(*) FROM "+ ImageRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND  embedding LIKE '' ORDER BY date ASC")
+    int getPendingEmbeddingImageRegistersCountByExperimentId(long experimentId);
 
     /**
      * Actualiza el estado de la sincronización del archivo asociado al registro a partir de su id

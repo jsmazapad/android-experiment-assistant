@@ -16,7 +16,10 @@ import androidx.work.rxjava3.RxWorker;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
 import com.jsm.exptool.entities.register.MediaRegister;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -45,6 +48,7 @@ public abstract class SyncRemoteExperimentFilesWorker<T extends MediaRegister> e
 
             if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId) || experimentRegisterId == -1 || registerFilePath == null) {
                 //TODO Mejorar mensajes error
+                EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, 1));
                 emitter.onError(new BaseException("Error de parámetros", false));
                 return;
             }
@@ -67,6 +71,7 @@ public abstract class SyncRemoteExperimentFilesWorker<T extends MediaRegister> e
                 Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount() + 1));
                 emitter.onSuccess(Result.retry());
             } else {
+                EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, 1));
                 emitter.onError(response.getError());
                 return;
             }
@@ -76,11 +81,14 @@ public abstract class SyncRemoteExperimentFilesWorker<T extends MediaRegister> e
                 int updatedNum = updateRegister(experimentRegisterId);
 
                 if (updatedNum > 0) {
+                    EventBus.getDefault().post(new WorkFinishedEvent(getTags(), true, 1));
                     emitter.onSuccess(Result.success());
                 } else {
+                    EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, 1));
                     emitter.onError(new BaseException("Error en la actualización de la base de datos", false));
                 }
             } else {
+                EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, 1));
                 emitter.onError(new BaseException("Error en obtención de resultado del servidor", false));
             }
         }

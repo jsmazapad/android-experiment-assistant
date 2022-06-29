@@ -30,7 +30,13 @@
                     android:id="@+id/syncButton"
                     style="@style/FullWidthButton"
                     android:onClick="@{()->viewModel.syncExperiment()}"
+                    android:visibility="@{viewModel.syncFinished ? View.VISIBLE : View.GONE}"
                     android:text="@string/experiment_actions_sync_text" />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.syncFinished ? View.GONE : View.VISIBLE}"
+                    android:layout_gravity="center"/>
 
                 <com.jsm.exptool.libs.ExpandableCard
                     android:id="@+id/filterCard"

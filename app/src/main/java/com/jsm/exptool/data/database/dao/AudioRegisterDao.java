@@ -51,38 +51,34 @@ public interface AudioRegisterDao {
     /**
      * Obtiene los registros pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
-    List<AudioRegister> getPendingSyncAudioRegistersByExperimentId(long experimentId, int limit);
+    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC")
+    List<AudioRegister> getPendingSyncAudioRegistersByExperimentId(long experimentId);
 
     /**
      * Obtiene la cuenta de los registros pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT COUNT(*) FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
-    int getPendingSyncAudioRegistersCountByExperimentId(long experimentId, int limit);
+    @Query("SELECT COUNT(*) FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND dataRemoteSynced = 0 ORDER BY date ASC")
+    int getPendingSyncAudioRegistersCountByExperimentId(long experimentId);
 
     /**
      * Obtiene los registros con archivos pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
-    List<AudioRegister> getPendingFileSyncAudioRegistersByExperimentId(long experimentId, int limit);
+    @Query("SELECT * FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC")
+    List<AudioRegister> getPendingFileSyncAudioRegistersByExperimentId(long experimentId);
 
     /**
      * Obtiene la cuenta de los registros con archivos pendientes de sincronización con servidor remoto
      * @param experimentId
-     * @param limit
      * @return
      */
-    @Query("SELECT COUNT(*) FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC LIMIT :limit")
-    int getPendingFileSyncAudioRegistersCountByExperimentId(long experimentId, int limit);
+    @Query("SELECT COUNT(*) FROM "+ AudioRegister.TABLE_NAME + " WHERE experimentId = :experimentId AND fileRemoteSynced = 0 ORDER BY date ASC")
+    int getPendingFileSyncAudioRegistersCountByExperimentId(long experimentId);
 
 
     /**

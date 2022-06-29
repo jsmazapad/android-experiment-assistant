@@ -1,35 +1,34 @@
 package com.jsm.exptool.ui.experiments.list.actions.sync;
 
-import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.UPDATED_REGISTERS_NUM;
-import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
-
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.StringRes;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
-import androidx.work.Data;
-import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.core.data.network.exceptions.InvalidSessionException;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
+import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.core.libs.ModalMessage;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.data.repositories.ExperimentsRepository;
 import com.jsm.exptool.entities.Experiment;
+import com.jsm.exptool.entities.eventbus.ExperimentListRefreshEvent;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
 import com.jsm.exptool.providers.worksorchestrator.WorksOrchestratorProvider;
 import com.jsm.exptool.data.repositories.AudioRepository;
 import com.jsm.exptool.data.repositories.CommentRepository;
 import com.jsm.exptool.data.repositories.ImageRepository;
 import com.jsm.exptool.data.repositories.SensorRepository;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<ExperimentSyncStateRow, ExperimentSyncStateRow> {
 
@@ -50,6 +49,9 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
     private final MutableLiveData<Boolean> embeddingEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> audioEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> sensorEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> syncFinished = new MutableLiveData<>(true);
+    private boolean syncStarted = false;
+    private boolean invalidSession = false;
 
     private int successImageCount = 0;
     private int failureImageCount = 0;
@@ -72,6 +74,7 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
     private int successCommentCount = 0;
     private int failureCommentCount = 0;
     private int pendingCommentCount = 0;
+    private int failureExperimentCount = 0;
 
 
     private final MutableLiveData<Integer> imageCount = new MutableLiveData<>(0);
@@ -85,6 +88,8 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
 
     private final WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
     private final MutableLiveData<Boolean> workPreparationReady = new MutableLiveData<>();
+    protected final MutableLiveData<Boolean> showFinish = new MutableLiveData<>();
+    protected final MutableLiveData<Boolean> showError = new MutableLiveData<>();
 
 
     public ExperimentsListSyncLogViewModel(Application app, Experiment experiment) {
@@ -167,6 +172,10 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
         return sensorEnabled;
     }
 
+    public MutableLiveData<Boolean> getSyncFinished() {
+        return syncFinished;
+    }
+
     //TODO Eliminar o usar para resumen
     public MutableLiveData<String> getFilterResume() {
         return filterResume;
@@ -198,16 +207,42 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
     }
 
     public void syncExperiment() {
+
+        syncFinished.setValue(false);
+        syncStarted = true;
+        orchestratorProvider.finishPendingJobs();
         workPreparationReady.setValue(false);
         orchestratorProvider.executeFullRemoteSync(experiment, true, workPreparationReady);
+        successImageCount = 0;
+        failureImageCount = 0;
+        pendingImageCount = 0;
+        successImageFilesCount = 0;
+        failureImageFilesCount = 0;
+        pendingImageFilesCount = 0;
+        successAudioCount = 0;
+        failureAudioCount = 0;
+        pendingAudioCount = 0;
+        successAudioFilesCount = 0;
+        failureAudioFilesCount = 0;
+        pendingAudioFilesCount = 0;
+        successEmbeddingCount = 0;
+        failureEmbeddingCount = 0;
+        pendingEmbeddingCount = 0;
+        successSensorCount = 0;
+        failureSensorCount = 0;
+        pendingSensorCount = 0;
+        successCommentCount = 0;
+        failureCommentCount = 0;
+        pendingCommentCount = 0;
+        failureExperimentCount = 0;
     }
 
     @Override
     public void initObservers(LifecycleOwner owner) {
         super.initObservers(owner);
 
-        workPreparationReady.observe(owner, isReady ->{
-            if(isReady != null){
+        workPreparationReady.observe(owner, isReady -> {
+            if (isReady != null) {
                 isLoading.setValue(!isReady);
 
             }
@@ -241,144 +276,175 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
             pendingCommentCount = count;
             setCommentRegisterCounts();
         });
-//TODO CODIGO PRUEBA
-        AtomicInteger counter = new AtomicInteger();
-        //END TODO CODIGO PRUEBA
-        LiveData<List<WorkInfo>> registerWorkInfo = orchestratorProvider.getCompletedWorkInfoByTag(Collections.singletonList(REMOTE_WORK));
-        registerWorkInfo.observe(owner, workInfoList -> {
-            if (workInfoList != null && workInfoList.size() > 0) {
-
-                WorkInfo lastWorkInfo = workInfoList.get(workInfoList.size() - 1);
-
-                //TODO CODIGO PRUEBA
-                counter.getAndIncrement();
-                Log.d("Numero de tareas", ""+counter.get());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    Log.d("Último", String.join(" ", lastWorkInfo.getTags()));
-                }
-
-                WorkInfo firstWorkInfo = workInfoList.get(workInfoList.size() - 1);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    Log.d("Primero", String.join(" ", firstWorkInfo.getTags()));
-                }
-                //END TODO
-                String syncRowTypeTitle = "";
-                int typeStringRes = orchestratorProvider.getRemoteStateTranslatableStringResFromWorkInfo(lastWorkInfo);
-                if (typeStringRes > 0) {
-                    syncRowTypeTitle = getApplication().getString(typeStringRes);
-                }
-                boolean successWork = false;
-                @StringRes int stateStringRes = R.string.failure;
-                if (orchestratorProvider.isSuccessWork(lastWorkInfo)) {
-                    successWork = true;
-                    stateStringRes = R.string.success;
-                }
-                Data outputData = lastWorkInfo.getOutputData();
-                int numRegisters = lastWorkInfo.getOutputData().getInt(UPDATED_REGISTERS_NUM, 1);
-
-                updateWorkCounter(successWork, typeStringRes, numRegisters);
-                ExperimentSyncStateRow syncRow = new ExperimentSyncStateRow(syncRowTypeTitle, getApplication().getString(stateStringRes), successWork);
-                if (elements.getValue() != null) {
-                    int position = elements.getValue().size();
-                    elements.getValue().add(syncRow);
-                    rowAdded.setValue(position);
-                }
-            }
-        });
-
     }
 
-    private void updateWorkCounter(boolean successWork, int typeStringRes, int numRegisters) {
+    private void updateWorkCounter(boolean successWork, int typeStringRes, int numRegisters, BaseException exception) {
         //TODO Aplicar cuenta de registros basada en número maximo de ellos
         if (typeStringRes == R.string.image_register) {
             if (successWork) {
-                successImageCount+=numRegisters;
+                successImageCount += numRegisters;
             } else {
-                failureImageCount+=numRegisters;
+                failureImageCount += numRegisters;
             }
             setImageRegisterCounts();
 
         } else if (typeStringRes == R.string.image_file) {
             if (successWork) {
-                successImageFilesCount+=numRegisters;
+                successImageFilesCount += numRegisters;
             } else {
-                failureImageFilesCount+=numRegisters;
+                failureImageFilesCount += numRegisters;
             }
             setImageFileCounts();
 
         } else if (typeStringRes == R.string.audio_register) {
             if (successWork) {
-                successAudioCount+=numRegisters;
+                successAudioCount += numRegisters;
             } else {
-                failureAudioCount+=numRegisters;
+                failureAudioCount += numRegisters;
             }
             setAudioRegisterCounts();
         } else if (typeStringRes == R.string.audio_file) {
             if (successWork) {
-                successAudioFilesCount+=numRegisters;
+                successAudioFilesCount += numRegisters;
             } else {
-                failureAudioFilesCount+=numRegisters;
+                failureAudioFilesCount += numRegisters;
             }
             setAudioFileCounts();
         } else if (typeStringRes == R.string.embedding) {
             if (successWork) {
-                successEmbeddingCount+=numRegisters;
+                successEmbeddingCount += numRegisters;
             } else {
-                failureEmbeddingCount+=numRegisters;
+                failureEmbeddingCount += numRegisters;
             }
             setEmbeddingRegisterCounts();
         } else if (typeStringRes == R.string.sensor_register) {
             if (successWork) {
-                successSensorCount+=numRegisters;
+                successSensorCount += numRegisters;
             } else {
-                failureSensorCount+=numRegisters;
+                failureSensorCount += numRegisters;
             }
             setSensorRegisterCounts();
         } else if (typeStringRes == R.string.comment_register) {
             if (successWork) {
-                successCommentCount+=numRegisters;
+                successCommentCount += numRegisters;
             } else {
-                failureCommentCount+=numRegisters;
+                failureCommentCount += numRegisters;
             }
             setCommentRegisterCounts();
-        }else if (typeStringRes == R.string.processing_image_for_embedding) {
+        } else if (typeStringRes == R.string.processing_image_for_embedding) {
             if (!successWork) {
                 //Solo cuenta si falla, porque el work para obtener embedding no se ejecutará
-                failureEmbeddingCount+=numRegisters;
+                failureEmbeddingCount += numRegisters;
             }
             setEmbeddingRegisterCounts();
+        }else if (typeStringRes == R.string.experiment_register) {
+            if(!successWork){
+                failureExperimentCount = 1;
+                Log.d("Fallo experimento", "FAllo");
+                if(exception instanceof InvalidSessionException){
+                    invalidSession = true;
+                    Log.d("Fallo sesion", "FAllo");
+                }
+            }
         }
+
+        checkFinish();
     }
 
     private void setCommentRegisterCounts() {
-        commentRegisterCountsText.setValue(String.format(getApplication().getString(R.string.sync_number_format), pendingCommentCount, successCommentCount, failureCommentCount));
+        commentRegisterCountsText.postValue(String.format(getApplication().getString(R.string.sync_number_format), pendingCommentCount, successCommentCount, failureCommentCount));
     }
 
     private void setSensorRegisterCounts() {
-        sensorRegisterCountsText.setValue(String.format(getApplication().getString(R.string.sync_number_format), pendingSensorCount, successSensorCount, failureSensorCount));
+        sensorRegisterCountsText.postValue(String.format(getApplication().getString(R.string.sync_number_format), pendingSensorCount, successSensorCount, failureSensorCount));
     }
 
     private void setEmbeddingRegisterCounts() {
-        embeddingRegisterCountsText.setValue(String.format(getApplication().getString(R.string.sync_number_format), pendingEmbeddingCount, successEmbeddingCount, failureEmbeddingCount));
+        embeddingRegisterCountsText.postValue(String.format(getApplication().getString(R.string.sync_number_format), pendingEmbeddingCount, successEmbeddingCount, failureEmbeddingCount));
     }
 
     private void setAudioFileCounts() {
-        audioFileRegisterCountsText.setValue(String.format(getApplication().getString(R.string.sync_number_format), pendingAudioFilesCount, successAudioFilesCount, failureAudioFilesCount));
+        audioFileRegisterCountsText.postValue(String.format(getApplication().getString(R.string.sync_number_format), pendingAudioFilesCount, successAudioFilesCount, failureAudioFilesCount));
     }
 
     private void setAudioRegisterCounts() {
-        audioRegisterCountsText.setValue(String.format(getApplication().getString(R.string.sync_number_format), pendingAudioCount, successAudioCount, failureAudioCount));
+        audioRegisterCountsText.postValue(String.format(getApplication().getString(R.string.sync_number_format), pendingAudioCount, successAudioCount, failureAudioCount));
     }
 
     private void setImageFileCounts() {
-        imageFileRegisterCountsText.setValue(String.format(getApplication().getString(R.string.sync_number_format), pendingImageFilesCount, successImageFilesCount, failureImageFilesCount));
+        imageFileRegisterCountsText.postValue(String.format(getApplication().getString(R.string.sync_number_format), pendingImageFilesCount, successImageFilesCount, failureImageFilesCount));
     }
 
     private void setImageRegisterCounts() {
-        imageRegisterCountsText.setValue(String.format(getApplication().getString(R.string.sync_number_format), pendingImageCount, successImageCount, failureImageCount));
+        imageRegisterCountsText.postValue(String.format(getApplication().getString(R.string.sync_number_format), pendingImageCount, successImageCount, failureImageCount));
     }
 
-    
+    private void checkFinish(){
+        if (failureExperimentCount == 0) {
+            if (pendingImageCount == successImageCount + failureImageCount &&
+                    pendingAudioCount == successAudioCount + failureAudioCount &&
+                    pendingEmbeddingCount == successEmbeddingCount + failureEmbeddingCount &&
+                    pendingCommentCount == successCommentCount + failureCommentCount &&
+                    pendingSensorCount == successSensorCount + failureSensorCount &&
+                    pendingImageFilesCount == successImageFilesCount + failureImageFilesCount &&
+                    pendingAudioFilesCount == successAudioFilesCount + failureAudioFilesCount) {
+                syncFinished.postValue(true);
+                boolean needToUpdateExperimentRegister = false;
+                if(failureEmbeddingCount == 0){
+                    experiment.setEmbeddingPending(false);
+                    needToUpdateExperimentRegister = true;
+                }
+                if (failureImageCount == 0 && failureSensorCount == 0 && failureAudioCount == 0 && failureEmbeddingCount == 0 &&
+                        failureCommentCount == 0 && failureAudioFilesCount == 0 && failureImageFilesCount == 0) {
+                    needToUpdateExperimentRegister = true;
+                    experiment.setSyncPending(false);
+                }
+                if (needToUpdateExperimentRegister){
+                    ExperimentsRepository.updateExperiment(experiment);
+                }
+            }
+        }else{
+            syncFinished.postValue(true);
+        }
+    }
+
+    public void onMessageEvent(WorkFinishedEvent event) {
+        int typeStringRes = orchestratorProvider.getRemoteStateTranslatableStringResFromWorkTags(event.getTags());
+        this.updateWorkCounter(event.isSuccessful(), typeStringRes, event.getNumRegisters(), event.getException());
+        @StringRes int stateStringRes = R.string.failure;
+        if (event.isSuccessful()) {
+            stateStringRes = R.string.success;
+        }
+        String syncRowTypeTitle = "";
+        if (typeStringRes > 0) {
+            syncRowTypeTitle = getApplication().getString(typeStringRes);
+        }
+        ExperimentSyncStateRow syncRow = new ExperimentSyncStateRow(syncRowTypeTitle, getApplication().getString(stateStringRes), event.isSuccessful());
+        if (elements.getValue() != null) {
+            int position = elements.getValue().size();
+            elements.getValue().add(syncRow);
+            rowAdded.setValue(position);
+        }
+    }
 
 
+    public void executeFinishCaseUse(Context context) {
+        if (syncStarted && syncFinished.getValue() != null && syncFinished.getValue()){
+            if(failureExperimentCount > 0) {
+               String errorMessage = context.getString(R.string.sync_experiment_error);
+                if (invalidSession) {
+                    errorMessage = context.getString(R.string.sync_credentials_error);
+                }
+                handleError(new BaseException(errorMessage, false), context);
+            }else{
+                EventBus.getDefault().post(new ExperimentListRefreshEvent(true));
+                ModalMessage.showModalMessage(context, context.getString(R.string.sync_finished_title), context.getString(R.string.sync_finished_text), null, null, null, null);
+            }
+
+            syncStarted = false;
+
+        }
+
+
+    }
 }
