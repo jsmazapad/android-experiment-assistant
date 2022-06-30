@@ -18,38 +18,78 @@
         android:layout_height="match_parent"
         tools:context=".ui.about.AboutFragment">
 
-        <TextView
-            android:id="@+id/textView3"
-            style="@style/BaseSubtitleTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@{viewModel.appName}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nombre de la aplicación" />
-
-        <TextView
-            style="@style/BaseItemListSecondaryBoldTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:text="@{viewModel.appVersion}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:text="V1.0.0R1" />
-
-        <TextView
-            style="@style/BaseItemListTextView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="76dp"
-            android:text="@{viewModel.additionalInfo}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                style="@style/BaseLinearLayoutFromNestedScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/BaseSubtitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:gravity="center"
+                    android:text="@{viewModel.appName}"
+                    tools:text="Nombre de la aplicación" />
+
+                <TextView
+                    style="@style/BaseItemListSecondaryBoldTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:gravity="center_horizontal"
+                    android:text="@{viewModel.appVersion}"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="V1.0.0R1" />
+
+                <TextView
+                    style="@style/BaseItemListTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:justificationMode="inter_word"
+                    android:layout_marginTop="76dp"
+                    android:text="@string/about_text" />
+
+                <TextView
+                    style="@style/BaseItemListTextView"
+                    android:paddingTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_developed_by"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    style="@style/BaseItemListTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_developer" />
+
+                <TextView
+                    style="@style/BaseItemListTextView"
+                    android:paddingTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_tutored_by"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    style="@style/BaseItemListTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_tutor" />
+            </LinearLayout>
+        </ScrollView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

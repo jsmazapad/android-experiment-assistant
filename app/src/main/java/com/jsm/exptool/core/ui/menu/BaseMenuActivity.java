@@ -22,9 +22,12 @@ import androidx.core.view.ViewCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,10 +49,11 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
     private MainViewModel viewModel;
     private SideMenuViewModel sideMenuViewModel;
     private RecyclerView sideMenuRV;
-    private DrawerLayout drawerLayout;
-    private ImageView closeDrawerIV;
-    private Toolbar toolbar;
+    protected DrawerLayout drawerLayout;
+    protected ImageView closeDrawerIV;
+    protected Toolbar toolbar;
     private boolean backVisible;
+    protected boolean noMenu;
 
 
     @Override
@@ -86,6 +90,7 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
         });
         sideMenuRV = navView.getHeaderView(0).findViewById(R.id.sideMenuRV);
         sideMenuRV.setLayoutManager(new LinearLayoutManager(this));
+        sideMenuRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         sideMenuRV.setAdapter(new SideMenuAdapter(this, sideMenuViewModel, this, navController, R.layout.side_menu_list_item));
         binding.setMainViewModel(sideMenuViewModel);
         binding.setLifecycleOwner(this);
@@ -94,7 +99,7 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
 
         ViewCompat.setLayoutDirection(toolbar, ViewCompat.LAYOUT_DIRECTION_RTL);
         toolbar.setNavigationIcon(R.drawable.hamburger_icon_white);
-        Objects.requireNonNull(toolbar.getNavigationIcon()).setTint(getResources().getColor(R.color.primaryTextColor));
+        Objects.requireNonNull(toolbar.getNavigationIcon()).setTint(getResources().getColor(R.color.white));
 
 
         toolbar.setNavigationOnClickListener(v -> {
@@ -111,7 +116,7 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
 
         //FLECHA ATRÁS
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            backVisible = destination.getId() != controller.getGraph().getStartDestinationId();
+            onDestinationChange(controller, destination, arguments);
             invalidateOptionsMenu();
         });
 
@@ -119,6 +124,10 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
         //Binding de cabecera
         NavHeaderMainBinding headerBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0));
         headerBinding.setViewModel(viewModel);
+    }
+
+    protected void onDestinationChange(NavController controller, NavDestination destination, Bundle arguments){
+        backVisible = destination.getId() != controller.getGraph().getStartDestinationId();
     }
 
     public DrawerLayout getDrawerLayout() {
@@ -162,7 +171,7 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
         }
     }
 
-    private void manageDrawer() {
+    protected void manageDrawer() {
         if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
             drawerLayout.closeDrawer(Gravity.RIGHT);
         } else {
@@ -183,8 +192,12 @@ public abstract class BaseMenuActivity extends BaseActivity<MainViewModel> {
                 drawable.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
             }
         }
-        toolbar.setNavigationIcon(R.drawable.hamburger_icon_white);
-        Objects.requireNonNull(toolbar.getNavigationIcon()).setTint(getResources().getColor(R.color.primaryTextColor));
+        if(!noMenu) {
+            toolbar.setNavigationIcon(R.drawable.hamburger_icon_white);
+            Objects.requireNonNull(toolbar.getNavigationIcon()).setTint(getResources().getColor(R.color.primaryTextColor));
+        }else{
+            toolbar.setNavigationIcon(null);
+        }
 
 
         // return true so that the menu pop up is opened

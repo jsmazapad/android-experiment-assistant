@@ -1,5 +1,6 @@
 package com.jsm.exptool.ui.experiments.perform;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.camera.view.PreviewView;
@@ -8,8 +9,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import androidx.annotation.NonNull;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
@@ -18,6 +24,7 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.jsm.exptool.R;
+import com.jsm.exptool.core.libs.ModalMessage;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
@@ -86,6 +93,27 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         cameraRequestPermissions = RequestPermissionsProvider.registerForCameraPermissions(this, cameraPermissionsResultCallback);
         audioRequestPermissions = RequestPermissionsProvider.registerForAudioPermissions(this, audioPermissionsResultCallback);
         locationRequestPermissions = RequestPermissionsProvider.registerForLocationFinePermissions(this, locationPermissionsResultCallback);
+        setHasOptionsMenu(true);
+    }
+
+    OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            if(viewModel.getExperimentInitiated().getValue() != null && viewModel.getExperimentInitiated().getValue()){
+                // Para futuras versiones
+                // ModalMessage.showModalMessage(getContext(), "Atención", "Si sale ahora el experimento no se finalizará, ¿está seguro?", "Salir", (dialog, which) -> requireActivity().onBackPressed(), null, null);
+            }else{
+                onBackPressedCallback.remove();
+                requireActivity().onBackPressed();
+
+            }
+        }
+    };
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v =  super.onCreateView(inflater, container, savedInstanceState);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), onBackPressedCallback);
+        return v;
     }
 
     @Override
@@ -175,6 +203,14 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
     @Override
     public void requestPermissions(){
         viewModel.handleRequestPermissions(this);
+    }
+
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+       super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 
 

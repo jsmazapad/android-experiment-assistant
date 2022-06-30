@@ -15,12 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingTop="0dp"
+            android:paddingTop="4dp"
             android:paddingBottom="0dp">
 
             <TextView
                 android:id="@+id/titleTV"
                 style="@style/LinearNoWidthLeftItem"
+                android:fontFamily="sans-serif-smallcaps"
                 tools:text="Card Title" />
 
             <ImageButton

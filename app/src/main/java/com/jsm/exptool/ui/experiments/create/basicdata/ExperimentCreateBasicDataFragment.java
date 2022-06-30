@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
@@ -77,6 +80,10 @@ public class ExperimentCreateBasicDataFragment extends BaseRecyclerFragment<Expe
     @Override
     protected void setupRecyclerView() {
         super.setupRecyclerView();
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        //layoutManager.setJustifyContent(JustifyContent.FLEX_END);
+        recyclerView.setLayoutManager(layoutManager);
     }
 }

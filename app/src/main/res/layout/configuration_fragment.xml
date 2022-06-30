@@ -40,7 +40,9 @@
 
                     <TextView
                         android:id="@+id/quickCommentsTitleTV"
+                        android:layout_marginTop="12dp"
                         style="@style/BaseCardTitleTextView.TitleItem"
+                        android:background="@color/secondaryDarkColor"
                         android:layout_height="wrap_content"
                         android:text="@string/configuration_remote_server_method" />
 
@@ -87,8 +89,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="@{viewModel.remoteServerEnabled ? View.VISIBLE : View.GONE}">
+                        android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 

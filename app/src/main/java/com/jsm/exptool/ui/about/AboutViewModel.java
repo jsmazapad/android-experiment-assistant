@@ -19,7 +19,7 @@ public class AboutViewModel extends BaseViewModel {
 
     public AboutViewModel(@NonNull Application application) {
         super(application);
-        appVersion = "V"+ BuildConfig.VERSION_NAME + " R" + BuildConfig.VERSION_CODE;
+        appVersion = "V "+ BuildConfig.VERSION_NAME + " R" + BuildConfig.VERSION_CODE;
         appName = getApplication().getString(R.string.app_name);
         additionalInfo = Html.fromHtml(getApplication().getString(R.string.about_text)).toString();
     }

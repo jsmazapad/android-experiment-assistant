@@ -23,7 +23,7 @@ class SideMenuElementViewHolder extends BaseRecyclerViewHolder<MenuElement> {
     @Override
     public void fillViewHolder(MenuElement element) {
       
-        sideMenuTV.setText(itemView.getContext().getString(element.getNameRes()).toUpperCase());
+        sideMenuTV.setText(itemView.getContext().getString(element.getNameRes()));
         sideMenuIV.setImageResource(element.getImageResourceSideMenu());
     }
 }

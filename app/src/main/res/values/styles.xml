@@ -38,6 +38,7 @@
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:background">@color/card_header</item>
+        <item name="fontFamily">sans-serif-smallcaps</item>
     </style>
 
     <style name="BaseCardTitleTextView.TitleItem" parent="BaseCardTitleItem">
@@ -102,7 +103,7 @@
         <item name="android:layout_height">48dp</item>
         <item name="android:padding">5dp</item>
         <item name="android:adjustViewBounds">true</item>
-        <item name="tint">?colorSecondary</item>
+        <item name="tint">@color/secondaryDarkColor</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
 

@@ -220,13 +220,11 @@
     <!--
     ABOUT
     -->
-    <string name="about_text"><![CDATA[<p>El prop&oacute;sito de esta aplicaci&oacute;n es poder convertir un dispositivo m&oacute;vil Android en una herramienta &uacute;til para la comunidad cient&iacute;fica que permita la obtenci&oacute;n de datos para experimentos, pudiendo funcionar tanto online como offline. Est&aacute; muy enfocada en la obtenci&oacute;n de datos que posteriormente puedan ser procesados por algoritmos de Machine Learning.</p>
-<p>Aplicaci&oacute;n desarrollada como Trabajo Fin de M&aacute;ster para el M&aacute;ster en Ingenier&iacute;a Inform&aacute;tica de la Universidad <strong>Pablo de Olavide.</strong></p>
-<p>Desarrollada por</p>
-<p><strong>Joaqu&iacute;n Sainz de la Maza Padr&oacute;</strong></p>
-<p>Tutelada por</p>
-<p><strong>Gualberto Asencio Cort&eacute;s</strong></p>
-<p><strong>&copy; Joaqu&iacute;n Sainz de la Maza Padr&oacute; 2022</strong></p>]]></string>
+    <string name="about_text">El propósito de esta aplicación es poder convertir un dispositivo móvil Android en una herramienta útil para la comunidad científica que permita la obtención de datos para experimentos, pudiendo funcionar tanto online como offline. Está muy enfocada en la obtención de datos que posteriormente puedan ser procesados por algoritmos de Machine Learning. \nAplicación desarrollada como Trabajo Fin de Máster para el Máster en Ingeniería Informática de la Universidad Pablo de Olavide.</string>
+    <string name="about_developed_by">Desarrollada por</string>
+    <string name="about_developer">Joaquín Sainz de la Maza Padró</string>
+    <string name="about_tutored_by">Tutelada por</string>
+    <string name="about_tutor">Gualberto Asencio Cortés</string>
     <!--
     Experiment list
     -->
@@ -249,7 +247,7 @@
 
 
     <string name="experiment_filter_status_prompt">Seleccione estado</string>
-    <string name="experiment_filter_other_prompt">Seleccione filtros sincronización</string>
+    <string name="experiment_filter_other_prompt">Seleccione condición</string>
     <string name="experiment_filter_order_prompt">Seleccione orden</string>
     <string name="num_registers_format">%d registros</string>
     <string name="warning_title">Advertencia</string>

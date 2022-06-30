@@ -78,7 +78,7 @@
     <fragment
         android:id="@+id/nav_perform_experiment"
         android:name="com.jsm.exptool.ui.experiments.perform.ExperimentPerformFragment"
-        android:label="@string/title_configuration_fragment"
+        android:label="@string/title_perform_fragment"
         tools:layout="@layout/experiment_perform_fragment">
         <argument
             android:name="experiment"
@@ -148,7 +148,7 @@
     <fragment
         android:id="@+id/nav_view_experiment"
         android:name="com.jsm.exptool.ui.experiments.view.ExperimentViewFragment"
-        android:label="@string/title_configuration_fragment"
+        android:label="@string/title_view_fragment"
         tools:layout="@layout/experiment_view_fragment">
         <action
             android:id="@+id/action_nav_view_experiment_to_nav_view_experiment_measures"

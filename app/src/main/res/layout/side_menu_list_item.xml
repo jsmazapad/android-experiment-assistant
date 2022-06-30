@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/BaseListItemRootElement"
+    android:paddingTop="10dp"
+    android:paddingBottom="1dp"
 >
 
     <ImageView
         android:id="@+id/sideMenuIV"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:tintMode="src_atop"
+        tools:src="@drawable/ic_baseline_camera_alt_24"
+        style="@style/BaseIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 />
@@ -19,9 +23,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
+        android:layout_marginStart="10dp"
         android:ellipsize="end"
+        android:fontFamily="sans-serif-smallcaps"
         android:maxLines="2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/sideMenuIV"
         app:layout_constraintEnd_toEndOf="parent"

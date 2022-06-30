@@ -127,7 +127,7 @@
         <TextView
             android:id="@+id/statusTV"
             style="@style/BaseItemListSecondaryBoldTextView"
-            android:background="@color/primaryDarkColor"
+            android:background="@color/primaryColor"
             android:textColor="@color/white"
             android:padding="5dp"
             android:layout_marginStart="10dp"
