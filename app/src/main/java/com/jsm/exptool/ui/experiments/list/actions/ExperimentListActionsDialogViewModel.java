@@ -301,7 +301,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
                 //Si tiene ubicación, añadimos a la lista de sensores
                 if(configuration.isLocationEnabled()){
                     sensorListAsStringBuilder.append(context.getString(configuration.getLocationConfig().getNameStringResource()))
-                            .append("(")
+                            .append(" (")
                             .append(context.getString(configuration.getLocationConfig().getLocationOption().getTitleTranslatableRes()))
                             .append("), ");
                 }

@@ -155,7 +155,7 @@ public class SensorProvider {
 
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_COUNTER) != null
                 && sensorManager.getSensorList(SensorConfigConstants.TYPE_STEP_COUNTER).size() > 0) {
-            sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_STEP_COUNTER, measureOneTriggeredValueSum, createOneValueMap(MeasureConfigConstants.STEP_COUNTED), true), R.string.step_detect, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
+            sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_STEP_COUNTER, measureOneTriggeredValueSum, createOneValueMap(MeasureConfigConstants.STEP_COUNTED), true), R.string.step_counter, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
         }
 
 
@@ -177,7 +177,7 @@ public class SensorProvider {
 
             if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MOTION_DETECT) != null
                     && sensorManager.getSensorList(SensorConfigConstants.TYPE_MOTION_DETECT).size() > 0) {
-                sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_MOTION_DETECT, measureTriggeredValue, createOneValueMap(MeasureConfigConstants.MOTION_DETECTED), true), R.string.stationary_detect, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
+                sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_MOTION_DETECT, measureTriggeredValue, createOneValueMap(MeasureConfigConstants.MOTION_DETECTED), true), R.string.motion_detect, FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
             }
 
             if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_BEAT) != null

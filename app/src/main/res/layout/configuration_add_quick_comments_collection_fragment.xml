@@ -28,10 +28,9 @@
 
                 <TextView
                     android:id="@+id/instructions"
-                    style="@style/BaseItemListSecondaryBoldTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.title}" />
+                    style="@style/SectionTitle"
+                    android:text="@{viewModel.title}"
+                    tools:text="Titulo"/>
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/BaseTextInputLayout"
                     android:layout_height="wrap_content"
@@ -42,7 +41,20 @@
                         android:hint="@string/configuration_quick_comment_collection_name_input_hint"
                         android:text="@={viewModel.collectionNameValue}" />
                 </com.google.android.material.textfield.TextInputLayout>
-
+                <androidx.cardview.widget.CardView
+                    style="@style/BaseCardView">
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/commentInsertTitleTV"
+                    style="@style/BaseItemListSecondaryBoldTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="Inserción de nuevos comentarios" />
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/BaseTextInputLayout"
                     android:layout_height="wrap_content"
@@ -61,6 +73,8 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewModel.addQuickComment(context)}"
                     android:text="@string/configuration_quick_comment_add_button" />
+            </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <Button
                     android:id="@+id/saveCollectionButton"

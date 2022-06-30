@@ -8,7 +8,7 @@
     <string name="default_modal_closeButton">Cerrar</string>
     <string name="default_recyclerview_emptyMessage">No hay resultados</string>
     <string name="default_button_save_title">Guardar</string>
-    <string name="yes_configured">Si</string>
+    <string name="yes_configured">Sí</string>
     <string name="no_configured">No</string>
     <string name="location_permission_error">Ha habido un error al obtener el permiso de ubicación</string>
 
@@ -196,7 +196,7 @@
     <string name="used_n_times_format_string">Usado %d veces</string>
     <string name="warning_delete_comment_suggestion_format">¿Está seguro de que sea eliminar el comentario \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
     <string name="error_suggestion_already_exists">El comentario que se desea registrar ya existe</string>
-    <string name="reset_suggestion_counter_warning_text">Va a proceder a colocar todos los contadores de sugerencias de comentarios a 0. Estos contadores se utilizan para ayudar a saber que sugerencias de comentarios se utlizan mas y facilitar la introducción de comentarios duerante la realización de experimentos. Esta acción no se puede deshacer. ¿Desea proceder?</string>
+    <string name="reset_suggestion_counter_warning_text">Va a proceder a colocar todos los contadores de sugerencias de comentarios a 0. Estos contadores se utilizan para ayudar a saber que sugerencias de comentarios se utlizan más y facilitar la introducción de comentarios durante la realización de experimentos. Esta acción no se puede deshacer. ¿Desea proceder?</string>
     <string name="warning_delete_quick_comment_collection_format">¿Está seguro de que sea eliminar la colección de comentarios rápidos \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
     <string name="configuration_quick_comment_collection_add_button">Añadir nueva colección</string>
     <string name="add_quick_comment_content_description">Añadir comentario rápido</string>
@@ -220,7 +220,7 @@
     <!--
     ABOUT
     -->
-    <string name="about_text">El propósito de esta aplicación es poder convertir un dispositivo móvil Android en una herramienta útil para la comunidad científica que permita la obtención de datos para experimentos, pudiendo funcionar tanto online como offline. Está muy enfocada en la obtención de datos que posteriormente puedan ser procesados por algoritmos de Machine Learning. \nAplicación desarrollada como Trabajo Fin de Máster para el Máster en Ingeniería Informática de la Universidad Pablo de Olavide.</string>
+    <string name="about_text">Esta aplicación nace con el propósito de utilizar un dispositivo móvil Android como una herramienta que permita la captación, registro y exportación de datos que puedan ser usados en la realización de experimentos.\nEsta aplicación se basa en la App \"Aplicación móvil de registro de datos de sensores durante la realización de actividades\" creada por Adrián Jiménez Calzada.\nAplicación desarrollada como Trabajo Fin de Máster para el Máster en Ingeniería Informática de la Universidad Pablo de Olavide.\nJunio 2022</string>
     <string name="about_developed_by">Desarrollada por</string>
     <string name="about_developer">Joaquín Sainz de la Maza Padró</string>
     <string name="about_tutored_by">Tutelada por</string>
@@ -326,6 +326,17 @@
     <string name="sync_credentials_error">Error al iniciar sesión. Compruebe sus credenciales y vuelva a intentarlo.</string>
     <string name="sync_finished_title">Sincronización finalizada</string>
     <string name="sync_finished_text">La sincronización ha terminado</string>
+    <string name="configuration_comment_suggestions_title">Consulta e inserción de autosugerencias de comentarios</string>
+    <string name="configuration_quick_comments_title">Consulta e inserción de colecciones de comentarios rápidos</string>
+    <string name="camera_icon_content_description">Tiene imágenes</string>
+    <string name="audio_icon_content_description">Tiene sonidos</string>
+    <string name="embedding_icon_content_description">Tiene embedding de imágenes</string>
+    <string name="sensor_icon_content_description">Tiene sensores</string>
+    <string name="sync_icon_content_description">Tiene sincronización remota</string>
+    <string name="pending_sync_icon_content_description">Tiene Sincronización remota pendiente</string>
+    <string name="pending_remote_sync">Elementos pendientes de sincronizar</string>
+    <string name="dialog_legend_title">Información de los iconos del listado</string>
+    <string name="app_logo_content_description">Logo de aplicación</string>
 
 
 </resources>

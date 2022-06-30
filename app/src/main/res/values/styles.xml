@@ -59,6 +59,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="boxStrokeColor">?colorSecondary</item>
         <item name="hintTextColor">?colorSecondary</item>
+        <item name="android:textColorHint">#111111</item>
     </style>
 
     <style name="BaseTextInputEditText" parent="AccesibilityMinSize">
@@ -66,7 +67,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginBottom">5dp</item>
-        <item name="android:textColorHint">#616161</item>
+        <item name="android:textColorHint">#111111</item>
 
     </style>
     <style name="BaseSwitch" parent="AccesibilityMinSize">
@@ -130,8 +131,10 @@
     <style name="BaseItemListSecondaryBoldTextView">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="fontFamily">sans-serif-smallcaps</item>
     </style>
 
 
@@ -174,7 +177,7 @@
     </style>
     <style name="BaseSubtitleNegativeTextView" parent="BaseSubtitleTextView">
         <item name="android:background">@color/subtitle_text</item>
-        <item name="android:textColor">?colorSecondary</item>
+        <item name="android:textColor">?colorPrimaryDark</item>
     </style>
 
     <style name="BaseSpinner" parent="AccesibilityMinSize">
@@ -251,7 +254,12 @@
         <item name="android:paddingBottom">0dp</item>
         <item name="android:textAlignment">textEnd</item>
         <item name="android:textSize">16sp</item>
-
+    </style>
+    <style name="LinearGravityWrapContentIcon" parent="BaseIcon">
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <style name="LinearGravityWrapContentOneElement" parent="LinearGravityWrapContentRightTextView">
         <item name="android:textAlignment">textStart</item>
@@ -342,6 +350,16 @@
         <item name="android:paddingBottom">10dp</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">fitStart</item>
+    </style>
+
+    <style name="SectionTitle" parent="BaseItemListSecondaryBoldTextView">
+        <item name="android:background">@color/card_header</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
     </style>
 
 

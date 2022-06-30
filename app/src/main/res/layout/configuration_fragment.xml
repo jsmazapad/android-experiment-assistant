@@ -42,7 +42,7 @@
                         android:id="@+id/quickCommentsTitleTV"
                         android:layout_marginTop="12dp"
                         style="@style/BaseCardTitleTextView.TitleItem"
-                        android:background="@color/secondaryDarkColor"
+                        android:background="@color/primaryColor"
                         android:layout_height="wrap_content"
                         android:text="@string/configuration_remote_server_method" />
 
@@ -60,8 +60,8 @@
                         android:orientation="vertical"
                         android:visibility="@{viewModel.firebaseEnabled ? View.VISIBLE : View.GONE}">
 
-                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
-                            <com.google.android.material.textfield.TextInputEditText
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/BaseTextInputLayout">                            <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="@string/configuration_remote_firebase_key"
                                 android:text="@={viewModel.firebaseKey}" />
@@ -89,6 +89,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.firebaseEnabled || viewModel.remoteServerEnabled ? View.VISIBLE : View.GONE}"
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
@@ -99,11 +100,14 @@
                                 android:text="@={viewModel.username}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/BaseTextInputLayout"
+                            app:passwordToggleEnabled="true">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="@string/configuration_remote_pass"
+                                android:inputType="textPassword"
                                 android:text="@={viewModel.password}" />
 
                         </com.google.android.material.textfield.TextInputLayout>

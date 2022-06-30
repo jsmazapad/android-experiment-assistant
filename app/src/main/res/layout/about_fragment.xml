@@ -39,6 +39,17 @@
                     android:text="@{viewModel.appName}"
                     tools:text="Nombre de la aplicación" />
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="160dp"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@string/app_logo_content_description"
+                    app:srcCompat="@drawable/flask_color" />
+
                 <TextView
                     style="@style/BaseItemListSecondaryBoldTextView"
                     android:layout_width="match_parent"
@@ -56,8 +67,8 @@
                     style="@style/BaseItemListTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:justificationMode="inter_word"
-                    android:layout_marginTop="76dp"
                     android:text="@string/about_text" />
 
                 <TextView

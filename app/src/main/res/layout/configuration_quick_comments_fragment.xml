@@ -24,10 +24,10 @@
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/instructions"
-                    style="@style/BaseItemListSecondaryBoldTextView"
+                    style="@style/SectionTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Consulta e inserción de autosugerencias de comentarios"/>
+                    android:text="@string/configuration_quick_comments_title"/>
 
         <Button
             android:id="@+id/saveSuggestionButton"

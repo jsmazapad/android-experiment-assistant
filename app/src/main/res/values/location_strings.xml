@@ -6,6 +6,6 @@
     <string name="balanced_accuracy_title">Consumo balanceado</string>
     <string name="balanced_accuracy_text">Consumo balanceado con precisión media (radio de 100m)</string>
     <string name="low_accuracy_title">Bajo consumo</string>
-    <string name="low_accuracy_text">Bajo consumo a costa de una baja precisión(radio de 10Km)</string>
+    <string name="low_accuracy_text">Bajo consumo a costa de una baja precisión (radio de 10Km)</string>
 
 </resources>

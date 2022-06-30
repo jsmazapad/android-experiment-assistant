@@ -52,37 +52,38 @@
             <ImageView
                 android:id="@+id/imagesIV"
                 style="@style/BaseIcon"
-                android:contentDescription="Tiene imágenes"
+                android:contentDescription="@string/camera_icon_content_description"
                 app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
 
             <ImageView
                 android:id="@+id/soundsIV"
                 style="@style/BaseIcon"
-                android:contentDescription="Tiene sonidos"
+                android:contentDescription="@string/audio_icon_content_description"
                 app:srcCompat="@android:drawable/presence_audio_away" />
 
             <ImageView
                 android:id="@+id/embeddingIV"
                 style="@style/BaseIcon"
-                android:contentDescription="Tiene embedding de imágenes"
-                app:srcCompat="@drawable/ic_baseline_cloud_24" />
+                android:contentDescription="@string/embedding_icon_content_description"
+                app:srcCompat="@drawable/ic_baseline_photo_size_select_large_24" />
 
             <ImageView
                 android:id="@+id/sensorsIV"
                 style="@style/BaseIcon"
-                android:contentDescription="Tiene sensores"
+                android:contentDescription="@string/sensor_icon_content_description"
                 app:srcCompat="@drawable/ic_baseline_edgesensor_high_24" />
 
             <ImageView
                 android:id="@+id/syncIV"
                 style="@style/BaseIcon"
-                android:contentDescription="@string/camera_position_configuration_content_description"
+                android:contentDescription="@string/sync_icon_content_description"
                 app:srcCompat="@drawable/ic_baseline_cloud_sync_24" />
 
             <ImageView
                 android:id="@+id/syncPendingIV"
                 style="@style/BaseIcon"
-                android:contentDescription="sync pending"
+                app:tint="@color/warnColor"
+                android:contentDescription="@string/pending_sync_icon_content_description"
                 app:srcCompat="@drawable/ic_baseline_sync_problem_24" />
 
 
@@ -95,7 +96,7 @@
         style="@style/BaseItemListSecondaryTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"

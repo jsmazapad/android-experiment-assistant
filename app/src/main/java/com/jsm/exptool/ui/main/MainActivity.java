@@ -1,6 +1,7 @@
 package com.jsm.exptool.ui.main;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -26,6 +27,10 @@ public class MainActivity extends BaseMenuActivity {
     protected void onDestinationChange(NavController controller, NavDestination destination, Bundle arguments) {
         super.onDestinationChange(controller, destination, arguments);
         noMenu = destination.getId() == R.id.nav_perform_experiment;
+    }
+
+    public Toolbar getToolBar(){
+        return toolbar;
     }
 
 

@@ -10,21 +10,23 @@
     <color name="transparent_gray">#AA333333</color>
     <color name="subtitle_background">#FF018786</color>
     <color name="subtitle_text">#FFFFFFFF</color>
-    <color name="card_header">#bf360c</color>
-    <color name="card_header_variant">#c30000</color>
-    <color name="button_background">#000a12</color>
+    <color name="card_header">#154175</color>
+    <color name="card_header_variant">#1f5ba5</color>
+    <color name="button_background">#003276</color>
     <color name="card_header_text">#FFFFFFFF</color>
     <color name="text_default_color">#8a000000</color>
 
-    <color name="primaryColor">#102027</color>
-    <color name="primaryLightColor">#4f5b62</color>
-    <color name="primaryDarkColor">#000a12</color>
-    <color name="secondaryColor">#bf360c</color>
-    <color name="secondaryLightColor">#ff7539</color>
-    <color name="secondaryDarkColor">#c30000</color>
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="primaryColor">#1f5ba5</color>
+    <color name="primaryLightColor">#5c87d7</color>
+    <color name="primaryDarkColor">#003276</color>
+    <color name="secondaryColor">#154175</color>
+    <color name="secondaryLightColor">#4b6ba4</color>
+    <color name="secondaryDarkColor">#001b49</color>
+    <color name="primaryTextColor">#ffffffff</color>
+    <color name="secondaryTextColor">#ff000000</color>
 
+    <color name="warnColor">#9b0000</color>
+    <color name="warnLight">#ffa3a3</color>
     <color name="graphX">#af260c</color>
     <color name="graphY">#12005e</color>
     <color name="graphZ">#3cff00</color>

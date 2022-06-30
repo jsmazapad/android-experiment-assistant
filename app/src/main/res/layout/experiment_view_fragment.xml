@@ -85,7 +85,7 @@
                         android:layout_weight="1"
                         android:contentDescription="@string/embedding_enabled_content_description"
                         android:visibility="@{viewModel.embeddingEnabled ? View.VISIBLE : View.GONE}"
-                        app:srcCompat="@drawable/ic_baseline_cloud_24" />
+                        app:srcCompat="@drawable/ic_baseline_photo_size_select_large_24" />
 
                     <com.jsm.exptool.libs.ContentDescriptionVisibleImageView
                         android:id="@+id/locationIV"
@@ -117,6 +117,7 @@
                     <com.jsm.exptool.libs.ContentDescriptionVisibleImageView
                         android:id="@+id/syncPendingIV"
                         style="@style/BaseWhiteIcon"
+                        app:tint="@color/warnLight"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:contentDescription="@string/sync_pending_content_description"
@@ -263,13 +264,14 @@
                 <TextView
                     android:id="@+id/label"
                     style="@style/BaseCardTitleTextView"
+                    android:textSize="20sp"
                     android:layout_width="match_parent"
                     android:background="@color/card_header"
+                    android:textColor="@color/white"
                     android:elevation="8dp"
                     android:padding="10dp"
                     android:text="@{viewModel.title}"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
                     tools:text="titulo" />
 
 
