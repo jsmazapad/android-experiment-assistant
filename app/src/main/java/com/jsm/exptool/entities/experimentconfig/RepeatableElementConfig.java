@@ -26,7 +26,7 @@ public class RepeatableElementConfig implements Parcelable {
     }
 
 
-    public final int getNameStringResource() {
+    public int getNameStringResource() {
         return this.nameStringResource;
     }
 

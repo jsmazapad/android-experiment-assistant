@@ -1,5 +1,7 @@
 package com.jsm.exptool.entities.experimentconfig;
 
+import static com.jsm.exptool.config.SensorConfigConstants.TYPE_SENSORS_TO_RES_STRING;
+
 import android.hardware.Sensor;
 
 import android.os.Parcel;
@@ -73,6 +75,10 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable {
 
     }
 
+    @Override
+    public int getNameStringResource() {
+        return TYPE_SENSORS_TO_RES_STRING.get(sensorReader.getSensorType());
+    }
 
     public void initSensorLimits(){
         Sensor sensor = sensorReader.getSensor();

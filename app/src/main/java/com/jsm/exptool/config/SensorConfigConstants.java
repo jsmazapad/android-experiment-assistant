@@ -35,29 +35,30 @@ public class SensorConfigConstants {
     public static final String TYPE_GPS_SENSOR_NAME = "Ubicación";
 
 
-//    public static final Map<Integer, Integer> TYPE_SENSORS = new HashMap<Integer, Integer>() {{
-//        put(TYPE_STATIONARY_DETECT, R.string.stationary_detect);
-//        put(TYPE_MOTION_DETECT, R.string.motion_detect);
-//        put(TYPE_HEART_BEAT, R.string.heart_beat);
-//        put(TYPE_HEART_RATE, R.string.heart_rate);
-//        put(TYPE_GEOMAGNETIC_ROTATION_VECTOR, R.string.geomagnetic_rotation_vector);
-//        put(TYPE_STEP_COUNTER, R.string.step_counter);
-//        put(TYPE_STEP_DETECTOR, R.string.step_detect);
-//        put(TYPE_SIGNIFICANT_MOTION, R.string.significant_motion);
-//        put(TYPE_GAME_ROTATION_VECTOR, R.string.game_rotation_vector);
-//        put(TYPE_AMBIENT_TEMPERATURE, R.string.ambient_temperature);
-//        put(TYPE_RELATIVE_HUMIDITY, R.string.relative_humidity);
-//        put(TYPE_ROTATION_VECTOR, R.string.rotation_vector);
-//        put(TYPE_LINEAR_ACCELERATION, R.string.linear_acceleration);
-//        put(TYPE_GRAVITY, R.string.gravity);
-//        put(TYPE_PROXIMITY, R.string.proximity);
-//        put(TYPE_TEMPERATURE,R.string.temperature);
-//        put(TYPE_PRESSURE, R.string.pressure);
-//        put(TYPE_LIGHT, R.string.light);
-//        put(TYPE_GYROSCOPE,R.string.gyroscope);
-//        put(TYPE_ORIENTATION, R.string.orientation);
-//        put(TYPE_MAGNETIC_FIELD, R.string.magnetic_field);
-//        put(TYPE_ACCELEROMETER, R.string.accelerometer);
-//    }};
+    public static final Map<Integer, Integer> TYPE_SENSORS_TO_RES_STRING = new HashMap<Integer, Integer>() {{
+        put(TYPE_STATIONARY_DETECT, R.string.stationary_detect);
+        put(TYPE_MOTION_DETECT, R.string.motion_detect);
+        put(TYPE_HEART_BEAT, R.string.heart_beat);
+        put(TYPE_HEART_RATE, R.string.heart_rate);
+        put(TYPE_GEOMAGNETIC_ROTATION_VECTOR, R.string.geomagnetic_rotation_vector);
+        put(TYPE_STEP_COUNTER, R.string.step_counter);
+        put(TYPE_STEP_DETECTOR, R.string.step_detect);
+        put(TYPE_SIGNIFICANT_MOTION, R.string.significant_motion);
+        put(TYPE_GAME_ROTATION_VECTOR, R.string.game_rotation_vector);
+        put(TYPE_AMBIENT_TEMPERATURE, R.string.ambient_temperature);
+        put(TYPE_RELATIVE_HUMIDITY, R.string.relative_humidity);
+        put(TYPE_ROTATION_VECTOR, R.string.rotation_vector);
+        put(TYPE_LINEAR_ACCELERATION, R.string.linear_acceleration);
+        put(TYPE_GRAVITY, R.string.gravity);
+        put(TYPE_PROXIMITY, R.string.proximity);
+        put(TYPE_TEMPERATURE,R.string.temperature);
+        put(TYPE_PRESSURE, R.string.pressure);
+        put(TYPE_LIGHT, R.string.light);
+        put(TYPE_GYROSCOPE,R.string.gyroscope);
+        put(TYPE_ORIENTATION, R.string.orientation);
+        put(TYPE_MAGNETIC_FIELD, R.string.magnetic_field);
+        put(TYPE_ACCELEROMETER, R.string.accelerometer);
+        put(TYPE_GPS, R.string.location);
+    }};
 
 }
