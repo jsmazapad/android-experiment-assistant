@@ -20,6 +20,6 @@ public class ExperimentViewViewHolder extends BaseRecyclerViewHolder<RepeatableE
 
     @Override
     public void fillViewHolder(RepeatableElementConfig element) {
-        measuredItemTitleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
+        measuredItemTitleTV.setText(itemView.getContext().getString(element.getNameStringRes()));
     }
 }

@@ -71,7 +71,7 @@ public class ExperimentViewRegistersFragment extends BaseFragment<ExperimentView
         tabLayout.getTabAt(1).setText(viewModel.getSecondTabTitle());
 
         //Si son comentarios sólo muestra un tab
-        if(viewModel.getMeasurableItem().getNameStringResource() == R.string.comments) {
+        if(viewModel.getMeasurableItem().getNameStringRes() == R.string.comments) {
             tabLayout.removeTab(tabLayout.getTabAt(1));
         }
 

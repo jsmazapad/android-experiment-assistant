@@ -14,22 +14,15 @@ public class AudioConfig extends MultimediaConfig {
     private AudioRecordingOption recordingOption;
     int recordingDuration;
 
-    public AudioConfig(int interval, int intervalMin, int intervalMax, int nameStringResource,  AudioRecordingOption recordingOption, int recordingDuration) {
-        super(interval, intervalMin,intervalMax, nameStringResource);
-        this.recordingOption = recordingOption;
-        this.recordingDuration = recordingDuration;
-    }
-
-    @Ignore
-    public AudioConfig(int interval, int intervalMin, int intervalMax, AudioRecordingOption recordingOption, int recordingDuration) {
-        super(interval, intervalMin,intervalMax, R.string.audio);
+    public AudioConfig(int interval, int intervalMin, int intervalMax,  AudioRecordingOption recordingOption, int recordingDuration) {
+        super(interval, intervalMin,intervalMax);
         this.recordingOption = recordingOption;
         this.recordingDuration = recordingDuration;
     }
 
     @Ignore
     public AudioConfig(int interval, int intervalMin, int intervalMax){
-        super(interval, intervalMin,intervalMax, R.string.audio);
+        super(interval, intervalMin,intervalMax);
     }
 
 //    @Ignore
@@ -43,6 +36,11 @@ public class AudioConfig extends MultimediaConfig {
 
     public void setRecordingOption(AudioRecordingOption recordingOption) {
         this.recordingOption = recordingOption;
+    }
+
+    @Override
+    public int getNameStringRes() {
+        return R.string.audio;
     }
 
     public int getRecordingDuration() {

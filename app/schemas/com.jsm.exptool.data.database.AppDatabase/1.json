@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d1d396218a178fcb0eaf1b38ed81662b",
+    "identityHash": "e0f4f56a3c2f0db376c98587e54974d3",
     "entities": [
       {
         "tableName": "imageRegisters",
@@ -83,7 +83,7 @@
       },
       {
         "tableName": "experiments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `externalId` TEXT, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `syncPending` INTEGER NOT NULL, `embeddingPending` INTEGER NOT NULL, `exportedPending` INTEGER NOT NULL, `size` TEXT, `duration` INTEGER NOT NULL, `quickComments` TEXT, `quickCommentsCollectionUsedId` INTEGER, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_intervalMax` INTEGER, `camera_config_nameStringResource` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_descriptionTranslatableRes` INTEGER, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_intervalMax` INTEGER, `audio_config_nameStringResource` INTEGER, `audio_config_recordingDuration` INTEGER, `audio_config_displayName` TEXT, `audio_config_descriptionTranslatableRes` INTEGER, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `location_config_interval` INTEGER, `location_config_intervalMin` INTEGER, `location_config_intervalMax` INTEGER, `location_config_nameStringResource` INTEGER, `location_config_titleTranslatableRes` INTEGER, `location_config_descriptionTranslatableRes` INTEGER, `location_config_locationMode` INTEGER, `location_config_locationReferenceName` TEXT, `sensor_config_interval` INTEGER, `sensor_config_intervalMin` INTEGER, `sensor_config_intervalMax` INTEGER, `sensor_config_nameStringResource` INTEGER, `remote_sync_config_interval` INTEGER, `remote_sync_config_intervalMin` INTEGER, `remote_sync_config_intervalMax` INTEGER, `remote_sync_config_nameStringResource` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `externalId` TEXT, `userId` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `initDate` INTEGER, `endDate` INTEGER, `status` INTEGER, `sdkDevice` INTEGER NOT NULL, `device` TEXT, `syncPending` INTEGER NOT NULL, `embeddingPending` INTEGER NOT NULL, `exportedPending` INTEGER NOT NULL, `size` TEXT, `duration` INTEGER NOT NULL, `quickComments` TEXT, `quickCommentsCollectionUsedId` INTEGER, `camera_config_interval` INTEGER, `camera_config_intervalMin` INTEGER, `camera_config_intervalMax` INTEGER, `camera_config_flashMode` INTEGER, `camera_config_cameraPosition` INTEGER, `camera_config_displayName` TEXT, `camera_config_remoteServerName` TEXT, `camera_config_optimalImageWidth` INTEGER, `camera_config_optimalImageHeight` INTEGER, `camera_config_maxParallelRequest` INTEGER, `audio_config_interval` INTEGER, `audio_config_intervalMin` INTEGER, `audio_config_intervalMax` INTEGER, `audio_config_recordingDuration` INTEGER, `audio_config_displayName` TEXT, `audio_config_audioSource` INTEGER, `audio_config_outputFormat` INTEGER, `audio_config_audioEncoder` INTEGER, `audio_config_fileExtension` TEXT, `audio_config_selectedEncodingBitRate` INTEGER, `audio_config_encodingBitRatesOptions` TEXT, `location_config_interval` INTEGER, `location_config_intervalMin` INTEGER, `location_config_intervalMax` INTEGER, `location_config_locationMode` INTEGER, `location_config_locationReferenceName` TEXT, `sensor_config_interval` INTEGER, `sensor_config_intervalMin` INTEGER, `sensor_config_intervalMax` INTEGER, `remote_sync_config_interval` INTEGER, `remote_sync_config_intervalMin` INTEGER, `remote_sync_config_intervalMax` INTEGER)",
         "fields": [
           {
             "fieldPath": "internalId",
@@ -206,12 +206,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "configuration.cameraConfig.nameStringResource",
-            "columnName": "camera_config_nameStringResource",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
             "fieldPath": "configuration.cameraConfig.flashMode",
             "columnName": "camera_config_flashMode",
             "affinity": "INTEGER",
@@ -233,12 +227,6 @@
             "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.remoteServerName",
             "columnName": "camera_config_remoteServerName",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "configuration.cameraConfig.embeddingAlgorithm.descriptionTranslatableRes",
-            "columnName": "camera_config_descriptionTranslatableRes",
-            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -278,12 +266,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "configuration.audioConfig.nameStringResource",
-            "columnName": "audio_config_nameStringResource",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
             "fieldPath": "configuration.audioConfig.recordingDuration",
             "columnName": "audio_config_recordingDuration",
             "affinity": "INTEGER",
@@ -293,12 +275,6 @@
             "fieldPath": "configuration.audioConfig.recordingOption.displayName",
             "columnName": "audio_config_displayName",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "configuration.audioConfig.recordingOption.descriptionTranslatableRes",
-            "columnName": "audio_config_descriptionTranslatableRes",
-            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -356,24 +332,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "configuration.locationConfig.nameStringResource",
-            "columnName": "location_config_nameStringResource",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "configuration.locationConfig.locationOption.titleTranslatableRes",
-            "columnName": "location_config_titleTranslatableRes",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "configuration.locationConfig.locationOption.descriptionTranslatableRes",
-            "columnName": "location_config_descriptionTranslatableRes",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
             "fieldPath": "configuration.locationConfig.locationOption.locationMode",
             "columnName": "location_config_locationMode",
             "affinity": "INTEGER",
@@ -404,12 +362,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "configuration.sensorConfig.nameStringResource",
-            "columnName": "sensor_config_nameStringResource",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
             "fieldPath": "configuration.remoteSyncConfig.interval",
             "columnName": "remote_sync_config_interval",
             "affinity": "INTEGER",
@@ -424,12 +376,6 @@
           {
             "fieldPath": "configuration.remoteSyncConfig.intervalMax",
             "columnName": "remote_sync_config_intervalMax",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "configuration.remoteSyncConfig.nameStringResource",
-            "columnName": "remote_sync_config_nameStringResource",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -519,7 +465,7 @@
       },
       {
         "tableName": "experiment_sensors",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interval` INTEGER NOT NULL, `intervalMin` INTEGER NOT NULL, `intervalMax` INTEGER NOT NULL, `nameStringResource` INTEGER NOT NULL, `_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `defaultConfigurationEnabled` INTEGER NOT NULL, `sensorType` INTEGER, `measure` TEXT, `restartInitialMeasureAfterRead` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`interval` INTEGER NOT NULL, `intervalMin` INTEGER NOT NULL, `intervalMax` INTEGER NOT NULL, `_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `defaultConfigurationEnabled` INTEGER NOT NULL, `sensorName` TEXT, `sensorType` INTEGER, `measure` TEXT, `restartInitialMeasureAfterRead` INTEGER)",
         "fields": [
           {
             "fieldPath": "interval",
@@ -540,12 +486,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "nameStringResource",
-            "columnName": "nameStringResource",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "internalId",
             "columnName": "_id",
             "affinity": "INTEGER",
@@ -562,6 +502,12 @@
             "columnName": "defaultConfigurationEnabled",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "sensorName",
+            "columnName": "sensorName",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "sensorReader.sensorType",
@@ -602,7 +548,7 @@
       },
       {
         "tableName": "sensorRegisters",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `value1` REAL NOT NULL, `value1String` TEXT, `value2` REAL NOT NULL, `value2String` TEXT, `value3` REAL NOT NULL, `value3String` TEXT, `sensorName` TEXT, `sensorType` INTEGER NOT NULL, `sensorNameResource` INTEGER NOT NULL, `accuracy` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `experimentId` INTEGER NOT NULL, `date` INTEGER, `dataRemoteSynced` INTEGER NOT NULL, `value1` REAL NOT NULL, `value1String` TEXT, `value2` REAL NOT NULL, `value2String` TEXT, `value3` REAL NOT NULL, `value3String` TEXT, `sensorName` TEXT, `sensorType` INTEGER NOT NULL, `accuracy` REAL NOT NULL)",
         "fields": [
           {
             "fieldPath": "internalId",
@@ -673,12 +619,6 @@
           {
             "fieldPath": "sensorType",
             "columnName": "sensorType",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "sensorNameResource",
-            "columnName": "sensorNameResource",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -845,7 +785,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d1d396218a178fcb0eaf1b38ed81662b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e0f4f56a3c2f0db376c98587e54974d3\")"
     ]
   }
 }

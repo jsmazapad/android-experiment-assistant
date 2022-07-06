@@ -2,10 +2,10 @@ package com.jsm.exptool.entities.experimentconfig;
 
 import android.os.Parcel;
 
-public class MultimediaConfig extends RepeatableElementConfig {
+public abstract class MultimediaConfig extends RepeatableElementConfig {
 
-    public MultimediaConfig(int interval, int intervalMin, int intervalMax, int nameStringResource) {
-        super(interval, intervalMin, intervalMax, nameStringResource);
+    public MultimediaConfig(int interval, int intervalMin, int intervalMax) {
+        super(interval, intervalMin, intervalMax);
     }
 
 //    public MultimediaConfig() {

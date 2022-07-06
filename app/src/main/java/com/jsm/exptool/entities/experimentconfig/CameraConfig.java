@@ -15,33 +15,22 @@ public class CameraConfig extends MultimediaConfig{
     CameraProvider.FlashModes flashMode = CameraProvider.FlashModes.OFF;
     CameraProvider.CameraPositions cameraPosition = CameraProvider.CameraPositions.REAR;
     @Embedded EmbeddingAlgorithm embeddingAlgorithm;
-    public CameraConfig(int interval, int intervalMin, int intervalMax, int nameStringResource, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
-        super(interval, intervalMin, intervalMax, nameStringResource);
+    public CameraConfig(int interval, int intervalMin, int intervalMax, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
+        super(interval, intervalMin, intervalMax);
         this.flashMode = flashMode;
         this.cameraPosition = cameraPosition;
         this.embeddingAlgorithm = embeddingAlgorithm;
     }
-    @Ignore
-    public CameraConfig( int interval, int intervalMin, int intervalMax, CameraProvider.FlashModes flashMode, CameraProvider.CameraPositions cameraPosition, EmbeddingAlgorithm embeddingAlgorithm) {
-        super(interval, intervalMin, intervalMax, R.string.camera);
-        this.flashMode = flashMode;
-        this.cameraPosition = cameraPosition;
-        this.embeddingAlgorithm = embeddingAlgorithm;
-    }
+
     @Ignore
     public CameraConfig( int interval, int intervalMin, int intervalMax){
-        super(interval, intervalMin, intervalMax, R.string.camera);
+        super(interval, intervalMin, intervalMax);
     }
-//    @Ignore
-//    public CameraConfig(){
-//        this.nameStringResource = R.string.camera;
-//    }
 
-
-
-
-
-
+    @Override
+    public int getNameStringRes() {
+        return R.string.camera;
+    }
 
     public CameraProvider.FlashModes getFlashMode() {
         return flashMode;

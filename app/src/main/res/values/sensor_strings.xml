@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="accelerometer1">Acelerómetro1</string>
+    <string name="accelerometer2">Acelerómetro2</string>
+    <string name="accelerometer3">Acelerómetro3</string>
+    <string name="accelerometer4">Acelerómetro4</string>
     <string name="accelerometer">Acelerómetro</string>
     <string name="magnetic_field">Campo magnético</string>
     <string name="orientation">Orientación</string>
@@ -27,5 +31,6 @@
     <string name="location">Ubicación</string>
     <string name="audio">Audio</string>
     <string name="sensors">Sensores</string>
+    <string name="undetermined">Indeterminado</string>
 
 </resources>

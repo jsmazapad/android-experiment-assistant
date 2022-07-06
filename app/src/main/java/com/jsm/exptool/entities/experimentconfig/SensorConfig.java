@@ -1,12 +1,11 @@
 package com.jsm.exptool.entities.experimentconfig;
 
-import static com.jsm.exptool.config.SensorConfigConstants.TYPE_SENSORS_TO_RES_STRING;
-
 import android.hardware.Sensor;
 
 import android.os.Parcel;
 import android.provider.BaseColumns;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -15,6 +14,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.jsm.exptool.config.FrequencyConstants;
+import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.providers.SensorProvider;
 import com.jsm.exptool.entities.sensoreventsreader.SensorReader;
 
@@ -35,6 +35,7 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable {
     @Expose private long internalId;
     @Expose private long experimentId;
     private boolean defaultConfigurationEnabled;
+    private String sensorName;
 
 
     /**
@@ -42,14 +43,14 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable {
      * @param interval
      * @param intervalMin
      * @param intervalMax
-     * @param nameStringResource
+     * @param sensorName
      * @param internalId
      * @param experimentId
      * @param sensorReader
      * @param defaultConfigurationEnabled
      */
-    public SensorConfig(int interval, int intervalMin, int intervalMax, int nameStringResource, long internalId, long experimentId, SensorReader sensorReader, boolean defaultConfigurationEnabled) {
-        this(sensorReader, intervalMin, intervalMax, interval, nameStringResource, defaultConfigurationEnabled);
+    public SensorConfig(int interval, int intervalMin, int intervalMax, String sensorName, long internalId, long experimentId, @NonNull SensorReader sensorReader, boolean defaultConfigurationEnabled) {
+        this(sensorReader, intervalMin, intervalMax, interval, sensorName, defaultConfigurationEnabled);
         this.internalId = internalId;
         this.experimentId = experimentId;
         //Obtenemos una instancia completa del reader en base al tipo de sensor
@@ -59,25 +60,26 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable {
     }
 
     @Ignore
-    public SensorConfig(SensorReader sensorReader, int intervalMin,int intervalMax, int interval,  int nameStringResource, boolean defaultConfigurationEnabled) {
-        super(interval, intervalMin, intervalMax, nameStringResource);
+    public SensorConfig(@NonNull SensorReader sensorReader, int intervalMin, int intervalMax, int interval, String sensorName, boolean defaultConfigurationEnabled) {
+        super(interval, intervalMin, intervalMax);
         this.defaultConfigurationEnabled = defaultConfigurationEnabled;
         this.sensorReader = sensorReader;
+        this.sensorName = sensorName;
         initSensorLimits();
     }
 
 
     @Ignore
-    public SensorConfig(SensorReader sensorReader, int nameStringResource, int intervalMin, int intervalMax, int interval) {
+    public SensorConfig(@NonNull SensorReader sensorReader, String sensorName, int intervalMin, int intervalMax, int interval) {
         //TODO Estudiar cuando aplicar intervalMx e intervalMin de sensor
-        this(sensorReader, intervalMin, intervalMax, interval, nameStringResource, true);
+        this(sensorReader, intervalMin, intervalMax, interval, sensorName, true);
         this.defaultConfigurationEnabled = true;
 
     }
 
     @Override
-    public int getNameStringResource() {
-        return TYPE_SENSORS_TO_RES_STRING.get(sensorReader.getSensorType());
+    public int getNameStringRes() {
+        return SensorConfigConstants.getResStringFromTypeSensor(sensorReader.getSensorType());
     }
 
     public void initSensorLimits(){
@@ -112,6 +114,14 @@ public class SensorConfig extends RepeatableElementConfig implements Cloneable {
 
     public SensorReader getSensorReader() {
         return sensorReader;
+    }
+
+    public String getSensorName() {
+        return sensorName;
+    }
+
+    public void setSensorName(String sensorName) {
+        this.sensorName = sensorName;
     }
 
     /**

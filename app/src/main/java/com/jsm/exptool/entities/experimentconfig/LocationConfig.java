@@ -9,14 +9,9 @@ import com.jsm.exptool.R;
 
 public class LocationConfig extends RepeatableElementConfig {
     @Embedded private LocationOption locationOption;
-    public LocationConfig(int interval, int intervalMin, int intervalMax, int nameStringResource) {
-        super(interval, intervalMin, intervalMax, nameStringResource);
-    }
-    @Ignore
     public LocationConfig(int interval, int intervalMin, int intervalMax) {
-        super(interval, intervalMin, intervalMax,  R.string.location);
+        super(interval, intervalMin, intervalMax);
     }
-
 
     public LocationOption getLocationOption() {
         return locationOption;
@@ -26,7 +21,10 @@ public class LocationConfig extends RepeatableElementConfig {
         this.locationOption = locationOption;
     }
 
-
+    @Override
+    public int getNameStringRes() {
+        return R.string.location;
+    }
 
 
     @Override

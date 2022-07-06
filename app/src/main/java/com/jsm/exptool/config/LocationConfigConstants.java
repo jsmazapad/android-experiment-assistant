@@ -17,4 +17,15 @@ public class LocationConfigConstants {
             new LocationOption(R.string.balanced_accuracy_title, R.string.balanced_accuracy_text, LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY, BALANCED_POWER),
             new LocationOption(R.string.low_accuracy_title, R.string.low_accuracy_text, LocationRequest.PRIORITY_LOW_POWER, LOW_POWER)
         );
+    public static final LocationOption getLocationOptionFromTag(String tag){
+        LocationOption optionToReturn = null;
+        for (LocationOption option: SUPPORTED_LOCATION_CONFIGURATIONS) {
+            if (option.getLocationReferenceName().equals(tag)){
+                optionToReturn = option;
+                break;
+            }
+
+        }
+        return optionToReturn;
+    }
 }

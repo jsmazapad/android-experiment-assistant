@@ -15,22 +15,15 @@ public class SensorsGlobalConfig extends RepeatableElementConfig {
     //TODO meter en base de datos listado
     @Ignore  List<SensorConfig> sensors;
 
-    public SensorsGlobalConfig(int interval, int intervalMin, int intervalMax, int nameStringResource /*, List<SensorConfig> sensors*/) {
-        super(interval, intervalMin, intervalMax, nameStringResource);
-//        this.sensors = sensors;
-    }
-
-    @Ignore
     public SensorsGlobalConfig(int interval, int intervalMin, int intervalMax) {
-        super(interval, intervalMin, intervalMax, R.string.global_frequency_text);
-//        this.sensors = sensors;
+        super(interval, intervalMin, intervalMax);
     }
 
-    @Ignore
-    public SensorsGlobalConfig(List<SensorConfig> sensors) {
-        this.nameStringResource = R.string.global_frequency_text;
-        this.sensors = sensors;
-    }
+
+//    @Ignore
+//    public SensorsGlobalConfig(List<SensorConfig> sensors) {
+//        this.sensors = sensors;
+//    }
 
     public List<SensorConfig> getSensors() {
         return sensors;
@@ -40,6 +33,10 @@ public class SensorsGlobalConfig extends RepeatableElementConfig {
         this.sensors = sensors;
     }
 
+    @Override
+    public int getNameStringRes() {
+        return R.string.global_frequency_text;
+    }
 
     @Override
     public int describeContents() {

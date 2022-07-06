@@ -3,6 +3,7 @@ package com.jsm.exptool.entities.experimentconfig;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.StringRes;
 import androidx.room.Ignore;
 
 import com.google.gson.annotations.Expose;
@@ -12,13 +13,19 @@ public class RepeatableElementConfig implements Parcelable {
     @Expose protected int interval;
     @Expose protected int intervalMin;
     @Expose protected int intervalMax;
-    @Expose protected int nameStringResource;
+    @Ignore protected @StringRes int nameStringRes;
 
-    public RepeatableElementConfig(int interval, int intervalMin, int intervalMax, int nameStringResource) {
+    public RepeatableElementConfig(int interval, int intervalMin, int intervalMax) {
         this.interval = interval;
         this.intervalMin = intervalMin;
         this.intervalMax = intervalMax;
-        this.nameStringResource = nameStringResource;
+    }
+
+    @Ignore public RepeatableElementConfig(int interval, int intervalMin, int intervalMax, @StringRes int nameStringRes) {
+        this.interval = interval;
+        this.intervalMin = intervalMin;
+        this.intervalMax = intervalMax;
+        this.nameStringRes = nameStringRes;
     }
 
     @Ignore public RepeatableElementConfig(){
@@ -26,8 +33,20 @@ public class RepeatableElementConfig implements Parcelable {
     }
 
 
-    public int getNameStringResource() {
-        return this.nameStringResource;
+    public static final Creator<RepeatableElementConfig> CREATOR = new Creator<RepeatableElementConfig>() {
+        @Override
+        public RepeatableElementConfig createFromParcel(Parcel in) {
+            return new RepeatableElementConfig(in);
+        }
+
+        @Override
+        public RepeatableElementConfig[] newArray(int size) {
+            return new RepeatableElementConfig[size];
+        }
+    };
+
+    public int getNameStringRes(){
+        return nameStringRes;
     }
 
     public final int getInterval() {
@@ -54,17 +73,6 @@ public class RepeatableElementConfig implements Parcelable {
         this.intervalMax = intervalMax;
     }
 
-    public static final Creator<RepeatableElementConfig> CREATOR = new Creator<RepeatableElementConfig>() {
-        @Override
-        public RepeatableElementConfig createFromParcel(Parcel in) {
-            return new RepeatableElementConfig(in);
-        }
-
-        @Override
-        public RepeatableElementConfig[] newArray(int size) {
-            return new RepeatableElementConfig[size];
-        }
-    };
 
     @Override
     public int describeContents() {
@@ -76,14 +84,14 @@ public class RepeatableElementConfig implements Parcelable {
         dest.writeInt(this.interval);
         dest.writeInt(this.intervalMin);
         dest.writeInt(this.intervalMax);
-        dest.writeInt(this.nameStringResource);
+
     }
 
     public void readFromParcel(Parcel source) {
         this.interval = source.readInt();
         this.intervalMin = source.readInt();
         this.intervalMax = source.readInt();
-        this.nameStringResource = source.readInt();
+
     }
 
     protected RepeatableElementConfig(Parcel in) {

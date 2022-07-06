@@ -39,7 +39,7 @@ public class ExperimentViewRegistersViewModel extends BaseRecyclerViewModel<Expe
     }
 
     private void initViewStrings(){
-        title.setValue(getApplication().getString(measurableItem.getNameStringResource()));
+        title.setValue(getApplication().getString(measurableItem.getNameStringRes()));
 
         if(measurableItem instanceof SensorConfig){
                 secondTabTitle =R.string.graph_tab_title;

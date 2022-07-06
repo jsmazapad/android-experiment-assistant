@@ -25,7 +25,7 @@ public class ExperimentCreateBasicDataViewHolder extends BaseRecyclerViewHolder<
 
     @Override
     public void fillViewHolder(SensorConfig element) {
-        titleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
+        titleTV.setText(itemView.getContext().getString(element.getNameStringRes()));
         deleteIV.setOnClickListener(v -> {if(listener != null){listener.delete(element, itemView.getContext());}});
     }
 }

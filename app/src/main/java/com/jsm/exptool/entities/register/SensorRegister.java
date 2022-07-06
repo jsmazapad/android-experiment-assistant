@@ -6,6 +6,8 @@ import androidx.annotation.StringRes;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
+import com.jsm.exptool.config.SensorConfigConstants;
+
 import java.util.Date;
 
 @Entity(tableName = com.jsm.exptool.entities.register.SensorRegister.TABLE_NAME, inheritSuperIndices = true)
@@ -24,12 +26,12 @@ public class SensorRegister extends ExperimentRegister {
     private String value3String;
     private String sensorName;
     private int sensorType;
-    private @StringRes int sensorNameResource;
+    @Ignore private @StringRes int sensorNameResource;
     private float accuracy;
 
     public SensorRegister(long internalId, long experimentId, Date date, boolean dataRemoteSynced, double value1, String value1String,
                           double value2, String value2String, double value3, String value3String, String sensorName,
-                          int sensorType, @StringRes int sensorNameResource, float accuracy) {
+                          int sensorType, float accuracy) {
         super(internalId, experimentId, date, dataRemoteSynced);
         this.value1 = value1;
         this.value1String = value1String;
@@ -39,8 +41,8 @@ public class SensorRegister extends ExperimentRegister {
         this.value3String = value3String;
         this.sensorName = sensorName;
         this.sensorType = sensorType;
-        this.sensorNameResource = sensorNameResource;
         this.accuracy = accuracy;
+        this.sensorNameResource = SensorConfigConstants.getResStringFromTypeSensor(sensorType);
     }
     @Ignore
     public SensorRegister(long experimentId, Date date, boolean dataRemoteSynced, double value1, String value1String,

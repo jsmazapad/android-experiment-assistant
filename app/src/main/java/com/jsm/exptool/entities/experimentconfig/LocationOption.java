@@ -4,14 +4,34 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.StringRes;
+import androidx.room.Ignore;
+
+import com.jsm.exptool.R;
+import com.jsm.exptool.config.LocationConfigConstants;
 
 public class LocationOption implements Parcelable {
 
-    private @StringRes int titleTranslatableRes;
-    private @StringRes int descriptionTranslatableRes;
+    @Ignore private @StringRes int titleTranslatableRes;
+    @Ignore private @StringRes int descriptionTranslatableRes;
     private int locationMode;
     private String locationReferenceName;
 
+    public LocationOption(int locationMode, String locationReferenceName) {
+
+        LocationOption option = LocationConfigConstants.getLocationOptionFromTag(locationReferenceName);
+        if(option != null){
+            this.titleTranslatableRes = option.getTitleTranslatableRes();
+            this.descriptionTranslatableRes = option.getDescriptionTranslatableRes();
+        }else{
+            this.titleTranslatableRes = R.string.undetermined;
+            this.descriptionTranslatableRes = R.string.undetermined;
+        }
+
+        this.locationMode = locationMode;
+        this.locationReferenceName = locationReferenceName;
+    }
+
+    @Ignore
     public LocationOption(int titleTranslatableRes, int descriptionTranslatableRes, int locationMode, String locationReferenceName) {
         this.titleTranslatableRes = titleTranslatableRes;
         this.descriptionTranslatableRes = descriptionTranslatableRes;

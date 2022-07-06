@@ -22,7 +22,7 @@ public class ExperimentPerformViewHolder extends BaseRecyclerViewHolder<SensorCo
 
     @Override
     public void fillViewHolder(SensorConfig element) {
-        sensorTitleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
+        sensorTitleTV.setText(itemView.getContext().getString(element.getNameStringRes()));
         StringBuilder builder = new StringBuilder();
         for(Map.Entry<String, Float> entry: element.getSensorReader().getMeasure().entrySet()){
             if (entry.getKey() != null && !"".equals(entry.getKey()))

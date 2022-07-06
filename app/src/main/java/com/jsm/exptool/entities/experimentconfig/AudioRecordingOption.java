@@ -4,12 +4,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.StringRes;
+import androidx.room.Ignore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AudioRecordingOption implements Parcelable {
     String displayName;
+    @Ignore
     @StringRes int descriptionTranslatableRes;
     private int audioSource;
     private int outputFormat;
@@ -18,6 +20,16 @@ public class AudioRecordingOption implements Parcelable {
     int selectedEncodingBitRate;
     private List<Integer> encodingBitRatesOptions;
 
+    public AudioRecordingOption(String displayName,  int audioSource, int outputFormat, int audioEncoder, String fileExtension, int selectedEncodingBitRate, List<Integer> encodingBitRatesOptions) {
+        this.displayName = displayName;
+        this.audioSource = audioSource;
+        this.outputFormat = outputFormat;
+        this.audioEncoder = audioEncoder;
+        this.fileExtension = fileExtension;
+        this.selectedEncodingBitRate = selectedEncodingBitRate;
+        this.encodingBitRatesOptions = encodingBitRatesOptions;
+    }
+    @Ignore
     public AudioRecordingOption(String displayName, @StringRes int descriptionTranslatableRes, int audioSource, int outputFormat, int audioEncoder, String fileExtension, int selectedEncodingBitRate, List<Integer> encodingBitRatesOptions) {
         this.displayName = displayName;
         this.descriptionTranslatableRes = descriptionTranslatableRes;

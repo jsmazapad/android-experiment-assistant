@@ -134,7 +134,7 @@ public class WorksOrchestratorProvider {
                 .create();
         Map<String, Object> registerSensorValues = new HashMap<>();
         registerSensorValues.put(SENSOR, gson.toJson(sensor));
-        registerSensorValues.put(SENSOR_NAME, context.getString(sensor.getNameStringResource()));
+        registerSensorValues.put(SENSOR_NAME, context.getString(sensor.getNameStringRes()));
         registerSensorValues.put(EXPERIMENT_ID, experiment.getInternalId());
         registerSensorValues.put(DATE_TIMESTAMP, date.getTime());
 

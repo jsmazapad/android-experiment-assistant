@@ -300,14 +300,14 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
                 StringBuilder sensorListAsStringBuilder = new StringBuilder();
                 //Si tiene ubicación, añadimos a la lista de sensores
                 if(configuration.isLocationEnabled()){
-                    sensorListAsStringBuilder.append(context.getString(configuration.getLocationConfig().getNameStringResource()))
+                    sensorListAsStringBuilder.append(context.getString(configuration.getLocationConfig().getNameStringRes()))
                             .append(" (")
                             .append(context.getString(configuration.getLocationConfig().getLocationOption().getTitleTranslatableRes()))
                             .append("), ");
                 }
                 //Transformamos la lista de sensores en un string para mostrarlo en pantalla
                 for (SensorConfig sensorConfig:experiment.getConfiguration().getSensorConfig().getSensors()) {
-                    sensorListAsStringBuilder.append(context.getString(sensorConfig.getNameStringResource())).append(", ");
+                    sensorListAsStringBuilder.append(context.getString(sensorConfig.getNameStringRes())).append(", ");
                 }
 
                 String sensorListAsString = sensorListAsStringBuilder.toString();

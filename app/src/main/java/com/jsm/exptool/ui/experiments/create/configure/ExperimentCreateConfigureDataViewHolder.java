@@ -25,7 +25,7 @@ public class ExperimentCreateConfigureDataViewHolder extends BaseRecyclerViewHol
 
     @Override
     public void fillViewHolder(SensorConfig element) {
-        titleTV.setText(itemView.getContext().getString(element.getNameStringResource()));
+        titleTV.setText(itemView.getContext().getString(element.getNameStringRes()));
         minFreqTV.setText(String.format(itemView.getContext().getString(R.string.min_freq_placeholder),TimeDisplayStringProvider.millisecondsToStringBestDisplay( element.getSensorSystemMinDelay())));
         String frequencyValue = "";
         if(element.isDefaultConfigurationEnabled()){

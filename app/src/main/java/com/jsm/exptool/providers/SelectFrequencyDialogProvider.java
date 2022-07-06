@@ -28,7 +28,7 @@ public class SelectFrequencyDialogProvider {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
         mBuilder.setView(mView);
         if(alternativeTitle == null) {
-            mBuilder.setTitle(String.format(context.getString(R.string.configure_frequency_title), context.getString(frequencyConfiguration.getNameStringResource())));
+            mBuilder.setTitle(String.format(context.getString(R.string.configure_frequency_title), context.getString(frequencyConfiguration.getNameStringRes())));
         }else{
             mBuilder.setTitle(alternativeTitle);
         }

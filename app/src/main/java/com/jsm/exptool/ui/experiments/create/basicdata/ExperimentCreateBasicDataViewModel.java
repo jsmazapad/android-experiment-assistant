@@ -186,7 +186,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
             //Si tiene configuración inicial comprobamos que exista para colocarlo inicialmente como seleccionado
             if (requiresSensorInitialConfig) {
                 for (SensorConfig sensorConfigFromExistingExperiment : experimentTemplate.getConfiguration().getSensorConfig().getSensors()) {
-                    if (sensorConfigFromExistingExperiment.getNameStringResource() == sensor.getNameStringResource()) {
+                    if (sensorConfigFromExistingExperiment.getNameStringRes() == sensor.getNameStringRes()) {
                         selected = true;
                         initialSensorsList.add(sensor);
                         break;
@@ -196,7 +196,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
                 elements.setValue(initialSensorsList);
             }
             selectedSensorPositions[i] = selected;
-            String string = getApplication().getString(sensor.getNameStringResource());
+            String string = getApplication().getString(sensor.getNameStringRes());
             sensorStrings.add(string);
         }
 
@@ -358,7 +358,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
 
                     for (SensorConfig sensorConfigFromTemplate : experimentTemplate.getConfiguration().getSensorConfig().getSensors()) {
 
-                        if (sensorConfigFromTemplate.getNameStringResource() == sensorConfigFromViewModel.getNameStringResource()) {
+                        if (sensorConfigFromTemplate.getNameStringRes() == sensorConfigFromViewModel.getNameStringRes()) {
                             //Aunque debe venir sin referencia a DB la reseteamos para asegurar que no hay problemas de coherencia en inserción
                             sensorConfigFromTemplate.setInternalId(0);
                             selectedSensors.set(i, sensorConfigFromTemplate);

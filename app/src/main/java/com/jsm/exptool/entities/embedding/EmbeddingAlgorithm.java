@@ -4,15 +4,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.StringRes;
+import androidx.room.Ignore;
 
 public class EmbeddingAlgorithm implements Parcelable {
     String displayName;
     String remoteServerName;
+    @Ignore
     @StringRes int descriptionTranslatableRes;
     int optimalImageWidth;
     int optimalImageHeight;
     int maxParallelRequest;
 
+
+    public EmbeddingAlgorithm(String displayName, String remoteServerName,  int optimalImageWidth, int optimalImageHeight, int maxParallelRequest) {
+        this.displayName = displayName;
+        this.remoteServerName = remoteServerName;
+        this.optimalImageWidth = optimalImageWidth;
+        this.optimalImageHeight = optimalImageHeight;
+        this.maxParallelRequest = maxParallelRequest;
+    }
+    @Ignore
     public EmbeddingAlgorithm(String displayName, String remoteServerName, @StringRes int descriptionTranslatableRes, int optimalImageWidth, int optimalImageHeight, int maxParallelRequest) {
         this.displayName = displayName;
         this.remoteServerName = remoteServerName;
