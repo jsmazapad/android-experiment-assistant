@@ -66,13 +66,16 @@ public class ExperimentsListSyncLogFragment extends BaseRecyclerFragment<Experim
     @Override
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
-        viewModel.getRowAdded().observe(getViewLifecycleOwner(), position->{
-            if (position != null) {
-                recyclerView.getAdapter().notifyItemInserted(position);
-            }
-        });
+//        viewModel.getRowAdded().observe(getViewLifecycleOwner(), position->{
+//            if (position != null) {
+//                recyclerView.getAdapter().notifyItemInserted(position);
+//            }
+//        });
         viewModel.getSyncFinished().observe(getViewLifecycleOwner(), finished ->{
-            viewModel.executeFinishCaseUse(getContext());
+            if(finished != null && finished) {
+                viewModel.executeFinishCaseUse(getContext());
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
 
         });
     }

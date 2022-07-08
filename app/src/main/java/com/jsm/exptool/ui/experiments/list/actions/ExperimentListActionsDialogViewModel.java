@@ -279,7 +279,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
         endExperimentResponse.observe(lifecycleOwner, countValue -> {
             if (countValue != null) {
                 if (countValue > 0) {
-                    ModalMessage.showSuccessfulOperation((Context)lifecycleOwner, null);
+                    ModalMessage.showSuccessfulOperation(context, null);
                     EventBus.getDefault().post(new ExperimentListRefreshEvent(true));
                     dialog.cancel();
 

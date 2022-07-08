@@ -95,7 +95,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
             openActionsDialog(c, selectedExperiment);
             Executors.newSingleThreadScheduledExecutor().schedule(() -> {
                     blockedFlag = false;
-            }, 800, TimeUnit.MILLISECONDS).;
+            }, 800, TimeUnit.MILLISECONDS);
 
         }
 

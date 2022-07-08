@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.data.repositories.ImageRepository;
 import com.jsm.exptool.libs.MemoryUtils;
 import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.data.repositories.ExperimentsRepository;
@@ -40,6 +41,8 @@ public class ExperimentProvider {
             experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
             Date maxDate = ExperimentsRepository.getMaxDateFromRegisters(experiment.getInternalId());
             Date minDate = ExperimentsRepository.getMinDateFromRegisters(experiment.getInternalId(), experiment.getEndDate());
+            boolean embeddingPending = ImageRepository.getSynchronouslyPendingEmbeddingSyncRegistersByExperimentId(experiment.getInternalId()).size() > 0;
+            experiment.setEmbeddingPending(embeddingPending);
             if(minDate == null){
                 minDate = experiment.getInitDate();
             }
@@ -47,10 +50,11 @@ public class ExperimentProvider {
             if(duration < 0){
                 duration = 0;
             }
-            experiment.setDuration(duration);
+            experiment.setDuration(duration+experiment.getDuration());
+            experiment.setEndDate(maxDate);
             String size = MemoryUtils.getFormattedFileSize(FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()));
             experiment.setSize(size);
-            responseLiveData.setValue(ExperimentsRepository.updateExperiment(experiment));
+            responseLiveData.postValue(ExperimentsRepository.updateExperiment(experiment));
         });
 
     }

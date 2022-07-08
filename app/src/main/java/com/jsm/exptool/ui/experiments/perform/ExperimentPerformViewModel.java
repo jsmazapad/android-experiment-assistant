@@ -264,6 +264,8 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         this.experiment.setSdkDevice(DeviceUtils.getDeviceSDK());
         this.experiment.setDevice(DeviceUtils.getDeviceModel());
         this.experiment.setStatus(Experiment.ExperimentStatus.INITIATED);
+        this.experiment.setExportedPending(true);
+        this.experiment.setSyncPending(true);
 
         this.startTimeStamp = System.currentTimeMillis();
         changeStateText.setValue(getApplication().getString(R.string.perform_experiment_finish_text));

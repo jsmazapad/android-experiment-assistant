@@ -215,25 +215,25 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
         orchestratorProvider.executeFullRemoteSync(experiment, true, workPreparationReady);
         successImageCount = 0;
         failureImageCount = 0;
-        pendingImageCount = 0;
+        //pendingImageCount = 0;
         successImageFilesCount = 0;
         failureImageFilesCount = 0;
-        pendingImageFilesCount = 0;
+        //pendingImageFilesCount = 0;
         successAudioCount = 0;
         failureAudioCount = 0;
-        pendingAudioCount = 0;
+        //pendingAudioCount = 0;
         successAudioFilesCount = 0;
         failureAudioFilesCount = 0;
-        pendingAudioFilesCount = 0;
+        //pendingAudioFilesCount = 0;
         successEmbeddingCount = 0;
         failureEmbeddingCount = 0;
-        pendingEmbeddingCount = 0;
+        //pendingEmbeddingCount = 0;
         successSensorCount = 0;
         failureSensorCount = 0;
-        pendingSensorCount = 0;
+        //pendingSensorCount = 0;
         successCommentCount = 0;
         failureCommentCount = 0;
-        pendingCommentCount = 0;
+        //pendingCommentCount = 0;
         failureExperimentCount = 0;
     }
 
