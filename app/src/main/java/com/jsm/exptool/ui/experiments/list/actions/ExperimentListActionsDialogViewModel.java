@@ -7,6 +7,7 @@ import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -59,6 +60,8 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
     //private MutableLiveData<String> locationValue = new MutableLiveData<>("");
     private final MutableLiveData<Integer> commentsCount = new MutableLiveData<>(0);
     private final MutableLiveData<String> commentsCountValue = new MutableLiveData<>("");
+
+    private final MutableLiveData<Integer> endExperimentResponse = new MutableLiveData<>();
 
     private String sensorsEnabledText ="";
     private String imagesEnabledText = "";
@@ -171,15 +174,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
 
     @Override
     public void endExperiment(Context context, Experiment experiment, Dialog alertDialog) {
-
-        if (ExperimentProvider.endExperiment(experiment) > 0) {
-            ModalMessage.showSuccessfulOperation(context, null);
-            EventBus.getDefault().post(new ExperimentListRefreshEvent(true));
-            alertDialog.cancel();
-
-        } else {
-            ModalMessage.showFailureOperation(context, null);
-        }
+        ExperimentProvider.endExperiment(experiment, context, endExperimentResponse);
     }
 
     @Override
@@ -218,11 +213,11 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
 
     }
 
-    @Override
-    public void initObservers(LifecycleOwner owner) {
+
+    public void initObservers(LifecycleOwner owner, Context context, AlertDialog dialog) {
         super.initObservers(owner);
         this.initOrchestratorObservers(owner);
-        this.initExperimentActionsDialogObservers(owner);
+        this.initExperimentActionsDialogObservers(owner, context, dialog);
     }
 
     private void initOrchestratorObservers(LifecycleOwner owner){
@@ -249,7 +244,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
         });
     }
 
-    private void initExperimentActionsDialogObservers(LifecycleOwner lifecycleOwner) {
+    private void initExperimentActionsDialogObservers(LifecycleOwner lifecycleOwner, Context context, AlertDialog dialog) {
         sensorCount.observe(lifecycleOwner, countValue -> {
             if (countValue != null) {
                 sensorCountValue.setValue(String.format(getApplication().getString(R.string.num_registers_format), countValue));
@@ -278,6 +273,19 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
         commentsCount.observe(lifecycleOwner, countValue -> {
             if (countValue != null) {
                 commentsCountValue.setValue(String.format(getApplication().getString(R.string.num_registers_format), countValue));
+            }
+        });
+
+        endExperimentResponse.observe(lifecycleOwner, countValue -> {
+            if (countValue != null) {
+                if (countValue > 0) {
+                    ModalMessage.showSuccessfulOperation((Context)lifecycleOwner, null);
+                    EventBus.getDefault().post(new ExperimentListRefreshEvent(true));
+                    dialog.cancel();
+
+                } else {
+                    ModalMessage.showFailureOperation(context, null);
+                }
             }
         });
 

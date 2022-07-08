@@ -2,10 +2,12 @@ package com.jsm.exptool.ui.experiments.list.actions;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import androidx.fragment.app.DialogFragment;
@@ -25,11 +27,12 @@ public class ExperimentListActionsDialogFragment extends DialogFragment {
     }
 
 
+
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         context = getActivity();
         this.viewModel = new ViewModelProvider(this, new ExperimentListActionDialogViewModelFactory(getActivity().getApplication(), experiment)).get(ExperimentListActionsDialogViewModel.class);
-        this.viewModel.initObservers(this);
         LayoutInflater layoutInflater = getLayoutInflater();
         ExperimentsListDialogMenuActionsBinding binding = ExperimentsListDialogMenuActionsBinding.inflate(layoutInflater);
         binding.setViewModel(viewModel);
@@ -89,7 +92,11 @@ public class ExperimentListActionsDialogFragment extends DialogFragment {
 
         }
 
-        return alertDialogBuilder.create();
+        AlertDialog dialog = alertDialogBuilder.create();
+
+        this.viewModel.initObservers(this, this.getContext(), dialog);
+
+        return dialog;
     }
 
     public static ExperimentListActionsDialogFragment newInstance(Experiment experiment) {

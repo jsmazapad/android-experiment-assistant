@@ -15,6 +15,9 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.jsm.exptool.data.repositories.ImageRepository;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.Date;
@@ -41,6 +44,7 @@ public class RegisterImageWorker extends Worker {
         Data outputData = new Data.Builder()
                 .putLong(IMAGE_REGISTER_ID, insertedRowId)
                 .build();
+        EventBus.getDefault().post(new WorkFinishedEvent(getTags(), true, 1));
         return ListenableWorker.Result.success(outputData);
     }
 }

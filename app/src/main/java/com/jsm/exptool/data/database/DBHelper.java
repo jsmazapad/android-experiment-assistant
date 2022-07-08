@@ -15,6 +15,7 @@ import com.jsm.exptool.entities.register.ImageRegister;
 import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -80,6 +81,18 @@ public class DBHelper {
 
     public static int updateExperiment(Experiment register) {
         return appDatabase.experimentDao().update(register);
+    }
+
+    public static Date getMaxDateFromRegisters(long experimentId) {
+        return appDatabase.experimentDao().getMaxDateFromRegisters(experimentId);
+    }
+
+    public static Date getMinDateFromRegisters(long experimentId, Date dateFrom) {
+        if (dateFrom == null){
+            return appDatabase.experimentDao().getMinDateFromRegisters(experimentId);
+        }else {
+            return appDatabase.experimentDao().getMinDateFromRegistersFromDate(experimentId, dateFrom);
+        }
     }
 
     /*

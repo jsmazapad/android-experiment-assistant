@@ -21,19 +21,22 @@ public class PreferencesProvider {
     private final static String AUDIO_DEFAULT_FREQ = "AUDIO_DEFAULT_FREQ";
     private final static String LOCATION_DEFAULT_FREQ = "LOCATION_DEFAULT_FREQ";
     private final static String REMOTE_DEFAULT_FREQ = "REMOTE_DEFAULT_FREQ";
+    private final static String FIREBASE_PASSWORD = "FIREBASE_PASSWORD";
+    private final static String FIREBASE_USER = "FIREBASE_USER";
     private final static String FIREBASE_KEY = "FIREBASE_KEY";
     private final static String FIREBASE_APP = "FIREBASE_APP";
     private final static String FIREBASE_PROJECT = "FIREBASE_PROJECT";
     private final static String FIREBASE_STORAGE_BUCKET = "FIREBASE_STORAGE_BUCKET";
     private final static String REMOTE_SYNC_METHOD = "REMOTE_SYNC_METHOD";
+    private final static String FIREBASE_CONFIG_VERSION_NUMBER = "FIREBASE_CONFIG_VERSION_NUMBER";
 
 
-    public static String getPassword() {
+    public static String getApiPassword() {
         return PreferenceManager.getSharedPreferences().getString(PASSWORD, "");
 
     }
 
-    public static void setPassword(String value) {
+    public static void setApiPassword(String value) {
         try {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
@@ -44,12 +47,12 @@ public class PreferencesProvider {
         }
     }
 
-    public static String getUser() {
+    public static String getApiUser() {
         return PreferenceManager.getSharedPreferences().getString(USER, "");
 
     }
 
-    public static void setUser(String value) {
+    public static void setApiUser(String value) {
         try {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
@@ -134,6 +137,38 @@ public class PreferencesProvider {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
             editor.putString(FIREBASE_STORAGE_BUCKET, value);
+            editor.commit();
+        } catch (Exception e) {
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+        }
+    }
+
+    public static String getFirebasePassword() {
+        return PreferenceManager.getSharedPreferences().getString(FIREBASE_PASSWORD, "");
+
+    }
+
+    public static void setFirebasePassword(String value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putString(FIREBASE_PASSWORD, value);
+            editor.commit();
+        } catch (Exception e) {
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+        }
+    }
+
+    public static String getFirebaseUser() {
+        return PreferenceManager.getSharedPreferences().getString(FIREBASE_USER, "");
+
+    }
+
+    public static void setFirebaseUser(String value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putString(FIREBASE_USER, value);
             editor.commit();
         } catch (Exception e) {
             Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
@@ -236,6 +271,7 @@ public class PreferencesProvider {
         }
     }
 
+
     public static String getRemoteSyncMethod() {
         return PreferenceManager.getSharedPreferences().getString(REMOTE_SYNC_METHOD, RemoteSyncMethodsProvider.REMOTE_METHOD_NONE);
 
@@ -246,6 +282,22 @@ public class PreferencesProvider {
             SharedPreferences.Editor editor = PreferenceManager
                     .getSharedPreferences().edit();
             editor.putString(REMOTE_SYNC_METHOD, value);
+            editor.commit();
+        } catch (Exception e) {
+            Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);
+        }
+    }
+
+    public static int getFirebaseConfigVersionNumber() {
+        return PreferenceManager.getSharedPreferences().getInt(FIREBASE_CONFIG_VERSION_NUMBER, 0);
+
+    }
+
+    public static void setFirebaseConfigVersionNumber(int value) {
+        try {
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getSharedPreferences().edit();
+            editor.putInt(FIREBASE_CONFIG_VERSION_NUMBER, value);
             editor.commit();
         } catch (Exception e) {
             Log.w(PreferencesProvider.class.getSimpleName(), e.getMessage(), e);

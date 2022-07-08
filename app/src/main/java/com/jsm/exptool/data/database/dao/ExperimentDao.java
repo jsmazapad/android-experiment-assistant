@@ -15,6 +15,7 @@ import com.jsm.exptool.entities.experimentconfig.SensorsGlobalConfig;
 import com.jsm.exptool.providers.ExperimentListFiltersProvider;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -203,4 +204,12 @@ public abstract class ExperimentDao {
 
     @Insert
     abstract void _insertAllSensors(List<SensorConfig> sensors);
+
+    @Query("SELECT  MAX(date) FROM ( SELECT date FROM commentRegisters WHERE experimentId = :experimentId  UNION SELECT date FROM imageRegisters WHERE experimentId = :experimentId UNION SELECT date FROM audioRegisters WHERE experimentId = :experimentId UNION SELECT date from sensorRegisters where experimentId = :experimentId)")
+    public abstract Date getMaxDateFromRegisters(long experimentId);
+
+    @Query("SELECT  MIN(date) FROM ( SELECT date FROM commentRegisters WHERE experimentId = :experimentId  UNION SELECT date FROM imageRegisters WHERE experimentId = :experimentId UNION SELECT date FROM audioRegisters WHERE experimentId = :experimentId UNION SELECT date from sensorRegisters where experimentId = :experimentId)")
+    public abstract Date getMinDateFromRegisters(long experimentId);
+    @Query("SELECT  MIN(date) FROM ( SELECT date FROM commentRegisters WHERE experimentId = :experimentId  UNION SELECT date FROM imageRegisters WHERE experimentId = :experimentId UNION SELECT date FROM audioRegisters WHERE experimentId = :experimentId UNION SELECT date from sensorRegisters where experimentId = :experimentId) WHERE date > :date")
+    public abstract Date getMinDateFromRegistersFromDate(long experimentId, Date date);
 }

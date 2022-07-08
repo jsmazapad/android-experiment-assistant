@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -98,10 +99,13 @@ public class ExpandableCard extends LinearLayout {
     @BindingAdapter({"extra_info"})
     public static void setExtraInfo(ExpandableCard card, MutableLiveData<String> newSelectedValue) {
        String newValue = newSelectedValue.getValue();
-       if (card.extraInfoTV.getText() != newValue){
-           card.extraInfoTV.setText(newValue);
-           card.extraInfoTV.setVisibility( !"".contentEquals(card.extraInfoTV.getText()) && card.isCollapsed() ? VISIBLE: GONE);
-
+       try {
+           if (!card.extraInfoTV.getText().equals(newValue)) {
+               card.extraInfoTV.setText(newValue);
+               card.extraInfoTV.setVisibility(!"".contentEquals(card.extraInfoTV.getText()) && card.isCollapsed() ? VISIBLE : GONE);
+           }
+       }catch (Exception e){
+           Log.e("Error en extraInfo","Error en ExtraInfo",e);
        }
     }
 }

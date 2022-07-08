@@ -14,8 +14,11 @@ import androidx.work.WorkerParameters;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
 import com.jsm.exptool.entities.experimentconfig.SensorConfig;
 import com.jsm.exptool.data.repositories.SensorRepository;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
@@ -47,7 +50,7 @@ public class RegisterSensorWorker extends Worker {
         //long insertedRowId = SensorsRepository.registerSensorCapture(keys, values, experimentId, new Date(dateTimestamp));
         long insertedRowId = SensorRepository.registerSensorCapture(sensor,sensorName, experimentId, new Date(dateTimestamp));
         Log.d("SENSOR_REGISTER", String.format("insertado con id %d", insertedRowId));
-
+        EventBus.getDefault().post(new WorkFinishedEvent(getTags(), true, 1));
         return Result.success();
     }
 }

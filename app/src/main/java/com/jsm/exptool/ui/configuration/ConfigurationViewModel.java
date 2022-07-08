@@ -2,6 +2,7 @@ package com.jsm.exptool.ui.configuration;
 
 import android.app.Application;
 import android.content.Context;
+import android.webkit.URLUtil;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
@@ -11,10 +12,12 @@ import androidx.navigation.NavController;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
+import com.jsm.exptool.core.data.network.exceptions.InvalidSessionException;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.core.libs.ModalMessage;
+import com.jsm.exptool.data.repositories.RemoteSyncRepository;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 import com.jsm.exptool.providers.RemoteSyncMethodsProvider;
 import com.jsm.exptool.providers.SeekbarSelectorProvider;
@@ -31,8 +34,10 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
     private final String CAMERA_TAG = "CAMERA_TAG";
     private final String LOCATION_TAG = "LOCATION_TAG";
 
-    private final MutableLiveData<String> username = new MutableLiveData<>();
-    private final MutableLiveData<String> password = new MutableLiveData<>();
+    private final MutableLiveData<String> apiUsername = new MutableLiveData<>();
+    private final MutableLiveData<String> apiPassword = new MutableLiveData<>();
+    private final MutableLiveData<String> firebaseUsername = new MutableLiveData<>();
+    private final MutableLiveData<String> firebasePassword = new MutableLiveData<>();
     private final MutableLiveData<String> serverUrl = new MutableLiveData<>();
     private final MutableLiveData<String> firebaseKey = new MutableLiveData<>();
     private final MutableLiveData<String> firebaseApp = new MutableLiveData<>();
@@ -51,13 +56,26 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
     private final MutableLiveData<String> extraCameraCardText = new MutableLiveData<>();
     private final MutableLiveData<String> extraSensorCardText = new MutableLiveData<>();
     private final MutableLiveData<String> extraAudioCardText = new MutableLiveData<>();
+    //Para comprobar conectividad
+    private String tempApiUser;
+    private String tempApiPassword;
+    private String tempApiRemoteServer;
+    private RemoteSyncMethodsProvider.RemoteConfigMethods tempMethod;
+    private String tempFirebaseUser;
+    private String tempFirebasePassword;
+    private String tempFirebaseKey;
+    private String tempFirebaseApp;
+    private String tempFirebaseProject;
+    private String tempFirebaseStorageBucket;
 
 
     public ConfigurationViewModel(@NonNull Application application) {
         super(application);
-        username.setValue(PreferencesProvider.getUser());
-        password.setValue(PreferencesProvider.getPassword());
+        apiUsername.setValue(PreferencesProvider.getApiUser());
+        apiPassword.setValue(PreferencesProvider.getApiPassword());
         serverUrl.setValue(PreferencesProvider.getRemoteServer());
+        firebaseUsername.setValue(PreferencesProvider.getFirebaseUser());
+        firebasePassword.setValue(PreferencesProvider.getFirebasePassword());
         firebaseKey.setValue(PreferencesProvider.getFirebaseKey());
         firebaseApp.setValue(PreferencesProvider.getFirebaseApp());
         firebaseProject.setValue(PreferencesProvider.getFirebaseProject());
@@ -74,16 +92,24 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
 
     }
 
-    public MutableLiveData<String> getUsername() {
-        return username;
+    public MutableLiveData<String> getApiUsername() {
+        return apiUsername;
     }
 
-    public MutableLiveData<String> getPassword() {
-        return password;
+    public MutableLiveData<String> getApiPassword() {
+        return apiPassword;
     }
 
     public MutableLiveData<String> getServerUrl() {
         return serverUrl;
+    }
+
+    public MutableLiveData<String> getFirebaseUsername() {
+        return firebaseUsername;
+    }
+
+    public MutableLiveData<String> getFirebasePassword() {
+        return firebasePassword;
     }
 
     public MutableLiveData<String> getFirebaseKey() {
@@ -133,6 +159,10 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
         return firebaseEnabled;
     }
 
+    public MutableLiveData<RemoteSyncMethodsProvider.RemoteConfigMethods> getRemoteConfigMethod() {
+        return remoteConfigMethod;
+    }
+
     public void initFrequencySelectors(ViewLayoutFrequencySelectorBinding[] includedSelectorsBinding) {
         for (ViewLayoutFrequencySelectorBinding selectorBinding : includedSelectorsBinding) {
             int id = selectorBinding.getRoot().getId();
@@ -151,50 +181,98 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
     }
 
 
-    public void savePreferences() {
+    public void savePreferences(Context context) {
 
         PreferencesProvider.setSensorDefaultFreq(sensorDefaultFrequency);
         PreferencesProvider.setAudioDefaultFreq(audioDefaultFrequency);
         PreferencesProvider.setCameraDefaultFreq(cameraDefaultFrequency);
         PreferencesProvider.setLocationDefaultFreq(locationDefaultFrequency);
 
+        saveRemoteMethod(context);
+    }
+
+
+    private boolean saveRemoteMethod(Context context) {
+        boolean ok = true;
         if (remoteConfigMethod.getValue() != null) {
 
-            switch (remoteConfigMethod.getValue()){
+            switch (remoteConfigMethod.getValue()) {
                 case API:
-                    if(username.getValue() != null && !"".equals(username.getValue()) &&
-                            password.getValue() != null && !"".equals(password.getValue()) &&
-                            serverUrl.getValue() != null && !"".equals(serverUrl.getValue())){
-                        PreferencesProvider.setUser(username.getValue());
-                        PreferencesProvider.setPassword(password.getValue());
-                        PreferencesProvider.setRemoteServer(serverUrl.getValue());
-                        PreferencesProvider.setRemoteSyncMethod(remoteConfigMethod.getValue().getInternalId());
-                    }else{
-                        handleError(new BaseException(getApplication().getString(R.string.configuration_remote_sync_error), false), getApplication());
+                    if (apiUsername.getValue() != null && !"".equals(apiUsername.getValue()) &&
+                            apiPassword.getValue() != null && !"".equals(apiPassword.getValue()) &&
+                            serverUrl.getValue() != null && !"".equals(serverUrl.getValue())) {
+                        if (URLUtil.isHttpUrl(serverUrl.getValue() ) ||
+                        URLUtil.isHttpsUrl(serverUrl.getValue() )) {
+
+                            PreferencesProvider.setApiUser(apiUsername.getValue());
+                            PreferencesProvider.setApiPassword(apiPassword.getValue());
+                            PreferencesProvider.setRemoteServer(serverUrl.getValue());
+                            PreferencesProvider.setRemoteSyncMethod(remoteConfigMethod.getValue().getInternalId());
+                        }else {
+                            handleError(new BaseException(getApplication().getString(R.string.configuration_remote_sync_url_error), false), context);
+                            ok = false;
+                        }
+
+                    } else {
+                        handleError(new BaseException(getApplication().getString(R.string.configuration_remote_sync_error), false), context);
+                        ok = false;
                     }
                     break;
                 case FIREBASE:
-                    if(firebaseKey.getValue() != null && !"".equals(firebaseKey.getValue()) &&
+                    if (firebaseKey.getValue() != null && !"".equals(firebaseKey.getValue()) &&
                             firebaseApp.getValue() != null && !"".equals(firebaseApp.getValue()) &&
                             firebaseProject.getValue() != null && !"".equals(firebaseProject.getValue()) &&
-                            firebaseStorageBucket.getValue() != null && !"".equals(firebaseStorageBucket.getValue())){
+                            firebaseStorageBucket.getValue() != null && !"".equals(firebaseStorageBucket.getValue())) {
+
+                        PreferencesProvider.setFirebaseUser(firebaseUsername.getValue());
+                        PreferencesProvider.setFirebasePassword(firebasePassword.getValue());
                         PreferencesProvider.setFirebaseKey(firebaseKey.getValue());
                         PreferencesProvider.setFirebaseApp(firebaseApp.getValue());
                         PreferencesProvider.setFirebaseProject(firebaseProject.getValue());
                         PreferencesProvider.setFirebaseStorageBucket(firebaseStorageBucket.getValue());
                         PreferencesProvider.setRemoteSyncMethod(remoteConfigMethod.getValue().getInternalId());
                         RemoteSyncMethodsProvider.initStrategy(getApplication());
-                    }else{
-                        handleError(new BaseException(getApplication().getString(R.string.configuration_remote_sync_error), false), getApplication());
+                    } else {
+                        handleError(new BaseException(getApplication().getString(R.string.configuration_remote_sync_error), false), context);
+                        ok = false;
                     }
                     break;
                 case NONE:
                     PreferencesProvider.setRemoteSyncMethod(remoteConfigMethod.getValue().getInternalId());
                     break;
             }
-
         }
+        return ok;
     }
+    public void storeTempRemoteMethod() {
+
+            tempApiUser = PreferencesProvider.getApiUser();
+            tempApiPassword = PreferencesProvider.getApiPassword();
+            tempApiRemoteServer = PreferencesProvider.getRemoteServer();
+            tempMethod = RemoteSyncMethodsProvider.getRemoteConfigMethodFromInternalId(PreferencesProvider.getRemoteSyncMethod());
+            tempFirebaseUser = PreferencesProvider.getFirebaseUser();
+            tempFirebasePassword = PreferencesProvider.getFirebasePassword();
+            tempFirebaseKey = PreferencesProvider.getFirebaseKey();
+            tempFirebaseApp = PreferencesProvider.getFirebaseApp();
+            tempFirebaseStorageBucket = PreferencesProvider.getFirebaseStorageBucket();
+            tempFirebaseProject = PreferencesProvider.getFirebaseProject();
+            tempMethod = RemoteSyncMethodsProvider.getRemoteConfigMethodFromInternalId(PreferencesProvider.getRemoteSyncMethod());
+    }
+
+    public void restoreRemoteMethod() {
+
+        PreferencesProvider.setApiUser(tempApiUser);
+        PreferencesProvider.setApiPassword(tempApiPassword);
+        PreferencesProvider.setRemoteServer(tempApiRemoteServer);
+        PreferencesProvider.setRemoteSyncMethod(tempApiRemoteServer);
+        PreferencesProvider.setFirebaseUser(tempFirebaseUser);
+        PreferencesProvider.setFirebasePassword(tempFirebasePassword);
+        PreferencesProvider.setFirebaseKey(tempFirebaseKey);
+        PreferencesProvider.setFirebaseApp(tempFirebaseApp);
+        PreferencesProvider.setFirebaseProject(tempFirebaseProject);
+        PreferencesProvider.setFirebaseStorageBucket(tempFirebaseStorageBucket);
+        PreferencesProvider.setRemoteSyncMethod(tempMethod.getInternalId());
+}
 
     @Override
     public void onSeekBarValueSelected(int value, SeekBar seekBar) {
@@ -226,10 +304,10 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
     public void initObservers(LifecycleOwner owner) {
         super.initObservers(owner);
 
-        remoteConfigMethod.observe(owner, value->{
+        remoteConfigMethod.observe(owner, value -> {
             String extraInfo = getApplication().getString(R.string.configuration_no_remote_configuration_text);
-            if (value != null){
-                switch (value){
+            if (value != null) {
+                switch (value) {
                     case NONE:
                         firebaseEnabled.setValue(false);
                         remoteServerEnabled.setValue(false);
@@ -284,5 +362,31 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
                 }, context.getString(R.string.default_modal_cancelButton), null);
 
 
+    }
+
+    public void checkConnectivity(Context context) {
+        storeTempRemoteMethod();
+        if (saveRemoteMethod(context)) {
+            RemoteSyncRepository.login(response -> {
+                restoreRemoteMethod();
+                if (response.getError() != null) {
+                    BaseException exceptionToShow;
+                    if(response.getError() instanceof InvalidSessionException){
+                        exceptionToShow = new BaseException(context.getString(R.string.sync_credentials_error), false);
+                    }else{
+                        String errorString = context.getString(R.string.error_network_connection);
+                        if(tempMethod.equals(RemoteSyncMethodsProvider.RemoteConfigMethods.FIREBASE)){
+                            errorString += "\n" +response.getError().getLocalizedMessage();
+                        }
+                        exceptionToShow = new BaseException(errorString, false);
+                    }
+                    handleError(exceptionToShow, context);
+                } else {
+                    ModalMessage.showModalMessage(context, context.getString(R.string.configuration_remote_check_ok_title), context.getString(R.string.configuration_remote_check_ok_text), null, null, null, null);
+                }
+            }, false);
+        }else{
+            restoreRemoteMethod();
+        }
     }
 }

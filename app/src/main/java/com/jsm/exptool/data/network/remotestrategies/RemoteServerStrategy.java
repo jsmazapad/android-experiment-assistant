@@ -40,7 +40,7 @@ public class RemoteServerStrategy implements RemoteStrategyInterface {
     }
 
     public  Call<NetworkElementResponse<LoginResponse>> login(NetworkElementResponseCallback<LoginResponse> callback, boolean returnCall) {
-        Call<NetworkElementResponse<LoginResponse>> call = getRemoteSyncService(false).login(PreferencesProvider.getUser(), PreferencesProvider.getPassword());
+        Call<NetworkElementResponse<LoginResponse>> call = getRemoteSyncService(false).login(PreferencesProvider.getApiUser(), PreferencesProvider.getApiPassword());
         if (returnCall){
             return call;
         }else {

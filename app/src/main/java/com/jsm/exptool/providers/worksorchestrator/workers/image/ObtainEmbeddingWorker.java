@@ -13,8 +13,11 @@ import androidx.work.WorkerParameters;
 import androidx.work.rxjava3.RxWorker;
 
 import com.jsm.exptool.core.exceptions.BaseException;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
 import com.jsm.exptool.entities.register.ImageRegister;
 import com.jsm.exptool.data.repositories.ImageRepository;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -38,6 +41,7 @@ public class ObtainEmbeddingWorker extends RxWorker {
                 //TODO Mejorar mensajes error
                 emitter.onError(new BaseException("Error de parámetros", false));
                 Log.d("IMAGE_REGISTER", String.format("insertado con id %d", insertedRowId));
+                return;
             }
             File file = new File(imageFilePath);
             ImageRepository.getEmbedding(response -> {
@@ -66,7 +70,7 @@ public class ObtainEmbeddingWorker extends RxWorker {
                         Log.w("IMAGE_REGISTER_ERROR", "error en obtención de imageregister by id");
 
                     }
-
+                    EventBus.getDefault().post(new WorkFinishedEvent(getTags(), true, 1));
                     emitter.onSuccess(Result.success());
                 }
             }, file, embeddingAlg);

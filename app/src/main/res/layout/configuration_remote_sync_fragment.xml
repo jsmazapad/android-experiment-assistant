@@ -50,7 +50,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="Usuario"
-                                android:text="@={viewModel.username}" />
+                                android:text="@={viewModel.apiUsername}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
@@ -58,7 +58,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="Contraseña"
-                                android:text="@={viewModel.password}" />
+                                android:text="@={viewModel.apiPassword}" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,7 +82,7 @@
                 <Button
                     android:id="@+id/savePreferencesButton"
                     style="@style/FullWidthButton"
-                    android:onClick="@{() -> viewModel.savePreferences()}"
+                    android:onClick="@{() -> viewModel.savePreferences(context)}"
                     android:text="Guardar cambios" />
             </LinearLayout>
         </ScrollView>

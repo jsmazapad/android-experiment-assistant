@@ -17,8 +17,11 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
 import com.jsm.exptool.entities.register.SensorRegister;
 import com.jsm.exptool.data.repositories.SensorRepository;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
@@ -47,7 +50,7 @@ public class RegisterLocationWorker extends Worker {
 
         long insertedRowId = SensorRepository.registerSensorCapture(sensorRegister);
         Log.d("LOCATION_REGISTER", String.format("insertado con id %d", insertedRowId));
-
+        EventBus.getDefault().post(new WorkFinishedEvent(getTags(), true, 1));
         return Result.success();
     }
 }

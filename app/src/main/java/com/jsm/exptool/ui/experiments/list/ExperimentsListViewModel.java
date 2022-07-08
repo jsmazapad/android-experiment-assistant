@@ -7,6 +7,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ShareCompat;
@@ -29,9 +30,12 @@ import com.jsm.exptool.providers.ExperimentProvider;
 import com.jsm.exptool.providers.worksorchestrator.WorksOrchestratorProvider;
 import com.jsm.exptool.data.repositories.ExperimentsRepository;
 import com.jsm.exptool.ui.experiments.list.actions.ExperimentListActionsDialogFragment;
+import com.jsm.exptool.ui.splash.SplashActivity;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 //TODO Añadir total de Mb ocupado y restante a vista
 public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, Experiment>  {
@@ -80,12 +84,20 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
         return response.getResultList();
     }
 
+    private boolean blockedFlag = false;
+
     @Override
     public void onItemSelected(int position, NavController navController, Context c) {
 
         Experiment selectedExperiment = elements.getValue().get(position);
+        if(!blockedFlag) {
+            blockedFlag = true;
+            openActionsDialog(c, selectedExperiment);
+            Executors.newSingleThreadScheduledExecutor().schedule(() -> {
+                    blockedFlag = false;
+            }, 800, TimeUnit.MILLISECONDS).;
 
-        openActionsDialog(c, selectedExperiment);
+        }
 
 
     }

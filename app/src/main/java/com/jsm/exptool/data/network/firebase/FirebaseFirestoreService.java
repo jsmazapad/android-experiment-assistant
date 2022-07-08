@@ -15,6 +15,7 @@ import com.jsm.exptool.data.network.firebase.exceptions.FirebaseTypeException;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
 import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.entities.register.ExperimentRegister;
+import com.jsm.exptool.providers.FirebaseProvider;
 import com.jsm.exptool.providers.PreferencesProvider;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class FirebaseFirestoreService {
     }
 
     public static <T> void putValue(String experimentId, T element, FirebaseFirestoreService.FirestoreCollections type, NetworkElementResponseCallback<RemoteSyncResponse> callback) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance(FirebaseProvider.getActiveInstance());
         if (type.equals(FirestoreCollections.EXPERIMENTS)) {
 
             if (element instanceof Experiment) {
@@ -93,7 +94,7 @@ public class FirebaseFirestoreService {
     }
 
     public static <T extends ExperimentRegister> void putValues(String experimentId, List<T> elements, FirebaseFirestoreService.FirestoreCollections type, NetworkElementResponseCallback<RemoteSyncResponse> callback) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance(FirebaseProvider.getActiveInstance());
         WriteBatch batch = db.batch();
         CollectionReference reference = db.collection(FirestoreCollections.EXPERIMENTS.getType());
         DocumentReference docReference = reference.document(experimentId);

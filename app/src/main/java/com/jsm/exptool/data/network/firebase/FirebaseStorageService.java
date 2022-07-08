@@ -16,6 +16,7 @@ import com.jsm.exptool.core.data.network.responses.NetworkElementResponse;
 import com.jsm.exptool.core.data.repositories.responses.ElementResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.data.network.responses.RemoteSyncResponse;
+import com.jsm.exptool.providers.FirebaseProvider;
 
 import java.io.File;
 
@@ -37,7 +38,7 @@ public class FirebaseStorageService {
     }
 
     public static void uploadFile(String externalId, File file, FileTypes type, NetworkElementResponseCallback<RemoteSyncResponse> callback){
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance(FirebaseProvider.getActiveInstance());
         StorageReference storageRef = storage.getReference().child(String.format("%s/%s/%s", externalId, type.getType(), file.getName()));
         storageRef.putFile(Uri.fromFile(file)).addOnCompleteListener(task -> {
             callback.onResponse(new ElementResponse<>(new RemoteSyncResponse("", "")));

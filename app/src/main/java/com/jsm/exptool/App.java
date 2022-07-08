@@ -34,12 +34,13 @@ public class App extends Application {
 //            PreferencesProvider.setPassword("prueba");
 //            PreferencesProvider.setUser("prueba");
 //            PreferencesProvider.setRemoteServer("https://experiment-assistant-backend.getsandbox.com/");
-            PreferencesProvider.setPassword("prueba");
-            PreferencesProvider.setUser("jsainz.developer.pruebas@gmail.com");
+            PreferencesProvider.setFirebasePassword("prueba");
+            PreferencesProvider.setFirebaseUser("jsainz.developer.pruebas@gmail.com");
             PreferencesProvider.setFirebaseKey("AIzaSyBBD41C8IAedS_98SPgxUnn-a1qKzpodvk");
             PreferencesProvider.setFirebaseApp("1:815591212824:android:0e3ca018a4ccd1774d806d");
             PreferencesProvider.setFirebaseProject("experiments-assistant");
             PreferencesProvider.setFirebaseStorageBucket("experiments-assistant.appspot.com");
+            PreferencesProvider.setRemoteSyncMethod(RemoteSyncMethodsProvider.REMOTE_METHOD_FIREBASE);
 
 
 

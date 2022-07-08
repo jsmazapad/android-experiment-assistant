@@ -40,64 +40,68 @@
 
                     <TextView
                         android:id="@+id/quickCommentsTitleTV"
-                        android:layout_marginTop="12dp"
                         style="@style/BaseCardTitleTextView.TitleItem"
-                        android:background="@color/primaryColor"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/primaryColor"
                         android:text="@string/configuration_remote_server_method" />
 
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/remoteSyncMethodSpinner"
                         style="@style/BaseSpinner"
                         android:onItemSelected="@{(parent, view, position, id) -> viewModel.onRemoteSyncMethodSelected(position)}"
-                        android:prompt="@string/quick_comments_spinner_title"
+                        android:prompt="@string/sync_method_spinner_title"
                         app:spinnerAdapter="@{ viewModel.getRemoteSyncMethodsAdapter(context)}"
+                        app:selectedValue="@={viewModel.remoteConfigMethod}"
                         tools:listitem="@layout/generic_title_description_spinner_list_item" />
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="@{viewModel.firebaseEnabled ? View.VISIBLE : View.GONE}">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/BaseTextInputLayout">                            <com.google.android.material.textfield.TextInputEditText
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
+                            <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="@string/configuration_remote_firebase_key"
                                 android:text="@={viewModel.firebaseKey}" />
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="@string/configuration_remote_firebase_app"
                                 android:text="@={viewModel.firebaseApp}" />
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="@string/configuration_remote_firebase_project"
                                 android:text="@={viewModel.firebaseProject}" />
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="@string/configuration_remote_firebase_storage_bucket"
                                 android:text="@={viewModel.firebaseStorageBucket}" />
                         </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.firebaseEnabled || viewModel.remoteServerEnabled ? View.VISIBLE : View.GONE}"
-                        android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 style="@style/BaseTextInputEditText"
                                 android:hint="@string/configuration_remote_username"
-                                android:text="@={viewModel.username}" />
+                                android:text="@={viewModel.firebaseUsername}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -108,7 +112,34 @@
                                 style="@style/BaseTextInputEditText"
                                 android:hint="@string/configuration_remote_pass"
                                 android:inputType="textPassword"
-                                android:text="@={viewModel.password}" />
+                                android:text="@={viewModel.firebasePassword}" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.remoteServerEnabled ? View.VISIBLE : View.GONE}">
+
+                        <com.google.android.material.textfield.TextInputLayout style="@style/BaseTextInputLayout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_username"
+                                android:text="@={viewModel.apiUsername}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/BaseTextInputLayout"
+                            app:passwordToggleEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/BaseTextInputEditText"
+                                android:hint="@string/configuration_remote_pass"
+                                android:inputType="textPassword"
+                                android:text="@={viewModel.apiPassword}" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,11 +152,16 @@
 
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <Button
-                            android:id="@+id/checkConnectionButton"
-                            style="@style/BaseButton"
-                            android:layout_gravity="center"
-                            android:text="@string/configuration_remote_check_connectivity" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/checkConnectionButton"
+                        style="@style/BaseButton"
+                        android:layout_gravity="center"
+                        android:onClick="@{() -> viewModel.checkConnectivity(context)}"
+                        android:text="@string/configuration_remote_check_connectivity"
+                        android:visibility="@{viewModel.firebaseEnabled || viewModel.remoteServerEnabled ? View.VISIBLE : View.GONE}" />
                     </LinearLayout>
 
                 </com.jsm.exptool.libs.ExpandableCard>
@@ -210,7 +246,7 @@
                 <Button
                     android:id="@+id/savePreferencesButton"
                     style="@style/FullWidthButton"
-                    android:onClick="@{() -> viewModel.savePreferences()}"
+                    android:onClick="@{() -> viewModel.savePreferences(context)}"
                     android:text="@string/configuration_remote_save_changes" />
             </LinearLayout>
 

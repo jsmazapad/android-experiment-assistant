@@ -6,6 +6,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_IMAGE;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_LOCATION;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REGISTER_SENSOR;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
 
 import android.app.Application;
@@ -16,6 +17,7 @@ import android.text.Html;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.camera.view.PreviewView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
@@ -25,11 +27,13 @@ import androidx.navigation.NavController;
 import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
+import com.jsm.exptool.core.data.network.exceptions.InvalidSessionException;
 import com.jsm.exptool.core.data.repositories.responses.ListResponse;
 import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
 import com.jsm.exptool.libs.MemoryUtils;
 import com.jsm.exptool.core.libs.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
@@ -52,11 +56,13 @@ import com.jsm.exptool.data.repositories.CommentRepository;
 import com.jsm.exptool.data.repositories.CommentSuggestionsRepository;
 import com.jsm.exptool.data.repositories.ExperimentsRepository;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
+import com.jsm.exptool.ui.experiments.list.actions.sync.ExperimentSyncStateRow;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -549,46 +555,46 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             }
 
         });
-        //Image
-        LiveData<List<WorkInfo>> registerImageWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_IMAGE);
-        LiveData<List<WorkInfo>> embeddingImageWorkInfo = orchestratorProvider.getWorkInfoByTag(OBTAIN_EMBEDDED_IMAGE);
-        registerImageWorkInfo.observe(owner, workInfoList -> {
-            numImages.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
-            generateImageExtraInfo();
-        });
-        embeddingImageWorkInfo.observe(owner, workInfoList -> {
-            numEmbeddings.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
-            generateImageExtraInfo();
-        });
-
-        //AUDIO
-        LiveData<List<WorkInfo>> registerAudioWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_AUDIO);
-        registerAudioWorkInfo.observe(owner, workInfoList -> {
-            numAudios.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
-            audioCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_audios) + " " + numAudios.getValue());
-
-        });
-
-        LiveData<List<WorkInfo>> registerSensorWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_SENSOR);
-        registerSensorWorkInfo.observe(owner, workInfoList -> {
-            numSensors.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
-            sensorCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_sensors) + " " + numSensors.getValue());
-
-
-        });
-
-        LiveData<List<WorkInfo>> registerLocationWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_LOCATION);
-        registerLocationWorkInfo.observe(owner, workInfoList -> {
-            numLocations.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
-            locationCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_locations) + " " + numSensors.getValue());
-        });
+//        //Image
+//        LiveData<List<WorkInfo>> registerImageWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_IMAGE);
+//        LiveData<List<WorkInfo>> embeddingImageWorkInfo = orchestratorProvider.getWorkInfoByTag(OBTAIN_EMBEDDED_IMAGE);
+//        registerImageWorkInfo.observe(owner, workInfoList -> {
+//            numImages.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+//            generateImageExtraInfo();
+//        });
+//        embeddingImageWorkInfo.observe(owner, workInfoList -> {
+//            numEmbeddings.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+//            generateImageExtraInfo();
+//        });
+//
+//        //AUDIO
+//        LiveData<List<WorkInfo>> registerAudioWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_AUDIO);
+//        registerAudioWorkInfo.observe(owner, workInfoList -> {
+//            numAudios.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+//            audioCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_audios) + " " + numAudios.getValue());
+//
+//        });
+//
+//        LiveData<List<WorkInfo>> registerSensorWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_SENSOR);
+//        registerSensorWorkInfo.observe(owner, workInfoList -> {
+//            numSensors.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+//            sensorCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_sensors) + " " + numSensors.getValue());
+//
+//
+//        });
+//
+//        LiveData<List<WorkInfo>> registerLocationWorkInfo = orchestratorProvider.getWorkInfoByTag(REGISTER_LOCATION);
+//        registerLocationWorkInfo.observe(owner, workInfoList -> {
+//            numLocations.setValue(orchestratorProvider.countSuccessWorks(workInfoList));
+//            locationCardExtraInfo.setValue(getApplication().getString(R.string.experiment_perform_num_locations) + " " + numSensors.getValue());
+//        });
 
     }
 
     private void generateImageExtraInfo() {
         String extraInfo = getApplication().getString(R.string.experiment_perform_images_number) + " " + numImages.getValue() + "\n" +
-                getApplication().getString(R.string.experiment_perform_images_number) + " " + numImages.getValue();
-        imageCardExtraInfo.setValue(extraInfo);
+                getApplication().getString(R.string.experiment_perform_num_embeddings) + " " + numEmbeddings.getValue();
+        imageCardExtraInfo.postValue(extraInfo);
 
     }
 
@@ -758,6 +764,37 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             }
         });
     }
+
+    public void onMessageEvent(WorkFinishedEvent event) {
+        int typeStringRes = orchestratorProvider.getRemoteStateTranslatableStringResFromWorkTags(event.getTags());
+        this.updateWorkCounter(event.isSuccessful(), event.getTags(), event.getNumRegisters(), event.getException());
+
+    }
+
+    private void updateWorkCounter(boolean successWork, Set<String> tags, int numRegisters, BaseException exception) {
+        if(tags.contains(REMOTE_SYNC_WORK)){
+
+        }else{
+            if(tags.contains(REGISTER_AUDIO)){
+                numAudios.postValue(numAudios.getValue()+1);
+                audioCardExtraInfo.postValue(getApplication().getString(R.string.experiment_perform_num_audios) + " " + numAudios.getValue());
+            }else if(tags.contains(REGISTER_IMAGE)){
+                numImages.postValue(numImages.getValue()+1);
+                generateImageExtraInfo();
+            }else if(tags.contains(OBTAIN_EMBEDDED_IMAGE)){
+                numEmbeddings.postValue(numEmbeddings.getValue()+1);
+                generateImageExtraInfo();
+            }else if(tags.contains(REGISTER_SENSOR)){
+                numSensors.postValue(numSensors.getValue()+1);
+                sensorCardExtraInfo.postValue(getApplication().getString(R.string.experiment_perform_num_sensors) + " " + numSensors.getValue());
+
+            }else if(tags.contains(REGISTER_LOCATION)){
+                numLocations.postValue(numLocations.getValue()+1);
+                locationCardExtraInfo.postValue(getApplication().getString(R.string.experiment_perform_num_locations) + " " + numLocations.getValue());
+            }
+        }
+
+        }
 
 
 

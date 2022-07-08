@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.libs.MemoryUtils;
@@ -11,6 +12,9 @@ import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.data.repositories.ExperimentsRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class ExperimentProvider {
 
@@ -30,9 +34,25 @@ public class ExperimentProvider {
         return stringToReturn;
     }
 
-    public static long endExperiment(Experiment experiment){
-        experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
-        return ExperimentsRepository.updateExperiment(experiment);
+    public static void endExperiment(Experiment experiment, Context context, MutableLiveData<Integer> responseLiveData){
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(()->{
+            experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
+            Date maxDate = ExperimentsRepository.getMaxDateFromRegisters(experiment.getInternalId());
+            Date minDate = ExperimentsRepository.getMinDateFromRegisters(experiment.getInternalId(), experiment.getEndDate());
+            if(minDate == null){
+                minDate = experiment.getInitDate();
+            }
+            long duration = maxDate.getTime() - minDate.getTime();
+            if(duration < 0){
+                duration = 0;
+            }
+            experiment.setDuration(duration);
+            String size = MemoryUtils.getFormattedFileSize(FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()));
+            experiment.setSize(size);
+            responseLiveData.setValue(ExperimentsRepository.updateExperiment(experiment));
+        });
+
     }
 
     public static String deleteExperiment(Context context, Experiment experiment){

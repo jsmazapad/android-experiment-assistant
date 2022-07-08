@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Experiment Assistant</string>
-    <string name="error_network_ask_retry"> ¿Do you want to reload data?</string>
+    <string name="error_network_ask_retry"> ¿Quiere reintentar la operación?</string>
+    <string name="error_network_connection">Error al conectar al servidor</string>
     <string name="default_modal_okButton">Ok</string>
     <string name="default_warning_title">Advertencia</string>
     <string name="default_info_title">Información</string>
@@ -115,7 +116,7 @@
     <string name="experiment_perform_num_sensors">Nº de mediciones de sensor registradas</string>
     <string name="experiment_perform_location_title">Ubicación</string>
     <string name="experiment_perform_num_locations">Nº de ubicaciones obtenidas</string>
-    <string name="experiment_perform_location_format"><![CDATA[Latitud:<b>%f</b>, Longitud:<b>%f</b>, Altitud:<b>%f</b>, Precisión: <b>%f</b>  ]]></string>
+    <string name="experiment_perform_location_format"><![CDATA[Latitud: %f, Longitud %f, Altitud: %f, Precisión: %f ]]></string>
     <string name="pending_jobs_dialog_title">Trabajos pendientes</string>
     <string name="pending_jobs_dialog_text">Hay trabajos pendientes en segundo plano, ¿Que desea hacer con ellos?</string>
     <string name="pending_jobs_dialog_option_end">Finalizarlos y salvar el experimento</string>
@@ -179,6 +180,7 @@
     <string name="delete_content_description">Eliminar</string>
     <string name="configuration_remote_server_card">Configuración de servidor remoto</string>
     <string name="configuration_remote_server_method">Método de sincronización</string>
+    <string name="sync_method_spinner_title">Seleccione método de sincronización</string>
     <string name="configuration_remote_firebase_key">API Key</string>
     <string name="configuration_remote_firebase_app">ApplicationId</string>
     <string name="configuration_remote_firebase_project">ProjectId</string>
@@ -320,7 +322,8 @@
     <string name="configuration_suggestion_card">Sugerencias para autocompletar comentarios</string>
     <string name="configuration_quick_comments_card">Comentarios rápidos</string>
     <string name="configuration_manage_extra_info">Abrir para gestionar</string>
-    <string name="configuration_remote_sync_error">No se han guardado los datos de sincronización remota. Todos los datos de sincronización remota son obligatorios, por favor revísaleo</string>
+    <string name="configuration_remote_sync_error">No se han guardado los datos de sincronización remota. Todos los datos de sincronización remota son obligatorios, por favor revíselos</string>
+    <string name="configuration_remote_sync_url_error">Formato de url de servidor incorrecto</string>
     <string name="go_back">Atrás</string>
     <string name="sync_experiment_error">Error al sincronizar experimento. Sincronización abortada</string>
     <string name="sync_credentials_error">Error al iniciar sesión. Compruebe sus credenciales y vuelva a intentarlo.</string>
@@ -337,6 +340,8 @@
     <string name="pending_remote_sync">Elementos pendientes de sincronizar</string>
     <string name="dialog_legend_title">Información de los iconos del listado</string>
     <string name="app_logo_content_description">Logo de aplicación</string>
+    <string name="configuration_remote_check_ok_title">Operación correcta</string>
+    <string name="configuration_remote_check_ok_text">La operación de comprobación de conexión se ha realizado con éxito</string>
 
 
 </resources>

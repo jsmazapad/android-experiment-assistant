@@ -27,6 +27,7 @@ import com.jsm.exptool.entities.register.AudioRegister;
 import com.jsm.exptool.entities.register.CommentRegister;
 import com.jsm.exptool.entities.register.ImageRegister;
 import com.jsm.exptool.entities.register.SensorRegister;
+import com.jsm.exptool.providers.FirebaseProvider;
 import com.jsm.exptool.providers.PreferencesProvider;
 import com.jsm.exptool.providers.SessionProvider;
 
@@ -38,27 +39,12 @@ import retrofit2.Call;
 public class FireBaseStrategy implements RemoteStrategyInterface{
 
     public static void init(Context c){
-
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setApiKey(PreferencesProvider.getFirebaseKey())
-                .setApplicationId(PreferencesProvider.getFirebaseApp())
-                .setProjectId(PreferencesProvider.getFirebaseProject())
-                .setStorageBucket(PreferencesProvider.getFirebaseStorageBucket()).build();
-        FirebaseApp.initializeApp(c, options);
-        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuth -> {
-
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if(user == null){
-                SessionProvider.clearSession();
-            }else{
-                SessionProvider.setToken("FIREBASE");
-            }
-        });
+        FirebaseProvider.initFirebase(c);
     }
 
     @Override
     public Call<NetworkElementResponse<LoginResponse>> login(NetworkElementResponseCallback<LoginResponse> callback, boolean returnCall) {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(PreferencesProvider.getUser(), PreferencesProvider.getPassword()).addOnSuccessListener(authResult -> callback.onResponse(new ElementResponse<>(new LoginResponse("OK")))).addOnFailureListener(e -> callback.onResponse(new ElementResponse<>(new InvalidSessionException(e.getMessage()))));
+        FirebaseAuth.getInstance(FirebaseProvider.getActiveInstance()).signInWithEmailAndPassword(PreferencesProvider.getFirebaseUser(), PreferencesProvider.getFirebasePassword()).addOnSuccessListener(authResult -> callback.onResponse(new ElementResponse<>(new LoginResponse("OK")))).addOnFailureListener(e -> callback.onResponse(new ElementResponse<>(new InvalidSessionException(e.getMessage()))));
         return null;
     }
 

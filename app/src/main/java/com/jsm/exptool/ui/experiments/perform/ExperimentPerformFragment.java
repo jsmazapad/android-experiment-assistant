@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import androidx.annotation.NonNull;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerAdapter;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerFragment;
 import com.jsm.exptool.databinding.ExperimentPerformFragmentBinding;
+import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
 import com.jsm.exptool.libs.requestpermissions.PermissionResultCallbackForViewModel;
 import com.jsm.exptool.entities.CommentSuggestion;
 import com.jsm.exptool.entities.Experiment;
@@ -36,6 +38,10 @@ import com.jsm.exptool.entities.Experiment;
 import com.jsm.exptool.providers.RequestPermissionsProvider;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
 import com.jsm.exptool.ui.main.MainActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -47,6 +53,17 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
     MaterialAutoCompleteTextView autoCompleteTextView;
     PreviewView previewView;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
 
     PermissionResultCallbackForViewModel cameraPermissionsResultCallback = new PermissionResultCallbackForViewModel() {
         @Override
@@ -211,6 +228,13 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
        super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMessageEvent(WorkFinishedEvent event) {
+        Log.d("EVENTO", "EVENTO");
+        this.viewModel.onMessageEvent(event);
+
     }
 
 

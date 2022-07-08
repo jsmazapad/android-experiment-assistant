@@ -41,7 +41,7 @@ public class WorkerPropertiesConstants {
         //SENSOR
         public static final String REGISTER_SENSOR = "REGISTER_SENSOR";
         //LOCATION
-        public static final String REGISTER_LOCATION = "REGISTER_SENSOR";
+        public static final String REGISTER_LOCATION = "REGISTER_LOCATION";
 
         //EXPORTACIÓN
         public static final String EXPORT_REGISTERS = "EXPORT_REGISTERS";
