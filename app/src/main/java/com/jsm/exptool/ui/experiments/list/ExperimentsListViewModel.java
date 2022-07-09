@@ -47,7 +47,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
     private Experiment.ExperimentStatus statusFilterSelected;
     private FilterOption<ExperimentListFiltersProvider.ConditionFilterOptions, Boolean> conditionFilterSelected;
     private final WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
-    private final MutableLiveData<String> zippedFilePath = new MutableLiveData<>();
+//    private final MutableLiveData<String> zippedFilePath = new MutableLiveData<>();
 
 
     public ExperimentsListViewModel(Application app) {
@@ -75,9 +75,9 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
     }
 
 
-    public MutableLiveData<String> getZippedFilePath() {
-        return zippedFilePath;
-    }
+//    public MutableLiveData<String> getZippedFilePath() {
+//        return zippedFilePath;
+//    }
 
     @Override
     public List<Experiment> transformResponse(ListResponse<Experiment> response) {
@@ -177,30 +177,30 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
         });
 
         LiveData<List<WorkInfo>> zipWorkInfo = orchestratorProvider.getWorkInfoByTag(ZIP_EXPORTED);
-        zipWorkInfo.observe(owner, workInfoList -> {
-            if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
-                if (!isShowingDialog()) {
-                    error.setValue(new BaseException(getApplication().getString(R.string.export_error_text), false));
-                }
-            } else if (orchestratorProvider.countSuccessWorks(workInfoList) > 0) {
-                Log.d("ZIPPEADO","Operación realizada con éxito");
-                Data outputData = workInfoList.get(0).getOutputData();
-                String filename = outputData.getString(FILE_NAME);
-                zippedFilePath.setValue(filename);
-
-            }
-        });
+//        zipWorkInfo.observe(owner, workInfoList -> {
+//            if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
+//                if (!isShowingDialog()) {
+//                    error.setValue(new BaseException(getApplication().getString(R.string.export_error_text), false));
+//                }
+//            } else if (orchestratorProvider.countSuccessWorks(workInfoList) > 0) {
+//                Log.d("ZIPPEADO","Operación realizada con éxito");
+//                Data outputData = workInfoList.get(0).getOutputData();
+//                String filename = outputData.getString(FILE_NAME);
+//                zippedFilePath.setValue(filename);
+//
+//            }
+//        });
     }
 
 
 
-    public void shareZipped(Context context, String fileName) {
-        Log.d("ZIPPEADO","Lanzando diálogo de compartir");
-        //TODO refactorizar authority
-        Uri path = FileProvider.getUriForFile(context, "com.jsm.exptool.fileprovider", new File(fileName));
-        ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(context).setStream(path).setChooserTitle(R.string.export_experiment_share_chooser_title).setType("*/*");
-        intentBuilder.startChooser();
-    }
+//    public void shareZipped(Context context, String fileName) {
+//        Log.d("ZIPPEADO","Lanzando diálogo de compartir");
+//        //NEXTTODO refactorizar authority
+//        Uri path = FileProvider.getUriForFile(context, "com.jsm.exptool.fileprovider", new File(fileName));
+//        ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(context).setStream(path).setChooserTitle(R.string.export_experiment_share_chooser_title).setType("*/*");
+//        intentBuilder.startChooser();
+//    }
 
 
 

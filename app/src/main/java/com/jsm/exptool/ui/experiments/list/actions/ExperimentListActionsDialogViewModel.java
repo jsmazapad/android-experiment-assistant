@@ -1,16 +1,22 @@
 package com.jsm.exptool.ui.experiments.list.actions;
 
+import static com.jsm.exptool.config.WorkerPropertiesConstants.DataConstants.FILE_NAME;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.EXPORT_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.ZIP_EXPORTED;
 
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ShareCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.work.Data;
 import androidx.work.WorkInfo;
 
 import com.jsm.exptool.R;
@@ -35,6 +41,7 @@ import com.jsm.exptool.ui.main.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.List;
 
 public class ExperimentListActionsDialogViewModel extends LoadingViewModel implements ExperimentActionsInterface {
@@ -76,6 +83,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
     private String embeddingConfigText = "";
     private String audioConfigText = "";
     private String quickCommentsText = "";
+
 
     public MutableLiveData<String> getSensorCountValue() {
         return sensorCountValue;
@@ -216,11 +224,11 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
 
     public void initObservers(LifecycleOwner owner, Context context, AlertDialog dialog) {
         super.initObservers(owner);
-        this.initOrchestratorObservers(owner);
+        this.initOrchestratorObservers(owner, context);
         this.initExperimentActionsDialogObservers(owner, context, dialog);
     }
 
-    private void initOrchestratorObservers(LifecycleOwner owner){
+    private void initOrchestratorObservers(LifecycleOwner owner, Context context){
         LiveData<List<WorkInfo>> exportsWorkInfo = orchestratorProvider.getWorkInfoByTag(EXPORT_REGISTERS);
         exportsWorkInfo.observe(owner, workInfoList -> {
             if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
@@ -231,6 +239,17 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
         });
 
         LiveData<List<WorkInfo>> zipWorkInfo = orchestratorProvider.getWorkInfoByTag(ZIP_EXPORTED);
+//        zipWorkInfo.observe(owner, workInfoList -> {
+//            if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
+//                isLoading.setValue(false);
+//                if (!isShowingDialog()) {
+//                    error.setValue(new BaseException(getApplication().getString(R.string.export_error_text), false));
+//                }
+//            } else if (orchestratorProvider.countSuccessWorks(workInfoList) > 0) {
+//                isLoading.setValue(false);
+//
+//            }
+//        });
         zipWorkInfo.observe(owner, workInfoList -> {
             if (orchestratorProvider.countFailureWorks(workInfoList) > 0) {
                 isLoading.setValue(false);
@@ -239,7 +258,10 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
                 }
             } else if (orchestratorProvider.countSuccessWorks(workInfoList) > 0) {
                 isLoading.setValue(false);
-
+                Log.d("ZIPPEADO","Operación realizada con éxito");
+                Data outputData = workInfoList.get(0).getOutputData();
+                String filename = outputData.getString(FILE_NAME);
+                shareZipped(context, filename);
             }
         });
     }
@@ -408,6 +430,14 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
             }
             quickCommentsText = String.format(context.getString(R.string.experiment_actions_quick_comments_format_text), quickCommentListAsString);
         }
+    }
+
+    public void shareZipped(Context context, String fileName) {
+        Log.d("ZIPPEADO","Lanzando diálogo de compartir");
+        //NEXTTODO refactorizar authority
+        Uri path = FileProvider.getUriForFile(context, "com.jsm.exptool.fileprovider", new File(fileName));
+        ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(context).setStream(path).setChooserTitle(R.string.export_experiment_share_chooser_title).setType("*/*");
+        intentBuilder.startChooser();
     }
 
     public void cancelPendingWorks(){

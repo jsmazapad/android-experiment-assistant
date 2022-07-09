@@ -89,12 +89,12 @@ public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsLis
     @Override
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
-        viewModel.getZippedFilePath().observe(getViewLifecycleOwner(), value ->{
-            if(value != null){
-                Log.d("ZIPPEADO","Lanzando compartir desde fragment");
-                viewModel.shareZipped(getContext(), value);
-            }
-        });
+//        viewModel.getZippedFilePath().observe(getViewLifecycleOwner(), value ->{
+//            if(value != null){
+//                Log.d("ZIPPEADO","Lanzando compartir desde fragment");
+//                viewModel.shareZipped(getContext(), value);
+//            }
+//        });
     }
 
     @Override
