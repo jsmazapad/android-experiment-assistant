@@ -95,6 +95,10 @@ public class DBHelper {
         }
     }
 
+    public static boolean hasPendingSyncRegisters(long experimentId) {
+        return appDatabase.experimentDao().countPendingSyncRegisters(experimentId)>0;
+    }
+
     /*
     IMAGE REGISTERS
      */
@@ -236,6 +240,9 @@ public class DBHelper {
 
     public static int countSensorRegistersByExperimentId(long experimentId) {
         return appDatabase.sensorDao().getSensorsCountByExperimentId(experimentId);
+    }
+    public static int countSensorRegistersWithoutLocationByExperimentId(long experimentId) {
+        return appDatabase.sensorDao().getSensorsCountWithoutLocationByExperimentId(experimentId);
     }
 
     public static List<SensorRegister> getPendingSyncSensorRegistersByExperimentId(long experimentId) {

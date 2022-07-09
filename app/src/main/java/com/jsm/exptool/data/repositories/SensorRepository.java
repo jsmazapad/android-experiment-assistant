@@ -71,6 +71,12 @@ public class SensorRepository {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute( () -> countResponse.postValue(DBHelper.countSensorRegistersByExperimentId(experimentId)));
     }
+    public static int countRegistersByExperimentId(long experimentId){
+        return DBHelper.countSensorRegistersByExperimentId(experimentId);
+    }
+    public static int countRegistersWithoutLocationByExperimentId(long experimentId){
+        return DBHelper.countSensorRegistersWithoutLocationByExperimentId(experimentId);
+    }
 
     public static void countPendingSyncRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
         Executor executor = Executors.newSingleThreadExecutor();

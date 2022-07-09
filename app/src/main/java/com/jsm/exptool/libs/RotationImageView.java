@@ -26,7 +26,7 @@ public class RotationImageView extends androidx.appcompat.widget.AppCompatImageV
     protected void onFinishInflate() {
         super.onFinishInflate();
         RotateAnimation rotate = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(5000);
+        rotate.setDuration(15000);
         rotate.setInterpolator(new LinearInterpolator());
         this.startAnimation(rotate);
     }

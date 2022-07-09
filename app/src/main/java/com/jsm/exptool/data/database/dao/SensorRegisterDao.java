@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.jsm.exptool.config.SensorConfigConstants;
 import com.jsm.exptool.entities.register.SensorRegister;
 
 import java.util.List;
@@ -71,6 +72,9 @@ public interface SensorRegisterDao {
      */
     @Query("SELECT COUNT(*) FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId" + " = :experimentId")
     int getSensorsCountByExperimentId(long experimentId);
+
+    @Query("SELECT COUNT(*) FROM "+ SensorRegister.TABLE_NAME + " WHERE experimentId = :experimentId and sensorType <> "+ SensorConfigConstants.TYPE_GPS)
+    int getSensorsCountWithoutLocationByExperimentId(long experimentId);
 
     /**
      * Inserta un registro

@@ -35,23 +35,34 @@ public class ExperimentProvider {
         return stringToReturn;
     }
 
-    public static void endExperiment(Experiment experiment, Context context, MutableLiveData<Integer> responseLiveData){
+    public static void endExperiment(Experiment experiment, Context context, MutableLiveData<Integer> responseLiveData, Experiment.ExperimentStatus targetStatus, boolean fromFinishPerformExperiment){
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(()->{
-            experiment.setStatus(Experiment.ExperimentStatus.FINISHED);
-            Date maxDate = ExperimentsRepository.getMaxDateFromRegisters(experiment.getInternalId());
-            Date minDate = ExperimentsRepository.getMinDateFromRegisters(experiment.getInternalId(), experiment.getEndDate());
-            boolean embeddingPending = ImageRepository.getSynchronouslyPendingEmbeddingSyncRegistersByExperimentId(experiment.getInternalId()).size() > 0;
-            experiment.setEmbeddingPending(embeddingPending);
-            if(minDate == null){
-                minDate = experiment.getInitDate();
+            experiment.setStatus(targetStatus);
+            if(!fromFinishPerformExperiment) {
+                Date maxDate = ExperimentsRepository.getMaxDateFromRegisters(experiment.getInternalId());
+                Date minDate = ExperimentsRepository.getMinDateFromRegisters(experiment.getInternalId(), experiment.getEndDate());
+
+                if (minDate == null) {
+                    minDate = experiment.getInitDate();
+                }
+                long duration = maxDate.getTime() - minDate.getTime();
+                if (duration < 0) {
+                    duration = 0;
+                }
+                experiment.setDuration(duration + experiment.getDuration());
+                experiment.setEndDate(maxDate);
             }
-            long duration = maxDate.getTime() - minDate.getTime();
-            if(duration < 0){
-                duration = 0;
+            if(experiment.getConfiguration().isEmbeddingEnabled()) {
+                boolean embeddingPending = ImageRepository.getSynchronouslyPendingEmbeddingSyncRegistersByExperimentId(experiment.getInternalId()).size() > 0;
+                experiment.setEmbeddingPending(embeddingPending);
+            }else{
+                experiment.setEmbeddingPending(false);
             }
-            experiment.setDuration(duration+experiment.getDuration());
-            experiment.setEndDate(maxDate);
+
+            boolean syncPending = ExperimentsRepository.hasPendingSyncRegisters(experiment.getInternalId());
+            experiment.setSyncPending(syncPending);
+
             String size = MemoryUtils.getFormattedFileSize(FilePathsProvider.getExperimentFilePath(context, experiment.getInternalId()));
             experiment.setSize(size);
             responseLiveData.postValue(ExperimentsRepository.updateExperiment(experiment));

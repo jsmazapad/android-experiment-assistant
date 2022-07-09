@@ -106,7 +106,8 @@
 
                     <TextView
                         style="@style/BaseSubtitleNegativeTextView"
-                        android:text="@string/experiment_resume_card_audio_title" />
+                        android:text="@string/experiment_resume_card_audio_title"
+                        android:visibility="@{viewModel.audioEnabled? View.VISIBLE : View.GONE}"/>
 
                     <LinearLayout
                         style="@style/PaddedBorderBackground"

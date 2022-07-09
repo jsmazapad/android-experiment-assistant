@@ -182,7 +182,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
 
     @Override
     public void endExperiment(Context context, Experiment experiment, Dialog alertDialog) {
-        ExperimentProvider.endExperiment(experiment, context, endExperimentResponse);
+        ExperimentProvider.endExperiment(experiment, context, endExperimentResponse, Experiment.ExperimentStatus.FINISHED, false);
     }
 
     @Override

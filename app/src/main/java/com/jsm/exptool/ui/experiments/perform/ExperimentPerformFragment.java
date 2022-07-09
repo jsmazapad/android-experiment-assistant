@@ -169,6 +169,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         viewModel.initLocationProvider(getContext(), getViewLifecycleOwner(), this);
         viewModel.checkIfRemoteSyncOnlyInitIsNecessary(getContext());
         viewModel.initWorkInfoObservers(getViewLifecycleOwner());
+        viewModel.initObservers(getViewLifecycleOwner(), getContext());
         viewModel.getSuggestions().removeObservers(getViewLifecycleOwner());
         viewModel.getSuggestions().observe(getViewLifecycleOwner(), elements ->{
             if (elements != null){

@@ -62,6 +62,10 @@ public class AudioRepository {
         executor.execute(() -> countResponse.postValue(DBHelper.countAudioRegistersByExperimentId(experimentId)));
     }
 
+    public static int countRegistersByExperimentId(long experimentId) {
+        return DBHelper.countAudioRegistersByExperimentId(experimentId);
+    }
+
     public static void countPendingSyncRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> countResponse.postValue(DBHelper.countPendingSyncAudioRegistersByExperimentId(experimentId)));

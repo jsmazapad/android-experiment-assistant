@@ -48,6 +48,7 @@ import androidx.annotation.StringRes;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.BackoffPolicy;
+import androidx.work.Configuration;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkContinuation;
@@ -108,6 +109,7 @@ public class WorksOrchestratorProvider {
     }
 
     public void init(Application application) {
+        WorkManager.initialize(application, new Configuration.Builder().setMaxSchedulerLimit(50).build() );
         mWorkManager = WorkManager.getInstance(application);
         finishPendingJobs();
 

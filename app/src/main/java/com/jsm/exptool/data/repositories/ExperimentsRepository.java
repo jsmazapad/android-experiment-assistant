@@ -42,6 +42,10 @@ public class ExperimentsRepository {
             return DBHelper.getMinDateFromRegisters(experimentId, dateFrom);
     }
 
+    public static boolean hasPendingSyncRegisters(long experimentId) {
+        return DBHelper.hasPendingSyncRegisters(experimentId);
+    }
+
 
 
 

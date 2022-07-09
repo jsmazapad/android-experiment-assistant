@@ -212,4 +212,7 @@ public abstract class ExperimentDao {
     public abstract Date getMinDateFromRegisters(long experimentId);
     @Query("SELECT  MIN(date) FROM ( SELECT date FROM commentRegisters WHERE experimentId = :experimentId  UNION SELECT date FROM imageRegisters WHERE experimentId = :experimentId UNION SELECT date FROM audioRegisters WHERE experimentId = :experimentId UNION SELECT date from sensorRegisters where experimentId = :experimentId) WHERE date > :date")
     public abstract Date getMinDateFromRegistersFromDate(long experimentId, Date date);
+
+    @Query("SELECT  COUNT(*) FROM ( SELECT date FROM commentRegisters WHERE experimentId = :experimentId and dataRemoteSynced = 0  UNION SELECT date FROM imageRegisters WHERE experimentId = :experimentId  and (dataRemoteSynced = 0 OR fileRemoteSynced = 0) UNION SELECT date FROM audioRegisters WHERE experimentId = :experimentId and (dataRemoteSynced = 0 OR fileRemoteSynced = 0) UNION SELECT date from sensorRegisters where experimentId = :experimentId and dataRemoteSynced = 0)")
+    public abstract int countPendingSyncRegisters(long experimentId);
 }

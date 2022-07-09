@@ -99,7 +99,7 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
         if (experiment.getConfiguration() != null) {
             imageEnabled.setValue(experiment.getConfiguration().isCameraEnabled());
             audioEnabled.setValue(experiment.getConfiguration().isAudioEnabled());
-            sensorEnabled.setValue(experiment.getConfiguration().isSensorEnabled());
+            sensorEnabled.setValue(experiment.getConfiguration().isSensorEnabled() || experiment.getConfiguration().isLocationEnabled());
             embeddingEnabled.setValue(experiment.getConfiguration().isEmbeddingEnabled());
 
             //noinspection ConstantConditions

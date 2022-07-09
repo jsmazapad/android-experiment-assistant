@@ -90,18 +90,20 @@
     <!--
     PERFORM EXPERIMENT
     -->
-
+    <string name="experiment_perform_error">Error al iniciar el experimento</string>
     <string name="perform_experiment_init_text">Iniciar</string>
     <string name="perform_experiment_finish_text">Finalizar</string>
     <string name="default_succesful_operation">Operación realizada con éxito</string>
     <string name="default_failure_operation">Su operación no pudo realizarse</string>
     <string name="default_error_database_register_entity">Se ha producido un error en el registro de datos</string>
     <string name="experiment_perform_resume_dialog_num_images"><![CDATA[Número de imágenes registradas: <b>%d</b><br>]]></string>
-    <string name="experiment_perform_resume_dialog_num_embedded"><![CDATA[<br>Número de imágenes analizadas en remoto: <b>%d</b><br>]]></string>
+    <string name="experiment_perform_resume_dialog_num_embedded"><![CDATA[Número de imágenes analizadas en remoto: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_audios"><![CDATA[Número de archivos de audio registrados: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_sensors"><![CDATA[Número de lecturas de sensor registradas: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_locations"><![CDATA[Número de posiciones de ubicación registradas: <b>%d</b><br>]]></string>
     <string name="experiment_perform_resume_dialog_num_comments"><![CDATA[Número de comentarios registrados: <b>%d</b><br>]]></string>
+    <string name="experiment_perform_resume_pending_sync"><![CDATA[<b>El experimento tiene registros pendientes de sincronizar</b><br>]]></string>
+    <string name="experiment_perform_resume_complete_sync"><![CDATA[<b>El experimento ha sincronizado correctamente todos sus registros</b><br>]]></string>
     <string name="experiment_perform_images_title">Imágenes</string>
     <string name="experiment_perform_images_number">Nº de imágenes</string>
     <string name="experiment_perform_num_embeddings">Nº de vectores de embedding</string>

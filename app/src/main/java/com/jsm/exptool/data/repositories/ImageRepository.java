@@ -116,11 +116,20 @@ public class ImageRepository {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> countResponse.postValue(DBHelper.countImageRegistersByExperimentId(experimentId)));
     }
+    public static int  countRegistersByExperimentId(long experimentId) {
+
+        return  DBHelper.countImageRegistersByExperimentId(experimentId);
+    }
 
     public static void countImagesWithEmbeddingsByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {
 
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> countResponse.postValue(DBHelper.countImageRegistersWithEmbeddingByExperimentId(experimentId)));
+    }
+
+    public static int  countImagesWithEmbeddingsByExperimentId(long experimentId) {
+
+        return  DBHelper.countImageRegistersWithEmbeddingByExperimentId(experimentId);
     }
 
     public static void countPendingSyncRegistersByExperimentId(long experimentId, MutableLiveData<Integer> countResponse) {

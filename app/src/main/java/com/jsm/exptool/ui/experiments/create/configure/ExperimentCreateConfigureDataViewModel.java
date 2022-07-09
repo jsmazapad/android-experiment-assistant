@@ -379,7 +379,7 @@ public class ExperimentCreateConfigureDataViewModel extends BaseRecyclerViewMode
         if(this.experiment.getConfiguration().isLocationEnabled()){
             this.experiment.getConfiguration().getLocationConfig().setLocationOption(selectedLocationMethod.getValue());
         }
-
+        this.experiment.setStatus(Experiment.ExperimentStatus.CREATED);
         return ExperimentsRepository.registerExperiment(this.experiment);
     }
 
