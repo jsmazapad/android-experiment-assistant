@@ -183,6 +183,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
                     error.setValue(new BaseException(getApplication().getString(R.string.export_error_text), false));
                 }
             } else if (orchestratorProvider.countSuccessWorks(workInfoList) > 0) {
+                Log.d("ZIPPEADO","Operación realizada con éxito");
                 Data outputData = workInfoList.get(0).getOutputData();
                 String filename = outputData.getString(FILE_NAME);
                 zippedFilePath.setValue(filename);
@@ -194,6 +195,7 @@ public class ExperimentsListViewModel extends BaseRecyclerViewModel<Experiment, 
 
 
     public void shareZipped(Context context, String fileName) {
+        Log.d("ZIPPEADO","Lanzando diálogo de compartir");
         //TODO refactorizar authority
         Uri path = FileProvider.getUriForFile(context, "com.jsm.exptool.fileprovider", new File(fileName));
         ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(context).setStream(path).setChooserTitle(R.string.export_experiment_share_chooser_title).setType("*/*");

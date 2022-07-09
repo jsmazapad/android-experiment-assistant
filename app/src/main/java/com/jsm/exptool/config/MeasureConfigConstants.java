@@ -14,7 +14,7 @@ public class MeasureConfigConstants {
     public static final String HEART_BEAT = "BEAT";
     public static final String STATIONARY = "STATIONARY";
     public static final String MOTION_DETECTED = "MOTION_DETECTED";
-    public static final String SIGNIFICANT_MOTION = "SIGNIFICANT_MOTION";
+    public static final String SIGNIFICANT_MOTION = "SIGNIFICANT_MOTION_DETECTED";
     public static final String STEP_DETECTED = "STEP_DETECTED";
     public static final String STEP_COUNTED= "STEPS_COUNTED";
 

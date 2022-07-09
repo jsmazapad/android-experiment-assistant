@@ -9,6 +9,7 @@ import com.flurry.android.FlurryPerformance;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jsm.exptool.libs.PreferenceManager;
 import com.jsm.exptool.data.database.DBHelper;
+import com.jsm.exptool.providers.FirebaseProvider;
 import com.jsm.exptool.providers.RemoteSyncMethodsProvider;
 import com.jsm.exptool.providers.SensorProvider;
 import com.jsm.exptool.providers.PreferencesProvider;
@@ -58,7 +59,7 @@ public class App extends Application {
 
             WorksOrchestratorProvider orchestratorProvider = WorksOrchestratorProvider.getInstance();
             orchestratorProvider.init(this);
-            FirebaseAuth.getInstance().signOut();
+            FirebaseAuth.getInstance(FirebaseProvider.getActiveInstance()).signOut();
             //MockExamples.createRandomCompletedExperiments(this);
 
 

@@ -17,7 +17,6 @@ import android.text.Html;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import androidx.camera.view.PreviewView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
@@ -33,7 +32,9 @@ import com.jsm.exptool.core.exceptions.BaseException;
 import com.jsm.exptool.core.ui.base.BaseActivity;
 import com.jsm.exptool.core.ui.base.BaseFragment;
 import com.jsm.exptool.core.ui.baserecycler.BaseRecyclerViewModel;
+import com.jsm.exptool.data.repositories.RemoteSyncRepository;
 import com.jsm.exptool.entities.eventbus.WorkFinishedEvent;
+import com.jsm.exptool.entities.experimentconfig.RepeatableElementConfig;
 import com.jsm.exptool.libs.MemoryUtils;
 import com.jsm.exptool.core.libs.ModalMessage;
 import com.jsm.exptool.libs.DeviceUtils;
@@ -56,7 +57,6 @@ import com.jsm.exptool.data.repositories.CommentRepository;
 import com.jsm.exptool.data.repositories.CommentSuggestionsRepository;
 import com.jsm.exptool.data.repositories.ExperimentsRepository;
 import com.jsm.exptool.libs.requestpermissions.RequestPermissionsInterface;
-import com.jsm.exptool.ui.experiments.list.actions.sync.ExperimentSyncStateRow;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -114,6 +114,9 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     private final MutableLiveData<Integer> updateElementInRecycler = new MutableLiveData<>();
 
     private RequestPermissionsProvider permissionsProvider;
+
+    //Remote SYNC
+    boolean remoteSyncEnabled = false;
 
 
     public ExperimentPerformViewModel(@NonNull Application application, Experiment experiment) {
@@ -276,6 +279,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             initSensorRecording(context);
             initLocationRecording(context);
             initCommentSuggestions();
+            initRemoteSyncingProcess(context);
         } else {
             //TODO Mensaje de error con reintento
         }
@@ -407,6 +411,30 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         }
     }
 
+    public void initRemoteSync(Context context) {
+        if (experiment.getConfiguration().isRemoteSyncEnabled()) {
+            isLoading.setValue(true);
+            RemoteSyncRepository.login(response -> {
+                isLoading.setValue(false);
+                if (response.getError() != null) {
+                    remoteSyncEnabled = false;
+                    BaseException exceptionToShow;
+                    if(response.getError() instanceof InvalidSessionException){
+                        exceptionToShow = new BaseException(context.getString(R.string.sync_credentials_error), false);
+                    }else{
+                        String errorString = context.getString(R.string.error_network_connection);
+                        exceptionToShow = new BaseException(errorString, false);
+                    }
+                    handleError(exceptionToShow, context);
+                } else {
+                    remoteSyncEnabled = true;
+                }
+            }, false);
+        } else {
+            isLoading.setValue(false);
+        }
+    }
+
     public void initAudioProvider(Context context, LifecycleOwner owner, RequestPermissionsInterface audioPermission) {
         if (experiment.getConfiguration().isAudioEnabled()) {
             if (RequestPermissionsProvider.handleCheckPermissionsForAudio(context, audioPermission))
@@ -457,25 +485,31 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             AudioConfig audioConfig = experiment.getConfiguration().getAudioConfig();
             Timer audioTimer = new Timer();
             timers.add(audioTimer);
-
+            final File[] mFile = new File[1];
+            final Date[] date = {null};
             audioTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-
+                    if( audioConfig.getRecordingDuration() == audioConfig.getInterval() && mFile[0]!=null && date[0] !=null) {
+                        AudioProvider.getInstance().stopRecording();
+                        orchestratorProvider.executeAudioChain(getApplication(), mFile[0], date[0], experiment);
+                    }
                     Log.d("WORKER", "Audio requested");
-                    Date date = new Date();
-                    File mFile = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO), FilePathsProvider.formatFileName(date + "." + audioConfig.getRecordingOption().getFileExtension()));
-                    AudioProvider.getInstance().record(mFile, audioConfig.getRecordingOption());
-                    //Tras un delay = duracion de la grabación, se ejecuta el timer para la grbación
-                    audioTimer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Log.w("AUDIOWORKER", "audiostop");
-                            AudioProvider.getInstance().stopRecording();
-                            orchestratorProvider.executeAudioChain(getApplication(), mFile, date, experiment);
+                    date[0] = new Date();
+                    mFile[0] = new File(FilePathsProvider.getFilePathForExperimentItem(context, experiment.getInternalId(), FilePathsProvider.PathTypes.AUDIO), FilePathsProvider.formatFileName(date[0] + "." + audioConfig.getRecordingOption().getFileExtension()));
+                    AudioProvider.getInstance().record(mFile[0], audioConfig.getRecordingOption());
+                    if(audioConfig.getRecordingDuration()<audioConfig.getInterval()) {
+                        //Tras un delay = duracion de la grabación, se ejecuta el timer para la grbación
+                        audioTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                Log.w("AUDIOWORKER", "audiostop");
+                                AudioProvider.getInstance().stopRecording();
+                                orchestratorProvider.executeAudioChain(getApplication(), mFile[0], date[0], experiment);
 
-                        }
-                    }, audioConfig.getRecordingDuration());
+                            }
+                        }, audioConfig.getRecordingDuration());
+                    }
                 }
             }, 0, audioConfig.getInterval());
         }
@@ -530,6 +564,26 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
                     }
                 }, 0, sensor.getInterval());
             }
+        }
+    }
+
+    private void initRemoteSyncingProcess(Context context) {
+        if (experiment.getConfiguration().isRemoteSyncEnabled() && experiment.getConfiguration().getRemoteSyncConfig() != null) {
+            RepeatableElementConfig remoteSyncConfig = experiment.getConfiguration().getRemoteSyncConfig();
+            Timer remoteSyncTimer = new Timer();
+            timers.add(remoteSyncTimer);
+
+
+            remoteSyncTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+
+                    Log.d("WORKER", "RemoteSync requested");
+                    orchestratorProvider.executeFullRemoteSync(experiment, true, new MutableLiveData<>(), false);
+
+
+                }
+            }, 0, remoteSyncConfig.getInterval());
         }
     }
 
@@ -612,10 +666,10 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
         if (experiment.getConfiguration().isAudioEnabled())
             builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_audios), numAudios.getValue())));
 
-        if (experiment.getConfiguration().isLocationEnabled())
+        if (experiment.getConfiguration().isSensorEnabled())
             builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_sensors), numSensors.getValue())));
 
-        if (experiment.getConfiguration().isSensorEnabled())
+        if (experiment.getConfiguration().isLocationEnabled())
             builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_locations), numLocations.getValue())));
 
         builder.append(Html.fromHtml(String.format(context.getString(R.string.experiment_perform_resume_dialog_num_comments), numComments.getValue())));
@@ -633,7 +687,12 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
             RequestPermissionsProvider.requestPermissionsForAudioRecording(((ExperimentPerformFragment) fragment).audioRequestPermissions);
         if (experiment.getConfiguration().isLocationEnabled() && permissionsProvider.getPermissionsToCheckList().contains(RequestPermissionsProvider.PermissionTypes.LOCATION))
             RequestPermissionsProvider.requestPermissionsForLocationFine(((ExperimentPerformFragment) fragment).locationRequestPermissions);
+    }
 
+    public void checkIfRemoteSyncOnlyInitIsNecessary(Context context){
+        if(!experiment.getConfiguration().isCameraEnabled() && !experiment.getConfiguration().isAudioEnabled() && !experiment.getConfiguration().isLocationEnabled() && experiment.getConfiguration().isRemoteSyncEnabled()){
+            initRemoteSync(context);
+        }
     }
 
     public void onCameraPermissionsAccepted(Fragment fragment) {
@@ -686,6 +745,8 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     private void continueProcessingPermissions(Fragment fragment){
         if (permissionsProvider.getPermissionsToCheckList().size()>0){
             handleRequestPermissions((ExperimentPerformFragment) fragment);
+        }else{
+            initRemoteSync(fragment.getContext());
         }
 
     }

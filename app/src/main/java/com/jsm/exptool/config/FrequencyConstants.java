@@ -7,13 +7,16 @@ public class FrequencyConstants {
     public static final int MIN_CAMERA_INTERVAL_MILLIS = 1000;
     public static final int MAX_CAMERA_INTERVAL_MILLIS = 180000; // 3 min
 
-    public static final int MIN_AUDIO_INTERVAL_MILLIS = 5000;
+    public static final int MIN_AUDIO_INTERVAL_MILLIS = 3000;
     public static final int MAX_AUDIO_INTERVAL_MILLIS = 180000; // 3 min
 
-    public static final int MIN_LOCATION_INTERVAL_MILLIS = 60000; //1 Min
+
+    public static final int MIN_LOCATION_INTERVAL_MILLIS = 30000; //0,5 Min
     public static final int MAX_LOCATION_INTERVAL_MILLIS = 1800000; // 30 min
 
-    public static final int MIN_REMOTE_SYNC_INTERVAL_MILLIS = 600000; // 10 min
+    //TODO Frecuencia de prueba
+    public static final int MIN_REMOTE_SYNC_INTERVAL_MILLIS = 30000; //0,5 Min
+    //public static final int MIN_REMOTE_SYNC_INTERVAL_MILLIS = 600000; // 10 min
     public static final int MAX_REMOTE_SYNC_INTERVAL_MILLIS = 1800000; // 30 min
 
     /**

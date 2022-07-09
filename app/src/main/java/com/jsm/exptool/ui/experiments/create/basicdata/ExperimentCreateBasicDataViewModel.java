@@ -263,7 +263,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
 
     public void completeStep(Context context) {
         boolean validTitle = this.title != null && !this.title.isEmpty();
-        boolean validAtLeastOneOption = (audioEnabled.getValue() != null && audioEnabled.getValue()) || (cameraEnabled.getValue() != null && cameraEnabled.getValue()) || (elements.getValue() != null && elements.getValue().size() > 0);
+        boolean validAtLeastOneOption = (audioEnabled.getValue() != null && audioEnabled.getValue()) || (cameraEnabled.getValue() != null && cameraEnabled.getValue()) || (elements.getValue() != null && elements.getValue().size() > 0) || (locationEnabled.getValue() != null && locationEnabled.getValue());
         if (validTitle && validAtLeastOneOption) {
             Experiment experiment = initializeExperiment();
             NavController navController = ((MainActivity) context).getNavController();
@@ -295,6 +295,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
         if (this.audioEnabled.getValue() != null && this.audioEnabled.getValue()) {
 
             AudioConfig audioConfig = new AudioConfig(PreferencesProvider.getAudioDefaultFreq(), FrequencyConstants.MIN_AUDIO_INTERVAL_MILLIS, FrequencyConstants.MAX_AUDIO_INTERVAL_MILLIS);
+            audioConfig.setRecordingDuration(PreferencesProvider.getAudioDefaultFreq());
             //Si tiene configuración inicial,  tiene la funcionalidad y está seleccionada, copiamos la configuración
             if (initialConfigured && experimentTemplate.getConfiguration().isAudioEnabled()) {
                 audioConfig = experimentTemplate.getConfiguration().getAudioConfig();

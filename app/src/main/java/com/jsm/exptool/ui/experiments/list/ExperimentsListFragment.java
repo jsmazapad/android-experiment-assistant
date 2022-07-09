@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -90,6 +91,7 @@ public class ExperimentsListFragment extends BaseRecyclerFragment<ExperimentsLis
         super.executeExtraActionsInsideBindingInit();
         viewModel.getZippedFilePath().observe(getViewLifecycleOwner(), value ->{
             if(value != null){
+                Log.d("ZIPPEADO","Lanzando compartir desde fragment");
                 viewModel.shareZipped(getContext(), value);
             }
         });

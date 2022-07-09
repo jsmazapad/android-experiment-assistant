@@ -167,6 +167,7 @@ public class ExperimentPerformFragment extends BaseRecyclerFragment<ExperimentPe
         viewModel.initCameraProvider(getContext(), getViewLifecycleOwner(), this, binding.getRoot().findViewById(R.id.cameraPreview));
         viewModel.initAudioProvider(getContext(), getViewLifecycleOwner(), this);
         viewModel.initLocationProvider(getContext(), getViewLifecycleOwner(), this);
+        viewModel.checkIfRemoteSyncOnlyInitIsNecessary(getContext());
         viewModel.initWorkInfoObservers(getViewLifecycleOwner());
         viewModel.getSuggestions().removeObservers(getViewLifecycleOwner());
         viewModel.getSuggestions().observe(getViewLifecycleOwner(), elements ->{

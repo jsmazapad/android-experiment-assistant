@@ -78,7 +78,7 @@ public class MemoryUtils {
     }
 
     public static String formatSize(long size) {
-        String suffix = null;
+        String suffix = "B";
 
         double convertedSize = Long.valueOf(size).doubleValue();
 
@@ -93,7 +93,7 @@ public class MemoryUtils {
 
         StringBuilder resultBuffer = new StringBuilder(String.format("%.2f", convertedSize));
 
-        if (suffix != null) resultBuffer.append(suffix);
+        resultBuffer.append(suffix);
         return resultBuffer.toString();
     }
 

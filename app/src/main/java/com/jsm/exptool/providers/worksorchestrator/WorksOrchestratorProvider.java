@@ -282,7 +282,7 @@ public class WorksOrchestratorProvider {
     SINCRONIZACIÓN REMOTA
      */
 
-    public void executeFullRemoteSync(Experiment experiment, boolean updateAlwaysExperiment, MutableLiveData<Boolean> initializationFinished) {
+    public void executeFullRemoteSync(Experiment experiment, boolean updateAlwaysExperiment, MutableLiveData<Boolean> initializationFinished, boolean includeCompletingEmbedding) {
 
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
@@ -305,7 +305,7 @@ public class WorksOrchestratorProvider {
             if (experiment.getConfiguration() != null) {
                 if (experiment.getConfiguration().isCameraEnabled()) {
                     //TODO Separar sincronización de registros en varias tareas según tamaño
-                    new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
+                    new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, includeCompletingEmbedding);
 
                 }
                 if (experiment.getConfiguration().isAudioEnabled()) {

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.os.Build;
+import android.util.Log;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.config.FrequencyConstants;
@@ -147,7 +148,7 @@ public class SensorProvider {
 
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION) != null
                 && sensorManager.getSensorList(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION).size() > 0) {
-            sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION, measureTriggeredValue, createOneValueMap(MeasureConfigConstants.SIGNIFICANT_MOTION), true), TYPE_SENSORS_TO_TYPE_STRING.get(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION), FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
+            sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION, measureOneTriggeredValueSum, createOneValueMap(MeasureConfigConstants.SIGNIFICANT_MOTION), true), TYPE_SENSORS_TO_TYPE_STRING.get(SensorConfigConstants.TYPE_SIGNIFICANT_MOTION), FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
         }
 
         if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STEP_DETECTOR) != null
@@ -174,12 +175,12 @@ public class SensorProvider {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_STATIONARY_DETECT) != null
                     && sensorManager.getSensorList(SensorConfigConstants.TYPE_STATIONARY_DETECT).size() > 0) {
-                sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_STATIONARY_DETECT, measureTriggeredValue, createOneValueMap(MeasureConfigConstants.STATIONARY), true), TYPE_SENSORS_TO_TYPE_STRING.get(SensorConfigConstants.TYPE_STATIONARY_DETECT), FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
+                sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_STATIONARY_DETECT, measureOneTriggeredValueSum, createOneValueMap(MeasureConfigConstants.STATIONARY), true), TYPE_SENSORS_TO_TYPE_STRING.get(SensorConfigConstants.TYPE_STATIONARY_DETECT), FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
             }
 
             if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_MOTION_DETECT) != null
                     && sensorManager.getSensorList(SensorConfigConstants.TYPE_MOTION_DETECT).size() > 0) {
-                sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_MOTION_DETECT, measureTriggeredValue, createOneValueMap(MeasureConfigConstants.MOTION_DETECTED), true), TYPE_SENSORS_TO_TYPE_STRING.get(SensorConfigConstants.TYPE_MOTION_DETECT), FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
+                sensors.add(new SensorConfig(new SensorReader(SensorConfigConstants.TYPE_MOTION_DETECT, measureOneTriggeredValueSum, createOneValueMap(MeasureConfigConstants.MOTION_DETECTED), true), TYPE_SENSORS_TO_TYPE_STRING.get(SensorConfigConstants.TYPE_MOTION_DETECT), FrequencyConstants.MIN_SENSOR_INTERVAL_MILLIS, FrequencyConstants.MAX_SENSOR_INTERVAL_MILLIS, FrequencyConstants.DEFAULT_SENSOR_FREQ));
             }
 
             if (sensorManager.getDefaultSensor(SensorConfigConstants.TYPE_HEART_BEAT) != null
@@ -230,6 +231,7 @@ public class SensorProvider {
      */
 
     private final TriggerEventInterface measureOneTriggeredValueSum = (event, measure) -> {
+        Log.d("SUMA",""+(measure.get(measure.firstKey()) + event.values[0]) );
         measure.put(measure.firstKey(), (measure.get(measure.firstKey()) == null ? 0f : measure.get(measure.firstKey())) + event.values[0]);
     };
     private final TriggerEventInterface measureTriggeredValue = (event, measure) -> {

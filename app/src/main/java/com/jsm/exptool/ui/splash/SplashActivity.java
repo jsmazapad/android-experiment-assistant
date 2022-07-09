@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 synchronized (this) {
                     try {
-                        wait(100);
+                        wait(1000);
                     } catch (InterruptedException e) {
                         Log.w(SplashActivity.class.getSimpleName(), e.getMessage(), e);
                         /*The throwing of the InterruptedException clears the interrupted state of the Thread, so if the exception is not handled properly

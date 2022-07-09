@@ -24,9 +24,9 @@ import java.util.Map;
 
 public class ImageWorksOrchestratorSyncTaskCreator extends MediaWorksOrchestratorSyncTaskCreator<ImageRegister> {
 
-    @Override
-    public void createSyncWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues) {
-        if(experiment.getConfiguration().isEmbeddingEnabled()) {
+
+    public void createSyncWorks(Experiment experiment, List<OneTimeWorkRequest> syncExperimentRegisters, Map<String, Object> registersInputDataValues, boolean obtainPendingEmbedding) {
+        if(experiment.getConfiguration().isEmbeddingEnabled() && obtainPendingEmbedding) {
             createEmbeddingWorks(experiment, syncExperimentRegisters);
         }
         super.createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);

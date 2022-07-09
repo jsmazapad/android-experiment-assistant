@@ -5,12 +5,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.jsm.exptool.R;
 import com.jsm.exptool.core.ui.base.BaseFragment;
-import com.jsm.exptool.core.ui.base.BaseViewModel;
 import com.jsm.exptool.databinding.ConfigurationFragmentBinding;
 import com.jsm.exptool.databinding.ViewLayoutFrequencySelectorBinding;
 
@@ -31,6 +29,6 @@ public class ConfigurationFragment extends BaseFragment<ConfigurationFragmentBin
     @Override
     public void executeExtraActionsInsideBindingInit() {
         super.executeExtraActionsInsideBindingInit();
-        viewModel.initFrequencySelectors(new ViewLayoutFrequencySelectorBinding[]{binding.audioFrequencySelectorIncluded, binding.cameraFrequencySelectorIncluded, binding.sensorFrequencySelectorIncluded});
+        viewModel.initFrequencySelectors(new ViewLayoutFrequencySelectorBinding[]{binding.audioFrequencySelectorIncluded, binding.cameraFrequencySelectorIncluded, binding.sensorFrequencySelectorIncluded, binding.locationFrequencySelectorIncluded});
     }
 }

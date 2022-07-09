@@ -66,6 +66,7 @@ public class SensorReader implements SensorEventListener {
         this(sensorType, measure);
         this.triggerEventInterface = triggerEventInterface;
         this.restartInitialMeasureAfterRead = restartInitialMeasureAfterRead;
+        this.initialMeasure.putAll(measure);
     }
 
 
@@ -97,7 +98,8 @@ public class SensorReader implements SensorEventListener {
     public SortedMap<String, Float> getMeasure() {
         SortedMap<String, Float> measureRegistered = this.measure;
         if(restartInitialMeasureAfterRead){
-            this.measure = initialMeasure;
+            this.measure.clear();
+            this.measure.putAll(initialMeasure);
         }
         return measureRegistered;
     }
@@ -143,12 +145,15 @@ public class SensorReader implements SensorEventListener {
         if (this.triggerEventInterface != null){
             this.accuracy = SENSOR_STATUS_ACCURACY_HIGH;
             triggerEventInterface.readTriggeredSensor(event, measure);
+            //Hay que volver a solicitar actualizaciones
+            SensorProvider.getInstance().getSensorManager().requestTriggerSensor(triggerEventListener, sensor);
         }
 
     }
 
     public void initListener(){
         if (this.triggerEventInterface != null){
+            SensorProvider.getInstance().getSensorManager().cancelTriggerSensor(triggerEventListener, sensor);
             SensorProvider.getInstance().getSensorManager().requestTriggerSensor(triggerEventListener, sensor);
         }else{
             SensorProvider.getInstance().getSensorManager().registerListener(this, sensor, 0);
