@@ -30,6 +30,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_AUDIO_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_COMMENT_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_EXPERIMENT;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_FILE_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_FILE_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_SENSORS_REGISTERS;
@@ -78,6 +79,7 @@ import com.jsm.exptool.providers.worksorchestrator.workers.image.RegisterImageWo
 import com.jsm.exptool.providers.worksorchestrator.workers.location.RegisterLocationWorker;
 import com.jsm.exptool.providers.worksorchestrator.workers.sensor.RegisterSensorWorker;
 import com.jsm.exptool.providers.worksorchestrator.workers.sync.SyncRemoteExperimentWorker;
+import com.jsm.exptool.providers.worksorchestrator.workers.sync.perform.SyncRemotePerformExperimentFilesWorker;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -284,7 +286,7 @@ public class WorksOrchestratorProvider {
     SINCRONIZACIÓN REMOTA
      */
 
-    public void executeFullRemoteSync(Experiment experiment, boolean updateAlwaysExperiment, MutableLiveData<Boolean> initializationFinished, boolean includeCompletingEmbedding) {
+    public void executeFullRemoteSync(Experiment experiment, boolean updateAlwaysExperiment, MutableLiveData<Boolean> initializationFinished, boolean includeCompletingEmbedding, boolean reducedWorks) {
 
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
@@ -306,8 +308,13 @@ public class WorksOrchestratorProvider {
 
             if (experiment.getConfiguration() != null) {
                 if (experiment.getConfiguration().isCameraEnabled()) {
-                    //TODO Separar sincronización de registros en varias tareas según tamaño
-                    new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, includeCompletingEmbedding);
+                    if(reducedWorks){
+                        OneTimeWorkRequest syncFiles = new OneTimeWorkRequest.Builder(SyncRemotePerformExperimentFilesWorker.class).setInputData(WorksOrchestratorUtils.createInputData(registersInputDataValues))
+                                .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
+                        syncExperimentRegisters.add(syncFiles);
+                    }else {
+                        new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, includeCompletingEmbedding);
+                    }
 
                 }
                 if (experiment.getConfiguration().isAudioEnabled()) {

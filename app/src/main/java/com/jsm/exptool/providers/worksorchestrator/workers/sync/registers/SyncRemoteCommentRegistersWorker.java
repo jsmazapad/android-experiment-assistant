@@ -25,8 +25,8 @@ public class SyncRemoteCommentRegistersWorker extends SyncRemoteExperimentRegist
     }
 
     @Override
-    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<CommentRegister> pendingRegisters, String experimentExternalId, int numRegistersToupdate) {
-        RemoteSyncRepository.syncCommentRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response, numRegistersToupdate), experimentExternalId, pendingRegisters);
+    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<CommentRegister> pendingRegisters, String experimentExternalId, int numRegistersToUpdate) {
+        RemoteSyncRepository.syncCommentRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response, numRegistersToUpdate), experimentExternalId, pendingRegisters);
     }
 
     @Override

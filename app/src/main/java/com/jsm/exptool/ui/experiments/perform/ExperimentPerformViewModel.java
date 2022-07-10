@@ -583,7 +583,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
                 public void run() {
 
                     Log.d("WORKER", "RemoteSync requested");
-                    orchestratorProvider.executeFullRemoteSync(experiment, true, new MutableLiveData<>(), false);
+                    orchestratorProvider.executeFullRemoteSync(experiment, true, new MutableLiveData<>(), false, true);
 
 
                 }
@@ -854,7 +854,7 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
     }
 
     public void onMessageEvent(WorkFinishedEvent event) {
-        int typeStringRes = orchestratorProvider.getRemoteStateTranslatableStringResFromWorkTags(event.getTags());
+        //int typeStringRes = orchestratorProvider.getRemoteStateTranslatableStringResFromWorkTags(event.getTags());
         this.updateWorkCounter(event.isSuccessful(), event.getTags(), event.getNumRegisters(), event.getException());
 
     }

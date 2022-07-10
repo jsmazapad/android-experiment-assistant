@@ -212,7 +212,7 @@ public class ExperimentsListSyncLogViewModel extends BaseRecyclerViewModel<Exper
         syncStarted = true;
         orchestratorProvider.finishPendingJobs();
         workPreparationReady.setValue(false);
-        orchestratorProvider.executeFullRemoteSync(experiment, true, workPreparationReady, true);
+        orchestratorProvider.executeFullRemoteSync(experiment, true, workPreparationReady, true, false);
         successImageCount = 0;
         failureImageCount = 0;
         //pendingImageCount = 0;

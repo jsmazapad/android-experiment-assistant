@@ -81,7 +81,7 @@ public abstract class SyncRemoteExperimentRegistersWorker<T extends ExperimentRe
 
     protected abstract  T getRegister(long registerId);
 
-    protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, List<T> pendingRegisters, String experimentExternalId, int numRegistersToupdate);
+    protected abstract void executeRemoteSync(SingleEmitter<Result> emitter, List<T> pendingRegisters, String experimentExternalId, int numRegistersToUpdate);
 
     protected abstract void updateRegister(T register);
 

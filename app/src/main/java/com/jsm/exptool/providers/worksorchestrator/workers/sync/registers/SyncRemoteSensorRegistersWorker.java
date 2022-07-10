@@ -27,8 +27,8 @@ public class SyncRemoteSensorRegistersWorker extends SyncRemoteExperimentRegiste
     }
 
     @Override
-    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<SensorRegister> pendingRegisters, String experimentExternalId, int numRegistersToupdate) {
-        RemoteSyncRepository.syncSensorRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response, numRegistersToupdate), experimentExternalId, pendingRegisters);
+    protected void executeRemoteSync(SingleEmitter<Result> emitter, List<SensorRegister> pendingRegisters, String experimentExternalId, int numRegistersToUpdate) {
+        RemoteSyncRepository.syncSensorRegisters(response -> executeInnerCallbackLogic(emitter, pendingRegisters, response, numRegistersToUpdate), experimentExternalId, pendingRegisters);
     }
 
     @Override
