@@ -7,6 +7,7 @@ import androidx.annotation.StringRes;
 import androidx.room.Ignore;
 
 import com.google.gson.annotations.Expose;
+import com.jsm.exptool.R;
 
 public class RepeatableElementConfig implements Parcelable {
     // Interval in milliseconds
@@ -46,7 +47,7 @@ public class RepeatableElementConfig implements Parcelable {
     };
 
     public int getNameStringRes(){
-        return nameStringRes;
+        return R.string.remote_sync;
     }
 
     public final int getInterval() {

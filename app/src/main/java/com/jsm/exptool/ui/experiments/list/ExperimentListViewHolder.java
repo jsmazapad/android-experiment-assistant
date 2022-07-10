@@ -14,7 +14,7 @@ import com.jsm.exptool.providers.TimeDisplayStringProvider;
 
 public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment> {
     TextView titleTV, descriptionTV, dateTV, lengthTV, statusTV, sizeTV;
-    ImageView imagesIV, soundsIV, embeddingIV, sensorsIV, syncIV, syncPendingIV;
+    ImageView imagesIV, soundsIV, embeddingIV, sensorsIV, locationIV, syncIV, syncPendingIV;
 
     protected ExperimentListViewHolder(View v) {
         super(v);
@@ -26,6 +26,7 @@ public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment>
         soundsIV = v.findViewById(R.id.soundsIV);
         embeddingIV = v.findViewById(R.id.embeddingIV);
         sensorsIV = v.findViewById(R.id.sensorsIV);
+        locationIV = v.findViewById(R.id.locationIV);
         syncIV = v.findViewById(R.id.syncIV);
         syncPendingIV = v.findViewById(R.id.syncPendingIV);
         statusTV = v.findViewById(R.id.statusTV);
@@ -63,6 +64,7 @@ public class ExperimentListViewHolder extends BaseRecyclerViewHolder<Experiment>
         soundsIV.setVisibility(element.getConfiguration().isAudioEnabled()? View.VISIBLE: View.GONE);
         embeddingIV.setVisibility(element.getConfiguration().isCameraEnabled() && element.getConfiguration().isEmbeddingEnabled() ? View.VISIBLE: View.GONE);
         sensorsIV.setVisibility(element.getConfiguration().isSensorEnabled()? View.VISIBLE: View.GONE);
+        locationIV.setVisibility(element.getConfiguration().isLocationEnabled()? View.VISIBLE: View.GONE);
         syncIV.setVisibility(element.getConfiguration().isRemoteSyncEnabled()? View.VISIBLE: View.GONE);
         sizeTV.setText(element.getSize());
         syncPendingIV.setVisibility(element.isSyncPending() || (element.getConfiguration().isEmbeddingEnabled() && element.isEmbeddingPending()) ? View.VISIBLE: View.GONE);

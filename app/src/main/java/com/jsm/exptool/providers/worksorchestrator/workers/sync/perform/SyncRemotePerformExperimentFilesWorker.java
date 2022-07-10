@@ -58,7 +58,7 @@ public class SyncRemotePerformExperimentFilesWorker extends RxWorker {
 
 
             if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId)) {
-                //TODO Mejorar mensajes error
+
                 EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, 1));
                 emitter.onError(new BaseException("Error de parámetros", false));
                 return;

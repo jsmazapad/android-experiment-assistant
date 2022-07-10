@@ -259,7 +259,7 @@
     <string name="export_experiment_share_chooser_title">Almacenar en</string>
     <string name="export_error_text">Ha habido un error con la exportación de datos</string>
     <string name="experiment_resume_card_extra_info_text">Expandir para ver resumen del experimento</string>
-    <string name="experiment_resume_card_sensors_title">Sensores</string>
+    <string name="experiment_resume_card_sensors_title">Sensores y ubicación</string>
     <string name="experiment_resume_card_comments_title">Comentarios</string>
     <string name="experiment_resume_card_images_title">Imágenes</string>
     <string name="experiment_resume_card_embedding_title">Embedding</string>

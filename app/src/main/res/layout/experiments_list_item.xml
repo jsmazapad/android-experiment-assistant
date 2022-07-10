@@ -72,6 +72,11 @@
                 style="@style/BaseIcon"
                 android:contentDescription="@string/sensor_icon_content_description"
                 app:srcCompat="@drawable/ic_baseline_edgesensor_high_24" />
+            <ImageView
+                android:id="@+id/locationIV"
+                style="@style/BaseIcon"
+                android:contentDescription="@string/location_enabled_content_description"
+                app:srcCompat="@drawable/ic_baseline_location_24" />
 
             <ImageView
                 android:id="@+id/syncIV"

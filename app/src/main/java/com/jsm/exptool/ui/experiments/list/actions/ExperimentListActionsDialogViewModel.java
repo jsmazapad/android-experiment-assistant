@@ -322,7 +322,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
             audioEnabledText = context.getString(experiment.getConfiguration().isAudioEnabled() ? R.string.yes_configured : R.string.no_configured);
             imagesEnabledText = context.getString(experiment.getConfiguration().isCameraEnabled() ? R.string.yes_configured : R.string.no_configured);
             embeddingEnabledText = context.getString(experiment.getConfiguration().isEmbeddingEnabled() ? R.string.yes_configured : R.string.no_configured);
-            sensorsEnabledText = context.getString(experiment.getConfiguration().isSensorEnabled() ? R.string.yes_configured : R.string.no_configured);
+            sensorsEnabledText = context.getString(experiment.getConfiguration().isSensorEnabled() || experiment.getConfiguration().isLocationEnabled() ? R.string.yes_configured : R.string.no_configured);
 
             sensorsListText = "";
             if(configuration.isSensorEnabled() || configuration.isLocationEnabled())
