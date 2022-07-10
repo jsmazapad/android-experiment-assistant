@@ -43,8 +43,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 public class SyncRemotePerformExperimentRegistersWorker extends RxWorker {
 
-    public interface UpdateElementInterface{
-        <T extends ExperimentRegister> void updateElements(List<T> elements, T elementClass);
+    public interface UpdateElementInterface<T extends ExperimentRegister> {
+        void updateElement(T element);
     }
 
 
@@ -63,23 +63,20 @@ public class SyncRemotePerformExperimentRegistersWorker extends RxWorker {
             String experimentExternalId = getInputData().getString(EXPERIMENT_EXTERNAL_ID);
 
 
-            if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId) ) {
+            if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId)) {
                 //TODO Mejorar mensajes error
                 EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, 1));
                 emitter.onError(new BaseException("Error de parámetros", false));
                 return;
             }
             AtomicInteger num = new AtomicInteger();
-            List<List<ImageRegister>> imageRegisters = Lists.partition(ImageRepository.getSynchronouslyPendingFileSyncRegistersByExperimentId(experimentId), REGISTERS_SYNC_LIMIT);
+            List<List<ImageRegister>> imageRegisters = Lists.partition(ImageRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId), REGISTERS_SYNC_LIMIT);
             final Observable imageUploadObservable = Observable.create((ObservableOnSubscribe<Integer>) imageEmitter -> {
                 syncImageRegisters(imageRegisters, imageEmitter, experimentExternalId, num.get());
-
-
             });
             imageUploadObservable.subscribe(new Observer<Integer>() {
                 @Override
                 public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
-
                 }
 
                 @Override
@@ -89,43 +86,86 @@ public class SyncRemotePerformExperimentRegistersWorker extends RxWorker {
 
                 @Override
                 public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-
                 }
 
                 @Override
                 public void onComplete() {
+                    AtomicInteger numAudio = new AtomicInteger();
+                    List<List<AudioRegister>> audioRegisters = Lists.partition(AudioRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId), REGISTERS_SYNC_LIMIT);
+                    final Observable audioUploadObservable = Observable.create((ObservableOnSubscribe<Integer>) audioEmitter -> {
+                        syncAudioRegisters(audioRegisters, audioEmitter, experimentExternalId, numAudio.get());
+                    });
 
+                    audioUploadObservable.subscribe(new Observer<Integer>() {
+                        @Override
+                        public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
 
-                }
-            });
+                        }
 
-            AtomicInteger numAudio = new AtomicInteger();
-            List<AudioRegister> audioRegisters = AudioRepository.getSynchronouslyPendingFileSyncRegistersByExperimentId(experimentId);
-            final Observable audioUploadObservable = Observable.create((ObservableOnSubscribe<Integer>) audioEmitter -> {
-                syncAudioRegisters(audioRegisters, audioEmitter, experimentExternalId, numAudio.get());
+                        @Override
+                        public void onNext(Integer o) {
+                            numAudio.set(o);
+                        }
 
+                        @Override
+                        public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
 
-            });
+                        }
 
-            audioUploadObservable.subscribe(new Observer<Integer>() {
-                @Override
-                public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+                        @Override
+                        public void onComplete() {
+                            AtomicInteger numSensors = new AtomicInteger();
+                            List<List<SensorRegister>> sensorRegisters = Lists.partition(SensorRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId), REGISTERS_SYNC_LIMIT);
+                            final Observable commentUploadObservable = Observable.create((ObservableOnSubscribe<Integer>) commentEmitter -> {
+                                syncSensorRegisters(sensorRegisters, commentEmitter, experimentExternalId, numSensors.get());
+                            });
 
-                }
+                            commentUploadObservable.subscribe(new Observer<Integer>() {
+                                @Override
+                                public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+                                }
 
-                @Override
-                public void onNext(Integer o) {
-                    numAudio.set(o);
-                }
+                                @Override
+                                public void onNext(Integer o) {
+                                    numSensors.set(o);
+                                }
 
-                @Override
-                public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                @Override
+                                public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                }
 
-                }
+                                @Override
+                                public void onComplete() {
+                                    AtomicInteger numComments = new AtomicInteger();
+                                    List<List<CommentRegister>> commentRegisters = Lists.partition(CommentRepository.getSynchronouslyPendingSyncRegistersByExperimentId(experimentId), REGISTERS_SYNC_LIMIT);
+                                    final Observable commentUploadObservable = Observable.create((ObservableOnSubscribe<Integer>) commentEmitter -> {
+                                        syncCommentRegisters(commentRegisters, commentEmitter, experimentExternalId, numComments.get());
+                                    });
 
-                @Override
-                public void onComplete() {
-                    emitter.onSuccess(Result.success());
+                                    commentUploadObservable.subscribe(new Observer<Integer>() {
+                                        @Override
+                                        public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+                                        }
+
+                                        @Override
+                                        public void onNext(Integer o) {
+                                            numComments.set(o);
+                                        }
+
+                                        @Override
+                                        public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                        }
+
+                                        @Override
+                                        public void onComplete() {
+                                            emitter.onSuccess(Result.success());
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
                 }
             });
 
@@ -133,73 +173,64 @@ public class SyncRemotePerformExperimentRegistersWorker extends RxWorker {
         });
     }
 
-    private void syncImageRegisters( List<List<ImageRegister>> registers, ObservableEmitter<Integer> emitter, String experimentExternalId, int num) {
+    private void syncImageRegisters(List<List<ImageRegister>> registers, ObservableEmitter<Integer> emitter, String experimentExternalId, int num) {
         if (num < registers.size()) {
             List<ImageRegister> registersPortion = registers.get(num);
-            RemoteSyncRepository.syncImageRegisters(response -> executeInnerCallbackLogic(emitter, response, (elements) -> {
-                for (ImageRegister register:elements) {
-                    ImageRepository.updateImageRegister(register);
-                }
-
-            }, num, registers), experimentExternalId, registersPortion );
-        }else{
+            RemoteSyncRepository.syncImageRegisters(response -> {
+                executeInnerCallbackLogic(emitter, response, imageRegister -> { imageRegister.setEmbeddingRemoteSynced(true); ImageRepository.updateImageRegister(imageRegister);}, num, registersPortion);
+            }, experimentExternalId, registersPortion);
+        } else {
             emitter.onComplete();
         }
     }
 
-    private void syncAudioRegisters(List<AudioRegister> registers, ObservableEmitter<Integer> emitter, String experimentExternalId, int num) {
+    private void syncAudioRegisters(List<List<AudioRegister>> registers, ObservableEmitter<Integer> emitter, String experimentExternalId, int num) {
         if (num < registers.size()) {
-            AudioRegister register = registers.get(num);
-            RemoteSyncRepository.syncAudioRegisters(response -> executeInnerCallbackLogic(emitter, register.getInternalId(), response, (id) -> {
-                AudioRepository.updateAudioRegister(register);
-            }, num, registers), experimentExternalId, registers);
-        }else{
+            List<AudioRegister> registersPortion = registers.get(num);
+            RemoteSyncRepository.syncAudioRegisters(response -> executeInnerCallbackLogic(emitter, response, AudioRepository::updateAudioRegister, num, registersPortion), experimentExternalId, registersPortion);
+        } else {
             emitter.onComplete();
         }
     }
 
-    private void syncSensorRegisters(List<SensorRegister> registers, ObservableEmitter<Integer> emitter, String experimentExternalId, int num) {
+    private void syncSensorRegisters(List<List<SensorRegister>> registers, ObservableEmitter<Integer> emitter, String experimentExternalId, int num) {
         if (num < registers.size()) {
-            SensorRegister register = registers.get(num);
-            RemoteSyncRepository.syncSensorRegisters(response -> executeInnerCallbackLogic(emitter, register.getInternalId(), response, (id) -> {
-                SensorRepository.updateSensorRegister(register);
-            }, num, registers), experimentExternalId, registers);
-        }else{
+            List<SensorRegister> registersPortion = registers.get(num);
+            RemoteSyncRepository.syncSensorRegisters(response -> executeInnerCallbackLogic(emitter, response, SensorRepository::updateSensorRegister, num, registersPortion), experimentExternalId, registersPortion);
+        } else {
             emitter.onComplete();
         }
     }
 
-    private void syncCommentRegisters(List<CommentRegister> registers, ObservableEmitter<Integer> emitter, String experimentExternalId, int num) {
+    private void syncCommentRegisters(List<List<CommentRegister>> registers, ObservableEmitter<Integer> emitter, String experimentExternalId, int num) {
         if (num < registers.size()) {
-            CommentRegister register = registers.get(num);
-            RemoteSyncRepository.syncCommentRegisters(response -> executeInnerCallbackLogic(emitter, register.getInternalId(), response, (id) -> {
-                CommentRepository.updateCommentRegister(register);
-            }, num, registers), experimentExternalId, registers);
-        }else{
+            List<CommentRegister> registersPortion = registers.get(num);
+            RemoteSyncRepository.syncCommentRegisters(response -> executeInnerCallbackLogic(emitter, response, CommentRepository::updateCommentRegister, num, registersPortion), experimentExternalId, registersPortion);
+        } else {
             emitter.onComplete();
         }
     }
 
 
-    protected <T extends ExperimentRegister> void executeInnerCallbackLogic(ObservableEmitter<Integer> emitter,  ElementResponse<RemoteSyncResponse> response, UpdateElementInterface updateElementCallback, int num, List<T> pendingRegisters) {
+    protected <T extends ExperimentRegister> void executeInnerCallbackLogic(ObservableEmitter<Integer> emitter, ElementResponse<RemoteSyncResponse> response, UpdateElementInterface<T> updateElementCallback, int num, List<T> pendingRegisters) {
         if (response.getError() != null) {
-            emitter.onNext(num+1);
+            emitter.onNext(num + 1);
             Log.w("SYNC_REGISTER", "error en response");
-
-            if (getRunAttemptCount() < MAX_RETRIES) {
-                Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount() + 1));
-                //emitter.onSuccess(Result.retry());
-            } else {
-                return;
-            }
+            //No hay reintentos, se reintenta en la próxima sincronización
+//            if (getRunAttemptCount() < MAX_RETRIES) {
+//                Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount() + 1));
+//                //emitter.onSuccess(Result.retry());
+//            } else {
+//
+//            }
         } else {
             if (response.getResultElement() != null) {
                 for (T register : pendingRegisters) {
                     register.setDataRemoteSynced(true);
-                    updateElementCallback.updateElement();
+                    updateElementCallback.updateElement(register);
                 }
             }
-            emitter.onNext(num+1);
+            emitter.onNext(num + 1);
         }
     }
 

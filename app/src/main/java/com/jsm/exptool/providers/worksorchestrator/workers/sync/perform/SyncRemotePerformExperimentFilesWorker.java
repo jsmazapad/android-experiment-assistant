@@ -37,7 +37,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 public class SyncRemotePerformExperimentFilesWorker extends RxWorker {
 
-    public interface UpdateElementInterface{
+    public interface UpdateElementInterface {
         void updateElement(long elementId);
     }
 
@@ -57,7 +57,7 @@ public class SyncRemotePerformExperimentFilesWorker extends RxWorker {
             String experimentExternalId = getInputData().getString(EXPERIMENT_EXTERNAL_ID);
 
 
-            if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId) ) {
+            if (experimentId == -1 || experimentExternalId == null || "".equals(experimentExternalId)) {
                 //TODO Mejorar mensajes error
                 EventBus.getDefault().post(new WorkFinishedEvent(getTags(), false, 1));
                 emitter.onError(new BaseException("Error de parámetros", false));
@@ -88,40 +88,38 @@ public class SyncRemotePerformExperimentFilesWorker extends RxWorker {
 
                 @Override
                 public void onComplete() {
+                    AtomicInteger numAudio = new AtomicInteger();
+                    List<AudioRegister> audioRegisters = AudioRepository.getSynchronouslyPendingFileSyncRegistersByExperimentId(experimentId);
+                    final Observable audioUploadObservable = Observable.create((ObservableOnSubscribe<Integer>) audioEmitter -> {
+                        syncAudioFile(audioRegisters, audioEmitter, experimentExternalId, numAudio.get());
 
+
+                    });
+
+                    audioUploadObservable.subscribe(new Observer<Integer>() {
+                        @Override
+                        public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+                        }
+
+                        @Override
+                        public void onNext(Integer o) {
+                            numAudio.set(o);
+                        }
+
+                        @Override
+                        public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            emitter.onSuccess(Result.success());
+                        }
+                    });
 
                 }
             });
 
-            AtomicInteger numAudio = new AtomicInteger();
-            List<AudioRegister> audioRegisters = AudioRepository.getSynchronouslyPendingFileSyncRegistersByExperimentId(experimentId);
-            final Observable audioUploadObservable = Observable.create((ObservableOnSubscribe<Integer>) audioEmitter -> {
-                syncAudioFile(audioRegisters, audioEmitter, experimentExternalId, numAudio.get());
 
-
-            });
-
-            audioUploadObservable.subscribe(new Observer<Integer>() {
-                @Override
-                public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
-
-                }
-
-                @Override
-                public void onNext(Integer o) {
-                    numAudio.set(o);
-                }
-
-                @Override
-                public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-
-                }
-
-                @Override
-                public void onComplete() {
-                    emitter.onSuccess(Result.success());
-                }
-            });
 
 
         });
@@ -134,7 +132,7 @@ public class SyncRemotePerformExperimentFilesWorker extends RxWorker {
             RemoteSyncRepository.syncImageFile(response -> executeInnerCallbackLogic(emitter, register.getInternalId(), response, (id) -> {
                 ImageRepository.updateRegisterFileSyncedByRegisterId(register.getInternalId());
             }, num), experimentExternalId, file);
-        }else{
+        } else {
             emitter.onComplete();
         }
     }
@@ -146,7 +144,7 @@ public class SyncRemotePerformExperimentFilesWorker extends RxWorker {
             RemoteSyncRepository.syncAudioFile(response -> executeInnerCallbackLogic(emitter, register.getInternalId(), response, (id) -> {
                 AudioRepository.updateRegisterFileSyncedByRegisterId(register.getInternalId());
             }, num), experimentExternalId, file);
-        }else{
+        } else {
             emitter.onComplete();
         }
     }
@@ -154,21 +152,19 @@ public class SyncRemotePerformExperimentFilesWorker extends RxWorker {
 
     protected void executeInnerCallbackLogic(ObservableEmitter<Integer> emitter, long experimentRegisterId, ElementResponse<RemoteSyncResponse> response, UpdateElementInterface updateElementCallback, int num) {
         if (response.getError() != null) {
-            emitter.onNext(num+1);
+            emitter.onNext(num + 1);
             Log.w("SYNC_REGISTER", "error en response");
-
-            if (getRunAttemptCount() < MAX_RETRIES) {
-                Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount() + 1));
-                //emitter.onSuccess(Result.retry());
-            } else {
-                return;
-            }
+            //No hay reintentos, se reintenta en la próxima sincronización
+//            if (getRunAttemptCount() < MAX_RETRIES) {
+//                Log.d("SYNC_REGISTER", String.format("Lanzado reintento %d", getRunAttemptCount() + 1));
+//                //emitter.onSuccess(Result.retry());
+//            } else {
+//            }
         } else {
-
             if (response.getResultElement() != null) {
                 updateElementCallback.updateElement(experimentRegisterId);
             }
-            emitter.onNext(num+1);
+            emitter.onNext(num + 1);
         }
     }
 

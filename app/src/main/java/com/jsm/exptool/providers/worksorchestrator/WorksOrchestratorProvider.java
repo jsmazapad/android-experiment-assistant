@@ -33,6 +33,7 @@ import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_FILE_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_FILE_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_IMAGE_REGISTERS;
+import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_SENSORS_REGISTERS;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_SYNC_WORK;
 import static com.jsm.exptool.config.WorkerPropertiesConstants.WorkTagsConstants.REMOTE_WORK;
@@ -80,6 +81,7 @@ import com.jsm.exptool.providers.worksorchestrator.workers.location.RegisterLoca
 import com.jsm.exptool.providers.worksorchestrator.workers.sensor.RegisterSensorWorker;
 import com.jsm.exptool.providers.worksorchestrator.workers.sync.SyncRemoteExperimentWorker;
 import com.jsm.exptool.providers.worksorchestrator.workers.sync.perform.SyncRemotePerformExperimentFilesWorker;
+import com.jsm.exptool.providers.worksorchestrator.workers.sync.perform.SyncRemotePerformExperimentRegistersWorker;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -290,6 +292,7 @@ public class WorksOrchestratorProvider {
 
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
+            this.finishPendingJobs();
             Map<String, Object> experimentDataValues = new HashMap<>();
             experimentDataValues.put(EXPERIMENT_ID, experiment.getInternalId());
 
@@ -305,27 +308,30 @@ public class WorksOrchestratorProvider {
 
             registersInputDataValues.put(EXPERIMENT_ID, experiment.getInternalId());
             registersInputDataValues.put(EXPERIMENT_EXTERNAL_ID, experiment.getExternalId());
+            if(reducedWorks){
+                OneTimeWorkRequest syncFiles = new OneTimeWorkRequest.Builder(SyncRemotePerformExperimentFilesWorker.class).setInputData(WorksOrchestratorUtils.createInputData(registersInputDataValues))
+                        .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
+                OneTimeWorkRequest syncRegisters = new OneTimeWorkRequest.Builder(SyncRemotePerformExperimentRegistersWorker.class).setInputData(WorksOrchestratorUtils.createInputData(registersInputDataValues))
+                        .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_REGISTERS).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
+                syncExperimentRegisters.add(syncFiles);
+                syncExperimentRegisters.add(syncRegisters);
+            }else {
+                if (experiment.getConfiguration() != null) {
+                    if (experiment.getConfiguration().isCameraEnabled()) {
 
-            if (experiment.getConfiguration() != null) {
-                if (experiment.getConfiguration().isCameraEnabled()) {
-                    if(reducedWorks){
-                        OneTimeWorkRequest syncFiles = new OneTimeWorkRequest.Builder(SyncRemotePerformExperimentFilesWorker.class).setInputData(WorksOrchestratorUtils.createInputData(registersInputDataValues))
-                                .addTag(REMOTE_WORK).addTag(REMOTE_SYNC_WORK).addTag(REMOTE_SYNC_FILE_REGISTERS).setBackoffCriteria(BackoffPolicy.LINEAR, RETRY_DELAY, RETRY_DELAY_UNIT).build();
-                        syncExperimentRegisters.add(syncFiles);
-                    }else {
                         new ImageWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues, includeCompletingEmbedding);
+
+                    }
+                    if (experiment.getConfiguration().isAudioEnabled()) {
+                        new AudioWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
+                    }
+                    if (experiment.getConfiguration().isSensorEnabled() || experiment.getConfiguration().isLocationEnabled()) {
+                        new SensorWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
                     }
 
-                }
-                if (experiment.getConfiguration().isAudioEnabled()) {
-                    new AudioWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
-                }
-                if (experiment.getConfiguration().isSensorEnabled() || experiment.getConfiguration().isLocationEnabled()) {
-                    new SensorWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
-                }
+                    new CommentWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
 
-                new CommentWorksOrchestratorSyncTaskCreator().createSyncWorks(experiment, syncExperimentRegisters, registersInputDataValues);
-
+                }
             }
 
 
