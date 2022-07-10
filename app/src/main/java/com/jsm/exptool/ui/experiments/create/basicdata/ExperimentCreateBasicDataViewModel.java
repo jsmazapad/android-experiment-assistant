@@ -382,6 +382,7 @@ public class ExperimentCreateBasicDataViewModel extends BaseRecyclerViewModel<Se
             //Si tiene configuración inicial,  tiene la funcionalidad y está seleccionada, copiamos la configuración
             if (initialConfigured && experimentTemplate.getConfiguration().isRemoteSyncEnabled()) {
                 remoteConfig = experimentTemplate.getConfiguration().getRemoteSyncConfig();
+                remoteConfig.setNameStringRes(R.string.remote_sync);
             }
             configuration.setRemoteSyncConfig(remoteConfig);
         }

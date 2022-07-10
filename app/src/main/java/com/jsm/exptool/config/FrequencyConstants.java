@@ -15,9 +15,9 @@ public class FrequencyConstants {
     public static final int MAX_LOCATION_INTERVAL_MILLIS = 1800000; // 30 min
 
     //TODO Frecuencia de prueba
-    public static final int MIN_REMOTE_SYNC_INTERVAL_MILLIS = 30000; //0,5 Min
-    //public static final int MIN_REMOTE_SYNC_INTERVAL_MILLIS = 600000; // 10 min
-    public static final int MAX_REMOTE_SYNC_INTERVAL_MILLIS = 1800000; // 30 min
+    //public static final int MIN_REMOTE_SYNC_INTERVAL_MILLIS = 30000; //0,5 Min
+    public static final int MIN_REMOTE_SYNC_INTERVAL_MILLIS = 300000; // 5 min
+    public static final int MAX_REMOTE_SYNC_INTERVAL_MILLIS = 600000; // 10 min
 
     /**
      * La frecuencia por defecto debe estar entre MIN_INTERVAL_MILLIS y MAX_INTERVAL_MILLIS

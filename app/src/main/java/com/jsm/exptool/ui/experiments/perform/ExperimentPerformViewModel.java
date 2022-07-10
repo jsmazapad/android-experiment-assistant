@@ -72,6 +72,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConfig, SensorConfig> {
 
@@ -823,8 +824,12 @@ public class ExperimentPerformViewModel extends BaseRecyclerViewModel<SensorConf
                 orchestratorProvider.finishPendingJobs();
                 Executor executor = Executors.newSingleThreadExecutor();
                 executor.execute(() -> {
-
-                int numImagesFromDB = ImageRepository.countRegistersByExperimentId(experiment.getInternalId());
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        Log.e("Error en sleep", e.getMessage(), e);
+                    }
+                    int numImagesFromDB = ImageRepository.countRegistersByExperimentId(experiment.getInternalId());
                 int numEmbeddingsFromDB = ImageRepository.countImagesWithEmbeddingsByExperimentId(experiment.getInternalId());
                 int numSensorsFromDB = SensorRepository.countRegistersWithoutLocationByExperimentId(experiment.getInternalId());
                 int numLocationsFromDB = SensorRepository.countRegistersByExperimentId(experiment.getInternalId()) - numSensorsFromDB;

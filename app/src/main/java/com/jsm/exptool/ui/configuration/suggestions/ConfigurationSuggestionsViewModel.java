@@ -55,12 +55,15 @@ public class ConfigurationSuggestionsViewModel extends BaseRecyclerViewModel<Com
 
     public void saveSuggestion(Context context) {
 
-        if (CommentSuggestionsRepository.checkIfCommentSuggestionExists(suggestion.getValue()).size() == 0 && suggestion.getValue() != null && !"".equals(suggestion.getValue())) {
+        if(suggestion.getValue() != null && !"".equals(suggestion.getValue().trim())) {
+            if (CommentSuggestionsRepository.checkIfCommentSuggestionExists(suggestion.getValue()).size() == 0) {
 
-            CommentSuggestionsRepository.registerCommentSuggestion(new CommentSuggestion(0, suggestion.getValue()));
-            callRepositoryForData();
-        }else{
-            ModalMessage.showModalMessage(context, context.getString(R.string.default_warning_title), context.getString(R.string.error_suggestion_already_exists), null, null, null, null);
+                CommentSuggestionsRepository.registerCommentSuggestion(new CommentSuggestion(0, suggestion.getValue()));
+                suggestion.setValue("");
+                callRepositoryForData();
+            } else {
+                ModalMessage.showModalMessage(context, context.getString(R.string.default_warning_title), context.getString(R.string.error_suggestion_already_exists), null, null, null, null);
+            }
         }
 
     }

@@ -99,7 +99,7 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
 
     public void addQuickComment(Context context) {
 
-        if (elements.getValue() != null && elements.getValue().size() < MAX_QUICK_COMMENTS && !"".equals(quickCommentValue.getValue())) {
+        if (elements.getValue() != null && elements.getValue().size() < MAX_QUICK_COMMENTS && quickCommentValue.getValue() != null && !"".equals(quickCommentValue.getValue().trim())) {
             ArrayList<String> elementsValue = new ArrayList<>(elements.getValue());
             elementsValue.add(quickCommentValue.getValue());
             elements.setValue(elementsValue);
@@ -127,7 +127,7 @@ public class ConfigurationAddQuickCommentsCollectionViewModel extends BaseRecycl
 
     public void saveCollection(Context context) {
         String errorMessage = "";
-        if("".equals(collectionNameValue.getValue()) ){
+        if(collectionNameValue.getValue() == null || "".equals(collectionNameValue.getValue().trim()) ){
             errorMessage = "El nombre de la colección no puede estar vacío \n";
         }
         if(elements.getValue().size() == 0 ){

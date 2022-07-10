@@ -47,7 +47,11 @@ public class RepeatableElementConfig implements Parcelable {
     };
 
     public int getNameStringRes(){
-        return R.string.remote_sync;
+        return  nameStringRes;
+    }
+
+    public void setNameStringRes(int nameStringRes) {
+        this.nameStringRes = nameStringRes;
     }
 
     public final int getInterval() {

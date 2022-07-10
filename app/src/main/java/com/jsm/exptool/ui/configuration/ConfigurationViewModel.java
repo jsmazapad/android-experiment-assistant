@@ -188,7 +188,9 @@ public class ConfigurationViewModel extends BaseViewModel implements SeekbarSele
         PreferencesProvider.setCameraDefaultFreq(cameraDefaultFrequency);
         PreferencesProvider.setLocationDefaultFreq(locationDefaultFrequency);
 
-        saveRemoteMethod(context);
+        if (saveRemoteMethod(context)){
+            ModalMessage.showModalMessage(context, context.getString(R.string.default_info_title), context.getString(R.string.configuration_success_save), null, null, null, null);
+        }
     }
 
 

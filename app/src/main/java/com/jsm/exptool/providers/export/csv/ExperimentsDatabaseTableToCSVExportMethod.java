@@ -68,7 +68,7 @@ public abstract class ExperimentsDatabaseTableToCSVExportMethod implements Table
         while (cursor.moveToNext()) {
             String rowToWrite[] = new String[indexToIterate.size()];
             //Recorremos sólo los items incluidos
-            for (int i = 0; i < indexToIterate.size() - 1; i++) {
+            for (int i = 0; i < indexToIterate.size(); i++) {
                 String valueToWrite = cursor.getString(indexToIterate.get(i));
                 String columnName = columnsToInclude.get(i);
                 if(this.getFieldsToConvert().containsKey(columnName))

@@ -436,7 +436,7 @@ public class ExperimentListActionsDialogViewModel extends LoadingViewModel imple
         Log.d("ZIPPEADO","Lanzando diálogo de compartir");
         //NEXTTODO refactorizar authority
         Uri path = FileProvider.getUriForFile(context, "com.jsm.exptool.fileprovider", new File(fileName));
-        ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(context).setStream(path).setChooserTitle(R.string.export_experiment_share_chooser_title).setType("*/*");
+        ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(context).setStream(path).setChooserTitle(R.string.export_experiment_share_chooser_title).setType("application/zip");
         intentBuilder.startChooser();
     }
 

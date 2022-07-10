@@ -80,12 +80,12 @@
     <!--
       CAMERA CONFIGURATION
       -->
-    <string name="embedding_alg_spinner_title">Seleccione algoritmo</string>
+    <string name="embedding_alg_spinner_title">Seleccione modelo</string>
     <string name="camera_configuration_title">Configuración de cámara</string>
     <string name="camera_configuration_flash_and_position_title">Configuración de Flash y posición de la cámara</string>
     <string name="flash_selector_button_content_description">Selección de flash</string>
     <string name="camera_selector_button_content_description">Selección de cámara</string>
-    <string name="camera_configuration_embedding_title">Configuración de algoritmo de embedding</string>
+    <string name="camera_configuration_embedding_title">Configuración de modelo de embedding</string>
 
     <!--
     PERFORM EXPERIMENT
@@ -198,10 +198,10 @@
     <string name="configuration_quick_comment_input_hint">Insertar comentario</string>
     <string name="configuration_quick_comment_add_button">Añadir comentario</string>
     <string name="used_n_times_format_string">Usado %d veces</string>
-    <string name="warning_delete_comment_suggestion_format">¿Está seguro de que sea eliminar el comentario \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
-    <string name="error_suggestion_already_exists">El comentario que se desea registrar ya existe</string>
+    <string name="warning_delete_comment_suggestion_format">¿Está seguro de que desea eliminar la sugerencia \"%s\"? Su eliminación hará que no aparezca como sugerencia de autocompletado para añadir comentarios a los experimentos</string>
+    <string name="error_suggestion_already_exists">La sugerencia que desea registrar ya existe</string>
     <string name="reset_suggestion_counter_warning_text">Va a proceder a colocar todos los contadores de sugerencias de comentarios a 0. Estos contadores se utilizan para ayudar a saber que sugerencias de comentarios se utlizan más y facilitar la introducción de comentarios durante la realización de experimentos. Esta acción no se puede deshacer. ¿Desea proceder?</string>
-    <string name="warning_delete_quick_comment_collection_format">¿Está seguro de que sea eliminar la colección de comentarios rápidos \"%s\"? Su eliminación hará que no aparezca en los campos de autocompletar para añadir comentarios a los experimentos</string>
+    <string name="warning_delete_quick_comment_collection_format">¿Está seguro de que desea eliminar la colección de comentarios rápidos \"%s\"? Su eliminación hará que no aparezca como opción para añadir comentarios rápidos a los experimentos</string>
     <string name="configuration_quick_comment_collection_add_button">Añadir nueva colección</string>
     <string name="add_quick_comment_content_description">Añadir comentario rápido</string>
     <string name="configuration_quick_comments_new_collection_title">Nueva colección de comentarios rápidos</string>
@@ -220,6 +220,7 @@
     <string name="configuration_manage_quick_comments_button">Gestionar</string>
     <string name="configuration_manage_comments_button">Gestionar</string>
     <string name="configuration_no_remote_configuration_text">No hay configuración</string>
+    <string name="configuration_success_save">Configuración guardada con éxito</string>
 
     <!--
     ABOUT
@@ -280,7 +281,7 @@
     <string name="experiment_actions_duration_prepend_text">Duración:</string>
     <string name="experiment_actions_camera_selected_prepend_text">Cámara:</string>
     <string name="experiment_actions_flash_mode_prepend_text">Flash:</string>
-    <string name="experiment_actions_algorithm_prepend_text">Algoritmo:</string>
+    <string name="experiment_actions_algorithm_prepend_text">Modelo:</string>
     <string name="experiment_actions_encoder_prepend_text">Encoder:</string>
     <string name="experiment_actions_bitrate_append_text">bps</string>
     <string name="experiment_actions_quick_comments_format_text">Comentarios rápidos: %s</string>
@@ -331,7 +332,7 @@
     <string name="sync_credentials_error">Error al iniciar sesión. Compruebe sus credenciales y vuelva a intentarlo.</string>
     <string name="sync_finished_title">Sincronización finalizada</string>
     <string name="sync_finished_text">La sincronización ha terminado</string>
-    <string name="configuration_comment_suggestions_title">Consulta e inserción de autosugerencias de comentarios</string>
+    <string name="configuration_comment_suggestions_title">Consulta e inserción de sugerencias de autocompletado de comentarios</string>
     <string name="configuration_quick_comments_title">Consulta e inserción de colecciones de comentarios rápidos</string>
     <string name="camera_icon_content_description">Tiene imágenes</string>
     <string name="audio_icon_content_description">Tiene sonidos</string>
